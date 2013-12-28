@@ -1,0 +1,13 @@
+README.rst
+README.txt
+setup.cfg
+setup.py
+mba/__init__.py
+mba/fanstatic.py
+mba.egg-info/PKG-INFO
+mba.egg-info/SOURCES.txt
+mba.egg-info/dependency_links.txt
+mba.egg-info/entry_points.txt
+mba.egg-info/not-zip-safe
+mba.egg-info/requires.txt
+mba.egg-info/top_level.txt

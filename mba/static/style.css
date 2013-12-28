@@ -1,0 +1,89 @@
+/* add your styles here */
+
+h1, h2, h3 {
+  text-shadow: 4px 4px 2px #ccc;
+}
+
+
+.mba-nav {
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  background-color: rgb(46, 112, 186);
+  border-color: rgb(46, 112, 186);
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+}
+.mba-nav .navbar-collapse {
+  border-color: #463265;
+}
+.mba-nav .navbar-brand {
+  color: #fff;
+}
+.mba-nav .navbar-nav > li > a {
+  color: #eeeeee;
+}
+.mba-nav .navbar-nav > li > a:hover {
+  color: #fff;
+}
+.mba-nav .navbar-nav > .active > a,
+.mba-nav .navbar-nav > .active > a:hover {
+  color: #fff;
+  background-color: rgb(46, 112, 186);
+}
+.mba-nav .navbar-toggle {
+  border-color: #563d7c;
+}
+.mba-nav .navbar-toggle:hover {
+  background-color:rgb(46, 112, 186);
+  border-color: #463265;
+}
+
+
+.navbar-nav{
+    margin-top:10px;
+}
+
+
+.navbar-brand{
+    padding: 0;
+}
+
+.mba-carousel{
+    margin-top: 77px;
+}
+
+.mba-carousel .carousel-inner .item{
+    background-color: rgb(46, 112, 186);;
+}
+
+.mba-carousel .carousel-inner .item img{
+    margin:auto;
+}
+
+.mba-login{
+    background-color: rgb(25, 62, 107);
+    padding: 15px;
+}
+
+.mba-index-main {
+    border-bottom: solid 1px rgb(204,204,204);
+
+}
+
+.mba-index-main h3{
+    text-align: center;
+}
+
+.mba-index-main ul li{
+    font-size: 13px;
+    line-height: 30px;
+
+}
+
+.mba-footer {
+    background-color: rgb(232,232,232);
+    border-top: solid 1px #ffffff;
+    padding-bottom: 10px;
+}
+
+.mba-footer .mba-weixin{
+    margin-top:20px;
+}
