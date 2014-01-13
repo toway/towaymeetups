@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -29,36 +30,13 @@
 
         <!-- Add your site or application content here -->
 
-        <header class="navbar navbar-inverse navbar-fixed-top mba-nav" role="banner">
-            <div class="container">
-                <div class="col-md-10 col-md-offset-1">
 
-                    <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="#"><img src="static/img/logo.png" alt="MBA志友会"/></a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                      <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">首页</a></li>
-                        <li><a href="#about">我的活动</a></li>
-                        <li><a href="#contact">找找看</a></li>
-                          <li><a href="#contact">求职</a></li>
-                      </ul>
-                    </div><!--/.nav-collapse -->
 
-                </div>
-            </div>
-        </header>
+        {% include "header.jinja2" %}
 
 
 
-
-        <div class="mba-carousel">
+        <div class="mba-carousel mba-margin-top">
               <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                     <ol class="carousel-indicators">
                         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -177,62 +155,7 @@
         </div>
 
 
-        <footer class="mba-footer">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-10 col-md-offset-1">
-
-                        <div class="row">
-
-                            <div class="col-md-4 mba-guide">
-                                <h4>用户指南</h4>
-                                <ul>
-                                    <li>关于MBAers</li>
-                                    <li>联系我们</li>
-                                    <li>服务条款</li>
-                                    <li>隐私政策</li>
-                                </ul>
-                            </div>
-
-
-                            <div class="col-md-4 mba-weixin">
-                                <div class="row">
-
-                                    <div class="col-md-6">
-                                        <img src="static/img/weixin.jpg">
-                                    </div>
-                                    <div class="col-md-6">
-                                         <h2>官方微信</h2>
-                                         <div>微信扫描二维码</div>
-                                        <div>获得最新招聘资讯</div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            <div class="col-md-2 col-md-offset-1 mba-links">
-                                <h3>友情链接</h3>
-                                <ul>
-                                    <li>MBA中国</li>
-                                    <li>人人网</li>
-                                    <li>创业家</li>
-                                    <li>腾讯网</li>
-                                </ul>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </footer>
+        {% include "footer.jinja2" %}
 
 
 

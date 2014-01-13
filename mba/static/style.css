@@ -38,8 +38,8 @@ body h3 {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-.mba-carousel {
-  margin-top: 76px;
+.mba-margin-top {
+  margin-top: 78px;
 }
 .mba-carousel .carousel-inner .item {
   background-color: #2e70ba;
