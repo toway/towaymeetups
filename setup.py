@@ -33,13 +33,18 @@ setup(name=project,
       tests_require=[],
       entry_points={
         'fanstatic.libraries': [
-        'mba = mba.fanstatic:library',
+            'mba = mba.fanstatic:library',
         ],
+
+        'paste.app_factory':[
+            'main = mba:main'
+        ]
       },
-      #entry_points="""\
-      #[paste.app_factory]
-      #main = mba:main
-      #""",
+
+      # entry_points="""\
+      # [paste.app_factory]
+      # main = mba:main
+      # """,
       extras_require={},
       message_extractors={'mba': [
             ('**.py', 'lingua_python', None),
