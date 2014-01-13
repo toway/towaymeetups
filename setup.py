@@ -31,15 +31,15 @@ setup(name=project,
       zip_safe=False,
       install_requires=install_requires,
       tests_require=[],
-      # entry_points={
-      #   'fanstatic.libraries': [
-      #     'mba = mba.fanstatic:library',
-      #   ],
-      # },
-      entry_points="""\
-      [paste.app_factory]
-      main = mba:main
-      """,
+      entry_points={
+        'fanstatic.libraries': [
+        'mba = mba.fanstatic:library',
+        ],
+      },
+      #entry_points="""\
+      #[paste.app_factory]
+      #main = mba:main
+      #""",
       extras_require={},
       message_extractors={'mba': [
             ('**.py', 'lingua_python', None),
