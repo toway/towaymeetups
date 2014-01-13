@@ -1,5 +1,6 @@
 *.pyc
 mba.egg-info/*
+mba.egg-info*
 .idea/
 build/*
 dist/*
