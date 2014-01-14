@@ -20,7 +20,7 @@ default_settings = {
     'kotti.authn_policy_factory': 'kotti.authtkt_factory',
     'kotti.base_includes': (
         'kotti kotti.views kotti.views.login kotti.views.users'),
-    'kotti.use_tables': 'principals',
+    'kotti.use_tables': '',
     'kotti.populators': 'kotti.populate.populate',
     'kotti.principals_factory': 'kotti.security.Principals',
     'kotti.root_factory': 'kotti.resources.default_get_root',
