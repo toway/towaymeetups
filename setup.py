@@ -40,11 +40,6 @@ setup(name=project,
             'main = mba:main'
         ]
       },
-
-      # entry_points="""\
-      # [paste.app_factory]
-      # main = mba:main
-      # """,
       extras_require={},
       message_extractors={'mba': [
             ('**.py', 'lingua_python', None),
