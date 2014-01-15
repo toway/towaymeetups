@@ -18,11 +18,29 @@ def includeme(config):
 default_settings = {
     #'pyramid.includes': 'mba mba.views',
     'kotti.authn_policy_factory': 'kotti.authtkt_factory',
-    'kotti.base_includes': (
-        'kotti kotti.views kotti.views.login kotti.views.users'),
+    #'kotti.base_includes': (
+    #    'kotti kotti.views kotti.views.login kotti.views.users'),
+    #TODO add all? 15/01/14 11:51:20
+    'kotti.base_includes': ' '.join([
+        'kotti',
+        'kotti.events',
+        'kotti.views',
+        'kotti.views.cache',
+        'kotti.views.view',
+        'kotti.views.edit',
+        'kotti.views.edit.actions',
+        'kotti.views.edit.content',
+        'kotti.views.edit.default_views',
+        'kotti.views.edit.upload',
+        'kotti.views.file',
+        'kotti.views.image',
+        'kotti.views.login',
+        'kotti.views.navigation',
+        'kotti.views.users',
+        ]),
     'kotti.use_tables': '',
     'kotti.populators': 'kotti.populate.populate',
-    'kotti.principals_factory': 'kotti.security.Principals',
+    'kotti.principals_factory': 'mba.security.principals_factory',
     'kotti.root_factory': 'kotti.resources.default_get_root',
     'kotti.site_title': 'MBA',
     }
