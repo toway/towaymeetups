@@ -4,3 +4,4 @@ mba.egg-info*
 .idea/
 build/*
 dist/*
+.*

@@ -55,8 +55,10 @@ from kotti.resources import Document
 
 from mba import _
 
+
 class ActivityStatus:
-    DRAFT,PUBLIC,FINISH,CANCEL=0,1,2,3
+    DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
+
 
 # Extent from document ?
 # How to make a test?
@@ -71,13 +73,15 @@ class Activity(Document):
         addable_to=[u'Activity'],
         )
 
+'''
 # For who participate what activity
 # many to many relationship
 # refer to many relationship of (tag <--> content)
 participate = Table(
     'participate', Base.metadata,
     Column('mbauser_id', Integer, ForeignKey('mbauser.id')),
-    Column('')
+    #Column('')
+
 class Participate(Base):
     id
-
+'''

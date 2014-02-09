@@ -3,7 +3,9 @@ from pyramid.config import Configurator
 import kotti
 import sqlalchemy
 
+
 _ = TranslationStringFactory('mba')
+
 
 def includeme(config):
     settings = config.get_settings()
@@ -14,6 +16,7 @@ def includeme(config):
     #config.add_route('home', '/')
     #config.add_route('register','/register')
     #config.scan(__name__)
+
 
 default_settings = {
     #'pyramid.includes': 'mba mba.views',
@@ -45,6 +48,7 @@ default_settings = {
     'kotti.site_title': 'MBA',
     }
 
+
 def main(global_config, **settings):
     """ This function returns a Pyramid WSGI application.
     """
@@ -56,10 +60,11 @@ def main(global_config, **settings):
     #config.add_route('home', '/')
     #config.add_route('register','/register')
 
-    engine = sqlalchemy.engine_from_config(config.registry.settings, 'sqlalchemy.')
+    engine = sqlalchemy.engine_from_config(config.registry.settings
+            , 'sqlalchemy.')
     kotti.resources.initialize_sql(engine)
     return config.make_wsgi_app()
-    
+
     '''
     config = Configurator(settings=settings)
     config.add_static_view('static', 'static', cache_max_age=3600)
@@ -68,6 +73,7 @@ def main(global_config, **settings):
     config.scan()
     return config.make_wsgi_app()
     '''
+
 
 # def kotti_configure(settings):
 #     settings['kotti.fanstatic.view_needed'] +=\

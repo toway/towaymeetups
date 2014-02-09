@@ -27,8 +27,10 @@ from kotti.util import request_cache
 from kotti.util import DontCache
 from kotti.security import Principals, get_principals
 
+
 class UserType:
-    USER_BASE, STUDENT, TEACHER, PROFESSOR, COMPANY = 0,1,2,3,4
+    USER_BASE, STUDENT, TEACHER, PROFESSOR, COMPANY = 0, 1, 2, 3, 4
+
 
 #TODO extent Principal or create new one with ForeignKey('Principal.id') ?
 '''
@@ -47,6 +49,8 @@ class MbaPrincipal(Principal):
                  title, email, groups)
         self.class_number = class_number
 '''
+
+
 #This is a base class for all users
 class MbaUser(Base):
     __tablename__ = 'mbauser'
@@ -92,6 +96,7 @@ class MbaUser(Base):
         pass
     '''
 
+
 class Student(MbaUser):
     __tablename__ = 'student'
     __mapper_args__ = dict(
@@ -104,6 +109,7 @@ class Student(MbaUser):
                  title=u"", email=None, groups=(), obj_type=UserType.USER_BASE):
         super(Student, self).__init__(name, password, active, confirm_token,
                  title, email, groups, UserType.TEACHER)
+
 
 class Teacher(MbaUser):
     __tablename__ = 'teacher'
@@ -118,6 +124,7 @@ class Teacher(MbaUser):
         super(Teacher, self).__init__(name, password, active, confirm_token,
                  title, email, groups, UserType.TEACHER)
 
+
 class Professor(MbaUser):
     __tablename__ = 'professor'
     __mapper_args__ = dict(
@@ -130,6 +137,7 @@ class Professor(MbaUser):
                  title=u"", email=None, groups=(), obj_type=UserType.USER_BASE):
         super(Professor, self).__init__(name, password, active, confirm_token,
                  title, email, groups, UserType.PROFESSOR)
+
 
 # Implement in the next version
 class Company(MbaUser):
@@ -145,9 +153,10 @@ class Company(MbaUser):
         super(Company, self).__init__(name, password, active, confirm_token,
                  title, email, groups, UserType.COMPANY)
 
+
 class MbaPrincipals(Principals):
     factory = MbaUser
 
+
 def principals_factory():
     return MbaPrincipals()
-
