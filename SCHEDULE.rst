@@ -13,10 +13,10 @@
 ============
 
 开始页面
-* 未注册用户首页 high ui:60% html:60% server:100%
-* 注册页面 high ui:0% html: 30% server:50%
-* 登录页面 high ui:0% html:30% server:30%
-* 个人首页 high all:0%
+  * 未注册用户首页 high ui:60% html:60% server:100%
+  * 注册页面 high ui:0% html: 30% server:50%
+  * 登录页面 high ui:0% html:30% server:30%
+  * 个人首页 high all:0%
 
 活动页面 high ui:%0 html:0% server:50%
 	* 活动详情
