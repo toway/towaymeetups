@@ -7,7 +7,7 @@ from pyramid.threadlocal import get_current_registry
 from pyramid.traversal import resource_path
 from sqlalchemy import Boolean
 from sqlalchemy import Column
-from sqlalchemy import DateTime
+from sqlalchemy import DateTime, Date
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import LargeBinary
@@ -15,6 +15,7 @@ from sqlalchemy import String
 from sqlalchemy import Unicode
 from sqlalchemy import UnicodeText
 from sqlalchemy import UniqueConstraint
+from sqlalchemy import Table, select
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.ext.orderinglist import ordering_list
@@ -59,6 +60,12 @@ from kotti.resources import Document
 from mba import _
 
 
+friend = Table(
+        'friends', Base.metadata,
+        Column('user_a_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
+        Column('user_b_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
+        )
+
 #This is a base class for all users
 class MbaUser(Base):
 
@@ -79,6 +86,12 @@ class MbaUser(Base):
     groups = Column(JsonType(), nullable=False)
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
+    
+    #Friend ship
+    friends = relationship("MbaUser", secondary=friend,
+                primaryjoin=id==friend.c.user_a_id,
+                secondaryjoin=id==friend.c.user_b_id,
+            )
 
     #TODO how to set a picture?
 
@@ -109,6 +122,28 @@ class MbaUser(Base):
         pass
     '''
 
+friend_union = select([
+                friend.c.user_a_id,
+                friend.c.user_b_id
+                ]).union(
+                        select([
+                            friend.c.user_b_id,
+                            friend.c.user_a_id,
+                            ])
+                ).alias()
+
+MbaUser.all_friends = relationship('MbaUser',
+                        secondary=friend_union,
+                        primaryjoin=MbaUser.id==friend_union.c.user_a_id,
+                        secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
+                        viewonly=True)
+
+class City(Base):
+    __tablename__ = 'city'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), nullable=False)
+    acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
+
 
 class Participate(Base):
     __tablename__ = 'participate'
@@ -127,6 +162,9 @@ class ActStatus:
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     status = Column(Integer(), nullable=False)
+    city_id = Column(Integer, ForeignKey('city.id'))
+    #city = relationship("City")
+    city_name = association_proxy('city', 'name')
 
     type_info = Document.type_info.copy(
         name=u'Act',
@@ -152,79 +190,19 @@ class Student(MbaUser):
             )
 
     id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    real_name = Column(String(20), nullable=False)
+    birth_date = Column(Date())
+    school = Column(String(100))
+    school_year = Column(Integer())
+
     #TODO for the other column
 
-    def __init__(self, name,  **kwargs):
+    def __init__(self, name, real_name='', birth_date=None, school=None, school_year=0, **kwargs):
+        self.real_name = real_name
+        self.birth_date = birth_date
+        self.school = school
+        self.shcool_year = school_year
         super(Student, self).__init__(name, **kwargs)
 
-
-# Just test hear, TODO for auto tests
-_TEST_ATTRS = dict(
-    title=u'Test Act',
-    name=u'Just Test',
-    description=u'Our company is the leading manufacturer of foo widgets used in a wide variety of aviation and and industrial products.',
-    body=u"<p>Hello</p>",
-    status=ActStatus.DRAFT,
-    )
-
-def test_document():
-    print 'Test Act'
-    print DBSession.query(Act).count()
-    act = Act(**_TEST_ATTRS)
-    DBSession.add(act)
-    print DBSession.query(Act).count()
-    act.tags = [u'tag 1', u'tag 2']
-    DBSession.flush()
-    act = DBSession.query(Act).first()
-    print act.tags
-    print act._tags
-    for t in act._tags:
-        print t.item, 
-
-def test_act():
-    # Step 1 Act test
-    print 'Test Act'
-    print DBSession.query(Act).count()
-    act = Act(**_TEST_ATTRS)
-    DBSession.add(act)
-    print DBSession.query(Act).count()
-    print 'Act.parts', act.parts
-
-    # Step 2 Student test
-    print 'Test Student'
-    print DBSession.query(Student).count()
-    stu = Student(name=u'test')
-    DBSession.add(stu)
-    print DBSession.query(Student).count()
-
-    # Step 3 Participate test
-    part = Participate()
-    part.act_id = act.id
-    part.user_id = stu.id
-    DBSession.add(part)
-    print 'Act.parts', act.parts
-    DBSession.flush()
-    #part = DBSession.query(Participate).first()
-    #print 'Part user', part.user, part.act_id
-    act = DBSession.query(Act).first()
-    print 'query Act', act.id
-    print 'Act.parts', act._parts
-
-
-def test_act2():
-    a = Act(**_TEST_ATTRS)
-    p = Participate()
-    p.user = Student(name=u'test')
-    a._parts.append(p)
-    DBSession.add(a)
-    DBSession.flush()
-    act = DBSession.query(Act).first()
-    print 'query Act', act.id
-    print 'Act.parts', act.parts
-
-
-def populate():
-    print 'Just test in mba.resources: '
-    #test_document()
-    #test_act()
-    #test_act2()
+    def __repr__(self):  # pragma: no cover
+        return '<Student %r>' % self.name

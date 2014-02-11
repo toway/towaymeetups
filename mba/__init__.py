@@ -42,7 +42,7 @@ default_settings = {
         'kotti.views.users',
         ]),
     'kotti.use_tables': '',
-    'kotti.populators': 'kotti.populate.populate mba.resources.populate', 
+    'kotti.populators': 'kotti.populate.populate mba.populate.populate', 
     'kotti.principals_factory': 'mba.security.principals_factory',
     'kotti.root_factory': 'kotti.resources.default_get_root',
     'kotti.site_title': 'MBA',
