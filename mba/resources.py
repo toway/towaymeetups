@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import os
 from UserDict import DictMixin
 from fnmatch import fnmatch
@@ -66,6 +68,35 @@ friend = Table(
         Column('user_b_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
         )
 
+
+class UserInterest(Base):
+    interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+    interest = relationship('Interest', backref='interest_items')
+    name = association_proxy('interest', 'name')
+
+    @classmethod
+    def _interest_find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            interest = DBSession.query(Interest).filter_by(name=name).first()
+        if interest is None:
+            interest = Interest(name=name)
+        return cls(interest=interest)
+
+
+class Interest(Base):
+    __table_args__ = (
+        UniqueConstraint('name'),
+        )
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    description = Column(UnicodeText())
+
+    @property
+    def users(self):
+        return [rel.user for rel in self.interest_items]
+
+
 #This is a base class for all users
 class MbaUser(Base):
 
@@ -79,6 +110,7 @@ class MbaUser(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), unique=True)
     password = Column(Unicode(100))
+    avatar = Column(String(100))
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
     title = Column(Unicode(100), nullable=False)
@@ -86,19 +118,19 @@ class MbaUser(Base):
     groups = Column(JsonType(), nullable=False)
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
+    type = Column(String(50), nullable=False)
     
-    #Friend ship
+    _interests = relationship("UserInterest", backref='user')
+    interests = association_proxy(
+        '_interests',
+        'name',
+        creator=UserInterest._interest_find_or_create,
+        )
+
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id,
             )
-
-    #TODO how to set a picture?
-
-    #The real user type(Student, Teacher, Professor or Company?
-    #obj_type = Column(Integer(), nullable=False)
-    #ref to Kotti.Node
-    type = Column(String(50), nullable=False)
 
     def __init__(self, name, password=None, active=True, confirm_token=None,
                  title=u"", email=None, groups=(), **kwargs):
@@ -117,10 +149,6 @@ class MbaUser(Base):
 
     def __repr__(self):  # pragma: no cover
         return '<MbaUser %r>' % self.name
-    '''
-    def real_user(self):
-        pass
-    '''
 
 friend_union = select([
                 friend.c.user_a_id,
@@ -138,8 +166,12 @@ MbaUser.all_friends = relationship('MbaUser',
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
 
+
 class City(Base):
     __tablename__ = 'city'
+    __table_args__ = (
+        UniqueConstraint('name'),
+        )
     id = Column(Integer, primary_key=True)
     name = Column(String(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
@@ -150,7 +182,8 @@ class Participate(Base):
     user_id = Column(Integer, ForeignKey('students.id'), primary_key=True)
     act_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
-    #acts = relation(Act, backref=backref('part_users', cascade='all'))
+    #用户参加活动之后可进行评分
+    rating = Column(Integer())
     user = relationship("Student", backref='partin')
 
 
@@ -163,7 +196,6 @@ class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     status = Column(Integer(), nullable=False)
     city_id = Column(Integer, ForeignKey('city.id'))
-    #city = relationship("City")
     city_name = association_proxy('city', 'name')
 
     type_info = Document.type_info.copy(
@@ -179,7 +211,6 @@ class Act(Document):
     def parts(self):
         return [rel.user for rel in self._parts]
 
-
 class Student(MbaUser):
 
     @classproperty
@@ -190,12 +221,14 @@ class Student(MbaUser):
             )
 
     id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
-    real_name = Column(String(20), nullable=False)
-    birth_date = Column(Date())
     school = Column(String(100))
     school_year = Column(Integer())
+    
+    #TODO move this two attrs into MbaUser ?
+    real_name = Column(String(20), nullable=False)
+    birth_date = Column(Date())
 
-    #TODO for the other column
+    resumes = relationship('Resume', backref='user')
 
     def __init__(self, name, real_name='', birth_date=None, school=None, school_year=0, **kwargs):
         self.real_name = real_name
@@ -206,3 +239,106 @@ class Student(MbaUser):
 
     def __repr__(self):  # pragma: no cover
         return '<Student %r>' % self.name
+
+
+# Tables about resume
+# Education n -- 1 Resume 
+class Education(Base):
+    id = Column(Integer, primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'))
+    name = Column(String(100), nullable=False)
+    location = Column(String(100))
+    start_date = Column(DateTime())
+    completion_date = Column(DateTime())
+    summary = Column(UnicodeText())
+
+# Job n -- 1 Resume 
+class Job(Base):
+    id = Column(Integer, primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'))
+    title = Column(String(250))
+    location = Column(String(250))
+    #company_url = TODO for url link
+    description = Column(UnicodeText())
+    start_date = Column(DateTime())
+    completion_date = Column(DateTime())
+    is_current = Column(Boolean)
+
+
+# resume many to many skill
+class ResumeSkill(Base):
+    resume_id = Column(Integer, ForeignKey('resumes.id'), primary_key=True)
+    skill_id = Column(Integer, ForeignKey('skills.id'), primary_key=True)
+    skill = relationship('Skill', backref='resume_items')
+    name = association_proxy('skill', 'name')
+
+    @classmethod
+    def _skill_find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            skill = DBSession.query(Skill).filter_by(name=name).first()
+        if skill is None:
+            skill = Skill(name=name)
+        return cls(skill=skill)
+
+class Skill(Base):
+    __table_args__ = (
+        UniqueConstraint('name'),
+        )
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250))
+
+    @property
+    def resumes(self):
+        return [rel.resume for rel in self.resume_items]
+
+class Resume(Base):
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'))
+    title = Column(String(250))
+    create_date = Column(DateTime())
+    modify_date = Column(DateTime())
+    _skills = relationship('ResumeSkill', backref='resume')
+    skills = association_proxy(
+        '_skills',
+        'name',
+        creator=ResumeSkill._skill_find_or_create,
+        )
+
+    # String like jobid1,jobid2,jobid3 5,6,3,1 
+    job_order = Column(String(100))
+    jobs = relationship('Job')
+    education = relationship('Education')
+
+    def order_jobs(self):
+        jobs = self.jobs
+        ids = dict([(obj.id,obj) for obj in jobs])
+        rlts = []
+        for s in self.job_order.split(','):
+            id = int(s)
+            if id in ids:
+                rlts.append(ids[id])
+        return (rlts+list(set(jobs).difference(set(rlts))))
+
+#用户投给职位的简历
+class PositionResume(Base):
+    position_id = Column(Integer, ForeignKey('positions.id'), primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'), primary_key=True)
+    create_date = Column(DateTime())
+    #反馈状态
+    status = Column(Integer())
+    resume = relationship('Resume', backref='postition_items')
+    user = association_proxy('resume', 'user')
+
+#工作职位表
+class Position(Document):
+    id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+    status = Column(Integer(), nullable=False)
+    resumes = relationship('PositionResume', backref='position')
+    users = association_proxy('resumes', 'user')
+
+    type_info = Document.type_info.copy(
+        name=u'Position',
+        title=_(u'Position'),
+        add_view=u'add_position',
+        addable_to=[u'Position'],
+        )

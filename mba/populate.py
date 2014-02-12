@@ -90,6 +90,20 @@ def test_friend():
     print 'u2 all', u2.all_friends
     print 'u5 all', u5.all_friends
 
+def test_resume():
+    stu = Student(name=u'test', real_name=u'testit')
+    DBSession.add(stu)
+    skill1, skill2 = Skill(name=u'python'), Skill(name=u'c++')
+    resume1 = Resume(title=u'resume1', user=stu)
+    resume1.skills = [skill1.name, skill2.name]
+    DBSession.add(resume1)
+    DBSession.flush()
+
+    resume2 = Resume(title=u'resume2', user=stu)
+    resume2.skills = [skill1.name, skill2.name]
+    DBSession.add(resume2)
+    skill = DBSession.query(Skill).first()
+    print skill.resumes
 
 def populate():
     print 'Just test in mba.resources: '
@@ -97,4 +111,5 @@ def populate():
     #test_act()
     #test_act2()
     #test_city()
-    test_friend()
+    #test_friend()
+    test_resume()
