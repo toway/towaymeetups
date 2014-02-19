@@ -1,13 +1,24 @@
 #!/usr/bin/python
 # coding: utf-8
 
+
+__author__ = 'sunset'
+
+
 import deform
+from deform import Button
+from deform import Form
+from deform import ValidationFailure
+from deform.widget import CheckedPasswordWidget
+from deform.widget import HiddenWidget
+
 import colander
 import jinja2
 from deform import ValidationFailure
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
+from pyramid.settings import asbool
 
 from kotti import get_settings
 from kotti.views.util import template_api
@@ -15,25 +26,25 @@ from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
 from mba import _
 
-@view_config(route_name='home', renderer='index.jinja2')
-def view_home(request):
-    return {'project': 'lesson2'}
 
-@view_config(route_name='permission', renderer='index.jinja2', permission='admin')
-def view_permission(request):
-    return {'project': 'lesson2'}
 
-# TODO change below to views/login.py and change views.py to views/views.py
-class MbaRegisterSchema(RegisterSchema):
-    class_number = colander.SchemaNode(
+class RegisterSchema(colander.Schema):
+    name = colander.SchemaNode(
         colander.String(),
-        title=u"ClassNumber",
+        title=_(u'Username'),
+    )
+    email = colander.SchemaNode(
+        colander.String(),
+        title=_(u'Email'),
+        # TODO:validator
+        # validator=deferred_email_validator,
     )
 
-#TODO reimplement the kotti.templates.api to use jinja2?
-@view_config(route_name='register_old',renderer='register.jinja2')
+
+
+@view_config(route_name='register',renderer='register.jinja2')
 def view_register(context, request):
-    schema = MbaRegisterSchema().bind(request=request)
+    schema = RegisterSchema().bind(request=request)
     form = deform.Form(schema, buttons=('register',))
     rendered_form = None
 
@@ -61,9 +72,9 @@ def view_register(context, request):
             form = UserAddFormView(context, request)
             form.add_user_success(appstruct)
             success_msg = _(
-                'Congratulations! You are successfully registered. '
-                'You should be receiving an email with a link to set your '
-                'password. Doing so will activate your account.'
+                '''Congratulations! You are successfully registered.
+                You should be receiving an email with a link to set your
+                password. Doing so will activate your account.'''
                 )
             request.session.flash(success_msg, 'success')
             name = appstruct['name']
@@ -79,12 +90,14 @@ def view_register(context, request):
             mapping=dict(title=context.title)),
     )
 
-    return {'api': api, 'form': jinja2.Markup(rendered_form)}
+
+
+    return {'api': api, 'form': jinja2.Markup(rendered_form) }
+
 
 def includeme(config):
-    #print 'hear 2'
+
     settings = config.get_settings()
-    config.add_route('home', '/')
-    config.add_route('permission', '/permission')
-    config.add_route('register_old','/register_old')
+
+    config.add_route('register','/register')
     config.scan(__name__)
