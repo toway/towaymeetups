@@ -9,7 +9,12 @@ _ = TranslationStringFactory('mba')
 
 def includeme(config):
     settings = config.get_settings()
-    config.add_static_view('static', 'static', cache_max_age=3600)
+
+    #confic with kotti gallery
+    #config.add_static_view('mba_static', 'mba_static', cache_max_age=3600)
+    #config.add_static_view('static', 'deform:static')
+    config.add_static_view('static', 'mba:static')
+
     config.include('kotti')
     #config.include('kotti.views.login')
     config.include('mba.views')

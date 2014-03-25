@@ -224,9 +224,17 @@ class Student(MbaUser):
     school = Column(String(100))
     school_year = Column(Integer())
     
-    #TODO move this two attrs into MbaUser ?
     real_name = Column(String(20), nullable=False)
     birth_date = Column(Date())
+    identify = Column(String(30))
+    phone = Column(Integer())
+    home_number = Column(String(20))
+    residence = Column(String(20))
+    salary = Column(Integer())
+    work_years = Column(String(20))
+    company_phone = Column(String(30))
+    keyword = Column(String(100))
+    job_status = Column(String(100))
 
     resumes = relationship('Resume', backref='user')
 
@@ -249,21 +257,42 @@ class Education(Base):
     name = Column(String(100), nullable=False)
     location = Column(String(100))
     start_date = Column(DateTime())
-    completion_date = Column(DateTime())
+    finish_date = Column(DateTime())
+    major = Column(String(30))
+    degree = Column(String(20))
+    abroad =  Column(Boolean)
     summary = Column(UnicodeText())
 
 # Job n -- 1 Resume 
 class Job(Base):
     id = Column(Integer, primary_key=True)
     resume_id = Column(Integer, ForeignKey('resumes.id'))
-    title = Column(String(250))
-    location = Column(String(250))
-    #company_url = TODO for url link
-    description = Column(UnicodeText())
+    job_type = Column(String(50))
+    location = Column(String(200))
+    industy = Column(String(100))
+    duty = Column(String(200))
     start_date = Column(DateTime())
-    completion_date = Column(DateTime())
+    finish_date = Column(DateTime())
+    description = Column(UnicodeText())
     is_current = Column(Boolean)
 
+class Train(Base):
+    id = Column(Integer, primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'))
+    start_date = Column(DateTime())
+    finish_date = Column(DateTime())
+    location = Column(String(200))
+    course = Column(String(100))
+    certificate = Column(String(50))
+    summary = Column(UnicodeText())
+
+class Language(Base):
+    id = Column(Integer, primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'))
+    lang_type = Column(String(20))
+    grasp = Column(String(20))
+    read_cap = Column(String(20))
+    write_cap = Column(String(20))
 
 # resume many to many skill
 class ResumeSkill(Base):
@@ -308,6 +337,8 @@ class Resume(Base):
     job_order = Column(String(100))
     jobs = relationship('Job')
     education = relationship('Education')
+    trains = relationship('Train')
+    langs = relationship('Language')
 
     def order_jobs(self):
         jobs = self.jobs
