@@ -258,25 +258,35 @@ class FormCustom(deform.Form):
         template = kw.pop('template', None)
         #TODO for readonly_template
         if template:
-            print template
             self.widget = deform.widget.FormWidget(template=template)
 
 
 @view_config(route_name='formtest', renderer='col_test.jinja2')
 def formtest_view(context, request):
+
+    options = """
+    {success:
+        function (rText, sText, xhr, form) {
+            var loc = xhr.getResponseHeader('X-Relocate');
+            if (loc) {
+                document.location = loc;
+            }
+        }
+    }
+    """
+
     counter = itertools.count()
     class Schema1(colander.Schema):
         name1=colander.SchemaNode(colander.String())
     schema1 = Schema1()
-    form1 = FormCustom(schema1, template='form1'
+    form1 = FormCustom(schema1, template='form1', use_ajax=True, ajax_options=options
             , buttons=('submit',),formid="form1", counter=counter)
     
     class Schema2(colander.Schema):
         name2 = colander.SchemaNode(colander.String())
     schema2 = Schema2()
-    form2 = FormCustom(schema2, template='form1'
+    form2 = FormCustom(schema2, template='form1', use_ajax=True, ajax_options=options
             , buttons=('submit',), formid="form2", counter=counter)
-
     html = []
     captured = None
     if 'submit' in request.POST:
@@ -286,7 +296,12 @@ def formtest_view(context, request):
                 try:
                     controls = request.POST.items()
                     captured = form.validate(controls)
-                    html.append(form.render(captured))
+                    #html.append(form.render(captured))
+                    #return Response('<div id="thanks">Thanks!</div>')
+                    return Response(
+                            '<div>hurr</div>',
+                            headers=[('X-Relocate', '/'), ('Content-Type','text/html')]
+                            )
                 except deform.ValidationFailure as e:
                     html.append(e.render())
             else:
