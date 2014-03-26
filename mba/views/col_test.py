@@ -6,6 +6,7 @@ import datetime
 import re
 import deform
 import colander
+import itertools
 import jinja2
 from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
@@ -251,6 +252,54 @@ def retail_view(context, request):
             'field':form,
             }
 
+class FormCustom(deform.Form):
+    def __init__(self, schema, **kw):
+        super(FormCustom, self).__init__(schema, **kw)
+        template = kw.pop('template', None)
+        #TODO for readonly_template
+        if template:
+            print template
+            self.widget = deform.widget.FormWidget(template=template)
+
+
+@view_config(route_name='formtest', renderer='col_test.jinja2')
+def formtest_view(context, request):
+    counter = itertools.count()
+    class Schema1(colander.Schema):
+        name1=colander.SchemaNode(colander.String())
+    schema1 = Schema1()
+    form1 = FormCustom(schema1, template='form1'
+            , buttons=('submit',),formid="form1", counter=counter)
+    
+    class Schema2(colander.Schema):
+        name2 = colander.SchemaNode(colander.String())
+    schema2 = Schema2()
+    form2 = FormCustom(schema2, template='form1'
+            , buttons=('submit',), formid="form2", counter=counter)
+
+    html = []
+    captured = None
+    if 'submit' in request.POST:
+        posted_formid = request.POST['__formid__']
+        for (formid,form) in [('form1', form1), ('form2', form2)]:
+            if formid == posted_formid:
+                try:
+                    controls = request.POST.items()
+                    captured = form.validate(controls)
+                    html.append(form.render(captured))
+                except deform.ValidationFailure as e:
+                    html.append(e.render())
+            else:
+                html.append(form.render())
+    else:
+        for form in form1,form2:
+            html.append(form.render())
+    html = u''.join(html)
+    return {
+            'captured':repr(captured),
+            'form': jinja2.Markup(html)
+            }
+
 
 def includeme(config):
     settings = config.get_settings()
@@ -259,4 +308,5 @@ def includeme(config):
     config.add_route('rich','/rich')
     config.add_route('ajax','/ajax')
     config.add_route('retail','/retail')
+    config.add_route('formtest','/formtest')
     config.scan(__name__)
