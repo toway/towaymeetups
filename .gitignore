@@ -5,3 +5,5 @@ mba.egg-info*
 build/*
 dist/*
 .*
+mba.db
+
