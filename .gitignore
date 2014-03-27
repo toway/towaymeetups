@@ -6,4 +6,5 @@ build/*
 dist/*
 .*
 mba.db
+local.ini
 
