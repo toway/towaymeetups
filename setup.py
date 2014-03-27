@@ -6,10 +6,11 @@ from setuptools import setup
 version = '1.0'
 project = 'mba'
 
-install_requires=['pyramid>=1.0.2', 'pyramid_jinja2', 'pyramid_debugtoolbar',
-                 'Babel',
-                'lingua'
-                  ]
+install_requires=[]
+ # ['pyramid>=1.0.2', 'pyramid_jinja2', 'pyramid_debugtoolbar',
+ #                 'Babel',
+ #                'lingua>=1.5'
+ #                  ]
 
 here = os.path.abspath(os.path.dirname(__file__))
 README = open(os.path.join(here, 'README.rst')).read()
