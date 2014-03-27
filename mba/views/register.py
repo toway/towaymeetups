@@ -90,8 +90,6 @@ def view_register(context, request):
             mapping=dict(title=context.title)),
     )
 
-
-
     return {'api': api, 'form': jinja2.Markup(rendered_form) }
 
 

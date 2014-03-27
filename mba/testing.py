@@ -91,7 +91,6 @@ def setUp(init_db=True, **kwargs):
 
     from kotti import _resolve_dotted
     from mba import default_settings as conf_defaults
-
     tearDown()
     settings = conf_defaults.copy()
     settings['kotti.secret'] = 'secret'
