@@ -46,6 +46,8 @@ default_settings = {
         'kotti.views.navigation',
         'kotti.views.users',
         ]),
+    'kotti.fanstatic.edit_needed': '',
+    'kotti.fanstatic.view_needed': '',
     'kotti.use_tables': '',
     'kotti.populators': 'kotti.populate.populate mba.populate.populate', 
     'kotti.principals_factory': 'mba.security.principals_factory',

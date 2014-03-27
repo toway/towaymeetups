@@ -16,6 +16,10 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
 from pyramid.encode import urlencode
 from pyramid.response import Response
+from js.jquery import jquery
+from js.jquery_form import jquery_form
+
+import fanstatic
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -73,6 +77,7 @@ def view_col(context, request):
             print appstruct
     if rendered_form is None:
         rendered_form = form.render(request.params)
+    #print fanstatic.get_needed().resources()
     return {'form': jinja2.Markup(rendered_form)}
 
 @colander.deferred
@@ -267,6 +272,8 @@ def formtest_view(context, request):
         }
     }
     """
+
+    jquery_form.need()
 
     counter = itertools.count()
     class Schema1(colander.Schema):
