@@ -22,6 +22,8 @@ from kotti.security import get_principals
 from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
+
+from form import FormCustom
 from mba import _
 
 # http://colander.readthedocs.org/en/latest/basics.html
@@ -252,15 +254,6 @@ def retail_view(context, request):
             'field':form,
             }
 
-class FormCustom(deform.Form):
-    def __init__(self, schema, **kw):
-        super(FormCustom, self).__init__(schema, **kw)
-        template = kw.pop('template', None)
-        #TODO for readonly_template
-        if template:
-            self.widget = deform.widget.FormWidget(template=template)
-
-
 @view_config(route_name='formtest', renderer='col_test.jinja2')
 def formtest_view(context, request):
 
@@ -315,6 +308,12 @@ def formtest_view(context, request):
             'form': jinja2.Markup(html)
             }
 
+@view_config(route_name='friend', renderer='friend_test.jinja2')
+def friend(context, request):
+    return {
+            "test":"test",
+            "resumes":[{"date":"2012-2-1","name":"UI HAHA"}, {"date":"2013-3-2","name":"UI HEIHEI"}]
+            }
 
 def includeme(config):
     settings = config.get_settings()
@@ -324,4 +323,5 @@ def includeme(config):
     config.add_route('ajax','/ajax')
     config.add_route('retail','/retail')
     config.add_route('formtest','/formtest')
+    config.add_route('friend','/friend')
     config.scan(__name__)
