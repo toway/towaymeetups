@@ -317,7 +317,11 @@ def formtest_view(context, request):
 
 @view_config(route_name='friend', renderer='friend_test.jinja2')
 def friend(context, request):
+    schema = Person().bind(request=request)
+    form = deform.Form(schema, buttons=('Test',))
     return {
+            "field":form,
+            "cstruct":form.cstruct,
             "test":"test",
             "resumes":[{"date":"2012-2-1","name":"UI HAHA"}, {"date":"2013-3-2","name":"UI HEIHEI"}]
             }

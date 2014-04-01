@@ -13,7 +13,7 @@ def includeme(config):
     #confic with kotti gallery
     #config.add_static_view('mba_static', 'mba_static', cache_max_age=3600)
     #config.add_static_view('static', 'deform:static')
-    config.add_static_view('static', 'mba:static')
+    config.add_static_view('static', 'static')
 
     config.include('kotti')
     #config.include('kotti.views.login')
