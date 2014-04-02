@@ -62,7 +62,8 @@ class RegisterSchema(colander.Schema):
         colander.String(),
         title=_(u'密码'),
         validator=colander.Length(min=5),
-        widget=deform.widget.PasswordWidget(),
+        widget=deform.widget.PasswordWidget(css_class="form-control"),
+        #传递form-control之后不需要在deform_template/下重写password.jinja2, TextInputWidget同理
         )
 
 def add_user_success(request, appstruct):
@@ -109,6 +110,7 @@ def view_register(context, request):
     if rendered_form is None:
         rendered_form = form.render(request.params)
 
+    #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
     return {'form': jinja2.Markup(rendered_form)}
 
 def includeme(config):
