@@ -88,7 +88,50 @@ def add_resume(context, request):
         rendered_form = form.render(request.params)
     return {'form': jinja2.Markup(rendered_form)}
 
+class PersonInfo(colander.Schema):
+    name = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(category='structural')
+            )
+    birth_date = colander.SchemaNode(
+            colander.Date(),
+            widget = deform.widget.DateInputWidget(category='structural')
+            )
+    idenfity_type = colander
+    idenfity = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(category='structural')
+    location = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(category='structural')
+            )
+    salary = colander.SchemaNode(
+            colander.Integer(),
+            widget = deform.widget.TextInputWidget(category='structural')
+            )
+    major = colander.SchemaNode(
+            colander.String(),
+            widget=deform.widget.CheckboxWidget(category='structural')
+            )
+    degree = colander.SchemaNode(
+            colander.String(),
+            widget=deform.widget.CheckboxWidget(category='structural')
+            )
+    abroad = colander.SchemaNode(
+            colander.Boolean(),
+            widget=deform.widget.CheckboxWidget(category='structural')
+            )
+    summary = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(category='structural')
+            )
+
+@view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
+def resume_edit(context, request):
+    pass
+
 def includeme(config):
     settings = config.get_settings()
     config.add_route('add_resume','/add_resume')
+    config.add_route('resume_edit2','/resume_edit2')
     config.scan(__name__)
