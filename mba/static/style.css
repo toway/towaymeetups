@@ -60,6 +60,9 @@ body h3 {
 .mba-index-main ul li {
   line-height: 30px;
 }
+.mba-banner{
+  background-color: RGB(41,103,178);
+}
 .mba-footer {
   background-color: #cccccc;
   border-top: solid 1px #ffffff;
@@ -68,3 +71,51 @@ body h3 {
 .mba-footer .mba-weixin {
   margin-top: 20px;
 }
+
+.mba-resume-total-grid{
+  border-top: 0px;
+  border-left: 1px solid RGB(232,232,232);
+  border-right: 1px solid RGB(232,232,232);
+  border-bottom: 1px solid RGB(232,232,232);
+  
+  background:url("img/my_resume_head_bg.jpg") repeat-x;
+  border-top: 1px;
+}
+
+.mba-my-resume-cnt{
+  border-top: 0px;
+  border-left: 1px solid red;
+  border-right: 1px solid red;
+  border-bottom: 1px solid red;
+}
+
+.mba-footer .mba-weixin {
+  margin-top: 20px;
+}
+
+.mba-right-nav{
+	background-color:RGB(234,243,238);
+	min-height: 120px;
+}
+
+.mba-right-nav-cnt{
+	margin:20px;
+	padding:20px;
+	background-color:white;
+}
+
+.mba-resume-edit
+{
+  /*background:url("img/resume_edit.jpg") center;*/
+}
+
+.mba-resume-refresh
+{
+  background:url("img/resume_refresh.jpg") center;
+}
+
+.mba-resume-preview
+{
+  /*background:url("img/resume_preview.jpg") center;*/
+}
+

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- Bootstrap -->
+        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+
+
+        <link rel="stylesheet" href="static/css/normalize.css">
+        <link rel="stylesheet" href="static/css/main.css">
+        <link rel="stylesheet" href="static/style.css">
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <style type="text/css">
+    .mba-resume-preview-cnt{
+      /*border: 1px solid #e5eff5;*/
+      border: 1px solid #4272A0;
+      padding:15px;
+    }
+
+  .mba-main{
+    background: RGB(245,250,254);
+    /*border:1px solid RGB(66,114,160);*/
+    border:1px solid #e5eff5;
+    padding: 10px;
+    margin:0px;
+  }
+
+  p#name{
+    margin:0px;
+    font-size:28px;
+    border-bottom:1px dashed RGB(199,213,224);
+  }
+
+  .mba-base-info-val{
+    padding-right:20px;
+    /*color:RGB(199,213,224);*/
+    color:#2C468C;
+  }
+
+  .mba-base-info-border{
+    border-left: 1px solid RGB(199,213,224);
+    padding-left: 20px;
+  }
+
+  .fix-width{
+    width:60px;
+    font-size: 12px;
+  }
+
+  .mba-type{
+        font-size: 15px;
+        /*color:RGB(199,213,224);*/
+        color:#2C468C;
+  }
+
+  .mba-detail{
+    font-size: 12px;
+  }
+
+  .mba-unit{
+    margin-bottom: 15px;
+  }
+
+  .mba-line{
+      margin:0px;
+  }
+
+  .mba-border{
+    border-bottom:1px dashed RGB(184,184,184);
+    margin-bottom: 5px;
+  }
+
+  .mab-em{
+    background-color: RGB(199,213,224);
+  }
+
+  .mba-no-padding-left{
+    padding-left:0px;
+  }
+
+    </style>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+
+
+        {% include "header.jinja2" %}
+
+        <div class="container-fluid mba-margin-top mba-banner" >
+            <center><img src="static/img/banner.jpg"></center>
+        </div>
+        <div class="container">
+            <div class="col-md-10 col-md-offset-1 mba-resume-preview-cnt">
+               <p>
+                  <label>关键字：</label><span>计算机软件工程师  通信工程</span>
+               </p>
+              <div class="mba-main">
+                  <p id="name" style="">余争</p>
+
+                   <p class="mba-base-info">
+                      <span  class="mba-base-info-val">五年以上工作经验</span>
+                      <span class="mba-base-info-val mba-base-info-border">男</span>
+                      <span class="mba-base-info-val mba-base-info-border">27岁(1987年3月22日)</span>
+                  </p>
+
+                   <p>
+                      <label class="fix-width">居住地：</label><span>深圳南山</span>
+                   </p>
+                    <p>
+                      <label class="fix-width">电 话：</label><span>18069954495</span>
+                   </p>
+                    <p>
+                      <label class="fix-width">Email：</label><span>1018559224@qq.com</span>
+                   </p>
+
+
+              </div>
+              <p></p>
+              <div class="container mba-no-padding-left">
+                    <div class="col-md-6 mba-no-padding-left">
+                      <p  class="mba-line">
+                        <span class="mba-type">最近工作</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="mba-detail">[一年十个月]</span>
+                      </p>
+                     
+                       <p class="mba-line">
+                          <label class="fix-width">公    司：</label><span  class="mba-detail">深圳浩宁达</span>
+                       </p>
+                       <p  class="mba-line">
+                          <label class="fix-width">行    业：</label><span  class="mba-detail">计算机软件</span>
+                       </p>
+                       <p  class="mba-line">
+                          <label class="fix-width">职    位：</label><span  class="mba-detail">高级软件工程师</span>
+                       </p>
+                    </div>
+                     <div class="col-md-6">
+                        <p  class="mba-line">
+                          <span class="mba-type">最高学历</span
+                        </p>
+                       
+                         <p class="mba-line">
+                            <label class="fix-width">学    历：</label><span  class="mba-detail">本科</span>
+                         </p>
+                         <p  class="mba-line">
+                            <label class="fix-width">专    业：</label><span  class="mba-detail">计算机软件</span>
+                         </p>
+                         <p  class="mba-line">
+                            <label class="fix-width">学    校：</label><span  class="mba-detail">电子科技大学</span>
+                         </p>
+                    </div>
+              </div>
+              <hr class="mba-separate">
+              <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">自我评价</span>
+                </p>
+               
+                 <p class="mba-line">
+                    <span  class="mba-detail">技术能力强，学习能力强，具有团队精神</span>
+                 </p>
+              </div>
+
+              <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">求职意向</span>
+                </p>
+               
+                 <p class="mba-line">
+                    <label class="fix-width">到岗时间：</label><span  class="mba-detail">待定</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">工作性子：</label><span  class="mba-detail">全职</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">希望行业：</label><span  class="mba-detail">计算机软件睡</span>
+                 </p>
+                  <p  class="mba-line">
+                    <label class="fix-width">期望月薪：</label><span  class="mba-detail">面议</span>
+                 </p>
+                  <p  class="mba-line">
+                    <label class="fix-width">目标职能：</label><span  class="mba-detail">高级软件工程师</span>
+                 </p>
+              </div>
+
+               <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">工作经验</span>
+                </p>
+               
+                <p  class="mba-line mab-em">
+                    <label class="fix-width">工作时间：</label><span  class="mba-detail">2012、5-2014.8 一年10个月</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">公司名称：</label><span  class="mba-detail">深圳浩宁达</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">所属行业：</label><span  class="mba-detail">计算机软件</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">所属部门：</label><span  class="mba-detail">软件研发部</span>
+                 </p>
+                  <p  class="mba-line">
+                    <label class="fix-width">工作职责：</label><span  class="mba-detail">主要负责职能抄表系统的软件研发和进度控制</span>
+                 </p>
+
+
+                  <p  class="mba-line mab-em">
+                    <label class="fix-width">工作时间：</label><span  class="mba-detail">2009.7-2012.5 三年</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">公司名称：</label><span  class="mba-detail">TPLINK</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">所属行业：</label><span  class="mba-detail">通讯设备制造商</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">所属部门：</label><span  class="mba-detail">软件研发部</span>
+                 </p>
+                  <p  class="mba-line">
+                    <label class="fix-width">工作职责：</label><span  class="mba-detail">主要负责交换机的底层软件部分</span>
+                 </p>
+              </div>
+
+               <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">教育经历</span>
+                </p>
+               
+                 <p class="mba-line">
+                    <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
+                        <thead>  
+                            <tr>  
+                              <th>学历</th>
+                              <th>时间</th>  
+                              <th>学校</th>
+                              <th>学院</th>
+                              <th>专业</th> 
+                         
+                            </tr>  
+                          </thead>  
+                          <tbody>  
+                            <tr> 
+                              <td>本科</td>  
+                              <td>2006.7-2009.9</td>
+                              <td>电子科技大学</td>
+                              <td>通信学院</td>
+                              <td>通信工程</td>
+                            </tr>  
+                            </tbody>
+                    </table>
+                 </p>
+              </div>
+
+
+               <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">语言能力</span>
+                </p>
+               
+                 <p class="mba-line">
+                    <label class="fix-width">英语：</label><span  class="mba-detail">听说（一般）， 读写（良好）</span>
+                 </p>
+                 <p  class="mba-line">
+                    <label class="fix-width">最高等级：</label><span  class="mba-detail">六级</span>
+                 </p>
+               
+              </div>
+
+
+
+               <div class="mba-unit">
+                 <p  class="mba-line mba-border">
+                  <span class="mba-type ">IT技能</span>
+                </p>
+               
+                 <p class="mba-line">
+                    <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
+                        <thead>  
+                            <tr>  
+                              <th>技能名称</th>
+                              <th>熟练程度</th>  
+                              <th>使用时间</th>
+                             <!--  <th>相关项目描述</th> -->
+                         
+                            </tr>  
+                          </thead>  
+                          <tbody>  
+                            <tr> 
+                              <td>C/C++</td>  
+                              <td>精通</td>
+                              <td>5个月</td>
+          
+                            </tr>  
+                            </tbody>
+                    </table>
+                 </p>
+              </div>
+                 
+    
+                
+            </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+
+
+
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+        <!-- Bootstrap -->
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="static/js/plugins.js"></script>
+
+        <script src="static/js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+    </body>
+</html>
