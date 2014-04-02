@@ -319,11 +319,29 @@ def formtest_view(context, request):
 def friend(context, request):
     schema = Person().bind(request=request)
     form = deform.Form(schema, buttons=('Test',))
+    reqts = form.get_widget_resources()
     return {
             "field":form,
             "cstruct":form.cstruct,
+            "css_links":reqts["css"],
+            "js_links":reqts["js"],
             "test":"test",
             "resumes":[{"date":"2012-2-1","name":"UI HAHA"}, {"date":"2013-3-2","name":"UI HEIHEI"}]
+            }
+
+@view_config(route_name='formtest2', renderer='col_test.jinja2')
+def formtest2_view(context, request):
+    class Schema1(colander.Schema):
+        name1=colander.SchemaNode(
+                colander.String(), 
+                widget = deform.widget.TextInputWidget(category='structural')
+                )
+    schema1 = Schema1()
+    form = FormCustom(schema1, template='form2'
+            , buttons=('submit',),formid="form1")
+    html = form.render()
+    return {
+            'form': jinja2.Markup(html)
             }
 
 def includeme(config):
@@ -334,5 +352,6 @@ def includeme(config):
     config.add_route('ajax','/ajax')
     config.add_route('retail','/retail')
     config.add_route('formtest','/formtest')
+    config.add_route('formtest2','/formtest2')
     config.add_route('friend','/friend')
     config.scan(__name__)

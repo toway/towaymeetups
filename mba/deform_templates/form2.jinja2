@@ -30,9 +30,10 @@
             {% endif %}
         </li>
       {% endif %}
-      {% for f in field.children %}
-		{{field.custom_render(f.name)}}
-      {% endfor %}
+	  <div id="test_hear">
+	   HEIEIEIEIEI!
+		{{field.custom_render('name1')}}
+	 </div>
 
       <li class="buttons">
         {% for button in field.buttons %}

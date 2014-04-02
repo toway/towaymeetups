@@ -18,6 +18,13 @@
         <link rel="stylesheet" href="static/css/normalize.css">
         <link rel="stylesheet" href="static/css/main.css">
         <link rel="stylesheet" href="static/style.css">
+		
+		{% for l in css_links %}
+		{{l|safe}}
+		{% endfor %}
+		{% for l in js_links %}
+		{{l|safe}}
+		{% endfor %}
 
 		<script type="text/javascript" src="/fanstatic/jquery_form/jquery.form.js"></script>
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -80,7 +87,7 @@
         </li>
       {% endif %}
       {% for f in field.children %}
-        {{field.renderer(field.widget.item_template, field=f, cstruct=cstruct.get(f.name, null)) }}
+        {{field.renderer(field.widget.item_template, field=f, cstruct=cstruct.get(f.name, null))|safe}}
       {% endfor %}
 
       <li class="buttons">

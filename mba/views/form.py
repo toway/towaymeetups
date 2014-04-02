@@ -20,10 +20,22 @@ from mba import _
 class FormCustom(deform.Form):
     def __init__(self, schema, **kw):
         super(FormCustom, self).__init__(schema, **kw)
+
         template = kw.pop('template', None)
         if template:
             self.widget.template = template
         readonly_template = kw.pop('readonly_template', None)
         if readonly_template:
             self.widget.readonly_template = readonly_template
+
+        self.child_dict = {}
+        for c in self.children:
+            #print 'name test:', c.name
+            self.child_dict[c.name] = c
+
+    def custom_render(self, name):
+        f = self.child_dict[name]
+        cstruct = self.cstruct
+        return self.renderer(self.widget.item_template, field=f
+                , cstruct=cstruct.get(f.name, colander.null))
 
