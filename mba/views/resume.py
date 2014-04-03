@@ -111,7 +111,7 @@ class PersonInfo(colander.Schema):
     sex = colander.SchemaNode(
             colander.String(),
             default='boy',
-            widget = deform.widget.CheckboxWidget(
+            widget = deform.widget.CheckboxChoiceWidget(
                 category="structural",
                 values=sex_choice)
             )
