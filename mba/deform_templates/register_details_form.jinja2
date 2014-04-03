@@ -1,0 +1,71 @@
+<form 
+id="{{field.formid}}"
+action="{{field.action}}"
+method="{{field.method}}"
+enctype="multipart/form-data"
+accept-charset="utf-8"
+{% if field.css_class %}
+ class="{{field.css_class}}"
+{% endif %}
+>
+    <input type="hidden" name="_charset_" />
+    <input type="hidden" name="__formid__" value="{{field.formid}}"/>
+        {% if field.title %}
+            <legend>{{ _(field.title) }}</legend>
+        {% endif %}
+      {% if field.title %}
+        <li class="section first">
+            <h3>{{ _(field.title) }}</h3>
+            {% if field.description %}
+                <div>{{ _(field.description) }}</div>
+            {% endif %}
+        </li>
+        {% endif %}
+
+    {% for f in field.children %}
+        {{field.renderer(field.widget.item_template, field=f, cstruct=cstruct.get(f.name, null)) }}
+    {% endfor %}
+
+    <div class="actions">
+    {% for button in field.buttons %}
+        <button
+            id="{{field.formid+button.name}}"
+            name="{{button.name}}"
+            type="{{button.type}}"
+            class="btn btnText submit primaryAction
+                {% if button.css_class %}
+                    {{ button.css_class }}
+                {% endif %}
+                "
+            value="{{ _(button.value) }}"
+            {% if button.disabled %}
+            disabled="disabled"
+            {% endif %}
+            >
+        <span>{{ _(button.title) }}</span>
+        </button>
+    {% endfor %}
+    </div>
+
+{% if field.use_ajax %}
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.formid}}',
+     function(oid) {
+         var options = {
+           target: '#' + oid,
+           replaceTarget: true,
+         };
+         var extra_options = {{field.ajax_options}};
+         var name;
+         if (extra_options) {
+           for (name in extra_options) {
+             options[name] = extra_options[name];
+           };
+         };
+         $('#' + oid).ajaxForm(options);
+   });
+</script>
+{% endif %}
+
+</form>

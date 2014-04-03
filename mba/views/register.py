@@ -4,6 +4,7 @@
 
 __author__ = 'sunset'
 
+import time
 
 import deform
 import re
@@ -27,6 +28,7 @@ from kotti import get_settings
 from kotti.security import get_principals
 from kotti.views.users import deferred_email_validator
 from mba import _
+from mba.views.form import FormCustom
 
 # TODO groups for mba
 def _massage_groups_in(appstruct):
@@ -47,24 +49,31 @@ def name_new_validator(node, value):
         raise colander.Invalid(
             node, _(u"A user with that name already exists."))
 
+def confirm_password_validator(node, value):
+    print node
+
+
 class RegisterSchema(colander.Schema):
     name = colander.SchemaNode(
         colander.String(),
-        title=_(u'姓名'),
+        title=_(u'用户名'),
+        description=_(u'登陆用的唯一用户名'),
         validator=colander.All(name_pattern_validator, name_new_validator)
     )
     email = colander.SchemaNode(
         colander.String(),
         title=_(u'邮箱'),
+        description=_(u'请正确填写以便验证'),
         validator=deferred_email_validator,
     )
     password = colander.SchemaNode(
         colander.String(),
         title=_(u'密码'),
-        validator=colander.Length(min=5),
+        validator=colander.Length(min=6),
         widget=deform.widget.PasswordWidget(css_class="form-control"),
         #传递form-control之后不需要在deform_template/下重写password.jinja2, TextInputWidget同理
         )
+
 
 def add_user_success(request, appstruct):
     _massage_groups_in(appstruct)
@@ -81,12 +90,18 @@ def add_user_success(request, appstruct):
         'password. Doing so will activate your account.'
         )
     request.session.flash(success_msg, 'success')
-    return HTTPFound(location=request.application_url, headers=headers)
+    return HTTPFound(location=request.application_url + '/details', headers=headers)
 
 @view_config(route_name='register',renderer='register.jinja2')
 def view_register(context, request):
-    schema = RegisterSchema().bind(request=request)
-    form = deform.Form(schema, buttons=[deform.form.Button(u'register', title=u'注册')] )
+    schema = RegisterSchema(
+            css_class="setup-account",
+            title=u'注册帐号').bind(request=request)
+
+    form = deform.Form(schema, buttons=[
+                deform.form.Button(u'register',
+                                   css_class='btn-primary',
+                                   title=u'注册')] )
     rendered_form = None
 
     if 'register' in request.POST:
@@ -113,9 +128,90 @@ def view_register(context, request):
     #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
     return {'form': jinja2.Markup(rendered_form)}
 
+
+
+
+
+
+class RegisterDetailsSchema(colander.Schema):
+
+
+    this_year = datetime.today().year
+    join_mba_years = [(this_year-i, "%s" % (this_year-i))
+                                            for i in range(30) ]
+    for i in range(30):
+        year = this_year - i
+        join_mba_years.append(("%s" % year,"%s" % year))
+
+    school = colander.SchemaNode(
+        colander.String(),
+        title=_(u'学校名称'),
+    )
+    school_year = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u'入学年份'),
+        widget=deform.widget.SelectWidget(values=join_mba_years,
+                                          css_class='form-control')
+    )
+    real_name = colander.SchemaNode(
+        colander.String(),
+        title=_(u'真实姓名'),
+    )
+    birth_date = colander.SchemaNode(
+        colander.Date(),
+        title=_(u'出生日期'),
+         widget=deform.widget.DateInputWidget(
+                            values=join_mba_years,
+                            css_class='form-control')
+
+    )
+    phone = colander.SchemaNode(
+        colander.String(),
+        title=_(u'联系电话'),
+
+    )
+
+
+
+
+@view_config(route_name='register_details',renderer='register_details.jinja2')
+def view_register_details(context, request):
+    schema = RegisterDetailsSchema(
+            css_class="setup-account-details",
+            title=u'完善信息').bind(request=request)
+    form = FormCustom(schema,
+            template='register_details_form',
+            buttons=[
+                deform.form.Button(u'submit',
+                           css_class='btn-primary',
+                           title=_(u'提交')),
+                deform.form.Button(u'skip',
+                           title=_(u'跳过'))
+    ])
+
+    rendered_form = None
+
+    if 'register' in request.POST:
+        try:
+            appstruct = form.validate(request.POST.items())
+        except ValidationFailure, e:
+            request.session.flash(_(u"There was an error."), 'error')
+            rendered_form = e.render()
+        else:
+            settings = get_settings()
+            
+
+
+    if rendered_form is None:
+        rendered_form = form.render(request.params)
+
+    #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
+    return {'form': jinja2.Markup(rendered_form)}
+
 def includeme(config):
 
     settings = config.get_settings()
 
     config.add_route('register','/register')
+    config.add_route('register_details','/details')
     config.scan(__name__)
