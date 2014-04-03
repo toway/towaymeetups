@@ -27,11 +27,10 @@ class FormCustom(deform.Form):
         readonly_template = kw.pop('readonly_template', None)
         if readonly_template:
             self.widget.readonly_template = readonly_template
-
+        
         self.child_dict = {}
-        for c in self.children:
-            #print 'name test:', c.name
-            self.child_dict[c.name] = c
+        for field in self.children:
+            self.child_dict[field.schema.name] = field
 
     def custom_render(self, name):
         f = self.child_dict[name]
