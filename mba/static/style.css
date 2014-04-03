@@ -84,9 +84,9 @@ body h3 {
 
 .mba-my-resume-cnt{
   border-top: 0px;
-  border-left: 1px solid red;
-  border-right: 1px solid red;
-  border-bottom: 1px solid red;
+  border-left: 1px solid RGB(243,243,243);
+  border-right: 1px solid RGB(243,243,243);
+  border-bottom: 1px solid RGB(243,243,243);
 }
 
 .mba-footer .mba-weixin {
