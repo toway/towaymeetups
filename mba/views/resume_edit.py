@@ -28,7 +28,7 @@ from mba import _
 
 
 
-@view_config(route_name='resume_edit',renderer='resume_edit.jinja2')
+@view_config(route_name='resume_edit',renderer='resume_edit2.jinja2')
 def view_job(request):
     return {
     		"test":"test",

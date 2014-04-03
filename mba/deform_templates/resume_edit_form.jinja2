@@ -1,0 +1,163 @@
+<form id="{{field.formid}}" action="{{field.action}}" method="{{field.method}}"
+      enctype="multipart/form-data" accept-charset="utf-8"
+{% if field.css_class %}
+ class="{{field.css_class}}"
+{% endif %}
+>
+<h3>I am a cutsom form hear</h3>
+  <fieldset class="deformFormFieldset">
+    {% if field.title %}
+        <legend>{{ _(field.title) }}</legend>
+    {% endif %}
+
+    <input type="hidden" name="_charset_" />
+    <input type="hidden" name="__formid__" value="{{field.formid}}"/>
+
+    <ul>
+
+      {% if field.error %}
+        <li class="errorLi">
+            <h3 class="errorMsgLbl">{{ _("There was a problem with your submission") }}</h3>
+            <p class="errorMsg">{{ _("Errors have been highlighted below") }}</p>
+        </li>
+      {% endif %}
+
+      {% if field.title %}
+        <li class="section first">
+            <h3>{{ _(field.title) }}</h3>
+            {% if field.description %}
+                <div>{{ _(field.description) }}</div>
+            {% endif %}
+        </li>
+      {% endif %}
+
+
+
+                                    <table class="table resume-edit table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+		{{field.custom_render('real_name')}}
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+{{field.custom_render('sex')}}
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+{{field.custom_render('birth_date')}}
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+{{field.custom_render('work_years')}}
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+               {{field.custom_render('idenfity_type')}} 
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+{{field.custom_render('idenfity')}}
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+{{field.custom_render('location')}}
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+
+
+	  <div id="test_hear">
+	   HEIEIEIEIEI!
+	 </div>
+
+      <li class="buttons">
+        {% for button in field.buttons %}
+          <button
+              id="{{field.formid+button.name}}"
+              name="{{button.name}}"
+              type="{{button.type}}"
+              class="btnText submit {{button.css_class}}"
+              value="{{ _(button.value) }}"
+              {% if button.disabled %}
+                disabled="disabled"
+              {% endif %}>
+                    {{ _(button.title) }}
+          </button>
+        {% endfor %}
+      </li>
+
+    </ul>
+
+  </fieldset>
+
+{% if field.use_ajax %}
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.formid}}',
+     function(oid) {
+         var options = {
+           target: '#' + oid,
+           replaceTarget: true,
+           success:function () {
+             deform.processCallbacks();
+             deform.focusFirstInput();
+           }
+         };
+         var extra_options = {{field.ajax_options}} || {};
+         $('#' + oid).ajaxForm($.extend(options, extra_options));
+   });
+</script>
+{% endif %}
+
+</form>
