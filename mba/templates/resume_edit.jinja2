@@ -24,6 +24,12 @@
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <style type="text/css">
+/*.table-bordered > tbody > tr > th
+{
+  width:120px;
+  background-color:green;
+  padding-left:5px;
+}*/
 .table > tbody > tr{
   height:36px;
 }
@@ -95,6 +101,27 @@ select.form-control
     background-color: rgb(223,233,243);
 }
 
+.mba-btn-position{
+  float: right;
+}
+
+.mba-resume-part{
+  margin-bottom: 10px;
+  float: right;
+}
+
+table.mba-resume-edit-tbl{
+  margin-bottom: 5px;
+}
+
+table.mba-resume-edit-tbl > tbody > tr > td{
+  padding:3px;
+}
+
+.btn{
+  line-height: 1;
+}
+
     </style>
     <body>
         <!--[if lt IE 7]>
@@ -135,14 +162,594 @@ select.form-control
                             </div>
                         </div>
                         <div id="myTabContent">
+                            <!-- {{form}} -->
+
                             <div class="col-md-9  tab-pane fade  in active" id="resume_info">
                                 <div class="mba-resume-edit-title">
                                     <span>个人信息</span>
                                 </div>
-				{{form}}
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                <label class="radio radio-inline" >
+                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                  <input type="radio" value="女" name="sex">女
+                                                </label>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm">  
+                                                  <option>1980</option>  
+                                                  <option>1981</option>  
+                                                  <option>1982</option>  
+                                                  <option>1983</option>  
+                                                  <option>1984</option>  
+                                                </select>  
+                                                <!-- <select  class="form-control  inline slt-month">  
+                                                  <option>01</option>  
+                                                  <option>02</option>  
+                                                  <option>03</option>  
+                                                  <option>04</option>  
+                                                  <option>05</option>  
+                                                </select>  -->
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option value=0>小于一年</option>  
+                                                  <option value=1>一到三年</option>  
+                                                  <option value=2>三到五年</option>  
+                                                  <option value=3>五年以上</option>  
+                                                </select>  
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker">  
+                                                  <option>身份证</option>  
+                                                  <option>军官证</option>  
+                                                </select>  
+                
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+                                </form>
+                                
+                            </div>
+
+
+                            <div  class="col-md-9  tab-pane  mba-resume-part" id="eudcation">
+                                <div class="mba-resume-edit-title">
+                                    <span>教育经历</span>
+                                </div>
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                <label class="radio radio-inline" >
+                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                  <input type="radio" value="女" name="sex">女
+                                                </label>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm">  
+                                                  <option>1980</option>  
+                                                  <option>1981</option>  
+                                                  <option>1982</option>  
+                                                  <option>1983</option>  
+                                                  <option>1984</option>  
+                                                </select>  
+                                                <!-- <select  class="form-control  inline slt-month">  
+                                                  <option>01</option>  
+                                                  <option>02</option>  
+                                                  <option>03</option>  
+                                                  <option>04</option>  
+                                                  <option>05</option>  
+                                                </select>  -->
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option value=0>小于一年</option>  
+                                                  <option value=1>一到三年</option>  
+                                                  <option value=2>三到五年</option>  
+                                                  <option value=3>五年以上</option>  
+                                                </select>  
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker">  
+                                                  <option>身份证</option>  
+                                                  <option>军官证</option>  
+                                                </select>  
+                
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
+                            </div>
+
+
+
+                            <div  class="col-md-9  tab-pane  mba-resume-part" id="experience">
+                                <div class="mba-resume-edit-title">
+                                    <span>工作经历</span>
+                                </div>
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                <label class="radio radio-inline" >
+                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                  <input type="radio" value="女" name="sex">女
+                                                </label>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm">  
+                                                  <option>1980</option>  
+                                                  <option>1981</option>  
+                                                  <option>1982</option>  
+                                                  <option>1983</option>  
+                                                  <option>1984</option>  
+                                                </select>  
+                                                <!-- <select  class="form-control  inline slt-month">  
+                                                  <option>01</option>  
+                                                  <option>02</option>  
+                                                  <option>03</option>  
+                                                  <option>04</option>  
+                                                  <option>05</option>  
+                                                </select>  -->
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option value=0>小于一年</option>  
+                                                  <option value=1>一到三年</option>  
+                                                  <option value=2>三到五年</option>  
+                                                  <option value=3>五年以上</option>  
+                                                </select>  
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker">  
+                                                  <option>身份证</option>  
+                                                  <option>军官证</option>  
+                                                </select>  
+                
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
                             </div>
 
                             
+
+                            <div  class="col-md-9  tab-pane  mba-resume-part" id="yixiang">
+                                <div class="mba-resume-edit-title">
+                                    <span>求职意向</span>
+                                </div>
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                <label class="radio radio-inline" >
+                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                  <input type="radio" value="女" name="sex">女
+                                                </label>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm">  
+                                                  <option>1980</option>  
+                                                  <option>1981</option>  
+                                                  <option>1982</option>  
+                                                  <option>1983</option>  
+                                                  <option>1984</option>  
+                                                </select>  
+                                                <!-- <select  class="form-control  inline slt-month">  
+                                                  <option>01</option>  
+                                                  <option>02</option>  
+                                                  <option>03</option>  
+                                                  <option>04</option>  
+                                                  <option>05</option>  
+                                                </select>  -->
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option value=0>小于一年</option>  
+                                                  <option value=1>一到三年</option>  
+                                                  <option value=2>三到五年</option>  
+                                                  <option value=3>五年以上</option>  
+                                                </select>  
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker">  
+                                                  <option>身份证</option>  
+                                                  <option>军官证</option>  
+                                                </select>  
+                
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
+                            </div>
+
+
+                             <div  class="col-md-9  tab-pane  mba-resume-part" id="language">
+                                <div class="mba-resume-edit-title">
+                                    <span>语言能力</span>
+                                </div>
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                <label class="radio radio-inline" >
+                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                  <input type="radio" value="女" name="sex">女
+                                                </label>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm">  
+                                                  <option>1980</option>  
+                                                  <option>1981</option>  
+                                                  <option>1982</option>  
+                                                  <option>1983</option>  
+                                                  <option>1984</option>  
+                                                </select>  
+                                                <!-- <select  class="form-control  inline slt-month">  
+                                                  <option>01</option>  
+                                                  <option>02</option>  
+                                                  <option>03</option>  
+                                                  <option>04</option>  
+                                                  <option>05</option>  
+                                                </select>  -->
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option value=0>小于一年</option>  
+                                                  <option value=1>一到三年</option>  
+                                                  <option value=2>三到五年</option>  
+                                                  <option value=3>五年以上</option>  
+                                                </select>  
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker">  
+                                                  <option>身份证</option>  
+                                                  <option>军官证</option>  
+                                                </select>  
+                
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+                                              </td>
+                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <td>
+                                                <select  class="form-control selectpicker">  
+                                                  <option>人民币</option>  
+                                                  <option>美元</option>  
+                                                </select> 
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker slt-xs inline">  
+                                                  <option>大陆</option>  
+                                                  <option>美国</option>  
+                                                </select> 
+                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td>
+                                            </tr>
+
+
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
+                            </div>
+
+
+
+
+
+
                         </div>
                     <!-- </div> -->
                 </div>
@@ -153,6 +760,12 @@ select.form-control
 
 
         {% include "footer.jinja2" %}
+
+
+
+
+
+
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
