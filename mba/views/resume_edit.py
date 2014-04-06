@@ -28,11 +28,11 @@ from mba import _
 
 
 
-@view_config(route_name='resume_edit',renderer='resume_edit2.jinja2')
+@view_config(route_name='resume_edit',renderer='resume_edit.jinja2')
 def view_job(request):
     return {
     		"test":"test",
-    		"resumes":	[{"date": "2013-3-2", "name":"UI设计师"},{"date": "2013-3-2", "name":"UI设计师"}]
+    			"resumes":	[{"date": "2013-3-2", "name":"UI设计师"},{"date": "2013-3-2", "name":"UI设计师"}]
     	   }
 
 def includeme(config):
