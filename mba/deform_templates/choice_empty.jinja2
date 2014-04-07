@@ -1,0 +1,17 @@
+<input type="hidden" name="__start__" value="{{ field.name }}:sequence"/>
+    {% for value, title in field.widget.values %}
+      <input
+        {% if value in cstruct %}
+            checked="True"
+        {% endif %}
+        {% if field.widget.css_class %}
+            class="{{ field.widget.css_class }}"
+        {% endif %}
+        type="checkbox"
+        name="checkbox"
+        value="{{ value }}"
+        id="{{ field.oid }}-{{ loop.index0 }}"/>
+      <label for="{{ field.oid }}-{{ loop.index0 }}">{{ title }}</label>
+    {% endfor %}
+<input type="hidden" name="__end__" value="{{ field.name }}:sequence"/>
+

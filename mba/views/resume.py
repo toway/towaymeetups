@@ -25,6 +25,7 @@ from kotti.security import get_principals
 from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
+from kotti.security import get_user
 
 from form import FormCustom
 from mba import resources
@@ -91,6 +92,11 @@ def add_resume(context, request):
         rendered_form = form.render(request.params)
     return {'form': jinja2.Markup(rendered_form)}
 
+def choice_empty_widget(**kw):
+    widget = deform.widget.CheckboxChoiceWidget(**kw)
+    widget.template = 'choice_empty'
+    return widget
+
 class PersonInfo(colander.Schema):
     id_types = (
                 ('',u'选择'),
@@ -111,7 +117,7 @@ class PersonInfo(colander.Schema):
     sex = colander.SchemaNode(
             colander.String(),
             default='boy',
-            widget = deform.widget.CheckboxChoiceWidget(
+            widget = choice_empty_widget(
                 category="structural",
                 values=sex_choice)
             )
@@ -156,20 +162,68 @@ class PersonInfo(colander.Schema):
             )
     salary = colander.SchemaNode(
             colander.Integer(),
-            widget = deform.widget.TextInputWidget(category='structural')
+            widget = deform.widget.TextInputWidget(
+                css_class="form-control inline input-sm input-middle-width",
+                category='structural'
+                )
+            )
+    email = colander.SchemaNode(
+        colander.String(),
+        widget = deform.widget.TextInputWidget(
+            category='structural',
+            css_class="form-control  input-sm",
+            size='20',
+        ),
+        validator=colander.Email()
+    )
+    phone = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(
+                category='structural',
+                css_class='form-control inline input-sm input-middle-width',
+                size='22'
+                )
+            )
+    company_phone = colander.SchemaNode(
+            colander.String(),
+            widget = deform.widget.TextInputWidget(
+                category='structural',
+                css_class='form-control inline input-sm input-middle-width',
+                size='22'
+                )
             )
 
-@view_config(route_name='resume_edit2', renderer='resume_edit.jinja2')
+
+@view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
 def resume_edit(context, request):
-    schema = PersonInfo().bind(request=request)
-    form = FormCustom(schema, name='resume_info',
-            template='resume_edit_form',
-            buttons=(u'提交',))
-    rendered_form = None
     jqueryui.need()
+
+    user = get_user(request)
+    print user
+
+    forms = {}
+    schema = PersonInfo().bind(request=request)
+    person_form = FormCustom(schema, name='resume_info',
+            template='resume_edit_form', formid='person_form',
+            buttons=( deform.form.Button(u'submit',title=u'保存',css_class='btn btn-primary mba-btn-position'),))
+    forms['person_form'] = person_form
+
+    rendered_form = None
+    if 'submit' in request.POST:
+        posted_formid = request.POST['__formid__']
+        this_form = forms[posted_formid]
+        try:
+            controls = request.POST.items()
+            results = this_form.validate(controls)
+            print results
+        except:
+            pass
+
     if rendered_form is None:
-        rendered_form = form.render(request.params)
-    return {'form': jinja2.Markup(rendered_form)}
+        rendered_form = person_form.render(request.params)
+    return {
+            'person_form': jinja2.Markup(rendered_form)
+            }
 
 def includeme(config):
     settings = config.get_settings()

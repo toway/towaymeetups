@@ -4,7 +4,6 @@
  class="{{field.css_class}}"
 {% endif %}
 >
-<h3>I am a cutsom form hear</h3>
   <fieldset class="deformFormFieldset">
     {% if field.title %}
         <legend>{{ _(field.title) }}</legend>
@@ -12,8 +11,6 @@
 
     <input type="hidden" name="_charset_" />
     <input type="hidden" name="__formid__" value="{{field.formid}}"/>
-
-    <ul>
 
       {% if field.error %}
         <li class="errorLi">
@@ -75,20 +72,18 @@
                                               </td>
                                               <th  class="mba-resume-lbl">Email :</th>
                                               <td>
-                                                <input type="email" class="form-control  input-sm" value="1018559223@qq.com" name="name" size="20">
+	{{field.custom_render('email')}}
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl">目前年薪 :</th>
                                               <td class="cols-left">
-                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+{{field.custom_render('salary')}}
                                               </td>
                                               <th  class="mba-resume-lbl">币种 :</th>
                                               <td>
-                                                <select  class="form-control selectpicker">  
-                                                  <option>人民币</option>  
-                                                  <option>美元</option>  
+                                                  人民币
                                                 </select> 
                                               </td>
                                             </tr>
@@ -97,18 +92,11 @@
                                              <tr>
                                               <th class="mba-resume-lbl">手机号码 :</th>
                                               <td class="cols-left">
-                                                <select  class="form-control selectpicker slt-xs inline">  
-                                                  <option>大陆</option>  
-                                                  <option>美国</option>  
-                                                </select> 
-                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+		{{field.custom_render('phone')}}
                                               </td>
                                               <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
-                                                <select  class="form-control selectpicker">  
-                                                  <option>人民币</option>  
-                                                  <option>美元</option>  
-                                                </select> 
+		{{field.custom_render('company_phone')}}
                                               </td>
                                             </tr>
 
@@ -116,12 +104,6 @@
                                             </tbody>
                                     </table>
 
-
-	  <div id="test_hear">
-	   HEIEIEIEIEI!
-	 </div>
-
-      <li class="buttons">
         {% for button in field.buttons %}
           <button
               id="{{field.formid+button.name}}"
@@ -135,7 +117,6 @@
                     {{ _(button.title) }}
           </button>
         {% endfor %}
-      </li>
 
     </ul>
 
