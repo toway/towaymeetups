@@ -99,14 +99,14 @@ def choice_empty_widget(**kw):
 
 class PersonInfo(colander.Schema):
     id_types = (
-                ('',u'选择'),
-                ('identify',u'身份证'),
-                ('huzhao',u'护照'),
-                ('jingguan',u'警官证')
+                (-1,u'选择'),
+                (0,u'身份证'),
+                (1,u'护照'),
+                (2,u'警官证')
             )
     sex_choice = (
-            ('boy', u'男'),
-            ('girl', u'女'),
+            (0, u'男'),
+            (1, u'女'),
             )
     real_name = colander.SchemaNode(
             colander.String(),
@@ -115,8 +115,8 @@ class PersonInfo(colander.Schema):
             widget = deform.widget.TextInputWidget(category='structural')
             )
     sex = colander.SchemaNode(
-            colander.String(),
-            default='boy',
+            colander.Integer(),
+            default=0,
             widget = choice_empty_widget(
                 category="structural",
                 values=sex_choice)
@@ -128,11 +128,11 @@ class PersonInfo(colander.Schema):
                 category='structural'
                 )
             )
-    idenfity_type = colander.SchemaNode(
+    identify_type = colander.SchemaNode(
             colander.Integer(),
             widget = deform.widget.SelectWidget(category='structural', values=id_types)
             )
-    idenfity = colander.SchemaNode(
+    identify = colander.SchemaNode(
             colander.String(),
             widget = deform.widget.TextInputWidget(
                 size='20',
@@ -193,16 +193,31 @@ class PersonInfo(colander.Schema):
                 )
             )
 
+def user2person(user):
+    person = {}
+    if user:
+        user = DBSession.query(resources.Student)
+        person['real_name'] = user.real_name
+        person['birth_date'] = user.birth_date
+        person['work_years'] = user.work_years
+        person['identify'] = user.identify
+        person['identify_type'] = 0
+        person['location'] = user.residence
+        person['salary'] = user.salary
+        person['email'] = user.email
+        person['phone'] = user.phone
+        person['company_phone'] = user.company_phone
+    return person
 
 @view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
 def resume_edit(context, request):
     jqueryui.need()
 
     user = get_user(request)
-    print user
+    person_info = user2person(user)
 
     forms = {}
-    schema = PersonInfo().bind(request=request)
+    schema = PersonInfo().bind(**person_info)
     person_form = FormCustom(schema, name='resume_info',
             template='resume_edit_form', formid='person_form',
             buttons=( deform.form.Button(u'submit',title=u'保存',css_class='btn btn-primary mba-btn-position'),))
