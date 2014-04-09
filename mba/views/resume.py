@@ -26,6 +26,7 @@ from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
 from kotti.security import get_user
+from kotti import DBSession
 
 from form import FormCustom
 from mba import resources
@@ -196,7 +197,7 @@ class PersonInfo(colander.Schema):
 def user2person(user):
     person = {}
     if user:
-        user = DBSession.query(resources.Student)
+        #user = DBSession.query(resources.Student).get(user.id)
         person['real_name'] = user.real_name
         person['birth_date'] = user.birth_date
         person['work_years'] = user.work_years
@@ -217,8 +218,9 @@ def resume_edit(context, request):
     person_info = user2person(user)
 
     forms = {}
-    schema = PersonInfo().bind(**person_info)
-    person_form = FormCustom(schema, name='resume_info',
+    schema = PersonInfo().bind(request=request)
+    #Warning cannot user name attribute!!!
+    person_form = FormCustom(schema, 
             template='resume_edit_form', formid='person_form',
             buttons=( deform.form.Button(u'submit',title=u'保存',css_class='btn btn-primary mba-btn-position'),))
     forms['person_form'] = person_form
@@ -233,9 +235,8 @@ def resume_edit(context, request):
             print results
         except:
             pass
-
     if rendered_form is None:
-        rendered_form = person_form.render(request.params)
+        rendered_form = person_form.render(person_info)
     return {
             'person_form': jinja2.Markup(rendered_form)
             }

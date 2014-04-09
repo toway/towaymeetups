@@ -30,11 +30,12 @@ class FormCustom(deform.Form):
         
         self.child_dict = {}
         for field in self.children:
-            self.child_dict[field.schema.name] = field
+            self.child_dict[field.name] = field
 
     def custom_render(self, name):
         f = self.child_dict[name]
         cstruct = self.cstruct
+        print f.name, cstruct.get(f.name, colander.null)
         return self.renderer(self.widget.item_template, field=f
                 , cstruct=cstruct.get(f.name, colander.null))
 

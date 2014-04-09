@@ -30,7 +30,7 @@ from kotti.util import DontCache
 from kotti.util import camel_case_to_name
 from kotti.security import Principals, get_principals
 
-from mba.resources import MbaUser
+from mba.resources import MbaUser, Student
 
 
 '''
@@ -72,7 +72,8 @@ class Company(MbaUser):
 '''
 
 class MbaPrincipals(Principals):
-    factory = MbaUser
+    #factory = MbaUser
+    factory = Student
 
 
 def principals_factory():

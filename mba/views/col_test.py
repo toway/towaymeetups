@@ -278,7 +278,7 @@ def formtest_view(context, request):
     counter = itertools.count()
     class Schema1(colander.Schema):
         name1=colander.SchemaNode(colander.String())
-    schema1 = Schema1()
+    schema1 = Schema1(name1='hahaha').bind(request=request)
     form1 = FormCustom(schema1, template='form1', use_ajax=True, ajax_options=options
             , buttons=('submit',),formid="form1", counter=counter)
     
