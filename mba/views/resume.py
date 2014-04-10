@@ -246,10 +246,12 @@ def resume_edit3(context, request):
     jquery.need()
     jqueryui.need()
     jquery_form.need()
-
+    #>>> from js.deform import deform_js
+    #>>> deform_js.need()
     user = get_user(request)
     person_info = user2person(user)
     test_loop = range(5)
+
     return {
             'person_info':person_info,
             'test_loop':test_loop,
