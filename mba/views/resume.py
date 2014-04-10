@@ -242,15 +242,17 @@ def resume_edit(context, request):
             }
 
 @view_config(route_name='resume_edit3', renderer='resume_edit3.jinja2')
-def resume_edit2(context, request):
+def resume_edit3(context, request):
     jquery.need()
     jqueryui.need()
     jquery_form.need()
 
     user = get_user(request)
     person_info = user2person(user)
+    test_loop = range(5)
     return {
             'person_info':person_info,
+            'test_loop':test_loop,
             }
 
 def includeme(config):
