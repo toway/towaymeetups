@@ -241,8 +241,21 @@ def resume_edit(context, request):
             'person_form': jinja2.Markup(rendered_form)
             }
 
+@view_config(route_name='resume_edit3', renderer='resume_edit3.jinja2')
+def resume_edit2(context, request):
+    jquery.need()
+    jqueryui.need()
+    jquery_form.need()
+
+    user = get_user(request)
+    person_info = user2person(user)
+    return {
+            'person_info':person_info,
+            }
+
 def includeme(config):
     settings = config.get_settings()
     config.add_route('add_resume','/add_resume')
     config.add_route('resume_edit2','/resume_edit2')
+    config.add_route('resume_edit3','/resume_edit3')
     config.scan(__name__)

@@ -259,6 +259,22 @@ def retail_view(context, request):
             'field':form,
             }
 
+@view_config(route_name="retail2", renderer="retail2.jinja2")
+def retail2_view(context, request):
+    schema = Person().bind(request=request)
+    cstruct = schema.serialize()
+    rendered_form = None
+    jquery.need()
+    jquery_form.need()
+    if 'Test' in request.POST:
+        # hear is ajax test
+        print request.POST.items()
+        return Response(
+                '<div>hurr</div>',
+                headers=[('X-Relocate', '/'), ('Content-Type','text/html')]
+                )
+    return cstruct
+
 @view_config(route_name='formtest', renderer='col_test.jinja2')
 def formtest_view(context, request):
 
@@ -351,6 +367,7 @@ def includeme(config):
     config.add_route('rich','/rich')
     config.add_route('ajax','/ajax')
     config.add_route('retail','/retail')
+    config.add_route('retail2','/retail2')
     config.add_route('formtest','/formtest')
     config.add_route('formtest2','/formtest2')
     config.add_route('friend','/friend')
