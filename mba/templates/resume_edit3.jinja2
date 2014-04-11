@@ -178,37 +178,41 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                           <tr>
                                               <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
                                               <td class="cols-left col-md-3" >
-                                                <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20">
+												  <input type="text" class="form-control  input-sm" value="{{person_info.real_name}}" name="name" size="20">
                                               </td>
                                               <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
                                               <td class="col-md-5">
 
-                                                <label class="radio-inline" >
-                                                  <input type="radio" checked="checked" value="男" name="sex">男
+                                                  <input id="sex_0" type="radio" value="0" name="sex">男
+                                                <label class="radio-inline" for="sex_0">
                                                 </label>
-                                                <label class="radio-inline">
-                                                  <input type="radio" value="女" name="sex">女
+                                                  <input id="sex_1" type="radio" value="1" name="sex">女
+                                                <label class="radio-inline" for="sex_1">
                                                 </label>
+<script type="text/javascript">
+    deform.addCallback(
+            'sex',
+            function (oid) {
+			rid = oid + '_' + {{person_info.sex}};
+                $('#'+rid).attr('checked', 'checked');
+            }
+    );
+</script>
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl required">出生日期 :</th>
                                               <td class="cols-left">
-                                                <select  class="form-control selectpicker inline slt-year select-sm">  
-                                                  <option>1980</option>  
-                                                  <option>1981</option>  
-                                                  <option>1982</option>  
-                                                  <option>1983</option>  
-                                                  <option>1984</option>  
-                                                </select>  
-                                                <!-- <select  class="form-control  inline slt-month">  
-                                                  <option>01</option>  
-                                                  <option>02</option>  
-                                                  <option>03</option>  
-                                                  <option>04</option>  
-                                                  <option>05</option>  
-                                                </select>  -->
+													<input type='text' name='birth_date' value='{{person_info.birth_date}}' id="birth_date"/>
+<script type="text/javascript">
+    deform.addCallback(
+            'birth_date',
+            function (oid) {
+                $('#' + oid).datepicker({dateFormat:'yy-mm-dd'});
+            }
+    );
+</script>
                                               </td>
                                               <th  class="mba-resume-lbl  required">工作年限 :</th>
                                               <td>

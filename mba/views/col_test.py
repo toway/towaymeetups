@@ -137,6 +137,10 @@ def deferred_category_widget(node, kw):
     return deform.widget.RadioChoiceWidget(values=categories)
 
 class BlogPostSchema(colander.Schema):
+    sex_choice = (
+            (0, u'男'),
+            (1, u'女'),
+            )
     title = colander.SchemaNode(
         colander.String(),
         title = 'Title',
@@ -144,6 +148,13 @@ class BlogPostSchema(colander.Schema):
         validator = colander.Length(min=5, max=100),
         widget = deform.widget.TextInputWidget(),
         )
+    sex = colander.SchemaNode(
+            colander.Integer(),
+            title = 'Sex',
+            default=1,
+            widget = deform.widget.RadioChoiceWidget(values = sex_choice),
+            )
+
     date = colander.SchemaNode(
         colander.Date(),
         title = 'Date',

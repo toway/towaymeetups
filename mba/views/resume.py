@@ -19,6 +19,8 @@ from pyramid.response import Response
 from js.jquery import jquery
 from js.jqueryui import jqueryui
 from js.jquery_form import jquery_form
+from js.deform import deform as jsdeform
+#from js.jquery_timepicker_addon import jquery_timepicker_addon
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -199,7 +201,7 @@ def user2person(user):
     if user:
         #user = DBSession.query(resources.Student).get(user.id)
         person['real_name'] = user.real_name
-        person['birth_date'] = user.birth_date
+        person['birth_date'] = user.birth_date or '1990-1-1'
         person['work_years'] = user.work_years
         person['identify'] = user.identify
         person['identify_type'] = 0
@@ -213,9 +215,6 @@ def user2person(user):
 @view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
 def resume_edit(context, request):
     jqueryui.need()
-
-    user = get_user(request)
-    person_info = user2person(user)
 
     forms = {}
     schema = PersonInfo().bind(request=request)
@@ -236,7 +235,7 @@ def resume_edit(context, request):
         except:
             pass
     if rendered_form is None:
-        rendered_form = person_form.render(person_info)
+        rendered_form = person_form.render(request.params)
     return {
             'person_form': jinja2.Markup(rendered_form)
             }
@@ -246,16 +245,24 @@ def resume_edit3(context, request):
     jquery.need()
     jqueryui.need()
     jquery_form.need()
-    #>>> from js.deform import deform_js
-    #>>> deform_js.need()
+    jsdeform.need()
+    #jquery_timepicker_addon.need()
+
     user = get_user(request)
     person_info = user2person(user)
     test_loop = range(5)
 
     return {
+            'datetimepicker': {
+                None:{
+                    'js':('scripts/jquery-1.7.2.min.js',
+                          'scripts/jquery-ui-timepicker-addon.js'),
+                    'css':'css/jquery-ui-timepicker-addon.css',
+                    },
+            },
             'person_info':person_info,
             'test_loop':test_loop,
-            }
+    }
 
 def includeme(config):
     settings = config.get_settings()
