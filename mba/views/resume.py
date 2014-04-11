@@ -19,8 +19,9 @@ from pyramid.response import Response
 from js.jquery import jquery
 from js.jqueryui import jqueryui
 from js.jquery_form import jquery_form
-from js.deform import deform as jsdeform
-#from js.jquery_timepicker_addon import jquery_timepicker_addon
+from js.deform import deform_js
+from js.jquery_timepicker_addon import timepicker
+from js.deform_bootstrap import ui_bootstrap_theme
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -200,16 +201,17 @@ def user2person(user):
     person = {}
     if user:
         #user = DBSession.query(resources.Student).get(user.id)
-        person['real_name'] = user.real_name
+        person['real_name'] = user.real_name or user.name
         person['birth_date'] = user.birth_date or '1990-1-1'
-        person['work_years'] = user.work_years
-        person['identify'] = user.identify
+        person['work_years'] = user.work_years or 0
+        person['identify'] = user.identify or ""
         person['identify_type'] = 0
-        person['location'] = user.residence
-        person['salary'] = user.salary
+        person['location'] = user.residence or ""
+        person['salary'] = user.salary or 1000
         person['email'] = user.email
-        person['phone'] = user.phone
-        person['company_phone'] = user.company_phone
+        person['phone'] = user.phone or ""
+        person['company_phone'] = user.company_phone or ""
+        person['sex'] = user.sex or 0
     return person
 
 @view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
@@ -245,23 +247,15 @@ def resume_edit3(context, request):
     jquery.need()
     jqueryui.need()
     jquery_form.need()
-    jsdeform.need()
-    #jquery_timepicker_addon.need()
+    #deform_js.need()
+    timepicker.need()
+    ui_bootstrap_theme.need()
 
     user = get_user(request)
     person_info = user2person(user)
-    test_loop = range(5)
 
     return {
-            'datetimepicker': {
-                None:{
-                    'js':('scripts/jquery-1.7.2.min.js',
-                          'scripts/jquery-ui-timepicker-addon.js'),
-                    'css':'css/jquery-ui-timepicker-addon.css',
-                    },
-            },
             'person_info':person_info,
-            'test_loop':test_loop,
     }
 
 def includeme(config):

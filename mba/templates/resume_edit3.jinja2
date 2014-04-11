@@ -129,6 +129,65 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
     </style>
     <body>
+    <script type="javascript">
+$(document).ready(function(){
+    mbaForm.load();
+});
+
+var mbaForm_loaded = false;
+
+var mbaForm  = {
+    callbacks: [],
+
+    addCallback: function (oid, callback) {
+        mbaForm.callbacks.push([oid, callback]);
+    },
+
+    load: function() {
+      $(function() {
+        if (!mbaForm_loaded) {
+            mbaForm.processCallbacks();
+            mbaForm.focusFirstInput();
+            mbaForm_loaded = true;
+	    alert('ok hear');
+      }});
+    },
+            
+    processCallbacks: function (ajax_obj) {
+	arg_len = arguments.length;
+        $(mbaForm.callbacks).each(function(num, item) {
+            var oid = item[0];
+            var callback = item[1];
+	    if((arg_len != 0) || (oid in ajax_obj) ) {
+            	callback(oid, ajax_obj[oid]);
+	    } else {
+            	callback(oid, null);
+	    }
+            }
+        );
+    },
+    focusFirstInput: function (el) {
+        el = el || document.body;
+        var input = $(el).find(':input')
+          .filter('[id ^= deformField]')
+          .filter('[type != hidden]')
+          .first();
+        if (input) {
+            var raw = input.get(0);
+            if (raw) {
+                if (raw.type === 'text' || raw.type === 'file' || 
+                    raw.type == 'password' || raw.type == 'text' || 
+                    raw.type == 'textarea') { 
+                    if (raw.className != "hasDatepicker") {
+                        input.focus();
+                    }
+                }
+            }
+        }
+    }
+
+};
+    </script>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -172,7 +231,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>个人信息</span>
                                 </div>
-                                <form name="person_info" method="POST" action="resume_edit">
+                                <form name="person_info" method="POST" action="resume_edit3">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
@@ -190,10 +249,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                 <label class="radio-inline" for="sex_1">
                                                 </label>
 <script type="text/javascript">
-    deform.addCallback(
+    mbaForm.addCallback(
             'sex',
-            function (oid) {
-			rid = oid + '_' + {{person_info.sex}};
+            function (oid, arg) {
+	    	value = arg || {{person_info.sex}};
+		rid = oid + '_' + value;
                 $('#'+rid).attr('checked', 'checked');
             }
     );
@@ -206,7 +266,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <td class="cols-left">
 													<input type='text' name='birth_date' value='{{person_info.birth_date}}' id="birth_date"/>
 <script type="text/javascript">
-    deform.addCallback(
+    mbaForm.addCallback(
             'birth_date',
             function (oid) {
                 $('#' + oid).datepicker({dateFormat:'yy-mm-dd'});
@@ -216,52 +276,65 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               </td>
                                               <th  class="mba-resume-lbl  required">工作年限 :</th>
                                               <td>
-                                                <select  class="form-control selectpicker">  
+                                                <select id="work_years" name="work_years" class="form-control selectpicker">  
                                                   <option value=0>小于一年</option>  
                                                   <option value=1>一到三年</option>  
                                                   <option value=2>三到五年</option>  
                                                   <option value=3>五年以上</option>  
                                                 </select>  
+<script type="text/javascript">
+    mbaForm.addCallback(
+            'work_years',
+            function (oid) {
+	    $('#' + oid).val("{{person_info.work_years}}");
+            }
+    );
+</script>
                                               </td>
                                             </tr>
 
                                             <tr>
                                               <th class="mba-resume-lbl required">证件类型 :</th>
                                               <td class="cols-left">
-                                                <select  class="form-control selectpicker">  
-                                                  <option>身份证</option>  
-                                                  <option>军官证</option>  
-                                                </select>  
+                                                <select id="identify_type" name="identify_type"  class="form-control selectpicker">  
+                                                  <option value=0>身份证</option>  
+                                                  <option value=1>军官证</option>  
+                                                </select>
+<script type="text/javascript">
+    mbaForm.addCallback(
+            'identify_type',
+            function (oid) {
+	    $('#' + oid).val("{{person_info.identify_type}}");
+            }
+    );
+</script>
                 
                                               </td>
                                               <th  class="mba-resume-lbl">证件号 :</th>
                                               <td>
-                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
+						      <input type="text" class="form-control  input-sm" value="{{person_info.identify}}" id="identify" name="identify" size="20">
                                               </td>
                                             </tr>
 
                                             <tr>
                                               <th class="mba-resume-lbl required">居住地 :</th>
                                               <td class="cols-left">
-                                                <input type="text" class="form-control  input-sm" value="深圳市南山区科技园" name="name" size="20">
+						      <input type="text" class="form-control  input-sm" value="{{person_info.location}}" name="location" id="location" size="20">
                                               </td>
                                               <th  class="mba-resume-lbl">Email :</th>
                                               <td>
-												  <input type="email" class="form-control  input-sm" value="{{person_info.email}}" name="name" size="20">
+<input type="email" class="form-control  input-sm" value="{{person_info.email}}" name="name" size="20">
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl">目前年薪 :</th>
                                               <td class="cols-left">
-                                                <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
+<input type="number" class="form-control inline input-sm input-middle-width"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/年</label>
                                               </td>
                                               <th  class="mba-resume-lbl">币种 :</th>
                                               <td>
-                                                <select  class="form-control selectpicker">  
-                                                  <option>人民币</option>  
-                                                  <option>美元</option>  
-                                                </select> 
+                                                  人民币
                                               </td>
                                             </tr>
 
@@ -269,23 +342,47 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                              <tr>
                                               <th class="mba-resume-lbl">手机号码 :</th>
                                               <td class="cols-left">
-                                                <select  class="form-control selectpicker slt-xs inline less-pad">  
-                                                  <option>大陆</option>  
-                                                  <option>美国</option>  
-                                                </select> 
-                                                <input type="phone" class="form-control inline input-sm input-middle-width"  value="13760107598" name="telephoe" size="22">
+					<input type="phone" class="form-control inline input-sm input-middle-width" 
+						      value="{{person_info.phone}}" name="telephoe" size="22">
                                               </td>
                                               <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
-                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                <input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机"
+		 name="company_phone" size="20">
                                               </td>
                                             </tr>
 
 
                                             </tbody>
                                     </table>
-                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                    <button name="person_save" class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
+<script type="text/javascript">
+  mbaForm.addCallback(
+     'person_info',
+     function(oid) {
+         var options = {
+           target: '#' + oid,
+           replaceTarget: true,
+           success:function () {
+             mbaForm.processCallbacks();
+             mbaForm.focusFirstInput();
+           }
+         };
+         var extra_options = {success:
+        function (rText, sText, xhr, form) {
+            var loc = xhr.getResponseHeader('X-Relocate');
+            if (loc) {
+                document.location = loc;
+            }
+        }
+    } || {};
+         $('#' + oid).ajaxForm($.extend(options, extra_options)).submit(function(){
+		alert('hear');
+		return false;
+		});
+   });
+</script>
                                 
                             </div>
 

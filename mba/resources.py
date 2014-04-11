@@ -118,6 +118,7 @@ class MbaUser(Base):
     groups = Column(JsonType(), nullable=False)
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
+    sex = Column(Integer())
     type = Column(String(50), nullable=False)
     
     _interests = relationship("UserInterest", backref='user')
