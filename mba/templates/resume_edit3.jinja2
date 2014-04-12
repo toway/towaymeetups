@@ -172,7 +172,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>个人信息</span>
                                 </div>
-                                <form name="person_info" method="POST" action="resume_edit3">
+                                <form id="person_info" name="person_info" method="POST" action="resume_edit3">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
@@ -317,21 +317,23 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
                                             </tbody>
                                     </table>
-                                    <button name="person_save" class="btn btn-primary mba-btn-position">保存</button>
+				    <input type="hidden" name="person_info" value="person_info"/>
+                                    <button type="button" id="person_save" name="person_save" class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
 <script type="text/javascript">
 (function (){
 	 var options = {
-	   target: '#person_info',
-	   success:function (person_info) {
-		 mbaForm.processCallbacks();
-		 mbaForm.focusFirstInput();
+	   iframe: true,
+	   success:function (rText, statusText, xhr, $form) {
+	   	person_info = jQuery.parseJSON(rText);
+		alert(person_info['work_years']);
+		mbaForm.processCallbacks();
+		mbaForm.focusFirstInput();
 	   }
 	 };
-	 $('#person_info').ajaxForm(options).submit(function(){
-		 document.write('aaa');
-		return false;
-	 });
+        $('#person_save').click(function() {
+            $('#person_info').ajaxSubmit(options);
+        });
 })();
 </script>
                                 

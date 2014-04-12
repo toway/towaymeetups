@@ -243,7 +243,11 @@ def resume_edit(context, request):
     return {
             'person_form': jinja2.Markup(rendered_form)
             }
-
+@view_config(route_name='resume_edit3',
+             request_method='GET',
+             accept='*/json',
+             renderer='json',
+             xhr=True)
 @view_config(route_name='resume_edit3', renderer='resume_edit3.jinja2')
 def resume_edit3(context, request):
     jquery.need()
@@ -257,12 +261,9 @@ def resume_edit3(context, request):
     user = get_user(request)
     person_info = user2person(user)
 
-    if "person_save" in request.POST:
+    if "person_info" in request.POST:
         person_info['work_years'] = 1
-        return Response(
-                json.dumps(person_info),
-                headers = [('Content-Type','application/json')]
-            )
+        return Response(json.dumps(person_info))
 
     return {
             'person_info':person_info,
