@@ -17,6 +17,7 @@ var mbaForm  = {
             mbaForm.processCallbacks();
             mbaForm.focusFirstInput();
             mbaForm_loaded = true;
+	    alert('ok hear');
       }});
     },
             
@@ -32,6 +33,25 @@ var mbaForm  = {
 	    }
             }
         );
+    },
+    focusFirstInput: function (el) {
+        el = el || document.body;
+        var input = $(el).find(':input')
+          .filter('[id ^= deformField]')
+          .filter('[type != hidden]')
+          .first();
+        if (input) {
+            var raw = input.get(0);
+            if (raw) {
+                if (raw.type === 'text' || raw.type === 'file' || 
+                    raw.type == 'password' || raw.type == 'text' || 
+                    raw.type == 'textarea') { 
+                    if (raw.className != "hasDatepicker") {
+                        input.focus();
+                    }
+                }
+            }
+        }
     }
 
 };

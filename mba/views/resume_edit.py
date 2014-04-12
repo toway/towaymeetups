@@ -24,12 +24,23 @@ from kotti import get_settings
 from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
+from js.jquery import jquery
+from js.jqueryui import jqueryui
+from js.jquery_form import jquery_form
+from js.deform import deform_js
+from js.jquery_timepicker_addon import timepicker
+from js.deform_bootstrap import ui_bootstrap_theme
+
 from mba import _
-
-
 
 @view_config(route_name='resume_edit',renderer='resume_edit.jinja2')
 def view_job(request):
+    jquery.need()
+    jqueryui.need()
+    jquery_form.need()
+    #deform_js.need()
+    timepicker.need()
+    ui_bootstrap_theme.need()
     return {
     		"test":"test",
     			"education":	[
