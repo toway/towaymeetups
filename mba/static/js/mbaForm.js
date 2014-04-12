@@ -17,21 +17,25 @@ var mbaForm  = {
             mbaForm.processCallbacks();
             mbaForm.focusFirstInput();
             mbaForm_loaded = true;
-	    alert('ok hear');
       }});
     },
             
     processCallbacks: function (ajax_obj) {
-	arg_len = arguments.length;
+		if(typeof arguments[0] == 'undefined') {
+			is_ok = false;
+		}
+		else {
+			is_ok = true;
+		}
         $(mbaForm.callbacks).each(function(num, item) {
             var oid = item[0];
             var callback = item[1];
-	    if((arg_len != 0) || (oid in ajax_obj) ) {
-            	callback(oid, ajax_obj[oid]);
-	    } else {
-            	callback(oid, null);
-	    }
-            }
+			if(!is_ok) {
+				callback(oid);
+			} else if(oid in ajax_obj) {
+				callback(oid, ajax_obj[oid]);
+			}
+        }
         );
     },
     focusFirstInput: function (el) {

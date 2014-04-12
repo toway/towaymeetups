@@ -4,6 +4,7 @@
 import sys
 import datetime
 import re
+import json
 import deform
 import colander
 import itertools
@@ -255,6 +256,13 @@ def resume_edit3(context, request):
 
     user = get_user(request)
     person_info = user2person(user)
+
+    if "person_save" in request.POST:
+        person_info['work_years'] = 1
+        return Response(
+                json.dumps(person_info),
+                headers = [('Content-Type','application/json')]
+            )
 
     return {
             'person_info':person_info,

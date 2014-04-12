@@ -183,20 +183,36 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
                                               <td class="col-md-5">
 
-                                                  <input id="sex_0" type="radio" value="0" name="sex">男
+												  <input id="sex_0" type="radio" data-val='{{person_info.sex}}' value="0" name="sex">男
                                                 <label class="radio-inline" for="sex_0">
                                                 </label>
-                                                  <input id="sex_1" type="radio" value="1" name="sex">女
+												<input id="sex_1" type="radio" data-val='{{person_info.sex}}' value="1" name="sex">女
                                                 <label class="radio-inline" for="sex_1">
                                                 </label>
 <script type="text/javascript">
     mbaForm.addCallback(
             'sex',
             function (oid, arg) {
-	    	value = arg || {{person_info.sex}};
-		rid = oid + '_' + value;
-                $('#'+rid).attr('checked', 'checked');
+			obj_id = "input[name="+oid+"]";
+			if((typeof(arguments[1])=='undefined') || (arg == null)) {
+				objs = $(obj_id);
+				$(objs[0]).prop("checked","checked");
+				objs.each(function() {
+					if($(this).attr("data-val") == $(this).val()) {
+						$(this).attr("checked","checked");
+					}
+				});
+			}
+			else {
+				$(obj_id).each(function() {
+					if($(this).attr("id") == (oid+"_"+arg) ) {
+						$(this).attr("data-val", arg+"");
+						$(this).attr("val", arg+"");
+						$(this).prop("checked","checked");
+					}
+				});
             }
+		}
     );
 </script>
                                               </td>
@@ -209,15 +225,20 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 <script type="text/javascript">
     mbaForm.addCallback(
             'birth_date',
-            function (oid) {
-                $('#' + oid).datepicker({dateFormat:'yy-mm-dd'});
+            function (oid, arg) {
+				if((typeof arguments[1] == 'undefined') || (arg == null)) {
+					$('#' + oid).datepicker({dateFormat:'yy-mm-dd'});
+				}
+				else {
+					$('#'+oid).val(arg);
+				}
             }
     );
 </script>
                                               </td>
                                               <th  class="mba-resume-lbl  required">工作年限 :</th>
                                               <td>
-                                                <select id="work_years" name="work_years" class="form-control selectpicker">  
+												  <select id="work_years" name="work_years" class="form-control selectpicker" data-val="{{person_info.work_years}}">  
                                                   <option value=0>小于一年</option>  
                                                   <option value=1>一到三年</option>  
                                                   <option value=2>三到五年</option>  
@@ -226,8 +247,8 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 <script type="text/javascript">
     mbaForm.addCallback(
             'work_years',
-            function (oid) {
-	    $('#' + oid).val("{{person_info.work_years}}");
+            function (oid, arg) {
+				$('#' + oid).val($('#'+oid).attr('data-val'));
             }
     );
 </script>
@@ -237,7 +258,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                             <tr>
                                               <th class="mba-resume-lbl required">证件类型 :</th>
                                               <td class="cols-left">
-                                                <select id="identify_type" name="identify_type"  class="form-control selectpicker">  
+												  <select id="identify_type" name="identify_type"  class="form-control selectpicker" data-val="{{person_info.identify_type}}">  
                                                   <option value=0>身份证</option>  
                                                   <option value=1>军官证</option>  
                                                 </select>
@@ -245,7 +266,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
     mbaForm.addCallback(
             'identify_type',
             function (oid) {
-	    $('#' + oid).val("{{person_info.identify_type}}");
+				$('#' + oid).val($('#'+oid).attr('data-val'));
             }
     );
 </script>
@@ -299,30 +320,19 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                     <button name="person_save" class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
 <script type="text/javascript">
-  mbaForm.addCallback(
-     'person_info',
-     function(oid) {
-         var options = {
-           target: '#' + oid,
-           replaceTarget: true,
-           success:function () {
-             mbaForm.processCallbacks();
-             mbaForm.focusFirstInput();
-           }
-         };
-         var extra_options = {success:
-        function (rText, sText, xhr, form) {
-            var loc = xhr.getResponseHeader('X-Relocate');
-            if (loc) {
-                document.location = loc;
-            }
-        }
-    } || {};
-         $('#' + oid).ajaxForm($.extend(options, extra_options)).submit(function(){
-		alert('hear');
+(function (){
+	 var options = {
+	   target: '#person_info',
+	   success:function (person_info) {
+		 mbaForm.processCallbacks();
+		 mbaForm.focusFirstInput();
+	   }
+	 };
+	 $('#person_info').ajaxForm(options).submit(function(){
+		 document.write('aaa');
 		return false;
-		});
-   });
+	 });
+})();
 </script>
                                 
                             </div>
