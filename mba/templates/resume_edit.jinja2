@@ -301,7 +301,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                   <span>教育经历</span>
                                 </div>
-                              {% if education %}
+                              {% if enducation|count > 0 %}
                                 {% for item in education %}
                                   <div name="resume_info" class="resume-display-cnt" data-index="{{loop.index0}}">
                                       <table class="table mba-resume-edit-tbl table-bordered">  
@@ -406,10 +406,15 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                 <!-- <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20"> -->
                                                 <!-- <a href="javascript:void(0);" class="link-delete">删除</a> -->
                                               </td>
-                                               <th  class="mba-resume-lbl col-md-2"></th>
+                                               <th  class="mba-resume-lbl col-md-2">学历</th>
                                               <td class="col-md-5">
                                                                <!--  <a>修改</a> -->
-                                             
+                                              <select  class="form-control selectpicker">  
+                                                  <option value="docotor">博士</option>  
+                                                  <option value="docotor">硕士</option>
+                                                  <option value="docotor">学士</option> 
+                                                  <option value="docotor">专科</option>  
+                                                </select>  
                                               </td>
                                             </tr>
 
@@ -424,7 +429,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               </td>
                                             </tr>
 
-                                            <tr>
+                                            <!-- <tr>
                                               <th class="mba-resume-lbl required">学历 :</th>
                                               <td class="cols-left">
                                                 <select  class="form-control selectpicker">  
@@ -435,14 +440,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                 </select>  
                 
                                               </td>
-                                              <!-- <th  class="mba-resume-lbl">证件号 :</th>
-                                              <td>
-                                                <input type="text" class="form-control  input-sm" value="430521198404076586" name="name" size="20">
-                                              </td> -->
-                                            </tr>
+                                             
+                                            </tr> -->
                                             </tbody>
                                     </table>
-                                    <button class="btn btn-primary mba-btn-position">继续添加</button><button class="btn btn-primary mba-btn-position">删除</button><button class="btn btn-primary mba-btn-position">保存</button>
+                                   <!--  <button class="btn btn-primary mba-btn-position">继续添加</button><button class="btn btn-primary mba-btn-position">删除</button> --><button class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
                             {% endif %}
                                 <!-- <div class="mba-resume-edit-title">
