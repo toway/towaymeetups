@@ -32,7 +32,10 @@ from mba import _
 def view_job(request):
     return {
     		"test":"test",
-    			"resumes":	[{"date": "2013-3-2", "name":"UI设计师"},{"date": "2013-3-2", "name":"UI设计师"}]
+    			"education":	[
+    								{"start_date": u"2006-9-1", "finish_date":u"2009-9-1", "school":u"电子科技大学", "major":u"通信工程", "degree":u"研究生"},
+    								{"start_date": u"2001-9-1", "finish_date":u"2006-9-1", "school":u"电子科技大学", "major":u"通信工程", "degree":u"本科"}
+    							]
     	   }
 
 def includeme(config):
