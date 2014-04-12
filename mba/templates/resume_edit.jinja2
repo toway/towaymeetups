@@ -301,7 +301,8 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                   <span>教育经历</span>
                                 </div>
-                              {% if enducation|count > 0 %}
+                              {% if education|length > 0 %}
+							<h1>HAHAHAH {{education|length}}</h1>
                                 {% for item in education %}
                                   <div name="resume_info" class="resume-display-cnt" data-index="{{loop.index0}}">
                                       <table class="table mba-resume-edit-tbl table-bordered">  
@@ -397,6 +398,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
                               {% endfor %}
                             {% else %}
+							<h1>HAHAHAH {{education|length}}</h1>
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
