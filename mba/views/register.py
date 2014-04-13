@@ -25,10 +25,12 @@ from pyramid.settings import asbool
 from pyramid.security import remember
 
 from kotti import get_settings
+from kotti import DBSession
 from kotti.security import get_principals
 from kotti.views.users import deferred_email_validator
 from mba import _
 from mba.views.form import FormCustom
+from mba.resources import MbaUser,Student
 
 # TODO groups for mba
 def _massage_groups_in(appstruct):
@@ -80,9 +82,12 @@ def add_user_success(request, appstruct):
     name = appstruct['name'] = appstruct['name'].lower()
     appstruct['email'] = appstruct['email'] and appstruct['email'].lower()
     appstruct['last_login_date'] = datetime.now()
-    get_principals()[name] = appstruct
+    #get_principals()[name] = appstruct
+    stu = Student(**appstruct)
+    DBSession.add(stu)
     user = get_principals()[name]
     user.password = get_principals().hash_password(appstruct['password'])
+    DBSession.flush()
     headers = remember(request, user.name)
     success_msg = _(
         'Congratulations! You are successfully registered. '
@@ -200,8 +205,6 @@ def view_register_details(context, request):
         else:
             settings = get_settings()
             
-
-
     if rendered_form is None:
         rendered_form = form.render(request.params)
 

@@ -227,10 +227,11 @@ class Student(MbaUser):
     
     real_name = Column(String(20), nullable=False)
     birth_date = Column(Date())
+    identify_type = Column(Integer())
     identify = Column(String(30))
     phone = Column(Integer())
     home_number = Column(String(20))
-    residence = Column(String(20))
+    location = Column(String(20))
     salary = Column(Integer())
     work_years = Column(String(20))
     company_phone = Column(String(30))

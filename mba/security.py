@@ -72,9 +72,15 @@ class Company(MbaUser):
 '''
 
 class MbaPrincipals(Principals):
-    #factory = MbaUser
-    factory = Student
+    factory = MbaUser
 
 
 def principals_factory():
     return MbaPrincipals()
+
+#some common utils
+@request_cache(lambda request: None)
+def get_student(request):
+    userid = authenticated_userid(request)
+    return DBSession.query(Student).get(userid)
+

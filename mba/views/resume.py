@@ -105,7 +105,6 @@ def choice_empty_widget(**kw):
 
 class PersonInfo(colander.Schema):
     id_types = (
-                (-1,u'选择'),
                 (0,u'身份证'),
                 (1,u'护照'),
                 (2,u'警官证')
@@ -207,14 +206,26 @@ def user2person(user):
         person['birth_date'] = user.birth_date or '1990-1-1'
         person['work_years'] = user.work_years or 0
         person['identify'] = user.identify or ""
-        person['identify_type'] = 0
-        person['location'] = user.residence or ""
+        person['identify_type'] = user.identify_type or 0
+        person['location'] = user.location or ""
         person['salary'] = user.salary or 1000
         person['email'] = user.email
         person['phone'] = user.phone or ""
         person['company_phone'] = user.company_phone or ""
         person['sex'] = user.sex or 0
     return person
+
+def person2user(user, person):
+    user.real_name = person['real_name']
+    user.birth_date = person['birth_date']
+    user.work_years = person['work_years']
+    user.identify = person['identify']
+    user.identify_type = person['identify_type']
+    user.location = person['location']
+    user.salary = person['salary']
+    user.phone = person['phone']
+    user.company_phone = person['company_phone']
+    user.sex = person['sex']
 
 @view_config(route_name='resume_edit2', renderer='resume_edit2.jinja2')
 def resume_edit(context, request):
@@ -243,11 +254,15 @@ def resume_edit(context, request):
     return {
             'person_form': jinja2.Markup(rendered_form)
             }
-@view_config(route_name='resume_edit3',
-             request_method='GET',
-             accept='*/json',
-             renderer='json',
-             xhr=True)
+
+class UserNotFount(Exception):
+    pass
+
+@view_config(context=UserNotFount)
+def notfount_user_exception(request):
+    return HTTPFound(location='/login')
+
+
 @view_config(route_name='resume_edit3', renderer='resume_edit3.jinja2')
 def resume_edit3(context, request):
     jquery.need()
@@ -259,19 +274,35 @@ def resume_edit3(context, request):
     mba_form.need()
 
     user = get_user(request)
-    person_info = user2person(user)
+    if not user:
+        raise UserNotFount()
 
     if "person_info" in request.POST:
-        person_info['work_years'] = 1
+        person2user(user, request.POST)
+        person_info = user2person(user)
+        print person_info
         return Response(json.dumps(person_info))
 
     return {
-            'person_info':person_info,
+            'person_info':user2person(user),
     }
+
+@view_config(route_name='job_view', renderer='job2.jinja2')
+def job_view(context, request):
+    jquery.need()
+    
+    user = get_user(request)
+    if not user:
+        raise UserNotFount()
+
+    return {
+            'resumes':user.resumes
+            }
 
 def includeme(config):
     settings = config.get_settings()
     config.add_route('add_resume','/add_resume')
     config.add_route('resume_edit2','/resume_edit2')
     config.add_route('resume_edit3','/resume_edit3')
+    config.add_route('job_view','/job_view')
     config.scan(__name__)

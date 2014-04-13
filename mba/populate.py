@@ -1,4 +1,6 @@
 from kotti import DBSession
+from kotti import get_settings
+from kotti.security import get_principals
 from mba.resources import *
 
 # Just test hear, TODO for auto tests
@@ -105,6 +107,28 @@ def test_resume():
     skill = DBSession.query(Skill).first()
     print skill.resumes
 
+def test_add_stu():
+    settings = get_settings()
+    appstruct = {}
+    register_groups = settings['kotti.register.group']
+    if register_groups:
+        appstruct['groups'] = [register_groups]
+    register_roles = settings['kotti.register.role']
+    if register_roles:
+        appstruct['roles'] = set(['role:' + register_roles])
+    name = 'auto_add_user'
+    appstruct['name'] = name
+    appstruct['email'] = 'a@gmail.com'
+    appstruct['last_login_date'] = datetime.now()
+    appstruct['password'] = 'asdfgh'
+    stu = Student(**appstruct)
+    DBSession.add(stu)
+
+    user = get_principals()[name]
+    user.password = get_principals().hash_password(appstruct['password'])
+
+    DBSession.flush()
+
 def populate():
     print 'Just test in mba.resources: '
     #test_document()
@@ -113,3 +137,4 @@ def populate():
     #test_city()
     #test_friend()
     #test_resume()
+    #test_add_stu()
