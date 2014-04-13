@@ -285,14 +285,14 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               </td>
                                               <th  class="mba-resume-lbl">Email :</th>
                                               <td>
-<input type="email" class="form-control  input-sm" value="{{person_info.email}}" name="email" size="20">
+<input type="text" class="form-control  input-sm" value="{{person_info.email}}" name="email" readonly="readonly" size="20">
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl">目前年薪 :</th>
                                               <td class="cols-left">
-<input type="number" class="form-control inline input-sm input-middle-width"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/年</label>
+<input type="text" class="form-control inline input-sm input-middle-width"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/年</label>
                                               </td>
                                               <th  class="mba-resume-lbl">币种 :</th>
                                               <td>
@@ -309,8 +309,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               </td>
                                               <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
-                <input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机"
-		 name="company_phone" size="20">
+						      <input type="text" class="form-control inline input-sm input-four-width" value="{{person_info.company_phone}}" name="company_phone" size="20">
                                               </td>
                                             </tr>
 
@@ -326,8 +325,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 	   iframe: true,
 	   success:function (rText, statusText, xhr, $form) {
 	   	person_info = jQuery.parseJSON(rText);
-		alert(person_info['work_years']);
-		mbaForm.processCallbacks();
+		mbaForm.processCallbacks(person_info);
 		mbaForm.focusFirstInput();
 	   }
 	 };

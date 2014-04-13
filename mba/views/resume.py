@@ -103,7 +103,7 @@ def choice_empty_widget(**kw):
     widget.template = 'choice_empty'
     return widget
 
-class PersonInfo(colander.Schema):
+class PersonInfo2(colander.Schema):
     id_types = (
                 (0,u'身份证'),
                 (1,u'护照'),
@@ -203,7 +203,8 @@ def user2person(user):
     if user:
         #user = DBSession.query(resources.Student).get(user.id)
         person['real_name'] = user.real_name or user.name
-        person['birth_date'] = user.birth_date or '1990-1-1'
+        if user.birth_date:
+            person['birth_date'] = user.birth_date
         person['work_years'] = user.work_years or 0
         person['identify'] = user.identify or ""
         person['identify_type'] = user.identify_type or 0
@@ -232,7 +233,7 @@ def resume_edit(context, request):
     jqueryui.need()
 
     forms = {}
-    schema = PersonInfo().bind(request=request)
+    schema = PersonInfo2().bind(request=request)
     #Warning cannot user name attribute!!!
     person_form = FormCustom(schema, 
             template='resume_edit_form', formid='person_form',
@@ -262,6 +263,56 @@ class UserNotFount(Exception):
 def notfount_user_exception(request):
     return HTTPFound(location='/login')
 
+class PersonInfo(colander.Schema):
+    real_name = colander.SchemaNode(
+            colander.String(),
+            )
+    sex = colander.SchemaNode(
+            colander.Integer(),
+            default=0,
+            validator=colander.Range(0, 1),
+            )
+    birth_date = colander.SchemaNode(
+            colander.Date(),
+            #'%Y-%m-%d %H:%M:%S'
+            default=datetime.datetime.strptime('1990-1-1','%Y-%m-%d').date(),
+            )
+    identify_type = colander.SchemaNode(
+            colander.Integer(),
+            validator=colander.Range(0,10)
+            )
+    identify = colander.SchemaNode(
+            colander.String(),
+            )
+    work_years = colander.SchemaNode(
+            colander.Integer(),
+            )
+    location = colander.SchemaNode(
+            colander.String(),
+            )
+    salary = colander.SchemaNode(
+            colander.Integer(),
+            )
+    email = colander.SchemaNode(
+        colander.String(),
+        validator=colander.Email()
+    )
+    phone = colander.SchemaNode(
+            colander.String(),
+            )
+    company_phone = colander.SchemaNode(
+            colander.String(),
+            )
+
+class MyEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, datetime.date):
+            return obj.strftime('%Y-%m-%d')
+
+        return json.JSONEncoder.default(self, obj)
 
 @view_config(route_name='resume_edit3', renderer='resume_edit3.jinja2')
 def resume_edit3(context, request):
@@ -277,14 +328,23 @@ def resume_edit3(context, request):
     if not user:
         raise UserNotFount()
 
+    schema = PersonInfo().bind(request=request)
+
     if "person_info" in request.POST:
-        person2user(user, request.POST)
-        person_info = user2person(user)
-        print person_info
-        return Response(json.dumps(person_info))
+
+        try:
+            person_info = schema.deserialize(request.POST)
+            print person_info
+            person2user(user, person_info)
+            print user.company_phone
+            person_info['__result'] = 0
+        except colander.Invalid as e:
+            # "1" means validate error in serve
+            person_info['__result'] = 1
+        return Response(json.dumps(person_info, cls=MyEncoder))
 
     return {
-            'person_info':user2person(user),
+            'person_info':schema.serialize(user2person(user)),
     }
 
 @view_config(route_name='job_view', renderer='job2.jinja2')
