@@ -111,6 +111,9 @@ select.less-pad{
 
 .mba-btn-position{
   /*float: right;*/
+  /*margin-left: 600px;*/
+  position: relative;
+  /*right: -20px;*/
   margin-right: 10px;
 }
 
@@ -181,6 +184,194 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>个人信息</span>
                                 </div>
+                                {% if person_info %}
+                                    <div name="resume_info" class="resume-display-cnt">
+                                         <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                {{person_info.real_name}}
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                              <td class="col-md-5">
+                                                 {{person_info.sex}}
+                                                 <div class="mba-resume-setting-cnt" style="float:right">
+                                                    <a href="javascript:void(0)" class="mba-info-edit">修改</a>
+                                                    <!-- <a href="javascript:void(0)" class="mba-info-delete">删除</a> -->
+                                                 </div>
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">出生日期:</th>
+                                              <td class="cols-left">
+                                                {{person_info.birth_date}}
+                                                
+                                                
+                                              </td>
+                                              <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                              <td>
+                                                {{person_info.residence}}
+                                      
+                                              </td>
+                                            </tr>
+
+                               
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">证件类型 :</th>
+                                              <td class="cols-left">
+                                                 {{person_info.identify_type}}
+                                              </td>
+                                              <th  class="mba-resume-lbl">证件号 :</th>
+                                              <td>
+                                                {{person_info.identify}}
+                                              </td>
+                                            </tr>
+
+                                            <tr>
+                                              <th class="mba-resume-lbl required">居住地 :</th>
+                                              <td class="cols-left">
+                                                {{person_info.residence}}
+                                              </td>
+                                              <th  class="mba-resume-lbl">Email :</th>
+                                              <td>
+                                                {{person_info.email}}
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">目前年薪 :</th>
+                                              <td class="cols-left">
+                                                 {{person_info.salary}}/年
+                                              </td>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                  {{person_info.company_phone}}
+                                              </td>
+                                            </tr>
+
+
+                                             <tr>
+                                              <th class="mba-resume-lbl">手机号码 :</th>
+                                              <td class="cols-left">
+                                               {{person_info.phone}}
+                                              </td>
+                                             <!--  <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <td>
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                              </td> -->
+                                            </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <form name="resume_info" method="POST" class="hidden resume-edit-cnt" action="resume_edit">
+                                      <table class="table mba-resume-edit-tbl table-bordered">  
+                                            <tbody>  
+                                            <tr>
+                                                <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+                                                <td class="cols-left col-md-3" >
+                                                  <input type="text" class="form-control  input-sm" value="{{person_info.real_name}}" name="name" size="20">
+                                                </td>
+                                                <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+                                                <td class="col-md-5">
+
+                                                  <label class="radio-inline" >
+                                                    <input type="radio" class="radio-val" data-val="{{person_info.sex}}" checked="checked" value="男" name="sex">男
+                                                  </label>
+                                                  <label class="radio-inline">
+                                                    <input type="radio" class="radio-val" data-val="{{person_info.sex}}"  value="女" name="sex">女
+                                                  </label>
+                                                </td>
+                                              </tr>
+
+                                               <tr>
+                                                <th class="mba-resume-lbl required">出生日期:</th>
+                                                <td class="cols-left">
+                                                  <input type='text' id="birthday"  class="mba-datepicker" name='birth_date' value='{{person_info.birth_date}}' id="birth_date"/>
+                                                </td>
+                                                <th  class="mba-resume-lbl  required">工作年限 :</th>
+                                                <td>
+                                                  <select  class="form-control selectpicker select-val" data-value="{{person_info.work_years}}">  
+                                                    <option value="小于一年">小于一年</option>  
+                                                    <option value="一到三年">一到三年</option>  
+                                                    <option value="三到五年">三到五年</option>  
+                                                    <option value="五年以上">五年以上</option>  
+                                                  </select>  
+                                                </td>
+                                              </tr>
+
+                                              
+
+                                              <tr>
+                                                <th class="mba-resume-lbl required">证件类型 :</th>
+                                                <td class="cols-left">
+                                                  <select  class="form-control selectpicker  select-val"  data-value="{{person_info.identify_type}}">  
+                                                    <option value="身份证">身份证</option>  
+                                                    <option value="军官证">军官证</option>  
+                                                  </select>  
+                  
+                                                </td>
+                                                <th  class="mba-resume-lbl">证件号 :</th>
+                                                <td>
+                                                  <input type="text" class="form-control  input-sm" value="{{person_info.identify}}" name="name" size="20">
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <th class="mba-resume-lbl required">居住地 :</th>
+                                                <td class="cols-left">
+                                                  <input type="text" class="form-control  input-sm" value="{{person_info.residence}}" name="name" size="20">
+                                                </td>
+                                                <th  class="mba-resume-lbl">Email :</th>
+                                                <td>
+                                                  <input type="email" class="form-control  input-sm" value="{{person_info.email}}" name="name" size="20">
+                                                </td>
+                                              </tr>
+
+                                               <tr>
+                                                <th class="mba-resume-lbl">目前年薪 :</th>
+                                                <td class="cols-left">
+                                                  <input type="number" class="form-control inline input-sm input-middle-width"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/月</label>
+                                                </td>
+                                                <!-- <th  class="mba-resume-lbl">币种 :</th>
+                                                <td>
+                                                  <select  class="form-control selectpicker">  
+                                                    <option>人民币</option>  
+                                                    <option>美元</option>  
+                                                  </select> 
+                                                </td> -->
+                                                <th  class="mba-resume-lbl">公司电话 :</th>
+                                                <td>
+                                                  <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                                </td>
+                                              </tr>
+
+
+                                               <tr>
+                                                <th class="mba-resume-lbl">手机号码 :</th>
+                                                <td class="cols-left">
+                                                 <!--  <select  class="form-control selectpicker slt-xs inline less-pad">  
+                                                    <option>大陆</option>  
+                                                    <option>美国</option>  
+                                                  </select>  -->
+                                                  <input type="phone" class="form-control inline input-sm "  value="{{person_info.phone}}" name="telephoe" size="22">
+                                                </td>
+                                                <!-- <th  class="mba-resume-lbl">公司电话 :</th>
+                                                <td>
+                                                  <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+                                                </td> -->
+                                              </tr>
+
+
+                                              </tbody>
+                                      </table>
+                                      <button class="btn btn-primary mba-btn-position">保存</button>
+                                  </form>
+                                {% else %}
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
@@ -204,20 +395,9 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                              <tr>
                                               <th class="mba-resume-lbl required">出生日期 :</th>
                                               <td class="cols-left">
-                                                <select  class="form-control selectpicker inline slt-year select-sm">  
-                                                  <option>1980</option>  
-                                                  <option>1981</option>  
-                                                  <option>1982</option>  
-                                                  <option>1983</option>  
-                                                  <option>1984</option>  
-                                                </select>  
-                                                <!-- <select  class="form-control  inline slt-month">  
-                                                  <option>01</option>  
-                                                  <option>02</option>  
-                                                  <option>03</option>  
-                                                  <option>04</option>  
-                                                  <option>05</option>  
-                                                </select>  -->
+                                                <input type='text' id="birthday" class="mba-datepicker" name='birth_date' value='{{person_info.birth_date}}' id="birth_date"/>
+                                                
+                                                
                                               </td>
                                               <th  class="mba-resume-lbl  required">工作年限 :</th>
                                               <td>
@@ -229,6 +409,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                 </select>  
                                               </td>
                                             </tr>
+                                            <script type="text/javascript">
+                                              $(".mba-datepicker").datepicker({dateFormat:'yy-mm-dd'});
+                                            </script>
+
+                                           
 
                                             <tr>
                                               <th class="mba-resume-lbl required">证件类型 :</th>
@@ -261,12 +446,9 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <td class="cols-left">
                                                 <input type="number" class="form-control inline input-sm input-middle-width"  value="10000" placehold="请选择" name="salary" size="20"><label>/年</label>
                                               </td>
-                                              <th  class="mba-resume-lbl">币种 :</th>
+                                              <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
-                                                <select  class="form-control selectpicker">  
-                                                  <option>人民币</option>  
-                                                  <option>美元</option>  
-                                                </select> 
+                                                <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
                                               </td>
                                             </tr>
 
@@ -280,10 +462,10 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                 </select>  -->
                                                 <input type="phone" class="form-control inline input-sm "  value="13760107598" name="telephoe" size="22">
                                               </td>
-                                              <th  class="mba-resume-lbl">公司电话 :</th>
+                                              <!-- <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
                                                 <input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
-                                              </td>
+                                              </td> -->
                                             </tr>
 
 
@@ -291,7 +473,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                     </table>
                                     <button class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
-                                
+                                 {% endif %}
                             </div>
 
 
@@ -300,8 +482,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                   <span>教育经历</span>
                                 </div>
-                              {% if education|length > 0 %}
-							<h1>HAHAHAH {{education|length}}</h1>
+                              {% if education|count > 0 %}
                                 {% for item in education %}
                                   <div name="resume_info" class="resume-display-cnt" data-index="{{loop.index0}}">
                                       <table class="table mba-resume-edit-tbl table-bordered">  
@@ -346,7 +527,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                     </table>
                                   </div>
 
-                                  <form name="resume_info" class="hidden resume-display-cnt" method="POST" action="resume_edit" data-index="{{loop.index0}}">
+                                  <form name="resume_info" class="hidden resume-edit-cnt" method="POST" action="resume_edit" data-index="{{loop.index0}}">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
@@ -358,7 +539,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                <th  class="mba-resume-lbl col-md-2">学历</th>
                                               <td class="col-md-5">
                                                                <!--  <a>修改</a> -->
-                                                <select  class="form-control selectpicker degree" data-value="{{item.degree}}">  
+                                                <select  class="form-control selectpicker degree select-val" data-value="{{item.degree}}">  
                                                   <option value="博士">博士</option>  
                                                   <option value="研究生">研究生</option>
                                                   <option value="本科">本科</option> 
@@ -378,18 +559,6 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                    <input type="text" class="form-control  input-sm" value={{item.major}} name="name" size="20">
                                               </td>
                                             </tr>
-
-                                            <!-- <tr>
-                                              <th class="mba-resume-lbl required">学历 :</th>
-                                              <td class="cols-left">
-                                                <select  class="form-control selectpicker degree" data-value="{{item.degree}}">  
-                                                  <option value="博士">博士</option>  
-                                                  <option value="研究生">研究生</option>
-                                                  <option value="本科">本科</option> 
-                                                  <option value="专科">专科</option>  
-                                                </select>  
-                                              </td>
-                                            </tr> -->
                                             </tbody>
                                     </table>
                                     <!-- <button class="btn btn-primary mba-btn-position">继续添加</button> --><!-- <button class="btn btn-primary mba-btn-position">删除</button> --><button class="btn btn-primary mba-btn-position">保存</button>
@@ -397,7 +566,6 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
                               {% endfor %}
                             {% else %}
-							<h1>HAHAHAH {{education|length}}</h1>
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
@@ -411,10 +579,10 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <td class="col-md-5">
                                                                <!--  <a>修改</a> -->
                                               <select  class="form-control selectpicker">  
-                                                  <option value="docotor">博士</option>  
-                                                  <option value="docotor">硕士</option>
-                                                  <option value="docotor">学士</option> 
-                                                  <option value="docotor">专科</option>  
+                                                  <option value="博士">博士</option>  
+                                                  <option value="硕士">硕士</option>
+                                                  <option value="学士">学士</option> 
+                                                  <option value="专科">专科</option>  
                                                 </select>  
                                               </td>
                                             </tr>
@@ -429,20 +597,6 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                                    <input type="text" class="form-control  input-sm" value="通信工程" name="name" size="20">
                                               </td>
                                             </tr>
-
-                                            <!-- <tr>
-                                              <th class="mba-resume-lbl required">学历 :</th>
-                                              <td class="cols-left">
-                                                <select  class="form-control selectpicker">  
-                                                  <option value="docotor">博士</option>  
-                                                  <option value="docotor">硕士</option>
-                                                  <option value="docotor">学士</option> 
-                                                  <option value="docotor">专科</option>  
-                                                </select>  
-                
-                                              </td>
-                                             
-                                            </tr> -->
                                             </tbody>
                                     </table>
                                    <!--  <button class="btn btn-primary mba-btn-position">继续添加</button><button class="btn btn-primary mba-btn-position">删除</button> --><button class="btn btn-primary mba-btn-position">保存</button>
@@ -460,23 +614,124 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>工作经历</span>
                                 </div>
+                                {% if education|count > 0 %}
+                                  {% for item in experience%}
+                                  <div  name="resume_info" class="resume-display-cnt" data-index="{{loop.index0}}">
+                                      <table class="table mba-resume-edit-tbl table-bordered">  
+                                            <tbody>  
+                                            <tr>
+                                                <th class="mba-resume-lbl required col-md-2">时间 :</th>
+                                                <td class="cols-left col-md-3" >
+                                                      {{item.start_date}}-{{item.finish_date}}
+                                                       
+                                                </td>
+                                                <td>
+                                                  
+                                                </td>
+                                                <td>
+                                                  <div class="mba-resume-setting-cnt" style="float:right">
+                                                          <a href="javascript:void(0)" class="mba-info-edit">修改</a>
+                                                          <a href="javascript:void(0)" class="mba-info-delete">删除</a>
+                                                       </div>
+                                                </td>
+                                               
+                                              </tr>
+
+                                               <tr>
+                                                <th class="mba-resume-lbl required">公司名称 :</th>
+                                                <td class="cols-left">
+                                                    {{item.company}}
+                                                </td>
+                                                <th  class="mba-resume-lbl">公司性质 :</th>
+                                                <td>
+                                                  {{item.company_type}}
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <th class="mba-resume-lbl">公司规模 :</th>
+                                                <td class="cols-left">
+                                                  {{item.scale}}
+                                                </td>
+                                                <th  class="mba-resume-lbl  required">职位 :</th>
+                                                <td>
+                                                  {{item.location}}
+                                                </td>
+                                              </tr>
+                                          </tbody>
+                                      </table> 
+                                  </div>
+                                   <form name="resume_info" class="resume-edit-cnt hidden" method="POST" action="resume_edit">
+                                      <!-- <table class="table mba-resume-edit-tbl table-bordered">
+                                        <tbody>  
+                                            <tr>
+                                                <th class="mba-resume-lbl required col-md-2">时间 :</th>
+                                                <td class="cols-left" colspan="2">
+                                                    <input type='text' id="birthday"  class="mba-datepicker" name='start_date' value='{{item.start_date}}' id="birth_date"/>- <input type='text' id="birthday"  class="mba-datepicker" name='end_date' value='{{item.end_date}}' id="birth_date"/>
+                                                </td>
+                                              </tr>
+                                        </tbody>
+                                      </table> -->
+                                      <table class="table mba-resume-edit-tbl table-bordered">  
+                                            <tbody>  
+                                            <tr>
+                                                <th class="mba-resume-lbl required col-md-2">时间 :</th>
+                                                <td class="cols-left" colspan="3">
+                                                    <input type='text' class="mba-datepicker" name='start_date' value='{{item.start_date}}' id="birth_date"/>- <input type='text'  class="mba-datepicker" name='end_date' value='{{item.finish_date}}'/>
+                                                </td>
+                                              </tr>
+
+                                               <tr>
+                                                <th class="mba-resume-lbl required col-md-2">公司名称 :</th>
+                                                <td class="cols-left col-md-3">
+                                                  <input type="text" class="form-control  input-sm" value="{{item.company}}" name="company_name" size="20">
+                                                </td>
+                                                <th  class="mba-resume-lbl">公司性质 :</th>
+                                                <td>
+                                                  <select  class="form-control selectpicker select-val"  data-value="{{item.company_type}}">  
+                                                    <option value="外商独资/外企办事处">外商独资/外企办事处</option>  
+                                                    <option value="中外合资">中外合资</option>  
+                                                    <option value="私营/民营">私营/民营</option>  
+                                                    <option value="国有企业">国有企业</option>  
+                                                    <option value="上市公司">上市公司</option>
+                                                  </select>  
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <th class="mba-resume-lbl">公司规模 :</th>
+                                                <td class="cols-left">
+                                                  <select  class="form-control selectpicker select-val"   data-value="{{item.company_type}}">  
+                                                    <option value="1-100人">1-100人</option>  
+                                                    <option value="100-500人">100-500人</option> 
+                                                    <option value="500-1000人">500-1000人</option>
+                                                    <option value="1000-2000人">1000-2000人</option> 
+                                                    <option value="2000-5000人">2000-5000人</option> 
+                                                    <option value="2000-5000人">2000-5000人</option> 
+                                                    <option value="10000人以上">10000人以上</option>  
+                                                  </select>  
+                  
+                                                </td>
+                                                <th  class="mba-resume-lbl  required">职位 :</th>
+                                                <td>
+                                                  <input type="text" class="form-control  input-sm" value="{{item.location}}" name="name" size="20">
+                                                </td>
+                                              </tr>
+                                              </tbody>
+                                      </table>
+                                      <button class="btn btn-primary mba-btn-position">保存</button>
+                                  </form>
+                                  {% endfor %}
+                                {% else %}
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
                                               <th class="mba-resume-lbl required col-md-2">时间 :</th>
-                                              <td class="cols-left col-md-3" >
-                                               <!--  <input type="text" class="form-control  input-sm" value="羊初发" name="name" size="20"> -->
+                                                  <td class="cols-left"  colspan="3">
+                     
                                               </td>
-                                             <!--  <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
-                                              <td class="col-md-5">
-                                                <label class="radio radio-inline" >
-                                                  <input type="radio" checked="checked" value="男" name="sex">男
-                                                </label>
-                                                <label class="radio radio-inline">
-                                                  <input type="radio" value="女" name="sex">女
-                                                </label>
-                                              </td> -->
+                                                 
                                             </tr>
 
                                              <tr>
@@ -488,11 +743,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <th  class="mba-resume-lbl">公司性质 :</th>
                                               <td>
                                                 <select  class="form-control selectpicker">  
-                                                  <option value=0>外商独资/外企办事处</option>  
-                                                  <option value=1>中外合资</option>  
-                                                  <option value=2>私营/民营</option>  
-                                                  <option value=3>国有企业</option>  
-                                                  <option value=3>国内上市公司</option>
+                                                      <option value="外商独资/外企办事处">外商独资/外企办事处</option>  
+                                                      <option value="中外合资">中外合资</option>  
+                                                      <option value="私营/民营">私营/民营</option>  
+                                                      <option value="国有企业">国有企业</option>  
+                                                      <option value="上市公司">上市公司</option>
                                                 </select>  
                                               </td>
                                             </tr>
@@ -501,13 +756,13 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <th class="mba-resume-lbl">公司规模 :</th>
                                               <td class="cols-left">
                                                 <select  class="form-control selectpicker">  
-                                                  <option>1-100人</option>  
-                                                  <option>100-500人</option> 
-                                                  <option>500-1000人</option>
-                                                  <option>1000-2000人</option> 
-                                                  <option>2000-5000人</option> 
-                                                  <option>5000-10000人</option> 
-                                                  <option>10000人以上</option>  
+                                                      <option value="1-100人">1-100人</option>  
+                                                      <option value="100-500人">100-500人</option> 
+                                                      <option value="500-1000人">500-1000人</option>
+                                                      <option value="1000-2000人">1000-2000人</option> 
+                                                      <option value="2000-5000人">2000-5000人</option> 
+                                                      <option value="2000-5000人">2000-5000人</option> 
+                                                      <option value="10000人以上">10000人以上</option> 
                                                 </select>  
                 
                                               </td>
@@ -520,9 +775,10 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
 
                                             </tbody>
-                                    </table>
+                                        </table>s
                                     <button class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
+                                {% endif %}
                             </div>
 
                             
@@ -531,6 +787,70 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>求职意向</span>
                                 </div>
+                                {% if person_info %}
+                                <div name="resume_info" class="resume-display-cnt">
+                                  <form name="resume_info" method="POST" action="resume_edit">
+                                      <table class="table mba-resume-edit-tbl table-bordered">  
+                                            <tbody>  
+                                            <tr>
+                                                <th class="mba-resume-lbl required col-md-2">地点 :</th>
+                                                <td class="cols-left col-md-3" >
+                                                  {{job_intension.location}}
+                                                   
+                                                </td>
+                                                <th  class="mba-resume-lbl  required col-md-2">岗位 :</th>
+                                                <td class="col-md-5">
+                                                    {{job_intension.position}}
+                                                    <div class="mba-resume-setting-cnt" style="float:right">
+                                                      <a href="javascript:void(0)" class="mba-info-edit">修改</a>
+                                                    
+                                                   </div>
+                                                </td>
+                                              </tr>
+
+                                               <tr>
+                                                <th class="mba-resume-lbl required">期望薪资 :</th>
+                                                <td class="cols-left">
+                                                    {{job_intension.expect_salary}}
+                                                </td>
+                                              
+                                              </tr>
+                                              </tbody>
+                                      </table>
+                                  </form>
+                                </div>
+                                <form name="resume_info" class="resume-edit-cnt hidden" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">地点 :</th>
+                                              <td class="cols-left col-md-3" >
+                                                <input type="text" class="form-control  input-sm" value="{{job_intension.location}}" name="name" size="20">
+                                              </td>
+                                              <th  class="mba-resume-lbl  required col-md-2">岗位 :</th>
+                                              <td class="col-md-5">
+                                               <input type="text" class="form-control  input-sm" value="{{job_intension.position}}" name="name" size="20">
+                                              </td>
+                                            </tr>
+
+                                             <tr>
+                                              <th class="mba-resume-lbl required">期望薪资 :</th>
+                                              <td class="cols-left">
+                                                <select  class="form-control selectpicker inline slt-year select-sm select-val" data-value="{{job_intension.expect_salary}}">  
+                                                    <option value="2k-5k">2k-5k</option>  
+                                                    <option value="5k-10k">5k-10k</option>  
+                                                    <option value="10-15k">10-15k</option>  
+                                                    <option value="15-25k">15-25k</option>  
+                                                    <option value="25-50k">25-50k</option>  
+                                                    <option value="50k以上">50k以上</option> 
+                                                  </select>    
+                                              </td>
+                                            </tr>
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
+                                {% else %}
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
@@ -549,24 +869,16 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                               <th class="mba-resume-lbl required">期望薪资 :</th>
                                               <td class="cols-left">
                                                 <select  class="form-control selectpicker inline slt-year select-sm">  
-                                                  <option>2k-5k</option>  
-                                                  <option>5k-10k</option>  
-                                                  <option>10-15k</option>  
-                                                  <option>15-25k</option>  
-                                                  <option>25-50k</option>  
-                                                  <option>50k以上</option> 
+                                                    <option value="2k-5k">2k-5k</option>  
+                                                    <option value="5k-10k">5k-10k</option>  
+                                                    <option value="10-15k">10-15k</option>  
+                                                    <option value="15-25k">15-25k</option>  
+                                                    <option value="25-50k">25-50k</option>  
+                                                    <option value="50k以上">50k以上</option> 
                                                 </select>  
                                     
                                               </td>
-                                             <!--  <th  class="mba-resume-lbl  required">工作年限 :</th>
-                                              <td>
-                                                <select  class="form-control selectpicker">  
-                                                  <option value=0>小于一年</option>  
-                                                  <option value=1>一到三年</option>  
-                                                  <option value=2>三到五年</option>  
-                                                  <option value=3>五年以上</option>  
-                                                </select>  
-                                              </td> -->
+                                           
                                             </tr>
 
 
@@ -574,6 +886,7 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                     </table>
                                     <button class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
+                                {% endif %}
                             </div>
 
 
@@ -581,45 +894,44 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>语言能力</span>
                                 </div>
+                                {% if language %}
+                                <div name="resume_info" class="resume-display-cnt">
                                 <form name="resume_info" method="POST" action="resume_edit">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
                                               <th class="mba-resume-lbl required col-md-2">语言能力 :</th>
                                               <td class="cols-left col-md-10" >
-                                             <!--  <div class="controls">
-                                                <label class="checkbox inline">
-                                                  <input type="checkbox" value="option1" id="inlineCheckbox1"> 1
+                                                 {{language.language}}
+                                                 <div class="mba-resume-setting-cnt" style="float:right">
+                                                      <a href="javascript:void(0)" class="mba-info-edit">修改</a>
+                                                    
+                                                   </div>
+                                              </td>
+                                             
+                                            </tr>
+                                            </tbody>
+                                    </table>
+                                  </form>
+                                </div>
+                                 <form name="resume_info" class="resume-display-cnt hidden" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">语言能力 :</th>
+                                              <td class="cols-left col-md-10" >
+                                             <label class="checkbox-inline" data-val="{{language.language}}">
+                                                <input type="checkbox" class="checkbox-val" data-val="{{language.language}}" id="inlineCheckbox1" checked value="英语"> 英语
+                                              </label>
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" class="checkbox-val" data-val="{{language.language}}" id="inlineCheckbox2" value="粤语"> 粤语
                                                 </label>
-                                                <label class="checkbox inline">
-                                                  <input type="checkbox" value="option2" id="inlineCheckbox2"> 2
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" class="checkbox-val" data-val="{{language.language}}" id="inlineCheckbox3" value="日语"> 日语
                                                 </label>
-                                                <label class="checkbox inline">
-                                                  <input type="checkbox" value="option3" id="inlineCheckbox3"> 3
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" class="checkbox-val" data-val="{{language.language}}" id="inlineCheckbox3" value="其他"> 其他
                                                 </label>
-                                              </div> -->
-
-
-
-                                              <label class="checkbox-inline">
-                                                <input type="checkbox" id="inlineCheckbox1" checked value="option1"> 英语
-                                              </label>
-                                              <label class="checkbox-inline">
-                                                <input type="checkbox" id="inlineCheckbox2" value="option2"> 粤语
-                                              </label>
-                                              <label class="checkbox-inline">
-                                                <input type="checkbox" id="inlineCheckbox3" value="option3"> 日语
-                                              </label>
-                                              <label class="checkbox-inline">
-                                                <input type="checkbox" id="inlineCheckbox3" value="option3"> 其他
-                                              </label>
-                
-
-
-                                                <!-- <label class="checkbox checkbox-inline"><input type="checkbox">英语</label>
-                                                <label class="checkbox checkbox-inline"><input type="checkbox">粤语</label>
-                                                <label class="checkbox checkbox-inline"><input type="checkbox">日语</label>
-                                                <label class="checkbox checkbox-inline"><input type="checkbox">其他</label> -->
                                               </td>
 
                                             </tr>
@@ -627,12 +939,35 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                     </table>
                                     <button class="btn btn-primary mba-btn-position">保存</button>
                                 </form>
+                                {% else %}
+
+                                <form name="resume_info" method="POST" action="resume_edit">
+                                    <table class="table mba-resume-edit-tbl table-bordered">  
+                                          <tbody>  
+                                          <tr>
+                                              <th class="mba-resume-lbl required col-md-2">语言能力 :</th>
+                                              <td class="cols-left col-md-10" >
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" id="inlineCheckbox1" checked value="英语"> 英语
+                                              </label>
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" id="inlineCheckbox2" value="粤语"> 粤语
+                                              </label>
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" id="inlineCheckbox3" value="日语"> 日语
+                                              </label>
+                                              <label class="checkbox-inline">
+                                                <input type="checkbox" id="inlineCheckbox3" value="其他"> 其他
+                                              </label>
+                                              </td>
+
+                                            </tr>
+                                            </tbody>
+                                    </table>
+                                    <button class="btn btn-primary mba-btn-position">保存</button>
+                                </form>
+                                {% endif %}
                             </div>
-
-
-
-
-
 
                         </div>
                     <!-- </div> -->
@@ -663,20 +998,54 @@ table.mba-resume-edit-tbl > tbody > tr > td{
             ga('create','UA-XXXXX-X');ga('send','pageview');
 
 
+
            $(document).ready(function(){
-            $("select.degree").each(function() {
-              // console.dir(arguments);
-              // console.log($(this).attr("data-value"));
+
+            console.log("{{person_info.email}}");
+
+
+            // $("input.mba-datepicker").datepicker({dateFormat:'yy-mm-dd'});
+
+
+            // $("select.degree").each(function() {
+            //     $(this).val($(this).attr("data-value"));
+            // });
+
+            $("select-val").each(function() {
               $(this).val($(this).attr("data-value"));
           });
 
+            $(".radio-val").each(function() {
+
+                if($(this).attr("data-val") == $(this).val())
+                {
+                  $(this).attr("checked", "checked");
+                }
+            });
+
+            $(".checkbox-val").each(function() {
+                var arr = $(this).attr("data-val").split(",");
+                console.dir(arr);
+                var length = arr.length;
+                for (var i = 0; i < length; i++) {
+                  console.log(arr[i], $(this).val());
+                  if(arr[i] == $(this).val())
+                  {
+                    $(this).attr("checked", "checked");
+                    // return true;
+                  }
+                };
+            });
+
 
           $(".mba-info-edit").click(function(){
-            var displayObj = $(this).closest("div[data-index]");
+              // var displayObj = $(this).closest("div[data-index]");
+              var displayObj = $(this).closest("div.resume-display-cnt");
+              console.dir(displayObj);
             var index = displayObj.attr("data-index");
             displayObj.hide();
             // var editObj = displayObj.parent().find("form[data-index="+index+"]");
-            var editObj = displayObj.siblings("form");
+              var editObj = displayObj.siblings("form").eq(0);
             // console.dir(editObj);
             editObj.removeClass("hidden");
           })
@@ -685,11 +1054,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
 
               $("#resume_summary_cnt").delegate("li", "click", function() {
-                console.log(11);
+                // console.log(11);
                 $(this).parent().children().each(function() {
                   $(this).removeClass("active");
                 });
-                $(this).addClasss("active");
+                $(this).addClass("active");
               });
 
            });
