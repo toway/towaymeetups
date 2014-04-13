@@ -172,127 +172,149 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 <div class="mba-resume-edit-title">
                                     <span>个人信息</span>
                                 </div>
-                                <form id="person_info" name="person_info" method="POST" action="resume_edit3">
+			    <div id="div_personinfo" class="resume-display-cnt">
+				 <table class="table mba-resume-edit-tbl table-bordered">  
+				  <tbody>  
+				  <tr>
+				      <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
+				      <td class="cols-left col-md-3" >
+					      <span class="sp_person_info" id='sp_real_name'>{{person_info.real_name}}</span>
+				      </td>
+				      <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
+				      <td class="col-md-5">
+					      <span  class="sp_person_info" data-type='radio' data-sel="男|女" data-val="{{person_info.sex}}" id="sp_sex"></span>
+					 <div class="mba-resume-setting-cnt" style="float:right">
+					    <a href="javascript:void(0)" class="mba-info-edit">修改</a>
+					 </div>
+				      </td>
+				    </tr>
+
+				     <tr>
+				      <th class="mba-resume-lbl required">出生日期:</th>
+				      <td class="cols-left">
+					      <span class="sp_person_info" id="sp_birth_date">{{person_info.birth_date}}</span>
+				      </td>
+				      <th  class="mba-resume-lbl  required">工作年限 :</th>
+				      <td>
+					      <span class="sp_person_info" id="sp_work_years" data-type='select' data-val="{{person_info.work_years}}"></span>
+				      </td>
+				    </tr>
+
+				    <tr>
+				      <th class="mba-resume-lbl required">证件类型 :</th>
+				      <td class="cols-left">
+					      <span class="sp_person_info" id="sp_identify_type" data-type='select' data-val='{{person_info.identify_type}}'></span>
+				      </td>
+				      <th  class="mba-resume-lbl">证件号 :</th>
+				      <td>
+					      <span class="sp_person_info" id="sp_identify">{{person_info.identify}}</span>
+				      </td>
+				    </tr>
+
+				    <tr>
+				      <th class="mba-resume-lbl required">居住地 :</th>
+				      <td class="cols-left">
+					      <span class="sp_person_info" id="sp_location">{{person_info.location}}</span>
+				      </td>
+				      <th  class="mba-resume-lbl">Email :</th>
+				      <td>
+					      <span class="sp_person_info" id="sp_email">{{person_info.email}}</span>
+				      </td>
+				    </tr>
+
+				     <tr>
+				      <th class="mba-resume-lbl">目前年薪 :</th>
+				      <td class="cols-left">
+					      <span class="sp_person_info" id="sp_salary">{{person_info.salary}}</span>/年
+				      </td>
+				      <th  class="mba-resume-lbl">公司电话 :</th>
+				      <td>
+					      <span class="sp_person_info" id="sp_company_phone">{{person_info.company_phone}}</span>
+				      </td>
+				    </tr>
+
+
+				     <tr>
+				      <th class="mba-resume-lbl">手机号码 :</th>
+				      <td class="cols-left">
+					      <span class="sp_person_info" id="sp_phone">{{person_info.phone}}</span>
+				      </td>
+				     <!--  <th  class="mba-resume-lbl">公司电话 :</th>
+				      <td>
+					<input type="number" class="form-control inline input-sm input-two-width"  value="086" placeholder="国家码" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="区号" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-four-width"   placeholder="总机" name="salary" size="20">-<input type="number" class="form-control inline input-sm input-three-width"   placeholder="分机号" name="salary" size="20">
+				      </td> -->
+				    </tr>
+
+
+				    </tbody>
+				</table>
+			    </div>
+                                <form id="person_info" name="person_info" method="POST" action="resume_edit2">
                                     <table class="table mba-resume-edit-tbl table-bordered">  
                                           <tbody>  
                                           <tr>
                                               <th class="mba-resume-lbl required col-md-2">姓  名 :</th>
                                               <td class="cols-left col-md-3" >
-	<input type="text" class="form-control  input-sm" value="{{person_info.real_name}}" name="real_name" size="20">
+	<input type="text" class="form-control  input-sm in_person_info" value="{{person_info.real_name}}" name="real_name" size="20">
                                               </td>
                                               <th  class="mba-resume-lbl  required col-md-2">性   别 :</th>
                                               <td class="col-md-5">
 
-	<input id="sex_0" type="radio" data-val='{{person_info.sex}}' value="0" name="sex">男
+	<input type="radio" data-type='radio' class="in_person_info" data-val='{{person_info.sex}}' value="0" name="sex">男
                                                 <label class="radio-inline" for="sex_0">
                                                 </label>
-	<input id="sex_1" type="radio" data-val='{{person_info.sex}}' value="1" name="sex">女
+	<input type="radio" data-val='{{person_info.sex}}' value="1" name="sex">女
                                                 <label class="radio-inline" for="sex_1">
                                                 </label>
-<script type="text/javascript">
-    mbaForm.addCallback(
-            'sex',
-            function (oid, arg) {
-			obj_id = "input[name="+oid+"]";
-			if((typeof(arguments[1])=='undefined') || (arg == null)) {
-				objs = $(obj_id);
-				$(objs[0]).prop("checked","checked");
-				objs.each(function() {
-					if($(this).attr("data-val") == $(this).val()) {
-						$(this).attr("checked","checked");
-					}
-				});
-			}
-			else {
-				$(obj_id).each(function() {
-					if($(this).attr("id") == (oid+"_"+arg) ) {
-						$(this).attr("data-val", arg+"");
-						$(this).attr("val", arg+"");
-						$(this).prop("checked","checked");
-					}
-				});
-            }
-		}
-    );
-</script>
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl required">出生日期 :</th>
                                               <td class="cols-left">
-	<input type='text' name='birth_date' value='{{person_info.birth_date}}' id="birth_date"/>
-<script type="text/javascript">
-    mbaForm.addCallback(
-            'birth_date',
-            function (oid, arg) {
-				if((typeof arguments[1] == 'undefined') || (arg == null)) {
-					$('#' + oid).datepicker({dateFormat:'yy-mm-dd'});
-				}
-				else {
-					$('#'+oid).val(arg);
-				}
-            }
-    );
-</script>
+	<input type='text' name='birth_date' class="in_person_info" data-type='date' value='{{person_info.birth_date}}'/>
                                               </td>
                                               <th  class="mba-resume-lbl  required">工作年限 :</th>
                                               <td>
-	<select id="work_years" name="work_years" class="form-control selectpicker" data-val="{{person_info.work_years}}">  
+	<select id="work_years" name="work_years" class="form-control selectpicker in_person_info" data-type="select" data-val="{{person_info.work_years}}">  
                                                   <option value=0>小于一年</option>  
                                                   <option value=1>一到三年</option>  
                                                   <option value=2>三到五年</option>  
                                                   <option value=3>五年以上</option>  
                                                 </select>  
-<script type="text/javascript">
-    mbaForm.addCallback(
-            'work_years',
-            function (oid, arg) {
-				$('#' + oid).val($('#'+oid).attr('data-val'));
-            }
-    );
-</script>
                                               </td>
                                             </tr>
 
                                             <tr>
                                               <th class="mba-resume-lbl required">证件类型 :</th>
                                               <td class="cols-left">
-		<select id="id_identify_type" name="identify_type"  class="form-control selectpicker" data-val="{{person_info.identify_type}}">  
-                                                  <option value="0">身份证</option>  
-                                                  <option value="1">军官证</option>  
+		<select id="identify_type" name="identify_type"  class="form-control selectpicker in_person_info" data-type='select' data-val="{{person_info.identify_type}}">  
+                                                  <option value=0>身份证</option>  
+                                                  <option value=1>军官证</option>
                                                 </select>
-<script type="text/javascript">
-    mbaForm.addCallback(
-            'id_identify_type',
-            function (oid) {
-		$('#' + oid).val($('#'+oid).attr('data-val'));
-            }
-    );
-</script>
                 
                                               </td>
                                               <th  class="mba-resume-lbl">证件号 :</th>
                                               <td>
-	<input type="text" class="form-control  input-sm" value="{{person_info.identify}}" id="identify" name="identify" size="20">
+	<input type="text" class="form-control  input-sm in_person_info" value="{{person_info.identify}}" name="identify" size="20">
                                               </td>
                                             </tr>
 
                                             <tr>
                                               <th class="mba-resume-lbl required">居住地 :</th>
                                               <td class="cols-left">
-	<input type="text" class="form-control  input-sm" value="{{person_info.location}}" name="location" id="location" size="20">
+	<input type="text" class="form-control  input-sm in_person_info" value="{{person_info.location}}" name="location" id="location" size="20">
                                               </td>
                                               <th  class="mba-resume-lbl">Email :</th>
                                               <td>
-<input type="text" class="form-control  input-sm" value="{{person_info.email}}" name="email" readonly="readonly" size="20">
+<input type="text" class="form-control  input-sm in_person_info" value="{{person_info.email}}" name="email" readonly="readonly" size="20">
                                               </td>
                                             </tr>
 
                                              <tr>
                                               <th class="mba-resume-lbl">目前年薪 :</th>
                                               <td class="cols-left">
-<input type="text" class="form-control inline input-sm input-middle-width"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/年</label>
+<input type="text" class="form-control inline input-sm input-middle-width in_person_info"  value="{{person_info.salary}}" placehold="请选择" name="salary" size="20"><label>/年</label>
                                               </td>
                                               <th  class="mba-resume-lbl">币种 :</th>
                                               <td>
@@ -304,12 +326,12 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                              <tr>
                                               <th class="mba-resume-lbl">手机号码 :</th>
                                               <td class="cols-left">
-					<input type="phone" class="form-control inline input-sm input-middle-width" 
+					<input type="phone" class="form-control inline input-sm input-middle-width in_person_info" 
 						      value="{{person_info.phone}}" name="phone" size="22">
                                               </td>
                                               <th  class="mba-resume-lbl">公司电话 :</th>
                                               <td>
-						      <input type="text" class="form-control inline input-sm input-four-width" value="{{person_info.company_phone}}" name="company_phone" size="20">
+						      <input type="text" class="in_person_info form-control inline input-sm input-four-width" value="{{person_info.company_phone}}" name="company_phone" size="20">
                                               </td>
                                             </tr>
 
@@ -324,8 +346,10 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 	 var options = {
 	   iframe: true,
 	   success:function (rText, statusText, xhr, $form) {
+	   	alert(rText);
 	   	person_info = jQuery.parseJSON(rText);
-		mbaForm.processCallbacks(person_info);
+		updateInputs('.in_person_info', person_info);
+		updateTables('.sp_person_info', person_info);
 		mbaForm.focusFirstInput();
 	   }
 	 };
