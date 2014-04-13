@@ -46,7 +46,7 @@ def view_job(request):
 
     return {
     		"test":"test",
-    			"person_info":  {"real_name":u"杨先生","sex":u"女", "birth_date":u"2009-9-1", 
+    			"person_info":  {"real_name":u"杨先生","sex":u"男", "birth_date":u"2009-9-1", 
 								  "work_years":u"一到三年", "work_years":u"一到三年",
 								  "identify":u"43052119890902", "identify_type":u"身份证","residence":u"深圳市南山区",
 								  "email":u"1018556223@qq.com", "salary":u"10000","phone":u"13760107591",
