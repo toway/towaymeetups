@@ -1,0 +1,115 @@
+{% if item.id %}
+
+<div class="resume-display-cnt" id="edu_div_{{item.id}}">
+	  <table class="table mba-resume-edit-tbl table-bordered">  
+		  <tbody>  
+		  <tr>
+			  <th class="mba-resume-lbl required col-md-2">时间:</th>
+			  <td class="col-md-3">
+				{{item.start_date}}到{{item.finish_date}}
+			  </td>
+			  <th  class="mba-resume-lbl col-md-2">学历</th>
+			  <td class="col-md-5">
+   
+					   {{item.degree}}
+					   <div class="mba-resume-setting-cnt" style="float:right">
+						  <a href="javascript:void(0)" alt="{{item.id}}" class="education-edit">修改</a>
+						  <a href="javascript:void(0)" alt="{{item.id}} class="education-delete">删除</a>
+					   </div>
+					   
+		
+			  </td>
+			</tr>
+
+			 <tr>
+			  <th class="mba-resume-lbl required">学校 :</th>
+			  <td class="cols-left">
+				{{item.school_name}}
+			  </td>
+			  <th  class="mba-resume-lbl  required">专业 :</th>
+			  <td>
+				   {{item.major}}
+			  </td>
+			</tr>
+			</tbody>
+	</table>
+</div>
+
+  <form name="resume_info" id="edu_form_{{item.id}}" class="hidden resume-edit-cnt" method="POST" action="resume_edit">
+	<input type="hidden" name="education" value="modify"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+	<input type="hidden" name="id" value="{{item.id}}/>
+	<table class="table mba-resume-edit-tbl table-bordered">  
+		  <tbody>  
+		  <tr>
+			  <th class="mba-resume-lbl required col-md-2">时间:</th>
+			  <td class="col-md-3">
+					<input type="text" name="start_date" size="6">-
+					<input type="text" name="finish_date" size="6">
+			  </td>
+			   <th  class="mba-resume-lbl col-md-2">学历</th>
+			  <td class="col-md-5">
+				<select name="degree"  class="form-control selectpicker degree select-val" data-type='select' data-val="{{item.degree}}">  
+					<option value="0">博士</option>  
+					<option value="1">硕士</option>
+					<option value="2">学士</option> 
+					<option value="3">专科</option>  
+				</select>  
+			   
+			  </td>
+			</tr>
+
+			 <tr>
+			  <th class="mba-resume-lbl required">学校 :</th>
+			  <td class="cols-left">
+				<input type="text" class="form-control  input-sm" value="{{item.school_name}}" name="school_name" size="20">
+			  </td>
+			  <th  class="mba-resume-lbl  required">专业 :</th>
+			  <td>
+				   <input type="text" class="form-control  input-sm" value={{item.major}} name="major" size="20">
+			  </td>
+			</tr>
+			</tbody>
+	</table>
+</form>
+
+{% else %}
+	<form id="edu_form_0" method="POST" action="">
+	<input type="hidden" name="education" value="new"/>
+	<input type="hidden" name="id" value="0"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+		<table class="table mba-resume-edit-tbl table-bordered">  
+			  <tbody>  
+			  <tr>
+				  <th class="mba-resume-lbl required col-md-2">时间:</th>
+				  <td class="col-md-3">
+					<input type="text" class='in_edu_0' data-type='date' name="start_date" size="6">-
+					<input type="text" class='in_edu_0'  data-type='date' name="finish_date" size="6">
+				  </td>
+				   <th  class="mba-resume-lbl col-md-2">学历</th>
+				  <td class="col-md-5">
+				  <select name="degree"  class="in_edu_0 form-control selectpicker" data-type='select' data-val='0'>
+					  <option value="0">博士</option>  
+					  <option value="1">硕士</option>
+					  <option value="2">学士</option> 
+					  <option value="3">专科</option>  
+					</select>
+				  </td>
+				</tr>
+
+				 <tr>
+				  <th class="mba-resume-lbl required">学校 :</th>
+				  <td class="cols-left">
+					<input type="text" name="shool_name" class="form-control  input-sm" size="20">
+				  </td>
+				  <th  class="mba-resume-lbl  required">专业 :</th>
+				  <td>
+					   <input type="text" name="major" class="form-control  input-sm" size="20">
+				  </td>
+				</tr>
+				</tbody>
+		</table>
+	</form>
+
+{% endif %}
+

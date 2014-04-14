@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# coding: utf-8
+
+from datetime import datetime
 from kotti import DBSession
 from kotti import get_settings
 from kotti.security import get_principals
@@ -129,6 +133,21 @@ def test_add_stu():
 
     DBSession.flush()
 
+def test_resume2():
+    stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
+    resume1 = Resume(title=u'resume1', user=stu)
+    start_date = datetime.strptime('2003-1-1','%Y-%m-%d').date()
+    finish_date = datetime.strptime('2008-1-1','%Y-%m-%d').date()
+    edu = Education(
+            school_name = u'电子科技大学',
+            start_date=start_date,
+            finish_date=finish_date,
+            major=u'通信工程',
+            degree = 1)
+    resume1.educations.append(edu)
+    DBSession.add(resume1)
+    DBSession.flush()
+
 def populate():
     print 'Just test in mba.resources: '
     #test_document()
@@ -136,5 +155,5 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
-    #test_resume()
     #test_add_stu()
+    #test_resume2()

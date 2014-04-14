@@ -37,6 +37,7 @@ from form import FormCustom
 from mba import resources
 from mba import _
 
+default_date = datetime.datetime.strptime('1990-1-1','%Y-%m-%d').date()
 class PersonInfo(colander.Schema):
     real_name = colander.SchemaNode(
             colander.String(),
@@ -49,7 +50,7 @@ class PersonInfo(colander.Schema):
     birth_date = colander.SchemaNode(
             colander.Date(),
             #'%Y-%m-%d %H:%M:%S'
-            default=datetime.datetime.strptime('1990-1-1','%Y-%m-%d').date(),
+            default=default_date,
             )
     identify_type = colander.SchemaNode(
             colander.Integer(),
@@ -79,30 +80,26 @@ class PersonInfo(colander.Schema):
             )
 
 
-class Education(colander.MappingSchema):
-    name = colander.SchemaNode(
-            colander.String(),
+class Education(colander.Schema):
+    id = colander.SchemaNode(
+            colander.Integer(),
             )
-    location = colander.SchemaNode(
-            colander.String(),
+    resume_id = colander.SchemaNode(
+            colander.Integer(),
             )
     start_date = colander.SchemaNode(
             colander.Date(),
+            default=default_date,
             )
     finish_date = colander.SchemaNode(
             colander.Date(),
+            default=default_date,
             )
     major = colander.SchemaNode(
             colander.String(),
             )
     degree = colander.SchemaNode(
-            colander.String(),
-            )
-    abroad = colander.SchemaNode(
-            colander.Boolean(),
-            )
-    summary = colander.SchemaNode(
-            colander.String(),
+            colander.Integer(),
             )
 
 def user2person(user):
@@ -152,6 +149,28 @@ class MyEncoder(json.JSONEncoder):
 
         return json.JSONEncoder.default(self, obj)
 
+class EducationWidget(object):
+    renderer = staticmethod(deform.Form.default_renderer)
+
+    def __init__(self, resume_id, obj):
+        self.template = 'education_form.jinja2'
+        self.resume_id = resume_id
+        self.schema = Education()
+        self.item = obj
+
+    def __call__(self, request):
+        self.cstruct = self.schema.deserialize(request.POST)
+        self.cstruct['id'] = 8
+        return self.renderer(self.template, resume_id=self.resume_id, item=self.cstruct)
+
+    def render(self):
+        if self.item:
+            self.cstruct = self.schema.serialize(resources.row2dict(self.item))
+        else:
+            self.cstruct = self.schema.serialize()
+        return self.renderer(self.template, resume_id=self.resume_id, item=self.cstruct)
+
+
 @view_config(route_name='resume_edit2', renderer='resume_edit3.jinja2')
 def resume_edit2(context, request):
     jquery.need()
@@ -166,8 +185,15 @@ def resume_edit2(context, request):
     if not user:
         raise UserNotFount()
 
-    schema = PersonInfo().bind(request=request)
+    resume_id = request.matchdict['id']
+    resume_id = int(resume_id)
+    resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+    if len(resume.educations) > 0:
+        edus = [EducationWidget(resume_id, edu) for edu in resume.educations]
+    else:
+        edus = [EducationWidget(resume_id, None)]
 
+    schema = PersonInfo().bind(request=request)
     if "person_info" in request.POST:
         try:
             person_info = schema.deserialize(request.POST)
@@ -177,9 +203,26 @@ def resume_edit2(context, request):
             # "1" means validate error in serve
             person_info['__result'] = 1
         return Response(json.dumps(person_info, cls=MyEncoder))
-
+    elif "education" in request.POST:
+        t = request.POST["education"]
+        if t == "add":
+            edu = EducationWidget(resume_id, None)
+            return Response(edu.render())
+        elif t == 'new':
+            edu = EducationWidget(resume_id, None)
+            html = edu(request)
+            cstruct = edu.cstruct
+            cstruct['html'] = html;
+            return Response(json.dumps(cstruct, cls=MyEncoder))
+        elif t == 'modify':
+            pass
+        elif t == 'del':
+            pass
+    
     return {
+            'resume_id':resume_id,
             'person_info':schema.serialize(user2person(user)),
+            'educations':edus,
     }
 
 @view_config(route_name='job_view', renderer='job2.jinja2')
@@ -190,12 +233,20 @@ def job_view(context, request):
     if not user:
         raise UserNotFount()
 
+    if "add_resume" in request.POST:
+        title = request.POST['resume_title']
+        if title.strip() != '':
+            resume = resources.Resume(title=title, user=user)
+            #DBSession.add(resume)
+            #DBSession.flush()
+            #return HTTPFound(location='/resume_edit2/%d' % resume.id)
+
     return {
             'resumes':user.resumes
             }
 
 def includeme(config):
     settings = config.get_settings()
-    config.add_route('resume_edit2','/resume_edit2')
-    config.add_route('job_view','/job_view')
+    config.add_route('resume_edit2','/resume_edit2/{id:\d+}')
+    config.add_route('job_view','/job')
     config.scan(__name__)

@@ -52,7 +52,7 @@
             <div class="col-md-10 col-md-offset-1 mba-my-resume-cnt">
                 <div class="mba-resume-total-grid">
                     <img src="static/img/my_resume_title.jpg">
-                    <p id="search_cnt">
+                    <p>
                         <form class="form-inline" role="form">
                           <div class="form-group">
                             <label class="sr-only" for="job_or_company">职位名称或者公司名称</label>
@@ -87,12 +87,11 @@
                         <div id="myTabContent" class="tab-content">
                             <div class="col-md-9  tab-pane fade  in active" id="resume_manage">
                                 <p>
-                                    <button id='btn_create_resume' type="button" class="btn btn-default navbar-btn">创建简历</button>
-				    <script>
-$('#btn_create_resume').click(function (){
-		window.location.href='/resume_edit3'
-		});
-				    </script>
+                                <form name="resume_create" method="POST" action="job">
+                            <label class="sr-only" for="job_or_company">简历名称</label>
+                            <input type="text" name='resume_title' class="form-control" placeholder="简历名称">
+                            <button type="submit" name="add_resume" class="btn btn-default navbar-btn">创建简历</button>
+								</form>
                                 </p>
                                 <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
                                     <thead>  
@@ -108,9 +107,12 @@ $('#btn_create_resume').click(function (){
                                       <tbody>  
                                         {% for item in resumes %}
                                         <tr> 
-                                          <td>{{item.name}}</td>  
-                                          <td>{{item.date}}</td>
-                                          <td><span class="mba-resume-edit resume_operate" url="resume_edit"><img src="static/img/resume_edit.jpg"></span></td>
+                                          <td>{{item.title}}</td>
+                                          <td>{{item.modify_date}}</td>
+										  <td><a href='/resume_edit2/{{item.id}}' alt='修改简历'>
+												  <span class="mba-resume-edit resume_operate" url="resume_edit"><img src="static/img/resume_edit.jpg"></span>
+											  </a>
+											  </td>
                                           <td><span class="mba-resume-refresh resume_operate"  url="resume_refresh"><img src="static/img/resume_refresh.jpg"></span></td>
                                           <td><span class="mba-resume-preview resume_operate"  url="resume_preview"><img src="static/img/resume_preview.jpg"></span></td>
                                           <td><span class="mba-resume-delete resume_operate"   ><img src="static/img/resume_delete.jpg"></span></td>

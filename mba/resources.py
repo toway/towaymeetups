@@ -256,12 +256,12 @@ class Student(MbaUser):
 class Education(Base):
     id = Column(Integer, primary_key=True)
     resume_id = Column(Integer, ForeignKey('resumes.id'))
-    name = Column(String(100), nullable=False)
+    school_name = Column(String(100), nullable=False)
     location = Column(String(100))
-    start_date = Column(DateTime())
-    finish_date = Column(DateTime())
+    start_date = Column(Date())
+    finish_date = Column(Date())
     major = Column(String(30))
-    degree = Column(String(20))
+    degree = Column(Integer())
     abroad =  Column(Boolean)
     summary = Column(UnicodeText())
 
@@ -326,8 +326,8 @@ class Resume(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id'))
     title = Column(String(250))
-    create_date = Column(DateTime())
-    modify_date = Column(DateTime())
+    create_date = Column(DateTime(), default=datetime.utcnow)
+    modify_date = Column(DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
     _skills = relationship('ResumeSkill', backref='resume')
     skills = association_proxy(
         '_skills',
@@ -338,7 +338,7 @@ class Resume(Base):
     # String like jobid1,jobid2,jobid3 5,6,3,1 
     job_order = Column(String(100))
     jobs = relationship('Job')
-    education = relationship('Education')
+    educations = relationship('Education')
     trains = relationship('Train')
     langs = relationship('Language')
 
@@ -375,3 +375,5 @@ class Position(Document):
         add_view=u'add_position',
         addable_to=[u'Position'],
         )
+
+row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
