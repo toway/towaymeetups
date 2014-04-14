@@ -337,10 +337,10 @@ class Resume(Base):
 
     # String like jobid1,jobid2,jobid3 5,6,3,1 
     job_order = Column(String(100))
-    jobs = relationship('Job')
-    educations = relationship('Education')
-    trains = relationship('Train')
-    langs = relationship('Language')
+    jobs = relationship('Job', cascade="save-update, merge, delete")
+    educations = relationship('Education', cascade="save-update, merge, delete")
+    trains = relationship('Train', cascade="save-update, merge, delete")
+    langs = relationship('Language', cascade="save-update, merge, delete")
 
     def order_jobs(self):
         jobs = self.jobs

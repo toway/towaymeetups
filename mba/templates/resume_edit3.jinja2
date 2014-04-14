@@ -391,13 +391,10 @@ table.mba-resume-edit-tbl > tbody > tr > td{
                                 </div>
 
 				<div id='education_container'>
-					{% for item in educations %}
-					{{item.render()|safe}}
-					{% endfor %}
+					{{edu.render()|safe}}
 				</div>
 
 			<form  id="edu_operator" name="edu_operator" method="POST" action="">
-				<input type='hidden' id='edu_modify_id' name='education' value='add'/>
 				<button id='btn_edu_add' type='button' class="btn btn-primary mba-btn-position">继续添加</button>
 				<button id='btn_edu_save' type='button' class="btn btn-primary mba-btn-position hidden">保存</button>
 				<button id='btn_edu_cancel' type='button' class="btn btn-primary mba-btn-position hidden">取消</button>
@@ -407,6 +404,60 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 	 var educationMgr = {
 		curr_modify_id: -1
 	 };
+
+	 var delete_options = {
+	   iframe: true,
+	   success:function (rText, statusText, xhr, $form) {
+		try {
+			rlt_obj = jQuery.parseJSON(rText);
+			if(rlt_obj['__result'] == 0) {
+				$("#edu_div_"+rlt_obj['id']).addClass('hidden');
+			}
+		}
+		catch(err) {
+		}
+	   }
+	 };
+
+	 var edu_refresh = function() {
+		updateInputs('#education_container .in_edu');
+		updateTables('#education_container .sp_edu');
+		if($("#edu_length").val() == "0") {
+			$('#edu_form_0').removeClass('hidden');
+			educationMgr.curr_modify = 0;
+			edu_modify(true);
+		} else {
+			edu_modify(false);
+		} 
+		$(".education-edit").click(function() {
+			id = educationMgr.curr_modify;
+			if(id != -1) {
+				$('#edu_form_'+id).addClass('hidden');
+				$('#edu_div_'+id).removeClass('hidden');
+			}
+
+			newid = $(this).attr('alt');
+			$('#edu_form_'+newid).removeClass('hidden');
+			$('#edu_div_'+newid).addClass('hidden');
+			educationMgr.curr_modify = newid;
+
+			edu_modify(true);
+		});
+
+		$(".education-delete").click(function(){
+			if(!window.confirm('确定删除吗？')) {
+				return;
+			}
+			id = $(this).attr('alt');
+			form_id = '#edu_form_'+id;
+			$(form_id + ' input[name=education]').val('delete');
+			$(form_id).ajaxSubmit(delete_options);
+		});
+	};
+
+	$(document).ready(function(){
+		edu_refresh();
+	});
 
 	 var edu_modify = function(b) {
 		if(b) {
@@ -420,40 +471,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 		}
 	 };
 
-	 var edu_del = function() {
-	 };
-
-	 var edu_edit = function() {
-		id = educationMgr.curr_modify;
-		if(id != -1) {
-			$('#edu_form_'+id).addClass('hidden');
-			$('#edu_div_'+id).removeClass('hidden');
-		}
-
-		newid = $(this).attr('alt')
-		$('#edu_form_'+newid).removeClass('hidden');
-		$('#edu_div_'+newid).addClass('hidden');
-		educationMgr.curr_modify = newid;
-
-		edu_modify(true);
-	 };
-
-	 var add_options = {
-	   iframe: true,
-	   success:function (rText, statusText, xhr, $form) {
-			$('#education_container').append($(rText))
-			educationMgr.curr_modify = 0;
-			edu_modify(true);
-			updateInputs('.in_edu_0');
-	   }
-	 };
-
 	$("#btn_edu_add").click(function () {
-		$("#edu_operator").ajaxSubmit(add_options);
+		$('#edu_form_0').removeClass('hidden');
+		educationMgr.curr_modify = 0;
+		edu_modify(true);
 		});
-
-	$(".education-edit").click(edu_edit);
-	$(".education-delete").click(edu_del);
 
 	$("#btn_edu_cancel").click(function() {
 		id = educationMgr.curr_modify;
@@ -466,24 +488,36 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 	 var save_options = {
 	   iframe: true,
 	   success:function (rText, statusText, xhr, $form) {
-			alert(rText);
-			rlt = jQuery.parseJSON(rText);
-			if(rlt.html != '') {
-				$('#edu_form_0').remove();
-				$('#education_container').append($(rText));
-				$('#edu_div_'+rlt.id+' .education-edit').click(edu_edit);
-				$('#edu_div_'+rlt.id+' .education-delete').click(edu_del);
-			}
+		index = rText.indexOf('$');
+		is_error = false;
+		rlt_obj = {'__result':1};
+		if(index >= 0) {
+			rlt = rText.substring(0, index);
+		} else {
+			is_error = true;
+			rlt = rText;
+		}
+		try {
+			rlt_obj = jQuery.parseJSON(rlt);
+		}
+		catch(err) {
+			is_error = true;
+		}
+		if(rlt_obj['__result'] == 0) {
+			html = rText.substring(index+1);
+			educationMgr.curr_modify_id = -1;
+			$('#education_container').html($(html));
+			edu_refresh();
+		}
 	   }
 	 };
 
 	$("#btn_edu_save").click(function() {
 		id = educationMgr.curr_modify;
+		if(id != 0) {
+			$('#edu_form_'+id+' input[name=education]').val('modify');
+		}
 		$('#edu_form_'+id).ajaxSubmit(save_options);
-		$('#edu_form_'+id).removeClass('hidden');
-		$('#edu_div_'+id).addClass('hidden');
-		educationMgr.curr_modify = -1;
-		edu_modify(false);
 	});
 
  })();
