@@ -283,8 +283,8 @@ def edit_job(request, user, resume_id):
         return Response(json_string+"$"+widget.render())
     elif t == "delete":
         job = DBSession.query(resources.Job).filter_by(resume_id=resume_id, id=int(request.POST['id'])).first()
-        oid = edu.id
-        DBSession.delete(edu)
+        oid = job.id
+        DBSession.delete(job)
         return Response(json.dumps({'__result':0,'id':oid}))
     return Response(json.dumps({'__result':1}))
 

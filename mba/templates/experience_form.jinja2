@@ -105,6 +105,7 @@
 	<form id="exp_form_0" method="POST" action="">
 {% endif %}
 	<input type="hidden" name="experience" value="new"/>
+	<input type="hidden" id="exp_length" name="exp_length" value="{{experience|length}}"/>
 	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
 	<input type="hidden" name="id" value="0"/>
 	<table class="table mba-resume-edit-tbl table-bordered">  

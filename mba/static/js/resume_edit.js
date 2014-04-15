@@ -180,7 +180,7 @@ function mgr_create(pref, the_name) {
 		form:function(id){return '#'+this.prefix+'_form_'+id;},
 		edit:function(){return '.'+this.name+'-edit';},
 		del:function(){return '.'+this.name+'-delete';},
-		modify:function(id){return this.form(id)+' .input[name='+this.name+']';}
+		modify:function(id){return this.form(id)+' input[name='+this.name+']';}
 	};
 	return mgr;
 }
@@ -230,6 +230,7 @@ function mgr_init(mgr) {
 				return;
 			}
 			id = $(this).attr('alt');
+			alert(mgr.modify(id));
 			$(mgr.modify(id)).val('delete');
 			$(mgr.form(id)).ajaxSubmit(delete_options);
 		});
