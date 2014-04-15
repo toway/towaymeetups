@@ -19,7 +19,9 @@ from mba import _
 
 class FormCustom(deform.Form):
     def __init__(self, schema, **kw):
-        super(FormCustom, self).__init__(schema, **kw)
+        #super(FormCustom, self).__init__(schema, **kw)
+        deform.Form.__init__(self, schema, **kw)
+
 
         template = kw.pop('template', None)
         if template:

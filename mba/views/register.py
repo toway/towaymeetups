@@ -15,6 +15,8 @@ from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
 from deform.widget import HiddenWidget
 
+import pyramid
+
 import colander
 import jinja2
 from deform import ValidationFailure
@@ -25,11 +27,14 @@ from pyramid.settings import asbool
 from pyramid.security import remember
 
 from kotti import get_settings
+from kotti.security import get_user
+
 from kotti import DBSession
 from kotti.security import get_principals
 from kotti.views.users import deferred_email_validator
 from mba import _
 from mba.views.form import FormCustom
+from mba.security import get_student
 from mba.resources import MbaUser,Student
 
 # TODO groups for mba
@@ -83,7 +88,7 @@ def add_user_success(request, appstruct):
     appstruct['email'] = appstruct['email'] and appstruct['email'].lower()
     appstruct['last_login_date'] = datetime.now()
     #get_principals()[name] = appstruct
-    stu = Student(**appstruct)
+    stu = MbaUser(**appstruct)
     DBSession.add(stu)
     user = get_principals()[name]
     user.password = get_principals().hash_password(appstruct['password'])
@@ -95,7 +100,29 @@ def add_user_success(request, appstruct):
         'password. Doing so will activate your account.'
         )
     request.session.flash(success_msg, 'success')
-    return HTTPFound(location=request.application_url + '/details', headers=headers)
+    return HTTPFound(location=request.application_url + '/register_details', headers=headers)
+
+def add_user_details_success(request, appstruct):
+
+    #student = get_student(request)
+    print 'appstruct',appstruct
+    print 'getuser', get_user(request)
+    print 'getuser.name',get_user(request).name
+    new_student = Student(get_user(request).name, **appstruct)
+
+
+
+    DBSession.add(new_student)
+
+    headers = remember(request, new_student.name)
+
+    DBSession.flush()
+    success_msg = _(
+        'Congratulations! Successfully registed'
+    )
+    request.session.flash(success_msg, 'success')
+
+    return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
 
 @view_config(route_name='register',renderer='register.jinja2')
 def view_register(context, request):
@@ -196,25 +223,37 @@ def view_register_details(context, request):
 
     rendered_form = None
 
-    if 'register' in request.POST:
+
+    if 'submit' in request.POST:
+
+
         try:
             appstruct = form.validate(request.POST.items())
+
+            return add_user_details_success(request, appstruct)
+
         except ValidationFailure, e:
             request.session.flash(_(u"There was an error."), 'error')
             rendered_form = e.render()
-        else:
-            settings = get_settings()
-            
+
     if rendered_form is None:
         rendered_form = form.render(request.params)
+        #rendered_form = form.custom_render(request.params), #raise TypeError: unhashable type: 'NestedMultiDict'
+
+
 
     #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
     return {'form': jinja2.Markup(rendered_form)}
+
+@view_config(route_name='register_finish')
+def view_register_finish(context, request):
+    return pyramid.response.Response("OK")
 
 def includeme(config):
 
     settings = config.get_settings()
 
     config.add_route('register','/register')
-    config.add_route('register_details','/details')
+    config.add_route('register_details','/register_details')
+    config.add_route('register_finish','/register_finish')
     config.scan(__name__)
