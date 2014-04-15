@@ -5,6 +5,8 @@ from datetime import datetime
 from kotti import DBSession
 from kotti import get_settings
 from kotti.security import get_principals
+from kotti.resources import get_root
+
 from mba.resources import *
 
 # Just test hear, TODO for auto tests
@@ -159,6 +161,25 @@ def test_resume2():
     DBSession.add(resume1)
     DBSession.flush()
 
+def test_position():
+    p = Position(
+            job_name=u'软件工程师',
+            company_name=u'公务员',
+            degree=u'本科文凭',
+            experience=u'三年以上',
+            salary=10000,
+            parent_id = get_root(),
+            **_TEST_ATTRS)
+    DBSession.add(p)
+    #DBSession.flush()
+    #print p.id
+
+    stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
+    stu.interests = ['haha','oooo','ddd']
+    stu.positions = [p]
+    DBSession.flush()
+    print stu.position_items
+
 def populate():
     print 'Just test in mba.resources: '
     #test_document()
@@ -166,5 +187,6 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
-    #test_add_stu()
-    #test_resume2()
+    test_add_stu()
+    test_resume2()
+    test_position()

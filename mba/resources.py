@@ -96,6 +96,19 @@ class Interest(Base):
     def users(self):
         return [rel.user for rel in self.interest_items]
 
+#TODO for deleting
+class PositionCollect(Base):
+    position_id = Column(Integer, ForeignKey('positions.id', ondelete='cascade'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id', ondelete='cascade'), primary_key=True)
+    create_date = Column(DateTime(), default=datetime.utcnow())
+    position = relationship('Position', backref='position_items')
+
+    @classmethod
+    def _create(cls, p):
+        if p is None:
+            raise Exception('position can not be None')
+        return cls(position=p)
+
 
 #This is a base class for all users
 class MbaUser(Base):
@@ -128,6 +141,9 @@ class MbaUser(Base):
         creator=UserInterest._interest_find_or_create,
         )
 
+    _positions = relationship("PositionCollect", backref='user')
+    positions = association_proxy("_positions","position", creator=PositionCollect._create)
+
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id,
@@ -147,6 +163,10 @@ class MbaUser(Base):
         self.creation_date = datetime.now()
         self.last_login_date = None
         super(MbaUser, self).__init__(**kwargs)
+
+    @property
+    def position_items(self):
+        return [(rel, rel.position) for rel in self._positions]
 
     def __repr__(self):  # pragma: no cover
         return '<MbaUser %r>' % self.name
@@ -357,7 +377,7 @@ class Resume(Base):
 class PositionResume(Base):
     position_id = Column(Integer, ForeignKey('positions.id'), primary_key=True)
     resume_id = Column(Integer, ForeignKey('resumes.id'), primary_key=True)
-    create_date = Column(DateTime())
+    create_date = Column(DateTime(), default=datetime.utcnow())
     #反馈状态
     status = Column(Integer())
     resume = relationship('Resume', backref='postition_items')
@@ -366,7 +386,13 @@ class PositionResume(Base):
 #工作职位表
 class Position(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+    job_name = Column(String(100))
+    company_name = Column(String(100))
+    degree = Column(String(100))
+    experience = Column(String(100))
+    salary = Column(Integer())
     status = Column(Integer(), nullable=False)
+
     resumes = relationship('PositionResume', backref='position')
     users = association_proxy('resumes', 'user')
 
