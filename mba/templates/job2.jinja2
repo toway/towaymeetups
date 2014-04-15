@@ -172,16 +172,17 @@
                                                   <th>收藏日期</th>  
                                                 </tr>  
                                               </thead>  
-                                              <tbody>  
+                                              <tbody>
+											  {% for item1,item2 in pcs %}
                                                 <tr>  
-                                                  <td>营销公关</td>  
-                                                  <td>广东机械重工</td>
-                                                  <td>大专</td>
-                                                  <td>三年</td>
-                                                  <td>面议</td>
-                                                  <td>2013-1-3</td>
-                                                  
+													<td>{{item2.job_name}}</td>  
+													<td>{{item2.company_name}}</td>
+													<td>{{item2.degree}}</td>
+													<td>{{item2.experience}}</td>
+													<td>{{item2.salary}}</td>
+													<td>{{item1.create_date}}</td>
                                                 </tr>  
+											 {% endfor %}
                                             </tbody>
                                         </table>
                                     </div>

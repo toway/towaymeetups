@@ -345,7 +345,8 @@ def job_view(context, request):
             #return HTTPFound(location='/resume_edit2/%d' % resume.id)
 
     return {
-            'resumes':user.resumes
+            'resumes':user.resumes,
+            'pcs':user.position_items,
             }
 
 def includeme(config):
