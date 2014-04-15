@@ -126,14 +126,13 @@ def test_user():
     #print u.__class__, u.type
     u.__class__ = Student
     u.type = 'student'
-    #DBSession.execute("update mba_users set type='%s' where id=%d;" %('student', u.id))
     DBSession.execute("insert into students (id,real_name) values (%d,'error_name');" % u.id)
-    #transaction.commit()
     DBSession.flush()
     
     u2 = DBSession.query(MbaUser).filter_by(name=u'test').first()
     print u2
-    u2.real_name = 'ooooooooo'
+    #DBSession.query(Student).filter_by(id=u.id).update({'id':u.id,'real_name':'ooooooo'}, synchronize_session=False)
+    u2.real_name='bbbbbbbbbbb'
     DBSession.flush()
 
     u3 = DBSession.query(Student).filter_by(name=u'test').first()

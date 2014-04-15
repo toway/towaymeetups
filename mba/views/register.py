@@ -102,17 +102,27 @@ def add_user_success(request, appstruct):
     request.session.flash(success_msg, 'success')
     return HTTPFound(location=request.application_url + '/register_details', headers=headers)
 
+# Not other good implements
+def mbauser2student(u):
+    u.__class__ = Student
+    u.type = 'student'
+    DBSession.execute("insert into students (id) values (%d);" % u.id)
+    DBSession.flush()
+    #now get the student
+    return DBSession.query(MbaUser).get(u.id)
+
 def add_user_details_success(request, appstruct):
 
     #student = get_student(request)
     print 'appstruct',appstruct
     print 'getuser', get_user(request)
     print 'getuser.name',get_user(request).name
-    new_student = Student(get_user(request).name, **appstruct)
-
-
-
-    DBSession.add(new_student)
+    #new_student = Student(get_user(request).name, **appstruct)
+    new_student = mbauser2student(get_user(request), **appstruct)
+    new_student.real_name = appstruct['real_name']
+    new_student.birth_date = appstruct['birth_date']
+    #already added
+    #DBSession.add(new_student)
 
     headers = remember(request, new_student.name)
 
