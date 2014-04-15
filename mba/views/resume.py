@@ -105,6 +105,32 @@ class Education(colander.Schema):
             colander.Integer(),
             )
 
+class JobSchema(colander.Schema):
+    id = colander.SchemaNode(
+            colander.Integer(),
+            )
+    resume_id = colander.SchemaNode(
+            colander.Integer(),
+            )
+    industy = colander.SchemaNode(
+            colander.String(),
+            )
+    industy_type = colander.SchemaNode(
+            colander.Integer(),
+            )
+    industy_scale = colander.SchemaNode(
+            colander.Integer(),
+            )
+    duty = colander.SchemaNode(
+            colander.String(),
+            )
+    start_date = colander.SchemaNode(
+            colander.Date(),
+            )
+    finish_date = colander.SchemaNode(
+            colander.Date(),
+            )
+
 def user2person(user):
     person = {}
     if user:
@@ -166,12 +192,101 @@ class EducationsWidget(object):
             educations.append(schema.serialize(resources.row2dict(edu)))
         return self.renderer(self.template, resume_id=self.resume_id, educations=educations)
 
+class JobsWidget(object):
+    renderer = staticmethod(deform.Form.default_renderer)
+    def __init__(self, resume_id, jobs):
+        self.resume_id = resume_id
+        self.jobs = jobs
+        self.template = 'experience_form.jinja2'
+    def render(self):
+        jobs = []
+        for job in self.jobs:
+            schema = JobSchema()
+            jobs.append(schema.serialize(resources.row2dict(job)))
+        return self.renderer(self.template, resume_id=self.resume_id, experience=jobs)
+
 def cstruct2edu(cstruct, edu):
     edu.start_date = cstruct['start_date']
     edu.finish_date = cstruct['finish_date']
     edu.school_name = cstruct['school_name']
     edu.major = cstruct['major']
     edu.degree = cstruct['degree']
+
+def edit_education(request, user, resume_id):
+    t = request.POST["education"]
+    if resume_id != int(request.POST['resume_id']):
+        #TODO raise error
+        pass
+
+    if t == 'new':
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        edu_schema = Education()
+        cstruct = edu_schema.deserialize(request.POST)
+        edu_obj = resources.Education()
+        cstruct2edu(cstruct, edu_obj)
+        resume.educations.append(edu_obj)
+        #flush to get the new id
+        DBSession.flush()
+        widget = EducationsWidget(resume_id, resume.educations)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == 'modify':
+        edu_schema = Education()
+        cstruct = edu_schema.deserialize(request.POST)
+        DBSession.query(resources.Education).filter_by(resume_id=resume_id, id=int(request.POST['id'])).\
+            update(cstruct, synchronize_session=False)
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        widget = EducationsWidget(resume_id, resume.educations)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == 'delete':
+        edu = DBSession.query(resources.Education).filter_by(resume_id=resume_id, id=int(request.POST['id'])).first()
+        oid = edu.id
+        DBSession.delete(edu)
+        return Response(json.dumps({'__result':0,'id':oid}))
+    # raise error, not exists this operation
+    return Response(json.dumps({'__result':1}))
+
+def cstruct2job(cstruct, obj):
+    obj.industy = cstruct['industy']
+    obj.industy_type = cstruct['industy_type']
+    obj.industy_scale = cstruct['industy_scale']
+    obj.duty = cstruct['duty']
+    obj.start_date = cstruct['start_date']
+    obj.finish_date = cstruct['finish_date']
+
+def edit_job(request, user, resume_id):
+    t = request.POST["experience"]
+    if resume_id != int(request.POST['resume_id']):
+        #TODO raise error
+        pass
+    if t == "new":
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        job_schema = JobSchema()
+        cstruct = job_schema.deserialize(request.POST)
+        job_obj = resources.Job()
+        cstruct2job(cstruct, job_obj)
+        resume.jobs.append(job_obj)
+        #flush to get the new id
+        DBSession.flush()
+        widget = JobsWidget(resume_id, resume.jobs)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == "modify":
+        job_schema = JobSchema()
+        cstruct = job_schema.deserialize(request.POST)
+        DBSession.query(resources.Job).filter_by(resume_id=resume_id, id=int(request.POST['id'])).\
+            update(cstruct, synchronize_session=False)
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        widget = JobsWidget(resume_id, resume.jobs)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == "delete":
+        job = DBSession.query(resources.Job).filter_by(resume_id=resume_id, id=int(request.POST['id'])).first()
+        oid = edu.id
+        DBSession.delete(edu)
+        return Response(json.dumps({'__result':0,'id':oid}))
+    return Response(json.dumps({'__result':1}))
 
 @view_config(route_name='resume_edit2', renderer='resume_edit3.jinja2')
 def resume_edit2(context, request):
@@ -201,41 +316,16 @@ def resume_edit2(context, request):
             person_info['__result'] = 1
         return Response(json.dumps(person_info, cls=MyEncoder))
     elif "education" in request.POST:
-        t = request.POST["education"]
-        if resume_id != int(request.POST['resume_id']):
-            #TODO raise error
-            pass
-
-        if t == 'new':
-            resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
-            edu_schema = Education()
-            cstruct = edu_schema.deserialize(request.POST)
-            edu_obj = resources.Education()
-            cstruct2edu(cstruct, edu_obj)
-            resume.educations.append(edu_obj)
-            widget = EducationsWidget(resume_id, resume.educations)
-            json_string = json.dumps({'__result':0})
-            return Response(json_string+"$"+widget.render())
-        elif t == 'modify':
-            edu_schema = Education()
-            cstruct = edu_schema.deserialize(request.POST)
-            DBSession.query(resources.Education).filter_by(resume_id=resume_id, id=int(request.POST['id'])).\
-                update(cstruct, synchronize_session=False)
-            resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
-            widget = EducationsWidget(resume_id, resume.educations)
-            json_string = json.dumps({'__result':0})
-            return Response(json_string+"$"+widget.render())
-        elif t == 'delete':
-            edu = DBSession.query(resources.Education).filter_by(resume_id=resume.id, id=int(request.POST['id'])).first()
-            oid = edu.id
-            DBSession.delete(edu)
-            return Response(json.dumps({'__result':0,'id':oid}))
+        return edit_education(request, user, resume_id)
+    elif "experience" in request.POST:
+        return edit_job(request, user, resume_id)
 
     resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
     return {
             'resume_id':resume_id,
             'person_info':person_schema.serialize(user2person(user)),
             'edu':EducationsWidget(resume_id, resume.educations),
+            'exp':JobsWidget(resume_id, resume.jobs),
     }
 
 @view_config(route_name='job_view', renderer='job2.jinja2')

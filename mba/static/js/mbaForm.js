@@ -117,8 +117,12 @@ function updateTables(class_name, obj) {
 	}
 	$(class_name).each(function () {
 		sp_id = $(this).attr('id');
-		id = sp_id.substring(sp_id.indexOf('_')+1)
-		sp_obj = $('#'+sp_id)
+		if(typeof sp_id == 'undefined') {
+			alert(class_name);
+			return;
+		}
+		id = sp_id.substring(sp_id.indexOf('_')+1);
+		sp_obj = $('#'+sp_id);
 		data_type = sp_obj.attr('data-type');
 		if(typeof data_type == 'undefined') {
 			data_type = 'undefined';

@@ -145,6 +145,17 @@ def test_resume2():
             major=u'通信工程',
             degree = 1)
     resume1.educations.append(edu)
+
+    job = Job(
+            industy = u'美丽的台湾公司',
+            industy_type = 1,
+            industy_scale = 1,
+            duty = u'软件工程师',
+            start_date = start_date,
+            finish_date = finish_date,
+            )
+    resume1.jobs.append(job)
+
     DBSession.add(resume1)
     DBSession.flush()
 
@@ -155,5 +166,5 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
-    #test_add_stu()
-    #test_resume2()
+    test_add_stu()
+    test_resume2()

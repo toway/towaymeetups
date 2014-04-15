@@ -269,14 +269,15 @@ class Education(Base):
 class Job(Base):
     id = Column(Integer, primary_key=True)
     resume_id = Column(Integer, ForeignKey('resumes.id'))
-    job_type = Column(String(50))
     location = Column(String(200))
     industy = Column(String(100))
+    industy_type = Column(Integer())
+    industy_scale = Column(Integer())
     duty = Column(String(200))
-    start_date = Column(DateTime())
-    finish_date = Column(DateTime())
+    start_date = Column(Date())
+    finish_date = Column(Date())
     description = Column(UnicodeText())
-    is_current = Column(Boolean)
+    is_current = Column(Boolean, default=False)
 
 class Train(Base):
     id = Column(Integer, primary_key=True)

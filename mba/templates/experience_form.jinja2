@@ -1,0 +1,160 @@
+  {% for item in experience %}
+  <div id="exp_div_{{item.id}}" class="resume-display-cnt">
+	  <table class="table mba-resume-edit-tbl table-bordered">  
+			<tbody>  
+			<tr>
+				<th class="mba-resume-lbl required col-md-2">时间 :</th>
+				<td class="cols-left col-md-3" >
+					  {{item.start_date}}-{{item.finish_date}}
+				</td>
+				<td>
+				  
+				</td>
+				<td>
+				  <div class="mba-resume-setting-cnt" style="float:right">
+						  <a href="javascript:void(0)" alt="{{item.id}}" class="experience-edit">修改</a>
+						  <a href="javascript:void(0)" alt="{{item.id}}" class="experience-delete">删除</a>
+					   </div>
+				</td>
+			   
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required">公司名称 :</th>
+				<td class="cols-left">
+					{{item.industy}}
+				</td>
+				<th  class="mba-resume-lbl">公司性质 :</th>
+				<td>
+				  <span id="sp_exp_industy_type_{{item.id}}" class="sp_exp" data-type="select" data-val="{{item.industy_type}}">
+				  </span>
+				</td>
+			  </tr>
+
+			  <tr>
+				<th class="mba-resume-lbl">公司规模 :</th>
+				<td class="cols-left">
+				  <span id="sp_exp_industy_scale_{{item.id}}" class="sp_exp" data-type="select" data-val="{{item.industy_scale}}">
+				  </span>
+				</td>
+				<th  class="mba-resume-lbl  required">职位 :</th>
+				<td>
+				  {{item.duty}}
+				</td>
+			  </tr>
+		  </tbody>
+	  </table> 
+  </div>
+   <form id="exp_form_{{item.id}}" class="resume-edit-cnt hidden" method="POST" action="">
+	<input type="hidden" name="experience" value="modify"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+	<input type="hidden" name="id" value="{{item.id}}"/>
+	  <table class="table mba-resume-edit-tbl table-bordered">  
+			<tbody>  
+			<tr>
+				<th class="mba-resume-lbl required col-md-2">时间 :</th>
+				<td class="cols-left" colspan="3">
+					<input type='text' data-type='date' class="mba-datepicker in_exp" name='start_date' value='{{item.start_date}}'/>- <input type='text' data-type='date'  class="mba-datepicker in_exp" name='finish_date' value='{{item.finish_date}}'/>
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required col-md-2">公司名称 :</th>
+				<td class="cols-left col-md-3">
+				  <input type="text" class="form-control input-sm" value="{{item.industy}}" name="industy" size="20">
+				</td>
+				<th  class="mba-resume-lbl">公司性质 :</th>
+				<td>
+				  <select id="exp_industy_type_{{item.id}}" name="industy_type"  class="form-control selectpicker select-val in_exp" data-type="select"  data-val="{{item.industy_type}}">  
+					<option value=0>外商独资/外企办事处</option>  
+					<option value=1>中外合资</option>  
+					<option value=2>私营/民营</option>  
+					<option value=3>国有企业</option>  
+					<option value=4>上市公司</option>
+				  </select>  
+				</td>
+			  </tr>
+
+			  <tr>
+				<th class="mba-resume-lbl">公司规模 :</th>
+				<td class="cols-left">
+				  <select id="exp_industy_scale_{{item.id}}"  class="form-control selectpicker select-val in_exp" name="industy_scale" data-type="select" data-val="{{item.industy_scale}}">  
+					<option value=0>1-100人</option>  
+					<option value=1>100-500人</option> 
+					<option value=2>500-1000人</option>
+					<option value=3>1000-2000人</option> 
+					<option value=4>2000-5000人</option> 
+					<option value=5>2000-5000人</option> 
+					<option value=6>10000人以上</option>  
+				  </select>  
+
+				</td>
+				<th  class="mba-resume-lbl  required">职位 :</th>
+				<td>
+				  <input type="text" class="form-control  input-sm" value="{{item.duty}}" name="duty" size="20">
+				</td>
+			  </tr>
+			  </tbody>
+	  </table>
+  </form>
+{% endfor %}
+
+{% if experience|length > 0 %}
+	<form id="exp_form_0" method="POST" class="hidden" action="">
+{% else %}
+	<form id="exp_form_0" method="POST" action="">
+{% endif %}
+	<input type="hidden" name="experience" value="new"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+	<input type="hidden" name="id" value="0"/>
+	<table class="table mba-resume-edit-tbl table-bordered">  
+		  <tbody>  
+		  <tr>
+			  <th class="mba-resume-lbl required col-md-2">时间 :</th>
+				  <td class="cols-left"  colspan="3">
+					<input type='text' class="mba-datepicker in_exp" data-type='date' name='start_date' value=''/>- <input type='text'  class="mba-datepicker in_exp" data-type='date' name='finish_date' value=''/>
+			  </td>
+				 
+			</tr>
+
+			 <tr>
+			  <th class="mba-resume-lbl required">公司名称 :</th>
+			  <td class="cols-left">
+		
+				<input type="text" class="form-control  input-sm" value="" name="industy" size="20">
+			  </td>
+			  <th  class="mba-resume-lbl">公司性质 :</th>
+			  <td>
+				<select name='industy_type' data-type='select' data-val='0' class="form-control selectpicker in_exp">  
+					  <option value=0>外商独资/外企办事处</option>  
+					  <option value=1>中外合资</option>  
+					  <option value=2>私营/民营</option>  
+					  <option value=3>国有企业</option>  
+					  <option value=4>上市公司</option>
+				</select>  
+			  </td>
+			</tr>
+
+			<tr>
+			  <th class="mba-resume-lbl">公司规模 :</th>
+			  <td class="cols-left">
+				<select name='industy_scale' data-val='0' data-type='select' class="in_exp form-control selectpicker">  
+					  <option value=0>1-100人</option>  
+					  <option value=1>100-500人</option> 
+					  <option value=2>500-1000人</option>
+					  <option value=3>1000-2000人</option> 
+					  <option value=4>2000-5000人</option> 
+					  <option value=5>2000-5000人</option> 
+					  <option value=6>10000人以上</option> 
+				</select>  
+
+			  </td>
+			  <th  class="mba-resume-lbl  required">职位 :</th>
+			  <td>
+				<input type="text" name='duty' class="form-control  input-sm" value="" size="20">
+			  </td>
+			</tr>
+
+			</tbody>
+		</table>
+</form>
