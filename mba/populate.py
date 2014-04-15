@@ -2,8 +2,10 @@
 # coding: utf-8
 
 from datetime import datetime
+from sqlalchemy.orm import class_mapper
 from kotti import DBSession
 from kotti import get_settings
+import transaction
 from kotti.security import get_principals
 from kotti.resources import get_root
 
@@ -113,6 +115,31 @@ def test_resume():
     skill = DBSession.query(Skill).first()
     print skill.resumes
 
+def test_user():
+    u = MbaUser(name=u'test')
+    DBSession.add(u)
+    stu = Student(name=u'test2', real_name=u'testit2')
+    DBSession.add(stu)
+    DBSession.flush()
+
+    #print 'stu type', stu.type
+    #print u.__class__, u.type
+    u.__class__ = Student
+    u.type = 'student'
+    #DBSession.execute("update mba_users set type='%s' where id=%d;" %('student', u.id))
+    DBSession.execute("insert into students (id,real_name) values (%d,'error_name');" % u.id)
+    #transaction.commit()
+    DBSession.flush()
+    
+    u2 = DBSession.query(MbaUser).filter_by(name=u'test').first()
+    print u2
+    u2.real_name = 'ooooooooo'
+    DBSession.flush()
+
+    u3 = DBSession.query(Student).filter_by(name=u'test').first()
+    print u3.real_name
+    #mapper._identity_class = mapper.inherits._identity_class
+
 def test_add_stu():
     settings = get_settings()
     appstruct = {}
@@ -187,6 +214,7 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
+    test_user()
     #test_add_stu()
     #test_resume2()
     #test_position()
