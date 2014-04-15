@@ -162,3 +162,151 @@ function updateTables(class_name, obj) {
 		}
 	});
 }
+
+function mgr_create(pref, the_name) {
+	var mgr = {
+		curr_modify: -1,
+		prefix:pref,
+		name:the_name,
+		container:function() {return '#'+this.name+'_container';},
+		item_sel:function(id) {return '#'+this.prefix+'_div_'+id;},
+		updated_span:function() {return this.container()+' .sp_'+this.prefix;},
+		updated_input:function(){return this.container()+' .in_'+this.prefix;},
+		btn_add:function(){return '#btn_'+this.prefix+'_add';},
+		btn_save:function(){return '#btn_'+this.prefix+'_save';},
+		btn_cancel:function(){return '#btn_'+this.prefix+'_cancel';},
+		item_len:function(){return "#"+this.prefix+"_length";},
+		div:function(id){return '#'+this.prefix+'_div_'+id;},
+		form:function(id){return '#'+this.prefix+'_form_'+id;},
+		edit:function(){return '.'+this.name+'-edit';},
+		del:function(){return '.'+this.name+'-delete';},
+		modify:function(id){return this.form(id)+' .input[name='+this.name+']';}
+	};
+	return mgr;
+}
+
+function mgr_init(mgr) {
+	 var delete_options = {
+	   iframe: true,
+	   success:function (rText, statusText, xhr, $form) {
+		try {
+			rlt_obj = jQuery.parseJSON(rText);
+			if(rlt_obj['__result'] == 0) {
+				$(mgr.item_sel(rlt_obj.id)).addClass('hidden');
+			}
+		}
+		catch(err) {
+		}
+	   }
+	 };
+
+	 var inner_refresh = function() {
+		updateInputs(mgr.updated_input());
+		updateTables(mgr.updated_span());
+		if($(mgr.item_len()).val() == "0") {
+			$(mgr.form(0)).removeClass('hidden');
+			mgr.curr_modify = 0;
+			edu_modify(true);
+		} else {
+			edu_modify(false);
+		} 
+		$(mgr.edit()).click(function() {
+			id = mgr.curr_modify;
+			if(id != -1) {
+				$(mgr.form(id)).addClass('hidden');
+				$(mgr.div(id)).removeClass('hidden');
+			}
+
+			newid = $(this).attr('alt');
+			$(mgr.form(newid)).removeClass('hidden');
+			$(mgr.div(newid)).addClass('hidden');
+			mgr.curr_modify = newid;
+
+			edu_modify(true);
+		});
+
+		$(mgr.del()).click(function(){
+			if(!window.confirm('确定删除吗？')) {
+				return;
+			}
+			id = $(this).attr('alt');
+			$(mgr.modify(id)).val('delete');
+			$(mgr.form(id)).ajaxSubmit(delete_options);
+		});
+	};
+
+	 var edu_modify = function(b) {
+		if(b) {
+		$(mgr.btn_add()).addClass('hidden');
+		$(mgr.btn_save()).removeClass('hidden');
+		$(mgr.btn_cancel()).removeClass('hidden');
+		} else {
+		$(mgr.btn_add()).removeClass('hidden');
+		$(mgr.btn_save()).addClass('hidden');
+		$(mgr.btn_cancel()).addClass('hidden');
+		}
+	 };
+
+	$(mgr.btn_add()).click(function () {
+		$(mgr.form(0)).removeClass('hidden');
+		mgr.curr_modify = 0;
+		edu_modify(true);
+		});
+
+	$(mgr.btn_cancel()).click(function() {
+		id = mgr.curr_modify;
+		$(mgr.form(id)).addClass('hidden');
+		$(mgr.div(id)).removeClass('hidden');
+		mgr.curr_modify = -1;
+		edu_modify(false);
+	});
+
+	 var save_options = {
+	   iframe: true,
+	   success:function (rText, statusText, xhr, $form) {
+		index = rText.indexOf('$');
+		is_error = false;
+		rlt_obj = {'__result':1};
+		if(index >= 0) {
+			rlt = rText.substring(0, index);
+		} else {
+			is_error = true;
+			rlt = rText;
+		}
+		try {
+			rlt_obj = jQuery.parseJSON(rlt);
+		}
+		catch(err) {
+			is_error = true;
+		}
+		if(rlt_obj['__result'] == 0) {
+			html = rText.substring(index+1);
+			mgr.curr_modify = -1;
+			$(mgr.container()).html($(html));
+			inner_refresh();
+		}
+	   }
+	 };
+
+	$(mgr.btn_save()).click(function() {
+		id = mgr.curr_modify;
+		if(id != 0) {
+			$(mgr.modify(id)).val('modify');
+		}
+		$(mgr.form(id)).ajaxSubmit(save_options);
+	});
+
+	//at last
+	inner_refresh();
+ }
+
+//global object
+eduMgr = mgr_create('edu','education');
+expMgr = mgr_create('exp','experience');
+(function () {
+	$(document).ready(function(){
+		mgr_init(eduMgr);
+		mgr_init(expMgr);
+	});
+
+})();

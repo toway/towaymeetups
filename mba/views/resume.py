@@ -23,7 +23,7 @@ from js.jquery_form import jquery_form
 from js.deform import deform_js
 from js.jquery_timepicker_addon import timepicker
 from js.deform_bootstrap import ui_bootstrap_theme
-from mba.fanstatic import mba_form
+from mba.fanstatic import resume_edit_js
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -296,7 +296,7 @@ def resume_edit2(context, request):
     #deform_js.need()
     timepicker.need()
     ui_bootstrap_theme.need()
-    mba_form.need()
+    resume_edit_js.need()
 
     user = get_user(request)
     if not user:
