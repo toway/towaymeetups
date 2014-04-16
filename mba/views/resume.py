@@ -343,6 +343,14 @@ def job_view(context, request):
             #DBSession.add(resume)
             #DBSession.flush()
             #return HTTPFound(location='/resume_edit2/%d' % resume.id)
+    elif "operator" in request.POST:
+        ops = request.POST['operator']
+        print ops
+        if ops == 'del_resume':
+            id = request.POST['operator_id']
+            resume = DBSession.query(resources.Resume).get(id)
+            if resume and resume.user_id == user.id:
+                DBSession.delete(resume)
 
     return {
             'resumes':user.resumes,

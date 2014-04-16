@@ -12,16 +12,25 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import remember
+from pyramid.renderers import render_to_response
 from pyramid.encode import urlencode
 from formencode.validators import Email
 
 from kotti import get_settings
 from kotti.security import get_principals
+from kotti import DBSession
+from kotti.security import get_user
+from mba.resources import MbaUser
 from mba import _
 
 @view_config(route_name='home', renderer='index.jinja2')
 def view_home(request):
-    return {'project': 'lesson2'}
+    #only for test
+    stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
+    headers = remember(request, stu.name)
+    response = render_to_response('index.jinja2', {'project':'lession2'}, request=request)
+    response.headerlist.extend(headers)
+    return response
 
 @view_config(route_name='permission', renderer='index.jinja2', permission='admin')
 def view_permission(request):

@@ -149,7 +149,7 @@ def test_add_stu():
     register_roles = settings['kotti.register.role']
     if register_roles:
         appstruct['roles'] = set(['role:' + register_roles])
-    name = 'auto_add_user'
+    name = u'方程程'
     appstruct['name'] = name
     appstruct['email'] = 'a@gmail.com'
     appstruct['last_login_date'] = datetime.now()
@@ -214,7 +214,7 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
-    test_user()
+    #test_user()
     #test_add_stu()
     #test_resume2()
     #test_position()
