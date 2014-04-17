@@ -13,7 +13,8 @@ from mba import _
 def view_register_finish(context, request):
 
     resp_dict = {
-        'status': 'ON_GOING',# ON_GOING/FINISHED
+        'status': 1,# 1=ON_GOING/0=FINISHED
+        'status_desc': u'正在进行中...',
         'title':u'人格解析与信任建立',
         'abstract':u'简介',
         'content':u'活动介绍',
