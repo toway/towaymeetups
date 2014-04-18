@@ -213,7 +213,7 @@ def populate():
     #test_act2()
     #test_city()
     #test_friend()
-    test_user()
+    #test_user()
     #test_add_stu()
     #test_resume2()
     #test_position()

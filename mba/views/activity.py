@@ -22,7 +22,7 @@ def view_register_finish(context, request):
         'speaker':u'李玫瑾',
         'speaker_introduction':u'李玫瑾，系中国人民公安大学教授，研究生导师。中国警察协会学术委员，中国青少年犯罪研究会副会长，中国心理学会法心理学专业委员会副主任等。',
         'comments':[u'ok',u'ok2'],
-        'applicants':['a','b']
+        'applicants':[u'陈...',u'余争'] * 10
     }
 
     return resp_dict

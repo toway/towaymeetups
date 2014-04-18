@@ -30,18 +30,31 @@
 
             .activity-left{
                 text-align: center;
+                margin-top: 20px;
+            }
+
+            .left-section{
+                border: 2px solid #DFDFDF;
+                background-color: #F5F5F5;
+                margin: 20px 0;
+                border-right: 1px solid #DFDFDF;
             }
 
             .activity-left .activity-menu{
-                border: 2px solid #DFDFDF;
-                margin: 20px 0;
-                background-color: #F5F5F5;
+                margin-top: 0;
             }
 
+            .activity-left .activity-menu li{
+                text-decoration: none;
+                list-style: none;
+                list-style-type: none;
+                line-height: 30px;
+            }
+
+
+
             .speaker{
-                border: 2px solid #DFDFDF;
                 padding: 10px;
-                background-color: #F5F5F5;
             }
 
             .speaker-splitter{
@@ -60,6 +73,24 @@
                 background-color: #F5F5F5;
                 margin: 15px;
                 padding: 20px;
+            }
+
+            .activity-comments .comments-splitter{
+                margin:   10px -10px 10px -10px;
+            }
+
+            .activity-comments{
+                text-align: left;
+                vertical-align: middle;
+                padding: 10px;
+            }
+
+            .activity-comments ul{
+                padding: 0;
+            }
+
+            .activity-comments hr{
+                margin: 2px;
             }
 
             .activity-section .section-title{
@@ -84,6 +115,20 @@
                 display: inline;
                 font-size: 24px;
                 padding-left: 30px;
+            }
+
+            .applicant {
+                display: inline-block;
+                width: 32px;
+                text-align: center;
+            }
+
+            .apply-section{
+                margin: 40px 80px 150px 0;
+            }
+
+            .btn-apply{
+                float: right;
             }
 
         </style>
@@ -119,11 +164,11 @@
                         <div class="row">
 
                             <div class="activity-left col-md-2">
-                                <div class="activity-menu">
+                                <div class="left-section activity-menu">
                                     {%  include "activity-menu.jinja2" %}
                                 </div>
 
-                                <div class="speaker">
+                                <div class="left-section speaker">
                                     <div class="speaker-avatar">
                                         <a href="#">
                                             <!--TODO:URL link to speaker's homepage-->
@@ -141,11 +186,15 @@
                                     </div>
                                 </div>
 
-                                <div class="activity-comments">
+                                <div class="left-section activity-comments">
+                                    <div>评价：</div>
+                                    <hr class="comments-splitter"/>
                                     <ul>
-                                        <li>a</li>
-                                        <li>b</li>
-                                        <li>c</li>
+                                        <li> <img src="static/img/avatars/speaker-yqc.jpg" width="20px" height="20px"/> 还不错</li>
+                                        <hr/>
+                                        <li><img src="static/img/avatars/avatar-unknown-micro.jpg" width="20px" height="20px"/> 李老师的讲座，值得参与</li>
+                                        <hr/>
+                                        <li><img src="static/img/avatars/avatar-unknown-micro.jpg" width="20px" height="20px"/> 5星..</li>
                                     </ul>
                                 </div>
 
@@ -210,13 +259,20 @@
                                     <div class="section-title"> 89人参加：</div>
                                     <div class="applicants">
                                         {% for applicant in applicants %}
-                                            <span>
+                                            <div class="applicant">
                                                 <!--TODO: may be a A href is needed -->
+
                                                 <img src="static/img/avatars/avatar-unknown-micro.jpg"/>
-                                                匿名
-                                            </span>
+
+                                                <span>{{ applicant }}</span>
+                                            </div>
                                         {% endfor %}
                                     </div>
+                                </div>
+
+
+                                <div class="apply-section">
+                                    <input type="button" class="btn-apply btn btn-primary btn-lg" value="我要报名"/>
                                 </div>
 
                             </div>
