@@ -13,7 +13,8 @@ from mba import _
 def view_register_finish(context, request):
 
     resp_dict = {
-        'status': 'ON_GOING',# ON_GOING/FINISHED
+        'status': 1,# 1=ON_GOING/0=FINISHED
+        'status_desc': u'正在进行中...',
         'title':u'人格解析与信任建立',
         'abstract':u'简介',
         'content':u'活动介绍',
@@ -21,7 +22,7 @@ def view_register_finish(context, request):
         'speaker':u'李玫瑾',
         'speaker_introduction':u'李玫瑾，系中国人民公安大学教授，研究生导师。中国警察协会学术委员，中国青少年犯罪研究会副会长，中国心理学会法心理学专业委员会副主任等。',
         'comments':[u'ok',u'ok2'],
-        'applicants':['a','b']
+        'applicants':[u'陈...',u'余争'] * 10
     }
 
     return resp_dict
