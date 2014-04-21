@@ -108,14 +108,16 @@
                                         {% for item in resumes %}
                                         <tr> 
                                           <td>{{item.title}}</td>
-                                          <td>{{item.modify_date}}</td>
+                                          <td>{{item.modify_date.strftime('%Y-%m-%d')}}</td>
 										  <td><a href='/resume_edit2/{{item.id}}' alt='修改简历'>
 												  <span class="mba-resume-edit resume_operate" url="resume_edit"><img src="static/img/resume_edit.jpg"></span>
 											  </a>
 											  </td>
                                           <td><span class="mba-resume-refresh resume_operate"  url="resume_refresh"><img src="static/img/resume_refresh.jpg"></span></td>
-                                          <td><span class="mba-resume-preview resume_operate"  url="resume_preview"><img src="static/img/resume_preview.jpg"></span></td>
-                                          <td><span class="mba-resume-delete resume_operate"   ><img src="static/img/resume_delete.jpg"></span></td>
+										  <td><a href="/resume_preview" alt="简历预览"><span class="mba-resume-preview resume_operate"  url="resume_preview"><img src="static/img/resume_preview.jpg"></span>
+											  </a>
+											  </td>
+										  <td><span data-val="{{item.id}}" class="resume-delete resume_operate"><img src="static/img/resume_delete.jpg" alt="简历删除"></span></td>
                                           
                                         </tr>  
                                         {% endfor %} 
@@ -213,6 +215,23 @@
                                         </table>
                                     </div>
 
+<form id="form_hidden" method="POST" action="">
+	<input type="hidden" id="operator" name="operator" value=""/>
+	<input type="hidden" id="operator_id" name="operator_id" value=""/>
+</form>
+<script type="text/javascript">
+(function (){
+	$(".resume-delete").click(function(){
+		if(window.confirm("确定删除吗？")) {
+			id = $(this).attr("data-val");
+			$("#operator").val("del_resume");
+			$("#operator_id").val(id);
+			$("#form_hidden").submit();
+		}
+		});
+ })();
+</script>
+
                                 </div>
                         </div>
                     <!-- </div> -->
@@ -239,15 +258,6 @@
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
-
-            $(".resume_operate").click(function(){
-              var url = $(this).attr("url");
-              console.log(url);
-              if(url)
-              {
-                location.href="./"+url;
-              } 
-            })
         </script>
     </body>
 </html>
