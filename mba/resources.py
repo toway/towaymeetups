@@ -245,7 +245,7 @@ class Student(MbaUser):
     school = Column(String(100))
     school_year = Column(Integer())
     
-    real_name = Column(String(20), nullable=False)
+    real_name = Column(String(20))
     birth_date = Column(Date())
     identify_type = Column(Integer())
     identify = Column(String(30))

@@ -7,3 +7,5 @@ def includeme(config):
     config.include('mba.views.job')
     config.include('mba.views.resume_edit')
     config.include('mba.views.resume_preview')
+    config.include('mba.views.activity')
+
