@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <!-- Bootstrap -->
+       <link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/main.css">
+
+<link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/normalize.css">
+  
+<link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/style.css">
+<script src="/fanstatic/mba/js/jquery-1.10.2.min.js"></script>
+     <script src="/fanstatic/mba/js/modernizr-2.6.2.min.js"></script>
+     <script type="text/javascript">
+     $(function(){
+		 var html="";
+		 html+="<ul>"
+		 for(var i=0;i<35;i++){
+		   	 html+="<li><img src='/fanstatic/mba/img/person_xiang.gif'>";
+			 html+="<p>"+(i+1)+"</p>";
+			 html+="</li>";
+		  }
+		   html+="</ul>";
+		 $(".persons").append(html);
+		 
+		 });
+     
+     
+     
+     </script>
+    </head>
+    <style type="text/css">
+	body{ background-color:#edf4ed; font-family:'微软雅黑'; font-size:13px;}
+	.bg{ background-color:#edf4ed;}
+	header{ padding:22px 0;}
+	.mba-nav .navbar-collapse .navbar-nav > li > a {
+    background-color: #edf4ed;
+    color: #343434;
+}
+footer{padding-top:15px; width:868px; padding-bottom:142px; border-top:1px solid #fafffb; margin:0 auto;}
+footer a{color:#999;}
+
+
+.main_content{margin-top:24px; width:866px; border-bottom:1px solid #dce1dd; padding-bottom:215px;}
+.search{margin-top:5px; margin-left:100px;}
+.mba-nav .navbar-collapse .navbar-nav .active{color:#0c63b2;}
+.mba-margin-top{margin-top:110px;}
+.active_review_nav{ height:280px; background-color:#fff; border:1px solid #d5e1d3; padding:0 12px 0 9px; position:relative;}
+.active_review_nav li{text-align:center; line-height:43px;}
+.active_review_nav li a{display:block; color:#666;}
+.active_review_nav .active{background-color:#dbe5ee; border-radius:5px; width:150px;}
+.active_border{ border:1px solid #abbbcb;}
+.active_review_nav .next{ background:url(/fanstatic/mba/img/nav_down.gif) 0 0 no-repeat; width:17px; height:11px;bottom:20px; left:80px; display:block; position:absolute;}
+
+.side_bg{background-color:#fff; border:1px solid #d5e1d3;}
+.jiabing{margin:12px 0 18px 0; text-align:center;}
+.jiabing dt{border-bottom:1px solid #d5e1d5; padding:13px 24px 15px 24px;}
+.jiabing dd{margin: 15px 21px 15px 18px;}
+
+.comment ul{padding:0 10px 8px 10px;}
+.comment li{ border-bottom:1px solid #dfdfdf;text-align:left; padding:8px 0;}
+.comment h3{text-align:left; border-bottom:1px solid #dfdfdf; height:33px; line-height:33px; padding-left:18px;}
+.comment .last_comm{ border-bottom:none;}
+
+.main_bg{ background-color:#fff; border-bottom:1px solid #d5e1d3; margin-bottom:12px; text-align:left; }
+.main_bg h3{text-align:left; padding-bottom:17px;}
+.active_title{text-align:right; overflow:hidden; padding:25px 30px;}
+.active_title h2{ float:left;font-weight:normal;}
+.active_title strong{ color:#2967b2;font-weight:normal;}
+.active_review{ padding:16px 44px 14px 27px; line-height:21px;}
+.active_introduce{ padding:17px 48px 25px 22px;}
+
+
+.tips{ padding:16px 0 50px 28px;}
+.tips span{padding-left:15px;}
+.tips p{ line-height:20px;}
+
+.persons{padding:19px 5px 14px 15px; overflow:hidden;}
+.persons ul li{float:left; margin-right:9px; text-align:center; line-height:22px;}
+
+.comment_con{ padding:19px 46px 14px 29px; position:relative; height:231px;}
+.comment_con .tag{ width:169px; height:29px; border:1px solid #d4e0d4; line-height:29px; background:url(/fanstatic/mba/img/ico-tag.gif) 18px 5px no-repeat; padding-left:45px; }
+.comment_con textarea{ width:568px; height:110px; border:1px solid #d5e3d6; margin-top:11px; color:#999; font-size:13px; padding:13px 0 0 5px;}
+.comment_con .make_comment{ width:95px; height:30px; background-color:#3072bc; border:none; color:#fff; position:absolute; top:187px; right:51px;}
+.comment_con .share{ background:url(/fanstatic/mba/img/share_btn.gif) 0 0 no-repeat; border:none; width:119px; height:31px; position:absolute;top:187px; right:165px;}
+
+.line_bg{ background: #fff url(/fanstatic/mba/img/line.gif) 0 18px no-repeat;}
+.sign_up{ width:140px; height:44px; border:none; background-color:#42ac18; color:#fff; font-size:20px; font-weight:bold;}
+    </style>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+        <header class="navbar navbar-inverse navbar-fixed-top mba-nav bg" role="banner">
+            <div class="container">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a class="navbar-brand" href="#"><img src="/fanstatic/mba/img/logo1.jpg" alt="MBA志友会"/></a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                      <ul class="nav navbar-nav" style="margin-top:-6px;">
+                        <li><a href="/">首页</a></li>
+                        <li><a href="/active-detail"  class="active">我的活动</a></li>
+                        <li><a href="/contact">找找看</a></li>
+                        <li><a href="/job">求职</a></li>
+                      </ul>
+                      
+                      <div class="search_box search">
+                        <input type="text" class="search_input" placeholder="搜索你感兴趣的活动"/>
+                        <button class="search_btn" ></button>
+                     </div>
+                    </div><!--/.nav-collapse -->
+                   
+                </div>
+            </div>
+        </header>
+
+
+
+
+        <div class="container-fluid mba-margin-top mba-banner" >
+            <center><img src="/fanstatic/mba/img/banner.jpg"></center>
+        </div>
+        <div class="container main_content">
+          <div class="row">
+            <div class="col-md-3">
+               <div class="side">
+                 <div class="active_review_nav side_bg">
+                   <ul>
+                     <li><a href="#">金融</a></li>
+                     <li class="active"><a href="#">人力资源</a></li>
+                     <li><a href="#">户外活动</a></li>
+                     <li class="active active_border"><a href="#">聚友沙龙</a></li>
+                     <li><a href="#">线下聚会</a></li>
+                   </ul>
+                   <a href="#" class="next"></a>
+                 
+                 </div>
+                 <div class="jiabing side_bg">
+                   <dl>
+                     <dt><img src="/fanstatic/mba/img/yqc.gif" width="123" height="127" alt="杨青禅"></dt>
+                     <dd><p>嘉宾简介：</p>
+                        <p>
+                        杨青禅，高级心理咨询师、讲师、国家心理保健师、催眠治疗师。西南师范大学心理咨询与治疗研究生、成都科技进修学院心理学系副教授、深圳万安源心理
+                        咨询中心主任。
+                        
+                        </p>
+                     </dd>
+                   
+                   
+                   </dl>
+                 </div>
+                 <div class="side_bg comment">
+                   <h3>评价</h3>
+                  <ul>
+                    <li>这个活动不错哟，我们会继续参加的。</li>
+                   <li>这个活动还不错哟，我...</li>
+                     <li>这个活动还不错哟，我们一定会继续参加的。</li>
+                   <li class="last_comm">这个活动还不错哟，我...</li>
+                  </ul>
+                 
+                 </div>
+               
+               </div>
+            
+            </div>
+            <div class="col-md-9">
+              <div class="main_bg active_title ">
+                <h2>人格解析与信任建立</h2> <strong>正在报名中...</strong>
+              </div>
+            
+                <div class="main_bg active_review line_bg">
+                  <h3>分享主题：</h3>
+                  <p>
+                    《人格结构与&amp;人格分析》即通过成功人士的人格分析隐射出成功的原因，同时更加清楚地认识自己。<br>
+                    骆雄华先生，80年代美国MBA；赛博集团和百脑汇创办人兼总经理；AIC工程公司创办人兼董事长。分享主题：
+                    《信任的力量》即工作和生活中如何建立彼此信任，如何通过彼此信任创造前所未有的价值。
+                  </p>
+               </div>
+                <div class="main_bg  active_introduce line_bg">
+                <h3>活动简介：</h3> 
+                <p>
+                  成功的人总是会受到社会大众的尊敬！无论他是创业者还是决策者，无论他是风险的承担者还是财富的缔造者......他们的管理风格不尽相同,他们的人格魅力同样各领骚......<br>
+                  第六期志友汇大沙龙为你揭开人格分析的神秘面纱，我们特别邀请到深圳万安源心理咨询中心主任【杨青禅】女士和赛博集团总经理【骆雄华】先生为志友汇的同学们共同开启第六期大沙龙主题【人格解析与信任建立】。                
+                
+                </p>
+                
+              </div>
+                <div class="main_bg  tips line_bg">
+               <h3>温馨提示：</h3>
+               <p>
+                 1. 活动名额有限，确认报名的前60人获得本期沙龙的参与权。<br>
+                 2. 活动半小时内为签到时间，请准时于13：30入场。<br>
+                 3. 参与活动人员请当天带名片，便于相互认识和交流。<br>
+                 4. 请报告的朋友时间有变务必通知组织者，尊重组织者的付出和其它人的机会。<br>
+                <span>活动日期:2014年1月5日</span><br>
+                  <span>活动时间：14：00至17：00</span><br>
+                 <span>活动地点：深圳市罗湖区深南中路地王大厦62层红桃网马球俱乐部</span>
+               
+               
+               </p>
+              </div>
+              
+                 <div class="main_bg persons line_bg">
+                    <h3>89人参加：</h3>
+                 </div>
+                 <div class="row">
+                    <div class="col-md-3 col-md-offset-8"> <input type="button" value="去报名" class="sign_up"></div>                              
+                 </div>
+               
+            </div>
+         
+          </div>        
+        </div>
+  
+        <footer class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <a href="#">关于我们</a> &nbsp; | &nbsp;
+                        <a href="#">联系我们</a> &nbsp;|&nbsp;
+                        <a href="#">法律条款</a> &nbsp;|&nbsp;
+                        <a href="#">帮助中心</a> &nbsp;|&nbsp;
+                        <a href="#">内容招募</a> &nbsp;|&nbsp;
+                        <a href="#">意见反馈</a> &nbsp;|&nbsp;
+                        <a href="#">关注我们 <img src="/fanstatic/mba/img/sina.gif" width="15" height="12"></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap -->
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="static/js/plugins.js"></script>
+
+        <script src="static/js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+
+
+           $(document).ready(function(){
+              $("#resume_summary_cnt").delegate("li", "click", function() {
+                console.log(11);
+                $(this).parent().children().each(function() {
+                  $(this).removeClass("active");
+                });
+                $(this).addClasss("active");
+              });
+
+           });
+        </script>
+    </body>
+</html>

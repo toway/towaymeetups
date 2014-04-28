@@ -371,6 +371,10 @@ def formtest2_view(context, request):
             'form': jinja2.Markup(html)
             }
 
+@view_config(route_name='active_detail', renderer='active_detail.jinja2')
+def active_detail(context, request):
+    return {'a':'b'}
+
 def includeme(config):
     settings = config.get_settings()
     config.add_route('col','/col')
@@ -382,4 +386,5 @@ def includeme(config):
     config.add_route('formtest','/formtest')
     config.add_route('formtest2','/formtest2')
     config.add_route('friend','/friend')
+    config.add_route('active_detail', '/active-detail')
     config.scan(__name__)
