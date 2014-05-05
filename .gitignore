@@ -7,4 +7,5 @@ dist/*
 .*
 mba.db
 local.ini
+z.log
 

@@ -23,12 +23,12 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 
-@view_config(route_name='home', renderer='index.jinja2')
+@view_config(route_name='home', renderer='index2.jinja2')
 def view_home(request):
     #only for test
     stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
     headers = remember(request, stu.name)
-    response = render_to_response('index.jinja2', {'project':'lession2'}, request=request)
+    response = render_to_response('index2.jinja2', {'project':'lession2'}, request=request)
     response.headerlist.extend(headers)
     return response
 

@@ -14,7 +14,7 @@ body h3 {
   text-align: center;
 }
 .mba-nav {
-  background-color: #2e70ba;
+  
   border: 0;
 }
 .mba-nav .navbar-header .navbar-brand {
@@ -25,10 +25,11 @@ body h3 {
   margin-top: 12px;
 }
 .mba-nav .navbar-collapse .navbar-nav {
+	
   padding-left: 5px;
 }
 .mba-nav .navbar-collapse .navbar-nav > li > a {
-  background-color: #2e70ba;
+	
   color: white;
 }
 .mba-nav .navbar-collapse .navbar-nav > li > a:hover,
@@ -53,11 +54,13 @@ body h3 {
   display: none ;
 }
 .mba-login {
-  background-color: #193e6b;
-  padding: 20px;
+  
+  position:absolute;
+  left:170px;
+  bottom:25px;
 }
 .mba-index-main {
-  border-bottom: solid 1px #cccccc;
+  /*border-bottom: solid 1px #cccccc;*/
 }
 .mba-index-main ul li {
   line-height: 30px;
@@ -68,7 +71,8 @@ body h3 {
 .mba-footer {
   background-color: #cccccc;
   border-top: solid 1px #ffffff;
-  padding-bottom: 10px;
+  padding-bottom: 40px;
+  padding-top:31px;
 }
 .mba-footer .mba-weixin {
   margin-top: 20px;
