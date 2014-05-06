@@ -98,9 +98,15 @@ def login(context, request):
 
     return {'form': jinja2.Markup(rendered_form)}
 
+@view_config(route_name="prelogin", renderer='prelogin.jinja2')
+def view_prelogin(context, request):
+    return {'aaa':'bbb'}
+
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()
     config.add_route('home', '/')
+    config.add_route('prelogin','/prelogin')
     config.add_route('permission', '/permission')
+
     config.scan(__name__)

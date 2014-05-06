@@ -27,9 +27,13 @@ def view_register_finish(context, request):
 
     return resp_dict
 
+@view_config(route_name="find", renderer='find.jinja2')
+def view_find(context, request):
+    return {'aaa':'bbb'}
 
 def includeme(config):
 
     config.add_route('activity','/activity')
+    config.add_route('find','/find')
     config.scan(__name__)
 
