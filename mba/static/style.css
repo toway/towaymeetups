@@ -78,7 +78,7 @@ body h3 {
   border-right: 1px solid RGB(232,232,232);
   border-bottom: 1px solid RGB(232,232,232);
   
-  background:url("img/my_resume_head_bg.jpg") repeat-x;
+  background:url("/fanstatic/mba/img/my_resume_head_bg.jpg") repeat-x;
   border-top: 1px;
 }
 
@@ -106,16 +106,16 @@ body h3 {
 
 .mba-resume-edit
 {
-  /*background:url("img/resume_edit.jpg") center;*/
+  /*background:url("/fanstatic/mba/img/resume_edit.jpg") center;*/
 }
 
 .mba-resume-refresh
 {
-  background:url("img/resume_refresh.jpg") center;
+  background:url("/fanstatic/mba/img/resume_refresh.jpg") center;
 }
 
 .mba-resume-preview
 {
-  /*background:url("img/resume_preview.jpg") center;*/
+  /*background:url("/fanstatic/mba/img/resume_preview.jpg") center;*/
 }
 

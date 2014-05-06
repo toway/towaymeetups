@@ -102,11 +102,16 @@ def login(context, request):
 def view_prelogin(context, request):
     return {'aaa':'bbb'}
 
+@view_config(route_name="person", renderer='person.jinja2')
+def view_person(context, request):
+    return {'aaa':'bbb'}
+
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()
     config.add_route('home', '/')
     config.add_route('prelogin','/prelogin')
+    config.add_route('person','/person')
     config.add_route('permission', '/permission')
 
     config.scan(__name__)
