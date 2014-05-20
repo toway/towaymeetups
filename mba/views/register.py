@@ -108,6 +108,8 @@ def mbauser2student(u):
     u.type = 'student'
     DBSession.execute("insert into students (id) values (%d);" % u.id)
     DBSession.flush()
+    #DBSession.expunge_all()
+    DBSession.expunge_all()
     #now get the student
     return DBSession.query(MbaUser).get(u.id)
 
@@ -118,7 +120,7 @@ def add_user_details_success(request, appstruct):
     print 'getuser', get_user(request)
     print 'getuser.name',get_user(request).name
     #new_student = Student(get_user(request).name, **appstruct)
-    new_student = mbauser2student(get_user(request), **appstruct)
+    new_student = mbauser2student(get_user(request) )
     new_student.real_name = appstruct['real_name']
     new_student.birth_date = appstruct['birth_date']
     #already added
@@ -127,6 +129,8 @@ def add_user_details_success(request, appstruct):
     headers = remember(request, new_student.name)
 
     DBSession.flush()
+
+
     success_msg = _(
         'Congratulations! Successfully registed'
     )
