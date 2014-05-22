@@ -45,9 +45,9 @@ class LoginSchema(colander.Schema):
     )
     password = colander.SchemaNode(
         colander.String(),
-        title=_(u'密码'),
-        validator=colander.Length(min=5),
-        widget=deform.widget.PasswordWidget(),
+        title=_(u'密码 <a href="sessions/forgot_password">(忘记了?)</a>'),
+        validator=colander.Length(min=6),
+        widget=deform.widget.PasswordWidget(css_class='form-control'),
         )
 
 def _find_user(login):
@@ -64,13 +64,25 @@ def _find_user(login):
             for p in principals.search(email=login):
                 return p
 
-@view_config(name='login', renderer='register.jinja2')
+def user_password_match_validator(form, value):
+    """ TODO: Doesn't take effect yet
+    """
+    principals = get_principals()
+    principal = principals.get(value['email'])
+
+
+
+@view_config(name='login', renderer='login.jinja2')
 def login(context, request):
-    schema = LoginSchema().bind(request=request)
-    form = deform.Form(schema, buttons=[deform.form.Button(u'submit', title=u'登录')] )
+    schema = LoginSchema(validator=user_password_match_validator).bind(request=request)
+
+    form = deform.Form(schema,
+                       buttons=[deform.form.Button(u'submit', title=u'登录')],
+                       css_class="border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,0.075);" )
     rendered_form = None
 
     principals = get_principals()
+
     came_from = request.params.get(
         'came_from', request.resource_url(context))
     login, password = u'', u''
@@ -81,18 +93,19 @@ def login(context, request):
         except ValidationFailure, e:
             request.session.flash(_(u"There was an error."), 'error')
             rendered_form = e.render()
-        user = _find_user(appstruct['email'])
-        if (user is not None and user.active and
-                principals.validate_password(appstruct['password'], user.password)):
-            headers = remember(request, user.name)
-            request.session.flash(
-                _(u"Welcome, ${user}!",
-                  mapping=dict(user=user.title or user.name)), 'success')
-            user.last_login_date = datetime.now()
-            if came_from == 'login':
-                came_from = '/'
-            return HTTPFound(location=came_from, headers=headers)
-        request.session.flash(_(u"Login failed."), 'error')
+        else:
+            user = _find_user(appstruct['email'])
+            if (user is not None and user.active and
+                    principals.validate_password(appstruct['password'], user.password)):
+                headers = remember(request, user.name)
+                request.session.flash(
+                    _(u"Welcome, ${user}!",
+                      mapping=dict(user=user.title or user.name)), 'success')
+                user.last_login_date = datetime.now()
+                if came_from == 'login':
+                    came_from = '/'
+                return HTTPFound(location=came_from, headers=headers)
+            request.session.flash(_(u"Login failed."), 'error')
 
     if rendered_form is None:
         rendered_form = form.render(request.params)

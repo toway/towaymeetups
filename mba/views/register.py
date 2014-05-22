@@ -71,7 +71,8 @@ class RegisterSchema(colander.Schema):
         colander.String(),
         title=_(u'邮箱'),
         description=_(u'请正确填写以便验证'),
-        validator=deferred_email_validator,
+        # validator=colander.All(colander.Email,deferred_email_validator),TODO: Email validator
+        validator = deferred_email_validator
     )
     password = colander.SchemaNode(
         colander.String(),
@@ -103,7 +104,9 @@ def add_user_success(request, appstruct):
     return HTTPFound(location=request.application_url + '/register_details', headers=headers)
 
 # Not other good implements
-def mbauser2student(u):
+def add_mbauser_to_student(u):
+    ''' Add a MbaUser as a Student too, to do this, add this id in table MbaUser to table Student
+    '''
     u.__class__ = Student
     u.type = 'student'
     DBSession.execute("insert into students (id) values (%d);" % u.id)
@@ -115,28 +118,17 @@ def mbauser2student(u):
 
 def add_user_details_success(request, appstruct):
 
-    #student = get_student(request)
-    print 'appstruct',appstruct
-    print 'getuser', get_user(request)
-    print 'getuser.name',get_user(request).name
-    #new_student = Student(get_user(request).name, **appstruct)
-    new_student = mbauser2student(get_user(request) )
-    new_student.real_name = appstruct['real_name']
-    new_student.birth_date = appstruct['birth_date']
+
+    student = add_mbauser_to_student(get_user(request) )
+    for (k,v) in appstruct.items():
+        setattr(student, k, v)
+
     #already added
     #DBSession.add(new_student)
-
-    headers = remember(request, new_student.name)
-
     DBSession.flush()
 
+    return student
 
-    success_msg = _(
-        'Congratulations! Successfully registed'
-    )
-    request.session.flash(success_msg, 'success')
-
-    return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
 
 @view_config(route_name='register',renderer='register.jinja2')
 def view_register(context, request):
@@ -225,6 +217,7 @@ def view_register_details(context, request):
     schema = RegisterDetailsSchema(
             css_class="setup-account-details",
             title=u'完善信息').bind(request=request)
+    '''
     form = FormCustom(schema,
             template='register_details_form',
             buttons=[
@@ -234,7 +227,12 @@ def view_register_details(context, request):
                 deform.form.Button(u'skip',
                            title=_(u'跳过'))
     ])
-
+    '''
+    form = deform.Form(schema,
+                       buttons=[
+                           deform.form.Button('submit', css_class='btn-primary',title=_(u'提交')),
+                           deform.form.Button('skip',title=_(u'跳过')),
+                       ])
     rendered_form = None
 
 
@@ -243,12 +241,26 @@ def view_register_details(context, request):
 
         try:
             appstruct = form.validate(request.POST.items())
+            student = add_user_details_success(request, appstruct)
+            headers = remember(request, student.name)
 
-            return add_user_details_success(request, appstruct)
+            # Seems useless, anybody tell what's hell this two lines do?
+            # success_msg = _('Congratulations! Successfully registed')
+            # request.session.flash(success_msg, 'success')
+
+            return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+
 
         except ValidationFailure, e:
             request.session.flash(_(u"There was an error."), 'error')
             rendered_form = e.render()
+
+    if 'skip' in request.POST:
+        # Just Add a record to table student
+        student = add_mbauser_to_student(get_user(request) )
+        headers = remember(request, student.name)
+        return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+
 
     if rendered_form is None:
         rendered_form = form.render(request.params)
@@ -259,9 +271,10 @@ def view_register_details(context, request):
     #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
     return {'form': jinja2.Markup(rendered_form)}
 
-@view_config(route_name='register_finish')
+@view_config(route_name='register_finish', renderer='register_finish.jinja2')
 def view_register_finish(context, request):
-    return pyramid.response.Response("OK")
+    return {}
+    #return pyramid.response.Response("OK")
 
 def includeme(config):
 
