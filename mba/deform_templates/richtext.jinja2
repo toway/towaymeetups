@@ -1,0 +1,45 @@
+<textarea id="{{ field.oid }}"
+  name="{{ field.name }}"
+  {% if field.widget.css_class %}
+    class="{{ field.widget.css_class }}"
+  {% endif %}>{{ cstruct }}</textarea>
+<script language="javascript"
+	type="text/javascript">
+  deform.addCallback(
+      '{{ field.oid }}',
+      function(oid) {
+          tinyMCE.init({
+          mode : 'exact',
+          plugins : "codemirror,kottiimage,link,advlist,textcolor,contextmenu,table",
+          codemirror: {
+            // codemirror **plugin** config options
+            indentOnInit: false,
+            config: {
+              // codemirror config options
+            }
+          },
+          elements: oid,
+          strict_loading_mode: true,
+          height: '{{ field.widget.height }}',
+          width: '{{ field.widget.width }}',
+          theme : '{{ field.widget.theme }}',
+	  skin : 'default',
+          theme_advanced_resizing : true,
+          theme_advanced_toolbar_align : 'left',
+          theme_advanced_toolbar_location : 'top',
+          theme_advanced_buttons3_add : "tablecontrols",
+          table_styles : "Header 1=header1;Header 2=header2;Header 3=header3",
+          table_cell_styles : "Header 1=header1;Header 2=header2;Header 3=header3;Table Cell=tableCel1",
+          table_row_styles : "Header 1=header1;Header 2=header2;Header 3=header3;Table Row=tableRow1",
+          table_cell_limit : 100,
+          table_row_limit : 5,
+          table_col_limit : 5,
+          relative_urls: false,
+          image_list : 'external_image_list',
+          image_advtab: true,
+          link_list : 'external_link_list',
+	  language: 'en'
+          });
+      }
+      );
+</script>

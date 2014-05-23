@@ -31,7 +31,7 @@ def view_home(request):
     #response = render_to_response('index2.jinja2', {'project':'lession2'}, request=request)
     #response.headerlist.extend(headers)
     #return response
-	return {}
+    return {}
 
 @view_config(route_name='permission', renderer='index.jinja2', permission='admin')
 def view_permission(request):
