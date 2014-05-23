@@ -20,6 +20,7 @@
         <link rel="stylesheet" href="/fanstatic/mba/css/normalize.css">
         <link rel="stylesheet" href="/fanstatic/mba/css/main.css">
         <link rel="stylesheet" href="/fanstatic/mba/css/style.css">
+       <!--  <link rel="stylesheet" href="static/style.css"> -->
       
         <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
         <script type="text/javascript">
@@ -51,7 +52,7 @@
 	      .mba-footer{border-top: solid 1px #cccccc; margin-top:46px;}
 		  .mba-footer h3,.mba-footer h2{text-align:left;}
 		  .mba-footer h3{ margin-bottom:15px;}
-		  .mba-footer ul li{ line-height:25px;}
+		 /* .mba-footer ul li{ line-height:25px;}*/
 		  .mba-weixin h2{color:#00428d;}
 		  .mba-weixin .ewma{ margin:27px 0 22px 0;}
 		  .mba-index-main{ margin-top:70px;}
@@ -75,7 +76,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                       </button>
-                     <!-- <a class="navbar-brand" href="#"><img src="/fanstatic/mba/img/index_logo.gif" width="201" height="67" alt="MBA志友会"/></a>-->
+                    
                     </div>
                     <div class="collapse navbar-collapse col-md-offset-5">
                       <ul class="nav navbar-nav">
@@ -84,10 +85,13 @@
                         <li><a href="/find">找找看</a></li>
                           <li><a href="/job">求职</a></li>
                       </ul>
-                    </div><!--/.nav-collapse -->
+                    </div>
 
                 </div>
             </div>
+        </header>
+        
+        <div>
             <div class="mba-login">
             <div class="container">
 
@@ -121,8 +125,8 @@
 
             </div>
 
+            </div>
         </div>
-        </header>
 
 
 
@@ -226,7 +230,7 @@
 
 
         
-<footer class="mba-footer">
+<!-- <footer class="mba-footer">
             <div class="container">
                 <div class="row">
 
@@ -281,9 +285,9 @@
             </div>
 
 
-        </footer>
+        </footer> -->
 
-
+         {% include "footer.jinja2" %}
 
 
 

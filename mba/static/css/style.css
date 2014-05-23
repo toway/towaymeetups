@@ -71,10 +71,10 @@ body h3 {
 .mba-footer {
   background-color: #cccccc;
   border-top: solid 1px #ffffff;
-  padding-bottom: 40px;
-  padding-top:31px;
+/*  padding-bottom: 40px;
+  padding-top:31px;*/
 }
-.mba-footer .mba-weixin {
+.mba-footer{
   margin-top: 20px;
 }
 

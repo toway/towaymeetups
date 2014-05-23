@@ -68,7 +68,7 @@ body h3 {
   border-top: solid 1px #ffffff;
   padding-bottom: 10px;
 }
-.mba-footer .mba-weixin {
+.mba-footer {
   margin-top: 20px;
 }
 
@@ -89,9 +89,7 @@ body h3 {
   border-bottom: 1px solid RGB(243,243,243);
 }
 
-.mba-footer .mba-weixin {
-  margin-top: 20px;
-}
+
 
 .mba-right-nav{
 	background-color:RGB(234,243,238);
@@ -118,4 +116,10 @@ body h3 {
 {
   /*background:url("/fanstatic/mba/img/resume_preview.jpg") center;*/
 }
+
+h3.footer{
+  font-weight: bold;
+  text-align: center;
+}
+
 
