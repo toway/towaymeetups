@@ -109,8 +109,11 @@ def login(context, request):
 
     if rendered_form is None:
         rendered_form = form.render(request.params)
+    ret = {'form': jinja2.Markup(rendered_form)}
 
-    return {'form': jinja2.Markup(rendered_form)}
+    user = get_user(request)
+    ret.update({'logged_in':user,'current_user':user.name})
+    return ret
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
 def view_prelogin(context, request):

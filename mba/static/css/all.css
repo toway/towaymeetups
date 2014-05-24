@@ -16,9 +16,14 @@ ul { list-style-type: none; }
 
 /* global style end */
 
-
+/* global nav style begin */
 .mba-nav {
   border: 0;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  background-color: rgb(46, 112, 186);
+  border-color: rgb(46, 112, 186);
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+
 }
 .mba-nav .navbar-header .navbar-brand {
   margin: 0 ;
@@ -44,6 +49,17 @@ ul { list-style-type: none; }
   -o-border-radius: 5px;
   border-radius: 5px;
 }
+
+.navbar-right{
+    margin-top: 8px;
+}
+
+.navbar-right li{
+    margin: 0 5px;
+}
+
+/* global nav style end */
+
 .mba-margin-top {
   margin-top: 78px;
 }
