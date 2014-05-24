@@ -1,9 +1,0 @@
-﻿/* CSS Document */
-body{ margin:0; padding:0; font-family:'楷体'; background-color:#ccc;}
-#container{margin:0 auto; text-align:center;}
-#header{height:549px; width:800px; background:url(../images/head.jpg) no-repeat; position:relative; margin:0 auto;}
-#nav{position:absolute;top:45px; left:300px;}
-#nav ul{list-style-type:none;}
-#nav ul li {float:left;  margin-right:1px; line-height:45px; height:45px; }
-#nav ul li a{color:#fff; font-size:16px; display:block; text-decoration:none; padding:0 15px;}
-#nav ul li a:hover{background-color:#6C94BE; display:block;border-radius:5px;}
