@@ -19,7 +19,7 @@ from kotti.security import get_user
 
 DEFULT_AVATARS_COUNT_COLLETED = 2
 
-def navbar_wrapper(request, ret_dict_to_update):
+def wrap_user(request, ret_dict_to_update):
     user = get_user(request)
 
     if user is not None:

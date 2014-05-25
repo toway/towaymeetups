@@ -23,9 +23,9 @@ from kotti.security import get_user
 
 from mba.resources import MbaUser
 from mba import _
-from mba.utils import navbar_wrapper
+from mba.utils import wrap_user
 
-@view_config(route_name='home', renderer='index2.jinja2')
+@view_config(route_name='home2', renderer='index2.jinja2')
 def view_home(request):
     #only for test
     #stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
@@ -112,7 +112,7 @@ def login(context, request):
     if rendered_form is None:
         rendered_form = form.render(request.params)
 
-    return navbar_wrapper(request, {'form': jinja2.Markup(rendered_form)})
+    return wrap_user(request, {'form': jinja2.Markup(rendered_form)})
 
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
@@ -126,7 +126,7 @@ def view_person(context, request):
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()
-    config.add_route('home', '/')
+    config.add_route('home2', '/index_2')
     config.add_route('prelogin','/prelogin')
     config.add_route('person','/person')
     config.add_route('permission', '/permission')

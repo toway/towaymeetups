@@ -85,8 +85,9 @@ ul { list-style-type: none; }
 
 /* global nav style end */
 
+/* /index style begin */
 .mba-margin-top {
-  margin-top: 78px;
+  margin-top: 76px;
 }
 .mba-carousel .carousel-inner .item {
   background-color: #2e70ba;
@@ -97,11 +98,9 @@ ul { list-style-type: none; }
 .mba-carousel .carousel-control {
   display: none ;
 }
+
 .mba-login {
-  
-  position:absolute;
-  left:170px;
-  bottom:25px;
+  margin: 20px;
 }
 .mba-index-main {
   /*border-bottom: solid 1px #cccccc;*/
@@ -112,6 +111,10 @@ ul { list-style-type: none; }
 .mba-banner{
   background-color: RGB(41,103,178);
 }
+
+
+/* /index style end */
+
 .mba-footer {
   background-color: #cccccc;
   border-top: solid 1px #ffffff;
