@@ -20,8 +20,10 @@ from kotti import get_settings
 from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
+
 from mba.resources import MbaUser
 from mba import _
+from mba.utils import navbar_wrapper
 
 @view_config(route_name='home', renderer='index2.jinja2')
 def view_home(request):
@@ -109,11 +111,9 @@ def login(context, request):
 
     if rendered_form is None:
         rendered_form = form.render(request.params)
-    ret = {'form': jinja2.Markup(rendered_form)}
 
-    user = get_user(request)
-    ret.update({'logged_in':user,'current_user':user.name})
-    return ret
+    return navbar_wrapper(request, {'form': jinja2.Markup(rendered_form)})
+
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
 def view_prelogin(context, request):

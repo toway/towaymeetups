@@ -41,7 +41,8 @@ ul { list-style-type: none; }
   color: white;
 }
 .mba-nav .navbar-collapse .navbar-nav > li > a:hover,
-.mba-nav .navbar-collapse .navbar-nav > a:focus {
+.mba-nav .navbar-collapse .navbar-nav > a:focus,
+.mba-nav .navbar-collapse .navbar-nav > .active >a{
   background-color: #6c94be;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -56,6 +57,30 @@ ul { list-style-type: none; }
 
 .navbar-right li{
     margin: 0 5px;
+}
+
+#user-links {
+    margin-top: 14px;
+}
+
+#user-links li>a.navbar-reg-link{
+    padding:0;
+}
+#user-links li>a.navbar-login-link{
+    padding:0;
+}
+
+#user-links .navbar-name{
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 0;
+    /*font-family: 'Helvetica';*/
+}
+
+#user-links .sign-out-button {
+    background: none;
+    border: 0;
+    color:white;
 }
 
 /* global nav style end */

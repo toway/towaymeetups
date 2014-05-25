@@ -22,12 +22,31 @@
                       </ul>
 
 
-                      <ul class="nav navbar-nav navbar-right">
-                      {% if logged_in %}
-                            {{ current_user }}
+                      <ul class="nav navbar-nav navbar-right" id="user-links">
+                      {% if user %}
+                          <li>
+                            <a href="{{ user.name }}" class="navbar-name">
+                                <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                        width="20px" height="20px"/>
+                                {{ user.name }}
+                            </a>
+                          </li>
+                          <li>
+                              <form class="logout-form" action="/logout" method="post">
+                                <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出">
+                                  <span class="glyphicon glyphicon-log-out"></span>
+                                </button>
+                              </form>
+                          </li>
                       {% else %}
-                          <li><button type="button" class="btn btn-success ">注 册</button></li>
-                          <li><button type="button" class="btn btn-default ">登 陆</button></li>
+                          <li><a href="/register"  class="navbar-reg-link">
+                                <button type="button" class="btn btn-success">注 册</button>
+                          </a></li>
+
+                          <li><a href="/login" class="navbar-login-link">
+                                 <button type="button" class="btn btn-default ">登 陆</button>
+                          </a></li>
+
                       {% endif %}
                       </ul>
 
