@@ -122,4 +122,10 @@
         <script src="static/js/plugins.js"></script>
 
         <script src="static/js/main.js"></script>
+        <script type="text/javascript">
+           $(document).ready(function() {
+                $("li#li_job").parent().find("li").removeClass("active");
+                $("li#li_find").find("a").addClass("active")
+              });
+        </script>
 </html>

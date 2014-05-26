@@ -292,5 +292,25 @@ a:hover { text-decoration:none;}
 #login_footer{ width:100%; height:70px; background-color:#257bde; line-height:70px; text-align:center; color:#fff; font-size:13px; margin-top:60px;}
 #login_footer span{margin-left:195px;}
 
+table.mba-resume-tbl{
+    text-align: center;
+}
+
+.table > thead > tr > th
+{
+    text-align: center;
+}
+
+.mba-nav .navbar-collapse .navbar-nav > li > a.active{
+  background-color: #6c94be;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  z-index:999;
+}
+
+
 /** merged from new_style.css end */
 

@@ -306,6 +306,10 @@
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
+
+             $(document).ready(function() {
+                $("li#li_index").find("a").addClass("active")
+              });
         </script>
     </body>
 </html>

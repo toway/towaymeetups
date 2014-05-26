@@ -246,6 +246,11 @@
                 location.href="./"+url;
               } 
             })
+
+            $(document).ready(function() {
+               $("li#li_job").parent().find("li").removeClass("active");
+               $("li#li_job").find(a).addClass("active")
+            })
         </script>
     </body>
 </html>
