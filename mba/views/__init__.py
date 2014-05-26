@@ -1,6 +1,7 @@
 
 def includeme(config):
     config.include('mba.views.index')
+    config.include('mba.views.home')
 
     config.include('mba.views.login')
     #config.include('mba.views.logout')

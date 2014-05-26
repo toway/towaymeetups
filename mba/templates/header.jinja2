@@ -1,59 +1,60 @@
 {% block header %}
         <header class="navbar navbar-inverse navbar-fixed-top mba-nav" role="banner">
             <div class="container">
-                <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
 
-                    <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="#"><img src="fanstatic/mba/img/logo.png" alt="MBA志友会"/></a>
+                        <div class="navbar-header">
+                          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                          </button>
+                          <a class="navbar-brand" href="#"><img src="fanstatic/mba/img/logo.png" alt="MBA志友会"/></a>
+                        </div>
+
+                        <div class="collapse navbar-collapse">
+                          <ul class="nav navbar-nav">
+                            <li class="active"><a href="/">首页</a></li>
+                            <li><a href="/activity">我的活动</a></li>
+                            <li><a href="/find">找找看</a></li>
+                              <li><a href="/job">求职</a></li>
+                          </ul>
+
+
+                          <ul class="nav navbar-nav navbar-right" id="user-links">
+                          {% if user %}
+                              <li>
+                                <a href="{{ user.name }}" class="navbar-name">
+                                    <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                            width="20px" height="20px"/>
+                                    {{ user.name }}
+                                </a>
+                              </li>
+                              <li>
+                                  <form class="logout-form" action="/logout" method="post">
+                                    <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出">
+                                      <span class="glyphicon glyphicon-log-out"></span>
+                                    </button>
+                                  </form>
+                              </li>
+                          {% else %}
+                              <li><a href="/register"  class="navbar-reg-link">
+                                    <button type="button" class="btn btn-success">注 册</button>
+                              </a></li>
+
+                              <li><a href="/login" class="navbar-login-link">
+                                     <button type="button" class="btn btn-default ">登 陆</button>
+                              </a></li>
+
+                          {% endif %}
+                          </ul>
+
+
+                        </div><!--/.nav-collapse -->
+
                     </div>
-
-                    <div class="collapse navbar-collapse">
-                      <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">首页</a></li>
-                        <li><a href="/activity">我的活动</a></li>
-                        <li><a href="/find">找找看</a></li>
-                          <li><a href="/job">求职</a></li>
-                      </ul>
-
-
-                      <ul class="nav navbar-nav navbar-right" id="user-links">
-                      {% if user %}
-                          <li>
-                            <a href="{{ user.name }}" class="navbar-name">
-                                <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                        width="20px" height="20px"/>
-                                {{ user.name }}
-                            </a>
-                          </li>
-                          <li>
-                              <form class="logout-form" action="/logout" method="post">
-                                <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出">
-                                  <span class="glyphicon glyphicon-log-out"></span>
-                                </button>
-                              </form>
-                          </li>
-                      {% else %}
-                          <li><a href="/register"  class="navbar-reg-link">
-                                <button type="button" class="btn btn-success">注 册</button>
-                          </a></li>
-
-                          <li><a href="/login" class="navbar-login-link">
-                                 <button type="button" class="btn btn-default ">登 陆</button>
-                          </a></li>
-
-                      {% endif %}
-                      </ul>
-
-
-                    </div><!--/.nav-collapse -->
-
-
 
                 </div>
             </div>

@@ -30,7 +30,7 @@ __date__ = '20140525'
 
 
 @view_config(route_name='index', renderer='index.jinja2')
-def view_permission(request):
+def view_index(request):
     if get_user(request):
         return HTTPFound("/home")
     return wrap_user(request, {'project': 'lesson2'})
