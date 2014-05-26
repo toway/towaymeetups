@@ -180,7 +180,9 @@ ul { list-style-type: none; }
 
 
 /* /home style begin */
-
+.home-menu-wrapper{
+    margin-top : 120px;
+}
 
 .home-menu a.selected {
     background: #fff;

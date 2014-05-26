@@ -35,6 +35,7 @@ from kotti import DBSession
 
 from form import FormCustom
 from mba import resources
+from mba.utils import wrap_user
 from mba import _
 
 default_date = datetime.datetime.strptime('1990-1-1','%Y-%m-%d').date()
@@ -352,10 +353,10 @@ def job_view(context, request):
             if resume and resume.user_id == user.id:
                 DBSession.delete(resume)
 
-    return {
+    return wrap_user(request,{
             'resumes':user.resumes,
             'pcs':user.position_items,
-            }
+            })
 
 def includeme(config):
     settings = config.get_settings()

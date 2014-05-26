@@ -24,11 +24,11 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 from mba.resources import MbaUser
+from mba.utils import wrap_user
 from mba import _
 
 @view_config(route_name='activity', renderer='activity.jinja2')
-def view_register_finish(context, request):
-
+def view_activity(context, request):
     resp_dict = {
         'status': 1,# 1=ON_GOING/0=FINISHED
         'status_desc': u'正在进行中...',
@@ -42,7 +42,7 @@ def view_register_finish(context, request):
         'applicants':[u'陈...',u'余争'] * 10
     }
 
-    return resp_dict
+    return wrap_user(request, resp_dict)
 
 class TagNode(colander.SequenceSchema):
     tag = colander.SchemaNode(colander.String())

@@ -25,7 +25,7 @@ from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
 from mba import _
-
+from mba.utils import wrap_user
 
 
 
@@ -34,10 +34,10 @@ from mba import _
 
 @view_config(route_name='job2',renderer='job.jinja2')
 def view_job(request):
-    return {
+    return wrap_user(request, {
     			"test":"test",
     			"resumes":	[{"date": "2013-3-2", "name":u"UI设计师"},{"date": "2013-3-2", "name":u"UI设计师"}]
-    	   }
+    	   })
 
 
 def includeme(config):
