@@ -24,7 +24,7 @@ from kotti.security import get_user
 
 from mba.resources import MbaUser
 from mba import _
-from mba.utils import wrap_user
+from mba.utils.decorators import wrap_user
 
 __author__ = 'sunset'
 __date__ = '20140527'
@@ -41,8 +41,9 @@ def view_meetups_pjax(request):
     return Response("Pjax Meet Ups !")
 
 @view_config(route_name='meetups', renderer='meetups.jinja2')
+@wrap_user
 def view_meetups(request):
-   return wrap_user(request, {'project': 'lesson2'})
+   return  {'project': 'lesson2'}
 
 
 def includeme(config):
