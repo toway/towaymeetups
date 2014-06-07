@@ -180,6 +180,9 @@ ul { list-style-type: none; }
 
 
 /* /home style begin */
+
+
+/*
 .home-menu-wrapper{
     margin-top : 120px;
 }
@@ -215,8 +218,47 @@ ul { list-style-type: none; }
     border-bottom: 1px solid #eee;
     border-top: 1px solid #fff;
 }
+ banished 20140607*/
+
+.home-sector-sub{
+    margin-top: 10px;
+}
 
 
+.icon{
+    background: url('/fanstatic/mba/img/txwb.png') no-repeat;
+    display: inline-block;
+    width: 15px;
+    height: 16px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.vip{
+    background-position: 0 -126px;
+}
+
+.home-myinfo .panel-body{
+    padding: 5px;
+}
+
+.home-myinfo .action-buttons {
+    text-align: center;
+
+}
+
+.home-myinfo .myinfo-header{
+    text-align: center;
+}
+
+.home-trends .more{
+    float: right;;
+}
+
+.home-trends .trends-sector{
+    margin-top: 10px;
+
+}
 /* /home style end */
 
 

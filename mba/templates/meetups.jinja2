@@ -15,6 +15,12 @@
 
         {% include "inc/css.jinja2" %}
 
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -60,7 +66,7 @@
 
                     </div>
 
-                    <div class="row-md-9">
+                    <div class="col-md-8">
                         <!-- So, let's us do some pjax job
                         About pjax: https://github.com/defunkt/jquery-pjax
                         -->

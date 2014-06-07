@@ -17,9 +17,12 @@
                         <div class="collapse navbar-collapse">
                           <ul class="nav navbar-nav">
                         <li id="li_index" class="active"><a href="/">首页</a></li>
-                        <li  id="li_active"><a href="/activity">我的活动</a></li>
-                        <li  id="li_find"><a href="/find">找找看</a></li>
+
+                          {% if user %}
+                           <li  id="li_active"><a href="/person/{{ user.id }}">我的名片</a></li>
+                           {% endif %}
                           <li  id="li_job"><a href="/job">求职</a></li>
+                          <li  id="li_job"><a href="/find">找找看</a></li>
                           </ul>
 
 
