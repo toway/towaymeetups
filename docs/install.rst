@@ -17,3 +17,4 @@
 * 安装 python setup.py develop
 * 运行 pserve develop.ini
 
+* 注意出错的时候，少哪个库就用pip安装哪个库
