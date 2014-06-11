@@ -29,7 +29,7 @@ from mba.utils.decorators import wrap_user
 __author__ = 'sunset'
 __date__ = '20140527'
 
-
+'''
 @view_config(route_name='meetups', renderer='meetups-pjax.jinja2', header='X-PJAX')
 def view_meetups_pjax(request):
     if not get_user(request):
@@ -40,6 +40,8 @@ def view_meetups_pjax(request):
 
     return {'a':'b'}
     #return Response("Pjax Meet Ups !")
+
+'''
 
 @view_config(route_name='meetups', renderer='meetups.jinja2')
 @wrap_user

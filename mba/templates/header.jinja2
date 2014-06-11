@@ -21,12 +21,15 @@
                           {% if user %}
                            <li  id="li_active"><a href="/person/{{ user.id }}">我的名片</a></li>
                            {% endif %}
+
+                          <li  id="li_meetups"><a href="/meetups">活动</a></li>
                           <li  id="li_job"><a href="/job">求职</a></li>
-                          <li  id="li_job"><a href="/find">找找看</a></li>
+
                           </ul>
 
 
                           <ul class="nav navbar-nav navbar-right" id="user-links">
+                          <li><input type="text" class="form-control" placeholder="找找看"/></li>
                           {% if user %}
                               <li>
                                 <a href="{{ user.name }}" class="navbar-name">
@@ -43,11 +46,11 @@
                                   </form>
                               </li>
                           {% else %}
-                              <li><a href="/register"  class="navbar-reg-link">
+                              <li><a href="/register"  class="navbar-link navbar-reg-link">
                                     <button type="button" class="btn btn-success">注 册</button>
                               </a></li>
 
-                              <li><a href="/login" class="navbar-login-link">
+                              <li><a href="/login" class="navbar-link  navbar-login-link">
                                      <button type="button" class="btn btn-default ">登 陆</button>
                               </a></li>
 

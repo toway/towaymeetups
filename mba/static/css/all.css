@@ -13,7 +13,19 @@ body { font-size: 14px }
 
 ul,dl,dt,dd,h1,h2,h3,h4,h5,h6,p{padding:0; margin:0;}
 ul { list-style-type: none; }
+/*
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
 
+@media (min-width: 992px) {
+  .container {
+    width: 980px;
+  }
+}
+*/
 /* global style end */
 
 /* global nav style begin */
@@ -60,7 +72,7 @@ ul { list-style-type: none; }
 }
 
 #user-links {
-    margin-top: 14px;
+   /* margin-top: 14px;*/
 }
 
 #user-links li>a.navbar-reg-link{
@@ -261,6 +273,17 @@ ul { list-style-type: none; }
 }
 /* /home style end */
 
+
+
+/* /meetups style begin */
+
+#meetup-recommend  h2{
+    margin-bottom: 10px;
+}
+
+.meetups ul.meetuplist li {
+    line-height: 26px;
+}
 
 /** Merged from new_style.css
     refactor may be needed to resolve css conflicts
