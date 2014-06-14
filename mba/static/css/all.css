@@ -13,7 +13,7 @@ body { font-size: 14px }
 
 ul,dl,dt,dd,h1,h2,h3,h4,h5,h6,p{padding:0; margin:0;}
 ul { list-style-type: none; }
-/*
+
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -25,7 +25,7 @@ ul { list-style-type: none; }
     width: 980px;
   }
 }
-*/
+
 /* global style end */
 
 /* global nav style begin */
@@ -284,6 +284,28 @@ ul { list-style-type: none; }
 .meetups ul.meetuplist li {
     line-height: 26px;
 }
+
+
+/* /meetups style end */
+
+/* /meetup/id style start */
+.meetup-details{
+    margin-left: 30px;
+    margin-top: 20px;
+}
+.meetup-comment-prompt{
+    color:#808080;
+}
+
+.meetup-comment-timeline{
+    color: #808080;
+    font-size: 80%;
+}
+
+#meetup-map{
+    height: 200px;
+}
+/* /meetup/id style end */
 
 /** Merged from new_style.css
     refactor may be needed to resolve css conflicts
