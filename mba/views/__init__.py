@@ -18,3 +18,4 @@ def includeme(config):
     config.include('mba.views.resume_preview')
     config.include('mba.views.activity')
 
+    config.include('mba.views.admin')
