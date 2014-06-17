@@ -1,5 +1,14 @@
 
 def includeme(config):
+    config.include('mba.views.form')
+
+    config.include('mba.views.index')
+    config.include('mba.views.home')
+
+
+    config.include('mba.views.meetups')
+    config.include('mba.views.meetup')
+
     config.include('mba.views.login')
     config.include('mba.views.register')
     config.include('mba.views.col_test')

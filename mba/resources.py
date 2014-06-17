@@ -186,8 +186,7 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
-
-
+'''
 class City(Base):
     __tablename__ = 'city'
     __table_args__ = (
@@ -197,6 +196,14 @@ class City(Base):
     name = Column(String(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
 
+    @classmethod
+    def _find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            obj = DBSession.query(City).filter_by(name=name).first()
+        if obj is None:
+            obj = City(name=name)
+        return cls(city=obj)
+'''
 
 class Participate(Base):
     __tablename__ = 'participate'
@@ -215,9 +222,10 @@ class ActStatus:
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    status = Column(Integer(), nullable=False)
-    city_id = Column(Integer, ForeignKey('city.id'))
-    city_name = association_proxy('city', 'name')
+    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    # TODO Ignore the city ?
+    #city_id = Column(Integer, ForeignKey('city.id'))
+    #city_name = association_proxy('city', 'name')
 
     type_info = Document.type_info.copy(
         name=u'Act',

@@ -9,3 +9,4 @@ mba.db
 local.ini
 z.log
 SQLiteSpy.*
+Session.vim
