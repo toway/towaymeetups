@@ -8,10 +8,8 @@
 
 
 
-        <link rel="stylesheet" href="static/css/normalize.css">
-        <link rel="stylesheet" href="static/css/main.css">
-        <link rel="stylesheet" href="static/style.css">
-        <link href="/fanstatic/mba/css/new_style.css" type="text/css" rel="stylesheet">
+        {% include "inc/css.jinja2" %}
+
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
 </head>
@@ -124,4 +122,10 @@
         <script src="static/js/plugins.js"></script>
 
         <script src="static/js/main.js"></script>
+        <script type="text/javascript">
+           $(document).ready(function() {
+                $("li#li_job").parent().find("li").removeClass("active");
+                $("li#li_find").find("a").addClass("active")
+              });
+        </script>
 </html>

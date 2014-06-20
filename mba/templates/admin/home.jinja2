@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -14,6 +15,12 @@
 
         {% include "inc/css.jinja2" %}
 
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -24,35 +31,53 @@
 
         <!-- Add your site or application content here -->
 
+
+
         {% include "header.jinja2" %}
 
-        <div class="container mba-margin-top">
-            <div class="row">
-                <div class="col-md-4 col-md-offset-4">
-			{{ form|safe }}
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <div class="row">
+
+
+                    <br/>
+
+                    <button class="btn btn-primary btn-lg">发布活动</button>
+                    <button class="btn btn-primary btn-lg">活动管理</button>
+                    <button class="btn btn-primary btn-lg">用户管理</button>
+                    <button class="btn btn-primary btn-lg">比</button>
+
                 </div>
             </div>
-
         </div>
 
 
         {% include "footer.jinja2" %}
 
-        <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
 
-        <script src="static/js/plugins.js"></script>
 
-        <script src="static/js/main.js"></script>
+        {% include "inc/js.jinja2" %}
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
+
+        <script type="text/javascript">
+            $(function(){
+
+               $("li#li_admin").parent().find("li").removeClass("active");
+               $("li#li_admin").addClass("active");
+
+
+                /*
+                $(document).pjax('.home-menu a', '#pjax-content');
+                 */
+            });
         </script>
+
+
+
+
+
     </body>
 </html>

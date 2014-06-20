@@ -19,6 +19,7 @@ from pyramid.renderers import render_to_response
 from pyramid.encode import urlencode
 from formencode.validators import Email
 from deform.widget import RichTextWidget
+from deform.widget import TextAreaWidget
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -27,15 +28,19 @@ from kotti.security import get_user
 from kotti.resources import Document
 from kotti.views.form import AddFormView
 from kotti.views.edit.content import ContentSchema
+from kotti.views.form import ObjectType
+from kotti.views.form import deferred_tag_it_widget
+from kotti.views.form import CommaSeparatedListWidget
+from kotti.resources import get_root
+from kotti.fanstatic import tagit
 
 from mba.resources import MbaUser
+from mba.utils import wrap_user
 from mba import _
-from kotti.resources import get_root
 from mba.resources import *
 
 @view_config(route_name='activity', renderer='activity.jinja2')
-def view_register_finish(context, request):
-
+def view_activity(context, request):
     resp_dict = {
         'status': 1,# 1=ON_GOING/0=FINISHED
         'status_desc': u'正在进行中...',
@@ -49,7 +54,7 @@ def view_register_finish(context, request):
         'applicants':[u'陈...',u'余争'] * 10
     }
 
-    return resp_dict
+    return wrap_user(request, resp_dict)
 
 class TagNode(colander.SequenceSchema):
     tag = colander.SchemaNode(colander.String())
@@ -98,7 +103,36 @@ def view_activity_add(context, request):
         #rendered_form = form.render({'title':'a','description':'b','body':'c','tags':['a','b','c']})
     return {'form': jinja2.Markup(rendered_form)}
 
+@colander.deferred
+def deferred_teachertag_it_widget(node, kw):
+    tagit.need()
+    all_tags = TeacherTag.query.all()
+    available_tags = [tag.title.encode('utf-8') for tag in all_tags]
+    widget = CommaSeparatedListWidget(template='tag_it',
+                                      available_tags=available_tags)
+    return widget
+
 class ActSchema(ContentSchema):
+    teachers = colander.SchemaNode(
+        ObjectType(),
+        title=_(u'老师'),
+        widget=deferred_teachertag_it_widget,
+        missing=[],
+        )
+    location = colander.SchemaNode(
+        colander.String(),
+        title=_(u'地点'),
+        widget=TextAreaWidget(cols=40, rows=5),
+        missing=u"",
+        )
+    start_time = colander.SchemaNode(
+            colander.DateTime(), title=u'开始时间')
+    finish_time = colander.SchemaNode(
+            colander.DateTime(), title=u'结束时间')
+    limit_num = colander.SchemaNode(
+            colander.Integer(), title=u'人数限制', default=500)
+    pay_count = colander.SchemaNode(
+            colander.Integer(), title=u'支付', default=0)
     body = colander.SchemaNode(
         colander.String(),
         title=_(u'Body'),
@@ -116,7 +150,7 @@ class ActAddForm(AddFormView):
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)
-        print name
+        print 'test act hear', name
         new_item = self.context[name] = self.add(default_view='test_view', **appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)

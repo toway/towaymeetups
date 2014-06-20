@@ -10,6 +10,8 @@ def includeme(config):
     config.include('mba.views.meetup')
 
     config.include('mba.views.login')
+    #config.include('mba.views.logout')
+
     config.include('mba.views.register')
     config.include('mba.views.col_test')
     config.include('mba.views.resume')
@@ -18,3 +20,4 @@ def includeme(config):
     config.include('mba.views.resume_preview')
     config.include('mba.views.activity')
 
+    config.include('mba.views.admin')

@@ -13,13 +13,8 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- Bootstrap -->
-        <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        {% include "inc/css.jinja2" %}
 
-
-        <link rel="stylesheet" href="static/css/normalize.css">
-        <link rel="stylesheet" href="static/css/main.css">
-        <link rel="stylesheet" href="static/style.css">
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -73,8 +68,8 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="col-md-offset-2 col-md-8">
-                        <form role="form">
+                    <div class="col-md-offset-1 col-md-9">
+                        <form role="form" action="/login">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="input-group input-group-md">
@@ -89,11 +84,9 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-2 ">
+                                <div class="col-md-3 ">
                                     <input class="btn btn-primary" type="submit" value="登录"/>
-                                </div>
-                                <div class="col-md-2">
-                                    <a href="/register" class="btn" >立即注册</a>
+                                    <a href="/register" class="btn btn-success" >立即注册</a>
                                 </div>
                             </div>
                         </form>
@@ -110,7 +103,7 @@
             <div class="container">
 
                 <div class="row">
-                    <div class="col-md-10 col-md-offset-1">
+                    <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-4">
                                 <h3>知名会员</h3>

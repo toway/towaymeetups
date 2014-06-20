@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <div class="row">
+
+
+                    <div class="col-md-12">
+                    <div class="jumbotron" id="meetup-recommend">
+                        <h2>万科和百度跨界联姻 能带来哪些想象？</h2>
+                        两者的跨界联姻，不仅有利于推进地产行业的科技化应用进程，更在于能为客户提供更精准的服务，为双方的商业版图打造更大的想象空间。
+                    </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-9 meetups" >
+
+
+                        <div class="newest">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">最新活动</div>
+                              <div class="panel-body">
+
+                                  <div class="row">
+
+                                    <div class="col-md-offset-2">
+                                        <ul class="nav nav-tabs newest-tabs" >
+                                          <li class="active"><a href="#all" data-toggle="tab">全部</a></li>
+                                          <li><a href="#bj" data-toggle="tab">北京</a></li>
+                                          <li><a href="#sh" data-toggle="tab">上海</a></li>
+                                          <li><a href="#gz" data-toggle="tab">广州</a></li>
+                                          <li><a href="#sz" data-toggle="tab">深圳</a></li>
+                                          <li><a href="#others" data-toggle="tab">其他</a></li>
+                                        </ul>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="row home-sector-sub" >
+
+                                    <div class="col-md-10">
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                          <div class="tab-pane active" id="all">
+                                              <ul class="meetuplist">
+                                                  <li><a href="/meetup">[志友汇活动] &nbsp;&nbsp;&nbsp;除了公众号 微信搜索还有多少想象空间</a></li>
+                                                  <li><a href="/meetup">[志友汇活动] &nbsp;&nbsp;&nbsp;风投围猎移动互联网：初现估值泡沫与马太效应</a></li>
+                                                  <li><a href="/meetup">[活动 推 荐] &nbsp;&nbsp;&nbsp;分类网站三国杀：58转型平台 赶集主攻招聘</a></li>
+                                                  <li><a href="/meetup">[活动 推 荐] &nbsp;&nbsp;&nbsp;免费WIFI入口：互联网巨头O2O角逐新战场</a></li>
+                                              </ul>
+                                          </div>
+                                          <div class="tab-pane" id="bj"></div>
+                                          <div class="tab-pane" id="sh">上海活动A，上海活动B，上海活动C</div>
+                                          <div class="tab-pane" id="gz">广州活动A，广州活动B，广州活动C</div>
+                                          <div class="tab-pane" id="sz">深圳活动A，深圳活动B，深圳活动C</div>
+                                          <div class="tab-pane" id="others">其他城市活动A，其他城市活动B，其他城市活动C</div>
+                                        </div>
+                                    </div>
+
+
+                                  </div>
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="reviews">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">往期回顾</div>
+                              <div class="panel-body">
+
+                                  <div class="row">
+
+                                    <div class="col-md-offset-2">
+                                        <ul class="nav nav-tabs review-tabs" ">
+                                          <li class="active"><a href="#review-all" data-toggle="tab">全部</a></li>
+                                          <li><a href="#review-bj" data-toggle="tab">北京</a></li>
+                                          <li><a href="#review-sh" data-toggle="tab">上海</a></li>
+                                          <li><a href="#review-gz" data-toggle="tab">广州</a></li>
+                                          <li><a href="#review-sz" data-toggle="tab">深圳</a></li>
+                                          <li><a href="#review-others" data-toggle="tab">其他</a></li>
+                                        </ul>
+                                    </div>
+
+                                  </div>
+
+                                  <div class="row home-sector-sub" >
+
+                                    <div class="col-md-10">
+                                        <!-- Tab panes -->
+                                        <div class="tab-content">
+                                          <div class="tab-pane active" id="review-all">
+                                               <ul class="meetuplist">
+                                                  <li>[志友汇活动] &nbsp;&nbsp;&nbsp;除了公众号 微信搜索还有多少想象空间</li>
+                                                  <li>[志友汇活动] &nbsp;&nbsp;&nbsp;风投围猎移动互联网：初现估值泡沫与马太效应</li>
+                                                  <li>[活动 推 荐] &nbsp;&nbsp;&nbsp;分类网站三国杀：58转型平台 赶集主攻招聘</li>
+                                                  <li>[活动 推 荐] &nbsp;&nbsp;&nbsp;免费WIFI入口：互联网巨头O2O角逐新战场</li>
+                                              </ul>
+                                          </div>
+                                          <div class="tab-pane" id="review-bj"></div>
+                                          <div class="tab-pane" id="review-sh">上海活动A，上海活动B，上海活动C</div>
+                                          <div class="tab-pane" id="review-gz">广州活动A，广州活动B，广州活动C</div>
+                                          <div class="tab-pane" id="review-sz">深圳活动A，深圳活动B，深圳活动C</div>
+                                          <div class="tab-pane" id="review-others">其他城市活动A，其他城市活动B，其他城市活动C</div>
+                                        </div>
+                                    </div>
+
+
+                                  </div>
+
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-3" ic="meetups-right-bar">
+
+
+                        <div class="home-myinfo">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="myinfo-header">
+                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                                    width="30px" height="30px"/>
+                                            {{ user.name }}
+                                        <hr/>
+                                    </div>
+
+
+                                    <div class="panel-group" id="accordion">
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                          <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                                              已参加的活动
+                                            </a>
+                                          </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                          <div class="panel-body">
+                                            <ul>
+                                                <li>志友健身行：清远之旅</li>
+                                                <li>高端讲堂：中国房价走向</li>
+                                                <li>志友健身行：清远之旅</li>
+                                            </ul>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                          <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
+                                              被邀请的活动
+                                            </a>
+                                          </h4>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse">
+                                          <div class="panel-body">
+                                            sfdsafdasf
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="home-myinfo">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="myinfo-header">
+                                    <h2>品牌活动</h2>
+                                    <hr/>
+                                </div>
+
+                                <div class="panel-group" id="accordion2">
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse1">
+                                          聚友沙龙
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse in">
+                                      <div class="panel-body">
+                                        聚友沙龙是MBA志友汇为会员提供一项线下聚会活动
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse2">
+                                          志友下午茶
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse">
+                                      <div class="panel-body">
+                                        一起喝茶、聊天，畅谈理想和未来
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse3">
+                                          私人董事会
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse3" class="panel-collapse collapse">
+                                      <div class="panel-body">
+                                        高端人脉交友
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+                                  <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                      <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordion2" href="#collapse4">
+                                          志友健康行
+                                        </a>
+                                      </h4>
+                                    </div>
+                                    <div id="collapse4" class="panel-collapse collapse">
+                                      <div class="panel-body">
+                                        身体健康才是真正的成功
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+         </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+        {% include "inc/js.jinja2" %}
+
+
+        <script type="text/javascript">
+            $(function(){
+
+               $("li#li_meetups").parent().find("li").removeClass("active");
+               $("li#li_meetups").addClass("active");
+
+                /*
+                $(document).pjax('.home-menu a', '#pjax-content');
+                 */
+            });
+        </script>
+
+    </body>
+</html>

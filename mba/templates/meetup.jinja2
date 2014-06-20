@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <div class="row">
+
+
+                    <br/>
+
+
+                    <div class="col-md-9 meetup-main">
+                         <div class="panel panel-default meetup-subject">
+
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="xx" width="190px" height="240px" />
+
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h2>【孵化蜕变】创业在这里发生：3W咖啡开放日</h2>
+                                        <br/>
+                                        <div>分享嘉宾：张逸龙、龙宇、许单单、马德化、李欣赞</div>
+                                        <div>地点：3W咖啡 北京(海淀书城籍海楼对面</div>
+                                        <div>时间：06月15日  09：00-18：00</div>
+                                        <div>费用：0元/人</div>
+                                        <div>限制：1000人 (101人已报名)</div>
+                                        <br/>
+
+                                        <button class="btn btn-primary">报名参加</button>
+                                    </div>
+
+                                </div>
+
+                                <hr/>
+
+                                <div>
+                                    <h3>活动详情</h3>
+                                    <p class="meetup-details">
+                                        活动主题：塔顶魂牵梦萦栽魂牵<br/>
+                                        梦萦黄柳霜项城械柑暮云春树革暮云春树工<br/>
+                                        要暮云春树工载fafdasfdsaf<br/>
+                                        fasdfdsdafas<br/>
+                                        sdfasfd<br/>
+
+                                    </p>
+                                </div>
+
+                            </div>
+                         </div>
+
+
+                        <div class="panel panel-default meetup-comments">
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-md-3 col-md-offset-9">
+                                        <div class="meetup-comment-prompt">
+                                            还可以输入<span id="left-comments-num">140</span>字
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img src="{{ user.avatar_prefix  }}{{ user.avatar }}" width="40px" height="40px"/>
+                                        <p>{{ user.name }}</p>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <textarea id='meetup-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-offset-10 col-md-2">
+                                        <br/>
+                                        <button class="btn btn-primary" id="do-comment" disabled="disabled">发表评论</button>
+                                    </div>
+
+                                </div>
+
+                                <br/>
+                                3条评论
+                                <hr/>
+
+
+
+
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img src="/fanstatic/mba/img/avatars/default_avatar_0.png" width="40px" height="40px"/>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <span>天使他说:</span>
+                                        <span class="meetup-comment-timeline">5分钟前</span>
+                                        <div>补充了移动短板</div>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3 meetup-rightbar">
+                        <div id="meetup-map" width="100%">
+                        </div>
+
+                       <br/>
+
+                        <div class="applicants panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    已报名
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                    <div class="applicants">
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+                                        <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
+
+                                    </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="applicants panel panel-default">
+                            <div class="panel-heading">
+                                <div class="panel-title">
+                                    你可能感兴趣的活动
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <ul>
+                                    <li>
+                                        跨界*合作-盛夏互联网BD交流会
+                                    </li>
+                                    <li>
+                                        跨界*合作-盛夏互联网BD交流会
+                                    </li>
+                                    <li>
+                                        跨界*合作-盛夏互联网BD交流会
+                                    </li>
+
+                                </ul>
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+
+        {% include "inc/js.jinja2" %}
+
+
+        <script type="text/javascript">
+            $(function(){
+
+               $("li#li_meetups").parent().find("li").removeClass("active");
+               $("li#li_meetups").addClass("active");
+
+
+               $('#meetup-comment-input').keyup(function(){
+
+                   var len = $(this).val().trim().length;
+                   if(len>0 ){
+                       $('#do-comment').removeAttr('disabled');
+                   }else{
+                       $('#do-comment').attr('disabled','disabled');
+                   }
+                   $('#left-comments-num').html(140-len);
+               });
+
+                /*
+                $(document).pjax('.home-menu a', '#pjax-content');
+                 */
+            });
+        </script>
+
+        <script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+        <script>
+            $(function(){
+
+
+                map = new qq.maps.Map(
+                    $("#meetup-map")[0],
+                        {
+                        center: new qq.maps.LatLng(39.914850, 116.403765),
+                        zoom:13
+                        }
+                );
+
+                var scaleControl = new qq.maps.ScaleControl({
+                    align: qq.maps.ALIGN.BOTTOM_LEFT,
+                    margin: qq.maps.Size(20, 10),
+
+                    map: map
+                });
+
+
+            });
+
+        </script>
+
+
+
+
+    </body>
+</html>

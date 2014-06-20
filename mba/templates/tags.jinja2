@@ -1,0 +1,12 @@
+{% set tags = context.tags %}
+{% if tags|length > 0 %}
+<ul class="breadcrumb"
+  <span>Tagged with:</span>
+{% for tag in tags %}
+    <li>
+      <a class="label" href="/just-test-now">{{tag}}
+      </a>
+    </li>
+{% endfor %}
+</ul>
+{% endif %}

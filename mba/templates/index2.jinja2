@@ -13,13 +13,8 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        <!-- Bootstrap -->
-        <link href="/fanstatic/mba/css/bootstrap.min.css" rel="stylesheet">
+        {% include "inc/css.jinja2" %}
 
-
-        <link rel="stylesheet" href="/fanstatic/mba/css/normalize.css">
-        <link rel="stylesheet" href="/fanstatic/mba/css/main.css">
-        <link rel="stylesheet" href="/fanstatic/mba/css/style.css">
        <!--  <link rel="stylesheet" href="static/style.css"> -->
       
         <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -311,6 +306,10 @@
             e.src='//www.google-analytics.com/analytics.js';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
+
+             $(document).ready(function() {
+                $("li#li_index").find("a").addClass("active")
+              });
         </script>
     </body>
 </html>
