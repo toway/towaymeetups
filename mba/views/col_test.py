@@ -36,7 +36,7 @@ strip_whitespace = lambda v: v.strip(' \t\n\r') if v is not None else v
 remove_multiple_spaces = lambda v: re.sub(' +', ' ', v)
 
 class Friend(colander.TupleSchema):
-    rank = colander.SchemaNode(colander.Int(),
+    rank2 = colander.SchemaNode(colander.Int(),
                               validator=colander.Range(0, 9999))
     name = colander.SchemaNode(colander.String())
 
@@ -59,7 +59,6 @@ class Person(colander.MappingSchema):
                              name='Error age',
                              title='Age',
                              validator=colander.Range(0, 200))
-    friends = Friends()
     phones = Phones()
 
 @view_config(route_name='col',renderer='col_test.jinja2')
@@ -67,6 +66,7 @@ def view_col(context, request):
     schema = Person().bind(request=request)
     form = deform.Form(schema, buttons=('Test',))
     rendered_form = None
+    appstruct = request.params
     if 'Test' in request.POST:
         try:
             appstruct = form.validate(request.POST.items())
@@ -76,7 +76,7 @@ def view_col(context, request):
         else:
             print appstruct
     if rendered_form is None:
-        rendered_form = form.render(request.params)
+        rendered_form = form.render(appstruct)
     #print fanstatic.get_needed().resources()
     return {'form': jinja2.Markup(rendered_form)}
 

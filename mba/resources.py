@@ -186,8 +186,7 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
-
-
+'''
 class City(Base):
     __tablename__ = 'city'
     __table_args__ = (
@@ -197,6 +196,14 @@ class City(Base):
     name = Column(String(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
 
+    @classmethod
+    def _find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            obj = DBSession.query(City).filter_by(name=name).first()
+        if obj is None:
+            obj = City(name=name)
+        return cls(city=obj)
+'''
 
 class Participate(Base):
     __tablename__ = 'participate'
@@ -208,16 +215,71 @@ class Participate(Base):
     user = relationship("Student", backref='partin')
 
 
+class TeacherTag(Base):
+
+    __tablename__ = 'teacher_tags'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(Unicode(100), unique=True, nullable=False)
+
+    def __repr__(self):
+        return "<TeacherTag ('%s')>" % self.title
+
+    @property
+    def items(self):
+        return [rel.item for rel in self.content_tags]
+
+class TeacherTagToActs(Base):
+    __tablename__ = 'teacher_tag_to_acts'
+
+    tag_id = Column(Integer, ForeignKey('teacher_tags.id'), primary_key=True)
+    content_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
+    teacher_tag = relation(TeacherTag, backref=backref('teacher_tags', cascade='all'))
+    position = Column(Integer, nullable=False)
+    title = association_proxy('teacher_tag', 'title')
+
+    @classmethod
+    def _tag_find_or_create(cls, title):
+        with DBSession.no_autoflush:
+            tag = DBSession.query(TeacherTag).filter_by(title=title).first()
+        if tag is None:
+            tag = TeacherTag(title=title)
+        return cls(teacher_tag=tag)
+
 class ActStatus:
     DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
 
-
+#人数限制、钱钱、地点、嘉宾
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    status = Column(Integer(), nullable=False)
-    city_id = Column(Integer, ForeignKey('city.id'))
-    city_name = association_proxy('city', 'name')
+    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    # TODO Ignore the city ?
+    #city_id = Column(Integer, ForeignKey('city.id'))
+    #city_name = association_proxy('city', 'name')
+
+    start_time = Column(DateTime())
+    finish_time = Column(DateTime())
+
+    location = Column(UnicodeText())
+
+    _teacher_tags = relation(
+        TeacherTagToActs,
+        backref=backref('item'),
+        order_by=[TeacherTagToActs.position],
+        collection_class=ordering_list("position"),
+        cascade='all, delete-orphan',
+        )
+
+    teachers = association_proxy(
+        '_teacher_tags',
+        'title',
+        creator=TeacherTagToActs._tag_find_or_create,
+        )
+
+    limit_num = Column(Integer(), default=500)
+    pay_count = Column(Integer(), default=0)
+    #TODO for teacher selected
 
     type_info = Document.type_info.copy(
         name=u'Act',

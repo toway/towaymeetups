@@ -1,5 +1,7 @@
 
 def includeme(config):
+    config.include('mba.views.form')
+
     config.include('mba.views.index')
     config.include('mba.views.home')
 

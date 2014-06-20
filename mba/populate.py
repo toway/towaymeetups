@@ -80,9 +80,8 @@ def test_act2():
     print 'student.real_name: ', act.parts[0].real_name
 
 def test_city():
-    city = City(name='Shenzhen')
     act = Act(**_TEST_ATTRS)
-    act.city = city
+    act.city = City(name='Shenzhen')
     DBSession.add(act)
     act = DBSession.query(Act).first()
     print 'act city title', act.city_name
