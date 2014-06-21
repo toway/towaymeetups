@@ -72,10 +72,11 @@ class MbaTemplateAPI(object):
     def render_template(self, renderer, **kwargs):
         return TemplateStructure(render(renderer, kwargs, self.request))
 
-@view_config(name='test_view', context=IContent, renderer='test_view.jinja2')
+from mba.utils import wrap_user
+@view_config(name='test_view', context=IContent, renderer='meetup.jinja2')
 def test_view(context, request):
     api = MbaTemplateAPI(context, request)
-    return {'api': api, 'context':context}
+    return wrap_user(request,{'api': api, 'context':context})
 
 def includeme(config):
     config.add_view(
