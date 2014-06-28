@@ -435,6 +435,9 @@ class Resume(Base):
                 rlts.append(ids[id])
         return (rlts+list(set(jobs).difference(set(rlts))))
 
+def get_act_root(request=None):
+    return DBSession.query(Document).filter_by(name="meet").one()
+
 #用户投给职位的简历
 class PositionResume(Base):
     position_id = Column(Integer, ForeignKey('positions.id'), primary_key=True)

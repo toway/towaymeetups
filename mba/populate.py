@@ -8,6 +8,8 @@ from kotti import get_settings
 import transaction
 from kotti.security import get_principals
 from kotti.resources import get_root
+from kotti.resources import Node
+from kotti.security import SITE_ACL
 
 from mba.resources import *
 
@@ -205,7 +207,24 @@ def test_position():
     DBSession.flush()
     print stu.position_items
 
+def create_mba_root():
+    if DBSession.query(Node).filter_by(name="meet").count() == 0:
+        print get_root()
+        _MBA_ROOT_ATTRS = dict(
+            title=u'meet',
+            name=u'meet',
+            description=u'The root of meet',
+            body=u"<p>Hello meet</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**_MBA_ROOT_ATTRS)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+
+
 def populate():
+    create_mba_root()
+
     print 'Just test in mba.resources: '
     #test_document()
     #test_act()

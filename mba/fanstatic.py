@@ -8,3 +8,4 @@ library = Library("mba", "static")
 mba_css = Resource(library, "css/all.css")
 resume_edit_js = Resource(library, "js/resume_edit.js")
 mba_group = Group([mba_css])
+

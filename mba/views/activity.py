@@ -31,7 +31,7 @@ from kotti.views.edit.content import ContentSchema
 from kotti.views.form import ObjectType
 from kotti.views.form import deferred_tag_it_widget
 from kotti.views.form import CommaSeparatedListWidget
-from kotti.resources import get_root
+from mba.resources import get_act_root
 from kotti.fanstatic import tagit
 
 from mba.resources import MbaUser
@@ -72,7 +72,7 @@ class ActivitySchema(colander.MappingSchema):
         )
     tags = TagNode()
 
-@view_config(route_name='act_add', renderer='col_test.jinja2')
+#@view_config(route_name='act_add', renderer='col_test.jinja2')
 def view_activity_add(context, request):
     schema = ActivitySchema().bind(request=request)
     form = deform.Form(schema,
@@ -87,7 +87,7 @@ def view_activity_add(context, request):
         else:
             try:
                 act = Act(name=appstruct['title']
-                        , parent_id = get_root().id
+                        , parent_id = get_act_root().id
                         , status = ActStatus.DRAFT
                         , title=appstruct['title']
                         , description=appstruct['description']
@@ -150,7 +150,7 @@ class ActAddForm(AddFormView):
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)
-        print 'test act hear', name
+        #parent_id=get_act_root().id
         new_item = self.context[name] = self.add(default_view='test_view', **appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
@@ -170,6 +170,6 @@ def includeme(config):
 
     config.add_route('activity','/activity')
     config.add_route('find','/find')
-    config.add_route('act_add','/act-add')
+    #config.add_route('act_add','/act-add')
     config.scan(__name__)
 
