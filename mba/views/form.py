@@ -21,7 +21,7 @@ from kotti.views.form import AddFormView
 from kotti.views.edit.content import ContentSchema
 from kotti.resources import Document
 from kotti.interfaces import IContent
-from kotti.util import TemplateStructure
+#from kotti.util import TemplateStructure
 from mba import _
 
 class FormCustom(deform.Form):
@@ -61,6 +61,17 @@ class DocumentAddForm(AddFormView):
     schema_factory = DocumentSchema
     add = Document
     item_type = _(u"Document")
+
+class TemplateStructure(object):
+    def __init__(self, html):
+        self.html = html
+
+    def __html__(self):
+        return self.html
+    __unicode__ = __html__
+
+    def __getattr__(self, key):
+        return getattr(self.html, key)
 
 class MbaTemplateAPI(object):
     def __init__(self, context, request, bare=None, **kwargs):
