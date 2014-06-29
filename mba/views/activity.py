@@ -10,7 +10,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget
+from deform.widget import CheckedPasswordWidget, TextInputWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -31,13 +31,14 @@ from kotti.views.edit.content import ContentSchema
 from kotti.views.form import ObjectType
 from kotti.views.form import deferred_tag_it_widget
 from kotti.views.form import CommaSeparatedListWidget
-from mba.resources import get_act_root
 from kotti.fanstatic import tagit
 
+from mba.resources import get_act_root
 from mba.resources import MbaUser
 from mba.utils import wrap_user
 from mba import _
 from mba.resources import *
+from mba.fanstatic import city_css
 
 @view_config(route_name='activity', renderer='activity.jinja2')
 def view_activity(context, request):
@@ -112,6 +113,12 @@ def deferred_teachertag_it_widget(node, kw):
                                       available_tags=available_tags)
     return widget
 
+@colander.deferred
+def deferred_city_widget(node, kw):
+    city_css.need()
+    widget = TextInputWidget(template='text_input_city')
+    return widget
+
 class ActSchema(ContentSchema):
     teachers = colander.SchemaNode(
         ObjectType(),
@@ -119,9 +126,13 @@ class ActSchema(ContentSchema):
         widget=deferred_teachertag_it_widget,
         missing=[],
         )
+    city_name = colander.SchemaNode(colander.String()
+            , title=_(u"城市")
+            , widget=deferred_city_widget
+            )
     location = colander.SchemaNode(
         colander.String(),
-        title=_(u'地点'),
+        title=_(u'详细位置'),
         widget=TextAreaWidget(cols=40, rows=5),
         missing=u"",
         )

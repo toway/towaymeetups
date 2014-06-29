@@ -186,7 +186,6 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
-'''
 class City(Base):
     __tablename__ = 'city'
     __table_args__ = (
@@ -202,8 +201,8 @@ class City(Base):
             obj = DBSession.query(City).filter_by(name=name).first()
         if obj is None:
             obj = City(name=name)
-        return cls(city=obj)
-'''
+        #return cls(city=obj)
+        return obj
 
 class Participate(Base):
     __tablename__ = 'participate'
@@ -255,8 +254,10 @@ class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
     # TODO Ignore the city ?
-    #city_id = Column(Integer, ForeignKey('city.id'))
-    #city_name = association_proxy('city', 'name')
+    city_id = Column(Integer, ForeignKey('city.id'))
+    city_name = association_proxy('city'
+            , 'name'
+            , creator=City._find_or_create)
 
     start_time = Column(DateTime())
     finish_time = Column(DateTime())

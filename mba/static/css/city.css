@@ -1,0 +1,19 @@
+*{margin:0;padding:0;border:0;font-size:12px;}
+a{text-decoration:none;}
+ul,li,ol,dl,dt,dd{list-style:none;}
+.cityList{display:block;position:absolute;left:20px;top:20px;width:676px;border:2px solid #B91313;background:white;z-index:1;overflow:hidden;font-family:arial,"宋体";overflow:hidden;}
+.cityList .title{background-color:#F4F4F4;width:100%;padding-top:10px;padding-left:16px;overflow:hidden;position:relative;}
+.cityList .cityTopSearch{float:left;width:228px;height:25px;line-height:25px;margin-right:38px;padding:0 2px;display:inline;border:1px solid #E6DFDE;color:#5e5e5e;}
+.cityList ul.titleChar{list-style:none;cursor:default;}
+.cityList .titleChar .on{border-color:#E6DFDE;background-color:white;}
+.cityList .titleChar li{float:left;border:1px solid #F4F4F4;border-bottom:0;padding:6px 24px;}
+.cityList .cityListBox{margin:8px 0 0 16px;color:#686868;overflow:hidden;display:inline-block;_position:relative;}
+.cityListBox dl{position:relative;overflow:hidden;zoom:1;}
+cityListBox .hotCity dd{width:650px;}
+.cityListBox dl dt{float:left;width:20px;height:auto;display:block;line-height:25px;}
+.cityListBox dl dd{float:left;line-height:25px;_padding-top:2px;text-align:left;width:640px;margin-bottom:6px;}
+.cityListBox dl dd a{color:#686868;}
+.cityListBox dl dd a:hover{color:#990000;text-decoration:underline;}
+.cityListBox a{width:55px;display:inline-block;}
+.none{display:none;}
+
