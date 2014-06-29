@@ -1,4 +1,4 @@
-<input type="text" name="{{field.name}}" value="{{cstruct}}"
+<input type="text" name="{{field.name}}" value="{{cstruct}} " class='citypicker'
 {% if field.widget.size %}
  size="{{field.widget.size}}"
 {% endif %}
@@ -9,16 +9,69 @@
 {% endif %}
  id="{{field.oid}}"/>
 
-{% if field.widget.mask %}
+
 <script type="text/javascript">
+$(function(){
+
+
+$.fn.citypicker = function(doc){
+  //twitter bootstrap dropdown div
+  var _dropdownDiv = $('<div class="dropdown"></div>');
+  var _dropdownMenu = $('<dl class="dropdown-menu citypicker-menu"></dl>');
+  var _cities = {
+    "华东华北": ["北京", "天津", "沈阳", "大连", "长春", "哈尔滨", "石家庄", "太原", "呼和浩特"],
+    "华东地区": ["上海", "杭州", "南京", "苏州", "无锡", "济南", "厦门", "宁波", "福州", "青岛", "合肥", "常州"],
+    "中部西部": ["武汉", "郑州", "长沙", "南昌", "贵阳", "南宁", "成都", "重庆", "西安", "昆明", "兰州", "乌鲁木齐"],
+    "华南地区": ["广州", "深圳", "佛山", "珠海", "东莞", "厦门", "海口", "南宁"],
+    "港澳台": ["香港", "台湾", "澳门"]
+  };
+
+
+  $.each(_cities, function(area, citylist){
+
+    _dropdownMenu.append('<dt>'+area+'</dt>');
+    var _ul = $('<ul class="fix"></ul>');
+    // add cells for each city
+    $.each(citylist, function(index, city){
+     //_ul.append('<li><a href="#">'+city+'</a></li>');
+
+      var _a = $('<a href="#">'+city+'</a>');
+      _a.click(function() {
+         $('.citypicker').val(city);
+      });
+      _ul.append(_a);
+      _a.wrap('<li></li>');
+    });
+    _dropdownMenu.append(_ul);
+    _ul.wrap($('<dd></dd>'));
+  });
+
+{#  _dropdownMenu.append(doc);#}
+  // wraps and appends
+  this.wrap(_dropdownDiv);
+  this.parent().append(_dropdownMenu);
+  this.wrap('<a class="dropdown-toggle" data-toggle="dropdown" href="#"></a>');
+
+};
+
   deform.addCallback(
      '{{field.oid}}',
      function (oid) {
-        $("#" + oid).mask("{{field.widget.mask}}",
+
+{#         $( '#' + oid).click(function(e){#}
+                $('.citypicker').citypicker( $('.cityList') );
+
+{#         });#}
+
+         {% if field.widget.mask %}
+            $("#" + oid).mask("{{field.widget.mask}}",
                           {placeholder:"{{field.widget.mask_placeholder}}"});
+         {% endif %}
      });
+
+});
 </script>
-{% endif %}
+
 
 <div class="cityList">
 	<div class="title">
