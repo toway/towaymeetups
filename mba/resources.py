@@ -457,7 +457,7 @@ class Position(Document):
     degree = Column(String(100))
     experience = Column(String(100))
     salary = Column(Integer())
-    status = Column(Integer(), nullable=False)
+    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
 
     resumes = relationship('PositionResume', backref='position')
     users = association_proxy('resumes', 'user')

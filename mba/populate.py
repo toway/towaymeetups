@@ -209,15 +209,25 @@ def test_position():
 
 def create_mba_root():
     if DBSession.query(Node).filter_by(name="meet").count() == 0:
-        print get_root()
-        _MBA_ROOT_ATTRS = dict(
+        meet_attrs = dict(
             title=u'meet',
             name=u'meet',
             description=u'The root of meet',
             body=u"<p>Hello meet</p>",
             parent_id = get_root().id,
         )
-        root = Document(**_MBA_ROOT_ATTRS)
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+    if DBSession.query(Node).filter_by(name="job").count() == 0:
+        job_attrs = dict(
+            title=u'job',
+            name=u'job',
+            description=u'The root of job',
+            body=u"<p>Hello job</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**job_attrs)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
 
