@@ -25,18 +25,38 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
-
+from mba.views.activity import ActAddForm
+from mba.resources import Act
 __author__ = 'sunset'
 __date__ = '20140614'
 
 
 
-@view_config(route_name='admin', renderer='admin/home.jinja2')
+@view_config(route_name='admin', renderer='admin/meetups.jinja2')
+@wrap_user
+def view_admin_home(request):
+   return  {'project': 'lesson2'}
+
+@view_config(route_name='admin_meetups', renderer='admin/meetups.jinja2')
 @wrap_user
 def view_meetups(request):
    return  {'project': 'lesson2'}
 
 
+def view_response_test(request):
+    return Response("SB")
+
 def includeme(config):
     config.add_route('admin','/admin')
+    config.add_route('admin_meetups','/admin/meetups')
+    config.add_route('admin_meetup_add',  '/admin/meetup/add')
+    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2")
+
+    config.add_route("t1","/admin/t1")
+    config.add_route("t2","/admin/t2")
+
+    config.add_view(view_response_test, route_name="t1")
+    config.add_view(view_response_test, route_name="t2")
+
+
     config.scan(__name__)
