@@ -59,11 +59,16 @@
                                     <div class="col-md-8">
                                         <h2>【孵化蜕变】创业在这里发生：3W咖啡开放日</h2>
                                         <br/>
-                                        <div>{{context.teachers}}分享嘉宾：张逸龙、龙宇、许单单、马德化、李欣赞</div>
-                                        <div>地点：3W咖啡 北京(海淀书城籍海楼对面</div>
-                                        <div>时间：06月15日  09：00-18：00</div>
-                                        <div>费用：0元/人</div>
-                                        <div>限制：1000人 (101人已报名)</div>
+                                        <div>
+                                            分享嘉宾：
+                                            {% for teacher in context.teachers %}
+                                                {{ teacher }} &nbsp;
+                                            {% endfor %}
+                                        </div>
+                                        <div>地点：{{ context.location }}</div>
+                                        <div>时间：{{ context.start_time }}-{{ context.finish_time }}</div>
+                                        <div>费用：{{ context.pay_count }}元/人</div>
+                                        <div>限制：{{ context.limit_num }}人 (101人已报名)</div>
                                         <br/>
 
                                         <button class="btn btn-primary">报名参加</button>
