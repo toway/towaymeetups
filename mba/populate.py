@@ -208,12 +208,12 @@ def test_position():
     print stu.position_items
 
 def create_mba_root():
-    if DBSession.query(Node).filter_by(name="meet").count() == 0:
+    if DBSession.query(Node).filter_by(name="meetup").count() == 0:
         meet_attrs = dict(
-            title=u'meet',
-            name=u'meet',
-            description=u'The root of meet',
-            body=u"<p>Hello meet</p>",
+            title=u'meetup',
+            name=u'meetup',
+            description=u'The root of meetup',
+            body=u"<p>Hello meetup</p>",
             parent_id = get_root().id,
         )
         root = Document(**meet_attrs)
