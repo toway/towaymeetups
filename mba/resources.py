@@ -259,8 +259,14 @@ class Act(Document):
             , 'name'
             , creator=City._find_or_create)
 
-    start_time = Column(DateTime())
-    finish_time = Column(DateTime())
+
+    # Meetup start time
+    meetup_start_time = Column(DateTime())
+    # Meetup finish time
+    meetup_finish_time = Column(DateTime())
+
+    enroll_start_time = Column(DateTime())
+    enroll_finish_time = Column(DateTime())
 
     location = Column(UnicodeText())
 
@@ -294,6 +300,11 @@ class Act(Document):
     @property
     def parts(self):
         return [rel.user for rel in self._parts]
+
+
+
+
+
 
 class Student(MbaUser):
 
@@ -437,7 +448,7 @@ class Resume(Base):
         return (rlts+list(set(jobs).difference(set(rlts))))
 
 def get_act_root(request=None):
-    return DBSession.query(Document).filter_by(name="meet").one()
+    return DBSession.query(Document).filter_by(name="meetup").one()
 
 #用户投给职位的简历
 class PositionResume(Base):

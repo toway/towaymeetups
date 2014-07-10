@@ -40,6 +40,8 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
+from mba.views.widget import URLInputWidget
+
 @view_config(route_name='activity', renderer='activity.jinja2')
 def view_activity(context, request):
     resp_dict = {
@@ -119,7 +121,25 @@ def deferred_city_widget(node, kw):
     widget = TextInputWidget(template='text_input_city')
     return widget
 
-class ActSchema(ContentSchema):
+class ActSchema(colander.MappingSchema):
+    title = colander.SchemaNode(
+        colander.String(),
+        title=_(u'标题'),
+        )
+    name = colander.SchemaNode(
+        colander.String(),
+        title=_(u"生成的URL"),
+        description=_(u"以a-b-c形式"),
+        widget=URLInputWidget()
+    )
+
+    description = colander.SchemaNode(
+        colander.String(),
+        title=_('Description'),
+        widget=TextAreaWidget(cols=40, rows=5),
+        missing=u"",
+        )
+
     teachers = colander.SchemaNode(
         ObjectType(),
         title=_(u'老师'),
@@ -136,21 +156,32 @@ class ActSchema(ContentSchema):
         widget=TextAreaWidget(cols=40, rows=5),
         missing=u"",
         )
-    start_time = colander.SchemaNode(
-            colander.DateTime(), title=u'开始时间')
-    finish_time = colander.SchemaNode(
-            colander.DateTime(), title=u'结束时间')
+    meetup_start_time = colander.SchemaNode(
+            colander.DateTime(), title=u'活动开始时间')
+    meetup_finish_time = colander.SchemaNode(
+            colander.DateTime(), title=u'活动结束时间')
+
+    enroll_start_time = colander.SchemaNode(
+            colander.DateTime(), title=u'报名开始时间')
+    enroll_finish_time = colander.SchemaNode(
+            colander.DateTime(), title=u'报名结束时间')
+
     limit_num = colander.SchemaNode(
             colander.Integer(), title=u'人数限制', default=500)
     pay_count = colander.SchemaNode(
             colander.Integer(), title=u'支付', default=0)
+
     body = colander.SchemaNode(
         colander.String(),
         title=_(u'Body'),
-        widget=deform.widget.RichTextWidget(theme='modern'
-            , template = 'richtext.jinja2'
-            , width=790
-            , height=500),
+        widget=RichTextWidget(theme='modern', width=790, height=500),
+
+        )
+    tags = colander.SchemaNode(
+        ObjectType(),
+        title=_('Tags'),
+        widget=deferred_tag_it_widget,
+        missing=[],
         )
 
 class ActAddForm(AddFormView):
@@ -158,11 +189,14 @@ class ActAddForm(AddFormView):
     add = Act
     item_type = _(u"活动")
 
+    form_options = ({'css_class':'form-horizontal'})
+
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)
         #parent_id=get_act_root().id
-        new_item = self.context[name] = self.add(default_view='test_view', **appstruct)
+        parent = get_act_root()
+        new_item = parent[name] = self.add(default_view='test_view', **appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
         return HTTPFound(location=location)
