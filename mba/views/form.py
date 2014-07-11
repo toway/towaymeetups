@@ -21,8 +21,8 @@ from kotti.views.form import AddFormView
 from kotti.views.edit.content import ContentSchema
 from kotti.resources import Document
 from kotti.interfaces import IContent
-#from kotti.util import TemplateStructure
 from mba import _
+from mba.views.view import MbaTemplateAPI
 
 class FormCustom(deform.Form):
     def __init__(self, schema, **kw):
@@ -61,27 +61,6 @@ class DocumentAddForm(AddFormView):
     schema_factory = DocumentSchema
     add = Document
     item_type = _(u"Document")
-
-class TemplateStructure(object):
-    def __init__(self, html):
-        self.html = html
-
-    def __html__(self):
-        return self.html
-    __unicode__ = __html__
-
-    def __getattr__(self, key):
-        return getattr(self.html, key)
-
-class MbaTemplateAPI(object):
-    def __init__(self, context, request, bare=None, **kwargs):
-        self.context, self.request = context, request
-
-        if getattr(request, 'template_api', None) is None:
-            request.template_api = self
-
-    def render_template(self, renderer, **kwargs):
-        return TemplateStructure(render(renderer, kwargs, self.request))
 
 from mba.utils import wrap_user
 @view_config(name='test_view', context=IContent, renderer='meetup.jinja2')

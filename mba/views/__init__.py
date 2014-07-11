@@ -1,5 +1,8 @@
 
 def includeme(config):
+    #be first?
+    config.include('mba.views.view')
+
     config.include('mba.views.form')
 
     config.include('mba.views.index')
@@ -20,5 +23,8 @@ def includeme(config):
     config.include('mba.views.resume_edit')
     config.include('mba.views.resume_preview')
     config.include('mba.views.activity')
+    #reimplement the content templates
+    config.include('mba.views.content')
+    config.include('mba.views.image')
 
     config.include('mba.views.admin')
