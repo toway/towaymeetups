@@ -120,6 +120,13 @@ def deferred_city_widget(node, kw):
     city_css.need()
     widget = TextInputWidget(template='text_input_city')
     return widget
+    
+@colander.deferred
+def deferred_urlinput_widget(node, kw):
+    
+    request = kw['request']
+    widget = URLInputWidget(url_prefix=request.application_url + "/meetup/")
+    return widget    
 
 class ActSchema(colander.MappingSchema):
     title = colander.SchemaNode(
@@ -128,9 +135,9 @@ class ActSchema(colander.MappingSchema):
         )
     name = colander.SchemaNode(
         colander.String(),
-        title=_(u"生成的URL"),
+        title=_(u"活动URL"),
         description=_(u"以a-b-c形式"),
-        widget=URLInputWidget()
+        widget=deferred_urlinput_widget
     )
 
     description = colander.SchemaNode(
@@ -186,10 +193,15 @@ class ActSchema(colander.MappingSchema):
 
 class ActAddForm(AddFormView):
     schema_factory = ActSchema
-    add = Act
+    
+    
+    
     item_type = _(u"活动")
 
     form_options = ({'css_class':'form-horizontal'})
+    
+    
+    
 
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
