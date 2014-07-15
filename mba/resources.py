@@ -253,6 +253,8 @@ class ActStatus:
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    
+    meetup_type = Column(Integer, ForeignKey('meetup_types.id'))
     # TODO Ignore the city ?
     city_id = Column(Integer, ForeignKey('city.id'))
     city_name = association_proxy('city'
@@ -303,7 +305,10 @@ class Act(Document):
 
 
 
-
+# 活动的类别        
+class MeetupType(Base):
+    id = Column(Integer, primary_key=True)
+    title = Column(String(100), nullable=True)
 
 
 class Student(MbaUser):
@@ -483,4 +488,4 @@ class Position(Document):
         addable_to=[u'Position'],
         )
 
-row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+# row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}

@@ -57,7 +57,7 @@
 
                                     </div>
                                     <div class="col-md-8">
-                                        <h2>【孵化蜕变】创业在这里发生：3W咖啡开放日</h2>
+                                        <h2>{{ context.title }}</h2>
                                         <br/>
                                         <div>
                                             分享嘉宾：
@@ -66,7 +66,7 @@
                                             {% endfor %}
                                         </div>
                                         <div>地点：{{ context.location }}</div>
-                                        <div>时间：{{ context.start_time }}-{{ context.finish_time }}</div>
+                                        <div>时间：{{ context.meetup_start_time }}-{{ context.meetup_finish_time }}</div>
                                         <div>费用：{{ context.pay_count }}元/人</div>
                                         <div>限制：{{ context.limit_num }}人 (101人已报名)</div>
                                         <br/>
@@ -81,11 +81,7 @@
                                 <div>
                                     <h3>活动详情</h3>
                                     <p class="meetup-details">
-                                        活动主题：塔顶魂牵梦萦栽魂牵<br/>
-                                        梦萦黄柳霜项城械柑暮云春树革暮云春树工<br/>
-                                        要暮云春树工载fafdasfdsaf<br/>
-                                        fasdfdsdafas<br/>
-                                        sdfasfd<br/>
+                                        {{ context.body }}
 
                                     </p>
                                 </div>

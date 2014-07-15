@@ -128,6 +128,14 @@ def deferred_urlinput_widget(node, kw):
     widget = URLInputWidget(url_prefix=request.application_url + "/meetup/")
     return widget    
 
+@colander.deferred
+def deferred_meetuptypes_widget(node, kw):
+    widget = deform.widget.SelectWidget(values=[ (i.id, i.title) 
+                                                   for i in DBSession.query(MeetupType).all() ],
+                                          css_class='form-control')
+    return widget    
+    
+    
 class ActSchema(colander.MappingSchema):
     title = colander.SchemaNode(
         colander.String(),
@@ -139,6 +147,13 @@ class ActSchema(colander.MappingSchema):
         description=_(u"以a-b-c形式"),
         widget=deferred_urlinput_widget
     )
+    
+
+    meetup_type = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u'活动类型'),
+        widget=deferred_meetuptypes_widget
+    )    
 
     description = colander.SchemaNode(
         colander.String(),
@@ -193,7 +208,7 @@ class ActSchema(colander.MappingSchema):
 
 class ActAddForm(AddFormView):
     schema_factory = ActSchema
-    
+    add = Act
     
     
     item_type = _(u"活动")

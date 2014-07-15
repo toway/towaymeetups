@@ -242,6 +242,18 @@ def create_mba_root():
         root.__acl__ = SITE_ACL
         DBSession.add(root)
 
+    # TODO: Make this addable and  editable
+    if DBSession.query(Node).filter_by(name="meetup_types").count() == 0:        
+        node1 = MeetupType(title=u"聚友沙龙")        
+        node2 = MeetupType(title=u"志友下午茶")        
+        node3 = MeetupType(title=u"私人董事会")        
+        node4 = MeetupType(title=u"志友健康行")        
+        DBSession.add(node1)        
+        DBSession.add(node2)        
+        DBSession.add(node3)        
+        DBSession.add(node4)        
+        
+        
 
 def populate():
     create_mba_root()
