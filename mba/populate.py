@@ -232,7 +232,7 @@ def create_mba_root():
         DBSession.add(root)
 
     # TODO: Make this addable and  editable
-    if DBSession.query(Node).filter_by(name="meetup_types").count() == 0:        
+    if DBSession.query(MeetupType).count() == 0:        
         node1 = MeetupType(title=u"聚友沙龙")        
         node2 = MeetupType(title=u"志友下午茶")        
         node3 = MeetupType(title=u"私人董事会")        
