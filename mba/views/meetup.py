@@ -17,6 +17,8 @@ from pyramid.encode import urlencode
 from formencode.validators import Email
 from pyramid.request import Response
 
+from js.jquery import jquery
+
 from kotti import get_settings
 from kotti.security import get_principals
 from kotti import DBSession
@@ -33,8 +35,10 @@ __date__ = '20140614'
 
 @view_config(route_name='meetup', renderer='meetup.jinja2')
 @wrap_user
-def view_meetups(request):
-   return  {'project': 'lesson2'}
+def view_meetup(request):  
+    jquery.need()
+    print 'sb' * 10
+    return  {'project': 'lesson2'}
 
 
 def includeme(config):

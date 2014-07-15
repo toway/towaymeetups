@@ -63,9 +63,11 @@ class DocumentAddForm(AddFormView):
     item_type = _(u"Document")
 
 from mba.utils import wrap_user
+from js.jquery import jquery
 @view_config(name='test_view', context=IContent, renderer='meetup.jinja2')
 def test_view(context, request):
     api = MbaTemplateAPI(context, request)
+    jquery.need()
     return wrap_user(request,{'api': api, 'context':context})
 
 def includeme(config):
