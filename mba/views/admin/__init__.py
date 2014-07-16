@@ -31,16 +31,29 @@ __author__ = 'sunset'
 __date__ = '20140614'
 
 
+from js.jquery import jquery
+
+
+def view_meetup_entry():
+    jquery.need()
+    
+    result = DBSession.query(Act).slice(0,20)
+    all = [ {'id': it.id,
+                'name': it.name, 
+             'title': it.title
+             }             
+                for it in result ]  
+    return {'meetups': all}
 
 @view_config(route_name='admin', renderer='admin/meetups.jinja2')
 @wrap_user
 def view_admin_home(request):
-   return  {'project': 'lesson2'}
+    return view_meetup_entry()
 
 @view_config(route_name='admin_meetups', renderer='admin/meetups.jinja2')
 @wrap_user
-def view_meetups(request):
-   return  {'project': 'lesson2'}
+def view_meetups(request):     
+    return view_meetup_entry()
 
 
 def view_response_test(request):
