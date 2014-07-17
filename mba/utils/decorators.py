@@ -39,7 +39,7 @@ def wrap_user(func):
             # end if
         # end if
 
-        varnames = func.func_code.co_varnames
+        varnames = func.func_code.co_varnames[0:func.func_code.co_argcount]
         ret_dict = func(*varnames)
         if isinstance(ret_dict, dict):
             ret_dict.update({'user': user})

@@ -1,11 +1,25 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <ul class="nav nav-pills  nav-stacked">
-                                  <li class="active">
-                                      <a href="/admin/meetups">活动管理</a>
+                                <ul class="nav nav-pills nav-stacked">
+                                  <li class="active dropdown">
+                                      <a class="dropdown-toggle" data-toggle="dropdown"  href="/admin/meetups"><b class="caret"></b>活动管理
+                                        
+                                      </a>
+                                      <ul class="dropdown-menu">
+                                          <li><a href="/admin/meetup/add">发布活动</a></li>
+                                          <li class="divider"></li>                                          
+                                          <li><a href="/admin/meetups">正报名的活动</a></li>                                          
+                                          <li><a href="/admin/meetups">正进行的活动</a></li>
+                                          <li><a href="/admin/meetups">已举办的活动</a></li>
+                                          <li class="divider"></li> 
+                                          <li><a href="/admin/meetups">所有活动</a></li>
+                                          
+                                      </ul>
                                   </li>
-                                  <li><a href="#">活动回顾</a></li>
+                                  <li class=""><a href="#">活动回顾</a></li>
                                   <li><a href="#">用户管理</a></li>
                                 </ul>
                             </div>
                         </div>
+                        
+    

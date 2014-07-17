@@ -248,11 +248,21 @@ class TeacherTagToActs(Base):
 class ActStatus:
     DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
 
+# 活动的类别        
+class MeetupType(Base):
+    id = Column(Integer, primary_key=True)
+    title = Column(String(100), nullable=True)
+    acts = relationship("Act", backref='meetup_types')
+   
 #人数限制、钱钱、地点、嘉宾
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    
+    meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
+    meetup_type_title = association_proxy('meetup_types', 'title' )    
+    
     # TODO Ignore the city ?
     city_id = Column(Integer, ForeignKey('city.id'))
     city_name = association_proxy('city'
@@ -300,7 +310,6 @@ class Act(Document):
     @property
     def parts(self):
         return [rel.user for rel in self._parts]
-
 
 
 
@@ -483,4 +492,4 @@ class Position(Document):
         addable_to=[u'Position'],
         )
 
-row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+# row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
