@@ -38,12 +38,24 @@ def view_home(request):
 @view_config(route_name='permission', renderer='index.jinja2', permission='admin')
 def view_permission(request):
     return {'project': 'lesson2'}
+    
+
+from mba.views.register import name_pattern_validator       
+def login_pattern_validator(node, value):
+    try:
+        colander.Email()(node, value)
+    except colander.Invalid, ex:
+        try:
+            name_pattern_validator(node, value)
+        except colander.Invalid, ex:
+            raise colander.Invalid(node, _(u"不合法的用户名或Email格式"))
+
 
 class LoginSchema(colander.Schema):
-    email = colander.SchemaNode(
+    email_or_username = colander.SchemaNode(
         colander.String(),
-        title=_(u'邮箱'),
-        validator=colander.Email(),
+        title=_(u'邮箱或用户名'),
+        validator=login_pattern_validator
     )
     password = colander.SchemaNode(
         colander.String(),
@@ -70,7 +82,7 @@ def user_password_match_validator(form, value):
     """ TODO: Doesn't take effect yet
     """
     principals = get_principals()
-    principal = principals.get(value['email'])
+    principal = principals.get(value['email_or_username'])
 
 
 
@@ -96,7 +108,7 @@ def login(context, request):
             request.session.flash(_(u"There was an error."), 'error')
             rendered_form = e.render()
         else:
-            user = _find_user(appstruct['email'])
+            user = _find_user(appstruct['email_or_username'])
             if (user is not None and user.active and
                     principals.validate_password(appstruct['password'], user.password)):
                 headers = remember(request, user.name)
