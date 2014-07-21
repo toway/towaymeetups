@@ -230,6 +230,17 @@ def create_mba_root():
         root = Document(**job_attrs)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
+    if DBSession.query(Node).filter_by(name="images").count() == 0:
+        meet_attrs = dict(
+            title=u'images',
+            name=u'images',
+            description=u'The root of images',
+            body=u"<p>images</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
 
     # TODO: Make this addable and  editable
     if DBSession.query(MeetupType).count() == 0:        
