@@ -54,9 +54,10 @@ def view_node(context, request):  # pragma: no coverage
 
 
 @view_config(name='search-results', permission='view',
-             renderer='kotti:templates/view/search-results.pt')
+             renderer='search_results.jinja2')
 def search_results(context, request):
     results = []
+    print 'search-results'
     if u'search-term' in request.POST:
         search_term = request.POST[u'search-term']
         results = search_content(search_term, request)
@@ -76,13 +77,13 @@ def search_results_for_tag(context, request):
     return {'results': results}
 
 
-@view_config(name='search', permission='view',
-             renderer='kotti:templates/view/search.pt')
+#@view_config(name='search', permission='view',
+#             renderer='search_results.jinja2')
 @view_config(name='folder_view', context=IContent, permission='view',
              renderer='kotti:templates/view/folder.pt')
 @view_config(name='view', context=IContent, renderer='test_view.jinja2')
 def view(context, request):
-    print 'mba views view'
+    #print 'mba views view'
     api = MbaTemplateAPI(context, request)
     return {'api': api, 'context':context}
 

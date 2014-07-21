@@ -32,6 +32,7 @@ from kotti.views.form import ObjectType
 from kotti.views.form import deferred_tag_it_widget
 from kotti.views.form import CommaSeparatedListWidget
 from kotti.fanstatic import tagit
+from kotti.views.util import search_content
 
 from mba.resources import get_act_root
 from mba.resources import MbaUser

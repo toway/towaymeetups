@@ -24,6 +24,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils import wrap_user
+from mba.view import MbaTemplateAPI
 
 @view_config(route_name='home2', renderer='index2.jinja2')
 def view_home(request):
@@ -124,7 +125,8 @@ def login(context, request):
     if rendered_form is None:
         rendered_form = form.render(request.params)
 
-    return wrap_user(request, {'form': jinja2.Markup(rendered_form)})
+    api = MbaTemplateAPI(context, request)
+    return wrap_user(request, {'api': api, 'form': jinja2.Markup(rendered_form)})
 
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
