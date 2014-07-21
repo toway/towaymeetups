@@ -24,7 +24,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils import wrap_user
-from mba.view import MbaTemplateAPI
+from mba.views.view import MbaTemplateAPI
 
 @view_config(route_name='home2', renderer='index2.jinja2')
 def view_home(request):
