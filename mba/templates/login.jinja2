@@ -86,6 +86,9 @@
                         <div class="auth-form-header">
                             <h1>登录</h1>
                         </div>
+
+			{{ api.render_template('kotti:templates/messages.pt')|safe }}
+
                         <div class="auth-form-body">
                             {{ form }}
                         </div>
