@@ -68,7 +68,8 @@ from js.jquery import jquery
 def test_view(context, request):
     api = MbaTemplateAPI(context, request)
     jquery.need()
-    return wrap_user(request,{'api': api, 'context':context})
+    contextbody = jinja2.Markup(context.body)
+    return wrap_user(request,{'api': api, 'context':context, 'contextbody': contextbody})
 
 def includeme(config):
     config.add_view(

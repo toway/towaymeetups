@@ -26,6 +26,7 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 from kotti.resources import Document
+from kotti.resources import Node
 from kotti.views.form import AddFormView
 from kotti.views.edit.content import ContentSchema
 from kotti.views.form import ObjectType
@@ -34,16 +35,20 @@ from kotti.views.form import CommaSeparatedListWidget
 from kotti.fanstatic import tagit
 from kotti.views.util import search_content
 
+
 from mba.resources import get_act_root
 from mba.resources import MbaUser
-from mba.utils import wrap_user
+from mba.utils.decorators import wrap_user
+from mba.utils import wrap_user as wrap_user2
 from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
 from mba.views.widget import URLInputWidget
+from mba.views.view import MbaTemplateAPI
 
 @view_config(route_name='activity', renderer='activity.jinja2')
+@wrap_user
 def view_activity(context, request):
     resp_dict = {
         'status': 1,# 1=ON_GOING/0=FINISHED
@@ -58,7 +63,7 @@ def view_activity(context, request):
         'applicants':[u'陈...',u'余争'] * 10
     }
 
-    return wrap_user(request, resp_dict)
+    return resp_dict
 
 class TagNode(colander.SequenceSchema):
     tag = colander.SchemaNode(colander.String())
@@ -136,7 +141,11 @@ def deferred_meetuptypes_widget(node, kw):
                                           css_class='form-control')
     return widget    
     
-    
+
+def deferred_duplicated_meetupname_validator(node, value):    
+    if DBSession.query(Node).filter_by(name=value).count() != 0:        
+        raise colander.Invalid(node, _(u"已经存在的URL名!"))
+
 class ActSchema(colander.MappingSchema):
     title = colander.SchemaNode(
         colander.String(),
@@ -146,7 +155,8 @@ class ActSchema(colander.MappingSchema):
         colander.String(),
         title=_(u"活动URL"),
         description=_(u"以a-b-c形式"),
-        widget=deferred_urlinput_widget
+        widget=deferred_urlinput_widget,
+        validator=deferred_duplicated_meetupname_validator
     )
     
 
@@ -218,7 +228,15 @@ class ActAddForm(AddFormView):
     
     
     
+    def __call__(self):
+        ret = AddFormView.__call__(self)
+        if isinstance(ret, dict):            
+            ret = wrap_user2(self.request, ret)
+            ret.update({'api': MbaTemplateAPI(self.context, self.request)})            
+        return ret
 
+
+            
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)

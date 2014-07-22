@@ -33,17 +33,31 @@ __date__ = '20140614'
 
 from js.jquery import jquery
 
-
+global index
 def view_meetup_entry():
     jquery.need()
-    
+    queried = DBSession.query(Act)
+    count = queried.count()
     result = DBSession.query(Act).slice(0,20)
-    all = [ {'id': it.id,
-                'name': it.name, 
-             'title': it.title
+    part = [ { 'id': it.id,
+              'name': it.name, 
+              'title': it.title
              }             
-                for it in result ]  
-    return {'meetups': all}
+                for it in result ] 
+    global index 
+    index = 1
+    def self_add(x):
+        global index
+        x['index'] = index
+        index += 1
+        return x
+        
+    part = map(self_add, part)   
+    
+    num_per_page  = 1
+    total_page = count / num_per_page + 1
+    
+    return {'meetups': part, 'total_count': count , 'total_page':total_page, 'num_per_page':20, 'page_index': 1}
 
 @view_config(route_name='admin', renderer='admin/meetups.jinja2')
 @wrap_user
