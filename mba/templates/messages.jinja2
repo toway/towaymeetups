@@ -1,0 +1,13 @@
+<div id="messages" class="{{request.is_xhr and 'ajax-replace' or ''}}">
+    {% for msg in ('info','success','error','') %}
+        {% for messages in request.session.pop_flash(msg) %}
+            {% if messages %}
+            
+                <div class="alert alert-{{msg}}">
+                    {% for message in messages %}{{ message }}{% endfor %}
+                </div>   
+                
+            {% endif %}                    
+        {% endfor %}            
+    {% endfor %}  
+</div>

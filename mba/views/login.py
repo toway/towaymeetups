@@ -23,7 +23,8 @@ from kotti.security import get_user
 
 from mba.resources import MbaUser
 from mba import _
-from mba.utils import wrap_user
+from mba.utils.decorators import wrap_user
+from mba.utils import wrap_user as wrap_user2
 from mba.views.view import MbaTemplateAPI
 
 @view_config(route_name='home2', renderer='index2.jinja2')
@@ -89,10 +90,16 @@ def user_password_match_validator(form, value):
 
 @view_config(name='login', renderer='login.jinja2')
 def login(context, request):
+
+    user = get_user(request)
+    if user :
+        # already login, redirect to home page
+        return HTTPFound(location="/")
+    
     schema = LoginSchema(validator=user_password_match_validator).bind(request=request)
 
     form = deform.Form(schema,
-                       buttons=[deform.form.Button(u'submit', title=u'登录')],
+                       buttons=[deform.form.Button(u'submit', title=u'登录', css_class="btn btn-primary")],
                        css_class="border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,0.075);" )
     rendered_form = None
 
@@ -106,7 +113,11 @@ def login(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            # msg = [ _(u"%s is %s")  for (k,v) in  e.error.items() ]    
+            # msg = u",".join( [m for m in e.error.messages] )
+            request.session.flash(_(u"登陆失败" ), 'error')
+            #request.session.flash(_(u"登陆失败：%s" % e.error), 'error')
+            # showing 登陆失败 {'password': u'shorting than miminum length 6'}
             rendered_form = e.render()
         else:
             user = _find_user(appstruct['email_or_username'])
@@ -120,13 +131,12 @@ def login(context, request):
                 if came_from == 'login':
                     came_from = '/'
                 return HTTPFound(location=came_from, headers=headers)
-            request.session.flash(_(u"Login failed."), 'error')
+            request.session.flash(_(u"登陆失败，用户名或密码错误."), 'error')
 
     if rendered_form is None:
         rendered_form = form.render(request.params)
 
-    api = MbaTemplateAPI(context, request)
-    return wrap_user(request, {'api': api, 'form': jinja2.Markup(rendered_form)})
+    return  {'form': jinja2.Markup(rendered_form)}
 
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
