@@ -76,7 +76,15 @@
                                         {% if time_now < context.enroll_start_time %}
                                             <button class="btn btn-primary disabled">报名暂未开始</button>
                                         {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
-                                            <button class="btn btn-primary">报名参加</button>
+                                            
+                                            {% if not enrolled %}
+                                            <form name="enroll" id="formEnroll" method="POST" >
+                                                <button type="submit" name="enroll" class="btn btn-primary">报名参加</button>
+                                            </form>
+                                            {% else %}
+                                                <button name="enroll" class="btn btn-primary">报名参加</button>
+                                            {% endif %}
+                                            
                                         {% elif time_now > context.enroll_finish_time %}
                                             <button class="btn btn-primary disabled">报名已经结束</button>
                                         {% endif %}                                        
@@ -168,6 +176,7 @@
                             </div>
                             <div class="panel-body">
                                     <div class="applicants">
+                                        {{ context._parts }}
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>

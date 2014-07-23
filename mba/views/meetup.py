@@ -47,11 +47,31 @@ def view_meetup(context, request):
     # context.meetup_start_time = context.meetup_start_time.replace(tzinfo = TZ_HK )
     # context.meetup_finish_time= context.meetup_finish_time.replace(tzinfo = TZ_HK )
     
+    enrolled = False
+
+    print 'context'
+    print context
+    print 'context._parts'
+    print context._parts
+    print 'context.parts'
+    print context.parts    
+    
+    if request.POST and "enroll" in request.POST:
+        # enroll this 
+        user = get_user(request)
+        if user is None:
+            return HTTPFound("/login")
+        
+
+        context._parts.append(user)
+        enrolled = True
+        
     return  wrap_user2(request, 
                 {'context':context, 
                 'contextbody': contextbody,
                 # 'time_now': datetime.now(TZ_HK)
-                'time_now': datetime.now()
+                'time_now': datetime.now(),
+                'enrolled': enrolled
                 })
 
 
