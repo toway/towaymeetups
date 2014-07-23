@@ -50,7 +50,8 @@
                     </div>
 
                     <div class="col-md-9">
-                        {{ api.render_template('messages.jinja2')|safe }}                        
+                    
+                        {% include "messages.jinja2" %}
                         {{ form|safe }}
 
                     </div>

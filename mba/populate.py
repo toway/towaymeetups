@@ -152,7 +152,7 @@ def test_add_stu():
     name = u'方程程'
     appstruct['name'] = name
     appstruct['email'] = 'a@gmail.com'
-    appstruct['last_login_date'] = datetime.now()
+    appstruct['last_login_date'] = datetime.now(TZ_HK)
     appstruct['password'] = 'asdfgh'
     stu = Student(**appstruct)
     DBSession.add(stu)
