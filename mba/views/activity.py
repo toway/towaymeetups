@@ -28,6 +28,7 @@ from kotti.security import get_user
 from kotti.resources import Document
 from kotti.resources import Node
 from kotti.views.form import AddFormView
+from kotti.views.form import EditFormView
 from kotti.views.edit.content import ContentSchema
 from kotti.views.form import ObjectType
 from kotti.views.form import deferred_tag_it_widget
@@ -141,10 +142,24 @@ def deferred_meetuptypes_widget(node, kw):
                                           css_class='form-control')
     return widget    
     
-
-def deferred_duplicated_meetupname_validator(node, value):    
-    if DBSession.query(Node).filter_by(name=value).count() != 0:        
-        raise colander.Invalid(node, _(u"已经存在的URL名!"))
+@colander.deferred
+def deferred_duplicated_meetupname_validator(node, kw):    
+    
+    def raise_duplicated_name(node, value):
+        raise colander.Invalid(
+            node, _(u"已经存在的URL名!"))
+    reqst = kw['request']
+    
+    
+    print 'reqst'
+    print reqst.POST
+    print reqst.params
+    
+    if reqst.POST and 'save' in reqst.POST:
+        urlname = reqst.params.get('name')
+        if DBSession.query(Node).filter_by(name=urlname).count() != 0:        
+            return raise_duplicated_name
+        
 
 class ActSchema(colander.MappingSchema):
     title = colander.SchemaNode(
@@ -246,7 +261,28 @@ class ActAddForm(AddFormView):
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
         return HTTPFound(location=location)
+        
+class ActEditForm(EditFormView):    
 
+    buttons = (
+        deform.Button('update', _(u'更新')),
+        deform.Button('cancel', _(u'取消')))
+        
+    schema_factory = ActSchema
+    
+    def __init__(self, context, request, **kwargs):
+        
+        id = request.matchdict['id']
+        meetup = DBSession.query(Act).filter_by(id=id).one()
+        context = meetup
+        
+        EditFormView.__init__(self, context, request, **kwargs)
+        
+    def update_success(self, appstruct):
+        return self.save_success(appstruct)
+    # def appstruct(self):
+        # return ( {'title':'sb'})
+        
 class PositionSchema(ContentSchema):
     job_name = colander.SchemaNode(colander.String(), title=_(u"职位名字"))
     company_name = colander.SchemaNode(colander.String(), title=_(u"公司名字"))

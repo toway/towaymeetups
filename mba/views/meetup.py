@@ -23,22 +23,36 @@ from kotti import get_settings
 from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
+from kotti.interfaces import IContent
 
-from mba.resources import MbaUser
+from mba.resources import MbaUser, TZ_HK
 from mba import _
 from mba.utils.decorators import wrap_user
+from mba.utils import wrap_user as wrap_user2
 
 __author__ = 'sunset'
 __date__ = '20140614'
 
 
 
-@view_config(route_name='meetup', renderer='meetup.jinja2')
-@wrap_user
-def view_meetup(request):  
-    jquery.need()
-    print 'sb' * 10
-    return  {'project': 'lesson2'}
+@view_config(name='test_view', context=IContent, renderer='meetup.jinja2')
+def view_meetup(context, request):  
+    jquery.need()    
+    contextbody = jinja2.Markup(context.body)
+    # print 'timenow ', datetime.now(TZ_HK)
+    print 'enroll time ', context.enroll_start_time
+    # context.enroll_start_time = context.enroll_start_time.replace(tzinfo = TZ_HK )
+    # print 'enroll time2 ', context.enroll_start_time
+    # context.enroll_finish_time =  context.enroll_finish_time.replace(tzinfo = TZ_HK )
+    # context.meetup_start_time = context.meetup_start_time.replace(tzinfo = TZ_HK )
+    # context.meetup_finish_time= context.meetup_finish_time.replace(tzinfo = TZ_HK )
+    
+    return  wrap_user2(request, 
+                {'context':context, 
+                'contextbody': contextbody,
+                # 'time_now': datetime.now(TZ_HK)
+                'time_now': datetime.now()
+                })
 
 
 def includeme(config):

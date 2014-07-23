@@ -4,6 +4,7 @@ import os
 from UserDict import DictMixin
 from fnmatch import fnmatch
 from datetime import datetime
+import pytz
 
 from pyramid.threadlocal import get_current_registry
 from pyramid.traversal import resource_path
@@ -61,6 +62,7 @@ from kotti.resources import Document
 
 from mba import _
 
+TZ_HK = pytz.timezone('Asia/Hong_Kong')
 
 friend = Table(
         'friends', Base.metadata,
@@ -100,7 +102,7 @@ class Interest(Base):
 class PositionCollect(Base):
     position_id = Column(Integer, ForeignKey('positions.id', ondelete='cascade'), primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id', ondelete='cascade'), primary_key=True)
-    create_date = Column(DateTime(), default=datetime.utcnow())
+    create_date = Column(DateTime(), default=datetime.now(TZ_HK))
     position = relationship('Position', backref='position_items')
 
     @classmethod
@@ -271,12 +273,12 @@ class Act(Document):
 
 
     # Meetup start time
-    meetup_start_time = Column(DateTime())
+    meetup_start_time = Column(DateTime(timezone=TZ_HK))
     # Meetup finish time
-    meetup_finish_time = Column(DateTime())
+    meetup_finish_time = Column(DateTime(timezone=TZ_HK))
+    enroll_finish_time = Column(DateTime(timezone=TZ_HK))
+    enroll_start_time = Column(DateTime(timezone=TZ_HK))
 
-    enroll_start_time = Column(DateTime())
-    enroll_finish_time = Column(DateTime())
 
     location = Column(UnicodeText())
 

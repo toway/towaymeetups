@@ -25,7 +25,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
-from mba.views.activity import ActAddForm
+from mba.views.activity import ActAddForm, ActEditForm
 from mba.resources import Act
 __author__ = 'sunset'
 __date__ = '20140614'
@@ -34,11 +34,12 @@ __date__ = '20140614'
 from js.jquery import jquery
 
 global index
-def view_meetup_entry():
+def view_meetup_entry(page_index=1, num_per_page=10):
     jquery.need()
     queried = DBSession.query(Act)
     count = queried.count()
-    result = DBSession.query(Act).slice(0,20)
+    start = (page_index-1) * num_per_page
+    result = DBSession.query(Act).slice(start,num_per_page)
     part = [ { 'id': it.id,
               'name': it.name, 
               'title': it.title
@@ -54,10 +55,13 @@ def view_meetup_entry():
         
     part = map(self_add, part)   
     
-    num_per_page  = 1
     total_page = count / num_per_page + 1
     
-    return {'meetups': part, 'total_count': count , 'total_page':total_page, 'num_per_page':20, 'page_index': 1}
+    return {'meetups': part, 
+            'total_count': count , 
+            'total_page':total_page, 
+            'num_per_page':num_per_page, 
+            'page_index': 1}
 
 @view_config(route_name='admin', renderer='admin/meetups.jinja2')
 @wrap_user
@@ -69,15 +73,23 @@ def view_admin_home(request):
 def view_meetups(request):     
     return view_meetup_entry()
 
-
+# @view_config(route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2")
+# def edit_meetup(context, request):
+    # meetup_id = request.matchdict['id']
+    # return ActEditForm()
+    
 def view_response_test(request):
     return Response("SB")
 
 def includeme(config):
     config.add_route('admin','/admin')
     config.add_route('admin_meetups','/admin/meetups')
+    
     config.add_route('admin_meetup_add',  '/admin/meetup/add')
     config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2")
+    
+    config.add_route('admin_meetup_edit',  '/admin/meetup/edit/{id}')
+    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2")    
 
     config.add_route("t1","/admin/t1")
     config.add_route("t2","/admin/t2")

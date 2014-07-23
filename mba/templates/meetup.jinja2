@@ -66,12 +66,22 @@
                                             {% endfor %}
                                         </div>
                                         <div>地点：{{ context.location }}</div>
-                                        <div>时间：{{ context.meetup_start_time }}-{{ context.meetup_finish_time }}</div>
+                                        <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
+                                        
                                         <div>费用：{{ context.pay_count }}元/人</div>
-                                        <div>限制：{{ context.limit_num }}人 (101人已报名)</div>
+                                        <div>人数限制：{{ context.limit_num }}人 (101人已报名)</div>
                                         <br/>
-
-                                        <button class="btn btn-primary">报名参加</button>
+                                        <div>报名时间：{{ context.enroll_start_time }} - {{ context.enroll_finish_time }}</div>
+                                        
+                                        {% if time_now < context.enroll_start_time %}
+                                            <button class="btn btn-primary disabled">报名暂未开始</button>
+                                        {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
+                                            <button class="btn btn-primary">报名参加</button>
+                                        {% elif time_now > context.enroll_finish_time %}
+                                            <button class="btn btn-primary disabled">报名已经结束</button>
+                                        {% endif %}                                        
+                                        
+                                        
                                     </div>
 
                                 </div>
