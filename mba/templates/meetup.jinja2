@@ -77,12 +77,12 @@
                                             <button class="btn btn-primary disabled">报名暂未开始</button>
                                         {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
                                             
-                                            {% if not enrolled %}
+                                            {% if not self_enrolled %}
                                             <form name="enroll" id="formEnroll" method="POST" >
                                                 <button type="submit" name="enroll" class="btn btn-primary">报名参加</button>
                                             </form>
                                             {% else %}
-                                                <button name="enroll" class="btn btn-primary">报名参加</button>
+                                                <button name="enroll" class="btn btn-primary disabled">已报名</button>
                                             {% endif %}
                                             
                                         {% elif time_now > context.enroll_finish_time %}
@@ -176,7 +176,10 @@
                             </div>
                             <div class="panel-body">
                                     <div class="applicants">
-                                        {{ context._parts }}
+                                        {% for part in context.parts %}
+                                            <img alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
+                                            width="30px" height="30px"/>
+                                        {% endfor %}
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>
                                         <img src="fanstatic/mba/img/avatars/avatar-default-micro.jpg"/>

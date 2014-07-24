@@ -34,6 +34,7 @@ from transaction import commit
 from zope.deprecation.deprecation import deprecated
 from zope.interface import implements
 
+import kotti
 from kotti import Base
 from kotti import DBSession
 from kotti import get_settings
@@ -125,7 +126,13 @@ class MbaUser(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), unique=True)
     password = Column(Unicode(100))
+    
     avatar = Column(String(100))
+    
+    @property
+    def avatar_prefix(self):
+        return kotti.get_settings()['mba.avatar_prefix']
+    
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
     title = Column(Unicode(100), nullable=False)
@@ -208,12 +215,12 @@ class City(Base):
 
 class Participate(Base):
     __tablename__ = 'participate'
-    user_id = Column(Integer, ForeignKey('students.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
     act_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     #用户参加活动之后可进行评分
     rating = Column(Integer())
-    user = relationship("Student", backref='partin')
+    user = relationship("MbaUser", backref='partin')
 
 
 class TeacherTag(Base):
