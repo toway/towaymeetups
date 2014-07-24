@@ -34,8 +34,6 @@ def wrap_user(func):
                 # Currently, I only collect 2 default avatars
                 avatar_index = int(random.random() * DEFULT_AVATARS_COUNT_COLLETED)
                 user.avatar = "default_avatar_%d.png" % avatar_index
-
-            user.avatar_prefix = kotti.get_settings()['mba.avatar_prefix']
             # end if
         # end if
 
