@@ -29,7 +29,7 @@ def wrap_user(request, ret_dict_to_update):
             avatar_index = int(random.random() * DEFULT_AVATARS_COUNT_COLLETED)
             user.avatar = "default_avatar_%d.png" % avatar_index
 
-        user.avatar_prefix = kotti.get_settings()['mba.avatar_prefix']
+        # user.avatar_prefix = kotti.get_settings()['mba.avatar_prefix']
 
     ret_dict_to_update.update({'user':user})
 
