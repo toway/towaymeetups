@@ -137,7 +137,7 @@ def deferred_urlinput_widget(node, kw):
 
 @colander.deferred
 def deferred_meetuptypes_widget(node, kw):
-    widget = deform.widget.SelectWidget(values=[ (i.id, i.title) 
+    widget = deform.widget.SelectWidget(values=[ (str(i.id), i.title) 
                                                    for i in DBSession.query(MeetupType).all() ],
                                           css_class='form-control')
     return widget    

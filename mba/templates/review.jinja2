@@ -50,61 +50,15 @@
                          <div class="panel panel-default meetup-subject">
 
                             <div class="panel-body">
-
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="xx" width="190px" height="240px" />
-
-                                    </div>
-                                    <div class="col-md-8">
-                                        <h2>{{ context.title }}</h2>
-                                        <br/>
-                                        <div>
-                                            分享嘉宾：
-                                            {% for teacher in context.teachers %}
-                                                {{ teacher }} &nbsp;
-                                            {% endfor %}
-                                        </div>
-                                        <div>地点：{{ context.location }}</div>
-                                        <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
-                                        
-                                        <div>费用：{{ context.pay_count }}元/人</div>
-                                        <div>人数限制：{{ context.limit_num }}人 ({{ total_enrolled_count }}人已报名)</div>
-                                        <br/>
-                                        <div>报名时间：{{ context.enroll_start_time }} - {{ context.enroll_finish_time }}</div>
-                                        
-                                        {% if time_now < context.enroll_start_time %}
-                                            <button class="btn btn-primary disabled">报名暂未开始</button>
-                                        {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
-                                            
-                                            {% if not self_enrolled %}
-                                            <form name="enroll" id="formEnroll" method="POST" >
-                                                <button type="submit" name="enroll" class="btn btn-primary">报名参加</button>
-                                            </form>
-                                            {% else %}
-                                                <button name="enroll" class="btn btn-primary disabled">已报名</button>
-                                            {% endif %}
-                                            
-                                        {% elif time_now > context.enroll_finish_time %}
-                                            <button class="btn btn-primary disabled">报名已经结束</button>
-                                        {% endif %}                                        
-                                        
-                                        
-                                    </div>
-
-                                </div>
-
-                                <hr/>
-
-                                <div>
-                                    <h3>活动详情</h3>
-                                    <p class="meetup-details">
-                                        {{ contextbody }}
-
-                                    </p>
-                                </div>
-
+                            <h1>{{context.title}}</h1>
+                            <p>{{contextbody}}</p>
+                            
+                            
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>                            
+                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                        
                             </div>
+ 
                          </div>
 
 
@@ -127,8 +81,8 @@
                                                 <img src="{{ user.avatar_prefix}}{{user.avatar}}" width="40px" height="40px"/>
                                             </div>
                                             <div class="col-md-11">
-                                                <textarea name='meetup-comment-input'
-                                                    id='meetup-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
+                                                <textarea name='review-comment-input'
+                                                    id='review-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
                                             </div>
                                         </div>
                                         
@@ -152,7 +106,7 @@
 
 
 
-                                {% for comment in context._comments %}
+                                {% for comment in context.comments %}
                                 <hr/>            
                                         
                                 <div class="row">
@@ -179,55 +133,6 @@
 
 
                     <div class="col-md-3 meetup-rightbar">
-                        <div id="meetup-map" width="100%">
-                        </div>
-
-                       <br/>
-
-                        <div class="applicants panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    已报名
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                    <div class="applicants">
-                                        {% for part in context.parts %}
-                                            <img alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
-                                            width="30px" height="30px"/>
-                                        {% endfor %}
-
-                                    </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="applicants panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    你可能感兴趣的活动
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <ul>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
-
-                                </ul>
-                            </div>
-
-                        </div>
-
-
 
                     </div>
 
