@@ -29,7 +29,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
-from mba.resources import Act
+from mba.resources import Act, Review
 
 __author__ = 'sunset'
 __date__ = '20140527'
@@ -66,15 +66,36 @@ def view_meetups(request):
     others  = [ i for i in all 
                     if i['city'] != u"深圳" and i['city'] != u"广州"
                        and i['city'] != u"上海" and i['city'] != u"北京" ]
-                
+
+    result2 = DBSession.query(Review).limit(20)
+    all2 = [ {'name': it.name, 
+             'title': it.title,
+             'meetup_type' : u"志友会Dummy",
+             'city': u"深圳"} 
+                for it in result2 ]    
+    bj2  = [ i for i in all if i['city'] == u"北京"]           
+    sh2  = [ i for i in all if i['city'] == u"上海"]           
+    gz2  = [ i for i in all if i['city'] == u"广州"]           
+    sz2  = [ i for i in all if i['city'] == u"深圳"]
+    others2  = [ i for i in all 
+                    if i['city'] != u"深圳" and i['city'] != u"广州"
+                       and i['city'] != u"上海" and i['city'] != u"北京" ]                       
     
     return { 'meetups': 
-            {'all': all[:5],
-            'bj': bj,
-            'sh': sh,
-            'gz': gz,
-            'sz': sz,
-            'others':others}   } 
+                {'all': all[:5],
+                'bj': bj,
+                'sh': sh,
+                'gz': gz,
+                'sz': sz,
+                'others':others},
+             'reviews':
+                {'all': all2[:5],
+                'bj': bj2,
+                'sh': sh2,
+                'gz': gz2,
+                'sz': sz2,
+                'others':others2},
+            } 
 
 
 def includeme(config):

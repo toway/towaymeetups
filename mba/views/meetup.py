@@ -25,7 +25,7 @@ from kotti import DBSession
 from kotti.security import get_user
 from kotti.interfaces import IContent
 
-from mba.resources import MbaUser, TZ_HK, Participate
+from mba.resources import MbaUser, TZ_HK, Participate, Comment
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
@@ -40,7 +40,7 @@ def view_meetup(context, request):
     jquery.need()    
     contextbody = jinja2.Markup(context.body)
     # print 'timenow ', datetime.now(TZ_HK)
-    print 'enroll time ', context.enroll_start_time
+    # print 'enroll time ', context.enroll_start_time
     # context.enroll_start_time = context.enroll_start_time.replace(tzinfo = TZ_HK )
     # print 'enroll time2 ', context.enroll_start_time
     # context.enroll_finish_time =  context.enroll_finish_time.replace(tzinfo = TZ_HK )
@@ -55,19 +55,43 @@ def view_meetup(context, request):
         
     total_enrolled_count = len(context.parts )
             
-    if not self_enrolled and request.POST and "enroll" in request.POST:
-        # enroll this               
+    if request.POST :
+    
         if user is None:
-            request.session.flash(u"报名活动请先登陆..","info")
-            return HTTPFound("/login")
-            
-        part = Participate()
-        part.act_id = context.id
-        part.user_id = user.id
-        DBSession.add( part )
+            request.session.flash(u"请先登陆..","info")
+            came_from = request.url
+            return HTTPFound("/login?came_from=%s" % came_from)        
+        
+        if not self_enrolled and "enroll" in request.POST:
+            # enroll this               
 
-        # context._parts.append(user)
-        self_enrolled = True
+                
+            
+            part = Participate()
+            part.act_id = context.id
+            part.user_id = user.id
+            DBSession.add( part )
+            DBSession.flush()
+
+            # context._parts.append(user)
+            self_enrolled = True
+            
+        elif 'submit' in request.POST:
+
+            
+            comment_content = request.params.get("meetup-comment-input")
+            
+            comment = Comment()
+            comment.type = comment.TYPE_MEETUP
+            comment.user_id = user.id
+            comment.document_id = context.id 
+            
+            # ACTION!!!: There is a SQL injection risk here! should be prevented
+            comment.content =  comment_content
+            DBSession.add( comment)
+            DBSession.flush()
+            
+
         
     return  wrap_user2(request, 
                 {'context':context, 
@@ -75,7 +99,8 @@ def view_meetup(context, request):
                 # 'time_now': datetime.now(TZ_HK)
                 'time_now': datetime.now(),
                 'self_enrolled': self_enrolled,
-                'total_enrolled_count': total_enrolled_count
+                'comments_count': len(context._comments),
+                'total_enrolled_count': total_enrolled_count                
                 })
 
 

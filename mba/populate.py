@@ -219,6 +219,18 @@ def create_mba_root():
         root = Document(**meet_attrs)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
+        
+    if DBSession.query(Node).filter_by(name="review").count() == 0:
+        meet_attrs = dict(
+            title=u'review',
+            name=u'review',
+            description=u'The root of review',
+            body=u"<p>Hello review</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)        
     if DBSession.query(Node).filter_by(name="job").count() == 0:
         job_attrs = dict(
             title=u'job',

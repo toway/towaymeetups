@@ -52,7 +52,7 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h2>所有活动</h2>
+                        <h2>所有回础</h2>
 
                         {% include "/admin/pagination.jinja2" %}
                         
@@ -63,14 +63,13 @@
                                 <th>状态</th>
                                 <th>操作</th>
                             </tr>
-                            {% for meetup in meetups %}
+                            {% for review in reviews %}
                             <tr>
-                                <td>{{ meetup.index }}</td>
-                                <td>{{ meetup.title }}</td>
+                                <td>{{ review.index }}</td>
+                                <td>{{ review.title }}</td>
                                 <td>xx</td>
                                 <td>
-                                    <a href="/admin/meetup/edit/{{ meetup.id }}">修改</a>
-                                    <a href="/admin/review/add?meetup-id={{ meetup.id }}">写回顾</a>
+                                    <a href="/admin/review/edit/{{ review.id }}">修改</a>                                    
                                 </td>
                             </tr>                            
                             {% endfor %}

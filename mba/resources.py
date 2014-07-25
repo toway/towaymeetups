@@ -319,9 +319,45 @@ class Act(Document):
     @property
     def parts(self):
         return [rel.user for rel in self._parts]
+        
+    _comments = relationship('Comment', backref='act')
+    
+    reviews = relationship('Review', backref='act')
+    # @property
+    # def comments(self):
+        # return [i. for rel in self._comments]
+    
+class Review(Document):
+    id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)    
+    review_to_meetup_id = Column('review_to_meetup_id', Integer)
+    type_info = Document.type_info.copy(
+        name=u'Review',
+        title=_(u'Review'),
+        add_view=u'add_review',
+        addable_to=[u'Review'],
+        )    
+    comments = relationship('Comment', backref='reivew')          
 
-
-
+class Comment(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True)
+    
+    TYPE_MEETUP = 0
+    TYPE_MEETUP_REVIEW = 1
+    
+    # 评论类型，0=活动评论，1=活动回顾评论
+    type = Column(Integer, default=TYPE_MEETUP)
+    # 评论关联的活动、活动回顾的ID
+    document_id = Column(Integer, ForeignKey('documents.id'))
+    
+    user_id = Column(Integer, ForeignKey('mba_users.id'))
+    content = Column(String(500),  nullable=True)
+    
+    
+    user = relationship("MbaUser", backref='comment')
+    
+    post_date = Column(DateTime(), nullable=False, default=datetime.now)
+    
 
 
 class Student(MbaUser):
@@ -467,7 +503,10 @@ class Resume(Base):
 
 def get_act_root(request=None):
     return DBSession.query(Document).filter_by(name="meetup").one()
-
+    
+def get_review_root(request=None):
+    return DBSession.query(Document).filter_by(name="review").one()
+    
 def get_image_root(request=None):
     return DBSession.query(Document).filter_by(name="images").one()
 

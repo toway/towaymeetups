@@ -11,7 +11,7 @@ def includeme(config):
 
     config.include('mba.views.meetups')
     config.include('mba.views.meetup')
-    config.include('mba.views.meetup_review')
+    config.include('mba.views.review')
 
     config.include('mba.views.login')
     #config.include('mba.views.logout')
