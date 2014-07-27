@@ -43,4 +43,4 @@ def view_job(request):
 def includeme(config):
     settings = config.get_settings()
     config.add_route('person','/person/{d}')
-    config.scan(__name__)
+    #config.scan(__name__)

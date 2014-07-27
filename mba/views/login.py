@@ -152,7 +152,7 @@ def includeme(config):
     settings = config.get_settings()
     config.add_route('home2', '/index_2')
     config.add_route('prelogin','/prelogin')
-    config.add_route('person','/person')
+    #config.add_route('person','/person')
     config.add_route('permission', '/permission')
 
     config.scan(__name__)
