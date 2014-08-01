@@ -28,16 +28,13 @@ from mba.resources import get_image_root
 
 class MbaImageAddForm(ImageAddForm):
     def __init__(self, context, request, **kwargs):
-        super(FileAddForm, self).__init__(None, request)
+        super(ImageAddForm, self).__init__(None, request)
         self.context = get_image_root()
 
-        self.context.default_view = "image_view"
-
-    def save_success(self, appstruct):
-        appstruct['default_view'] = "image_view"
-        return super(ImageAddForm, self).save_success(appstruct)
-
-
+    def add(self, **appstruct):
+        item_class = ImageAddForm.add(self, **appstruct)
+        item_class.default_view ="image_view"
+        return item_class
 
 
 def includeme(config):

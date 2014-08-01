@@ -17,7 +17,7 @@
 
         <script src="/fanstaic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
-    <body>
+    <body onunload="alert('sfsdf')">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
 
-                    <h1>{{context.title}}</h1>
+                    <h1 id="img-title">{{context.title}}</h1>
                     <p class="description">
                     {{context.description}}
                     </p>
@@ -42,8 +42,15 @@
                 </div>
             </div>
 
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <button class="btn btn-default" id="sure">确定</button>
+                    <a class="btn btn-default" href="/add_image">重新上传</a>
+                </div>
+            </div>
+
         </div>
-    sfsff
+
 
         {% include "footer.jinja2" %}
 
@@ -52,24 +59,21 @@
 
         
         <script type="text/javascript">
-            $(window).unload(function(){
-                if( opener){
-                    var imgUrl = $(".body img").attr("src");
-                    $("poster_img_url", opener.window.document).html(imgUrl);
-                    var imgName = imgUrl;
-                }
+
+            $(function(){
+                 $("#sure").click(function(){
+                    if( opener){
+                        var imgUrl = $(".body img").attr("src");
+                        $("#poster_img_url", opener.window.document).html(imgUrl).val(imgUrl);
+                        $("#poster_img_name", opener.window.document).html( $("#img-title").html() );
+                        window.close();
+                    }
+                 });
             });
+
         </script>
         
 
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
+
     </body>
 </html>

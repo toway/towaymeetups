@@ -8,6 +8,8 @@ from pyramid.response import Response
 from pyramid.view import view_config
 from pyramid.view import view_defaults
 
+from js.jquery import jquery
+
 from kotti.interfaces import IImage
 from kotti.util import extract_from_settings
 
@@ -41,7 +43,6 @@ class ImageView(object):
         self.context = context
         self.request = request
 
-        self.context.default_view = "image_view"
 
     @view_config(name='image_view',
                  renderer='image_view.jinja2')
@@ -50,6 +51,8 @@ class ImageView(object):
         :result: Empty dictionary to be handed to the image.pt template for rendering.
         :rtype: dict
         """
+
+        jquery.need()
 
         print "view image..."
 

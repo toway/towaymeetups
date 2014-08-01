@@ -42,9 +42,9 @@ def view_content_default(context, request):
     'context' (in 'context.defaultview'), we will fall back to a view
     with the name 'view'.
     """
-    print 'mba view_content_default, '
+
     view_name = context.default_view or 'view'
-    print 'view name:', view_name
+    print 'mba view_content_default, view name:', view_name
     
     response = render_view_to_response(context, request, name=view_name)
     if response is None:  # pragma: no coverage
