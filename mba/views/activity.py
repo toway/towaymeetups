@@ -45,7 +45,7 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
-from mba.views.widget import URLInputWidget
+from mba.views.widget import URLInputWidget,ImageUploadWidget
 from mba.views.view import MbaTemplateAPI
 
 @view_config(route_name='activity', renderer='activity.jinja2')
@@ -173,7 +173,14 @@ class ActSchema(colander.MappingSchema):
         widget=deferred_urlinput_widget,
         validator=deferred_duplicated_meetupname_validator
     )
-    
+
+
+    poster = colander.SchemaNode(
+        colander.String(),
+        title=_(u'海报'),
+        description=_(u'上传海报'),
+        widget=ImageUploadWidget(title=_(u"上传海报"))
+    )
 
     meetup_type = colander.SchemaNode(
         colander.Integer(),

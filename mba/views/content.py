@@ -8,6 +8,8 @@ from deform.widget import FileUploadWidget
 from deform.widget import RichTextWidget
 from deform.widget import TextAreaWidget
 
+from pyramid.httpexceptions import HTTPFound
+
 from kotti.resources import Document
 from kotti.resources import File
 from kotti.resources import Image
@@ -28,6 +30,15 @@ class MbaImageAddForm(ImageAddForm):
     def __init__(self, context, request, **kwargs):
         super(FileAddForm, self).__init__(None, request)
         self.context = get_image_root()
+
+        self.context.default_view = "image_view"
+
+    def save_success(self, appstruct):
+        appstruct['default_view'] = "image_view"
+        return super(ImageAddForm, self).save_success(appstruct)
+
+
+
 
 def includeme(config):
     config.add_view(

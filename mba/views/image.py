@@ -36,16 +36,22 @@ class ImageView(object):
 
     def __init__(self, context, request):
 
+        print "ImageView __init__"
+
         self.context = context
         self.request = request
 
-    @view_config(name='view',
+        self.context.default_view = "image_view"
+
+    @view_config(name='image_view',
                  renderer='image_view.jinja2')
     def view(self):
         """
         :result: Empty dictionary to be handed to the image.pt template for rendering.
         :rtype: dict
         """
+
+        print "view image..."
 
         return {}
 
@@ -66,6 +72,8 @@ class ImageView(object):
         :result: complete response object
         :rtype: pyramid.response.Response
         """
+
+        print 'sb image..'
 
         if subpath is None:
             subpath = self.request.subpath

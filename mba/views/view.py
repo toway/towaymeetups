@@ -5,6 +5,8 @@ from pyramid.renderers import render
 from pyramid.view import render_view_to_response
 from pyramid.view import view_config
 
+from js.jquery import jquery
+
 from kotti.interfaces import IContent
 
 from kotti.views.util import search_content
@@ -40,8 +42,10 @@ def view_content_default(context, request):
     'context' (in 'context.defaultview'), we will fall back to a view
     with the name 'view'.
     """
-    print 'mba view_content_default'
+    print 'mba view_content_default, '
     view_name = context.default_view or 'view'
+    print 'view name:', view_name
+    
     response = render_view_to_response(context, request, name=view_name)
     if response is None:  # pragma: no coverage
         warnings.warn("Failed to look up default view called %r for %r." %
@@ -84,6 +88,7 @@ def search_results_for_tag(context, request):
 @view_config(name='view', context=IContent, renderer='test_view.jinja2')
 def view(context, request):
     #print 'mba views view'
+    jquery.need()
     api = MbaTemplateAPI(context, request)
     return {'api': api, 'context':context}
 
