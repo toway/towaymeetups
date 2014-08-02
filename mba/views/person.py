@@ -43,7 +43,7 @@ def integers(*segment_names):
 
 person_id_predic = integers("id")
 
-@view_config(route_name='person', renderer='person.jinja2', custom_predicates=(person_id_predic,))
+@view_config(route_name='person', renderer='person2.jinja2', custom_predicates=(person_id_predic,))
 def view_job(request):
     userid = int(request.matchdict['id'])
     user = DBSession.query(Student).get(userid)

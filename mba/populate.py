@@ -242,7 +242,6 @@ def create_mba_root():
         root = Document(**job_attrs)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
-<<<<<<< HEAD
     if DBSession.query(Node).filter_by(name="position").count() == 0:
         job_attrs = dict(
             title=u'position',
@@ -254,8 +253,6 @@ def create_mba_root():
         root = Document(**job_attrs)
         root.__acl__ = SITE_ACL
         DBSession.add(root)
-=======
->>>>>>> master
     if DBSession.query(Node).filter_by(name="images").count() == 0:
         meet_attrs = dict(
             title=u'images',
