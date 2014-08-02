@@ -4,7 +4,10 @@ import os
 from UserDict import DictMixin
 from fnmatch import fnmatch
 from datetime import datetime
+<<<<<<< HEAD
 from datetime import date
+=======
+>>>>>>> master
 import pytz
 
 from pyramid.threadlocal import get_current_registry

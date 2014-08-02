@@ -48,8 +48,11 @@ from mba.fanstatic import city_css
 from mba.views.widget import URLInputWidget
 from mba.views.view import MbaTemplateAPI
 
+<<<<<<< HEAD
 from mba.resources import TZ_HK
 
+=======
+>>>>>>> master
 @view_config(route_name='activity', renderer='activity.jinja2')
 @wrap_user
 def view_activity(context, request):
@@ -207,6 +210,7 @@ class ActSchema(colander.MappingSchema):
         missing=u"",
         )
     meetup_start_time = colander.SchemaNode(
+<<<<<<< HEAD
             colander.DateTime(default_tzinfo=None), title=u'活动开始时间')
     meetup_finish_time = colander.SchemaNode(
             colander.DateTime(default_tzinfo=None), title=u'活动结束时间')
@@ -215,6 +219,16 @@ class ActSchema(colander.MappingSchema):
             colander.DateTime(default_tzinfo=None), title=u'报名开始时间')
     enroll_finish_time = colander.SchemaNode(
             colander.DateTime(default_tzinfo=None), title=u'报名结束时间')
+=======
+            colander.DateTime(), title=u'活动开始时间')
+    meetup_finish_time = colander.SchemaNode(
+            colander.DateTime(), title=u'活动结束时间')
+
+    enroll_start_time = colander.SchemaNode(
+            colander.DateTime(), title=u'报名开始时间')
+    enroll_finish_time = colander.SchemaNode(
+            colander.DateTime(), title=u'报名结束时间')
+>>>>>>> master
 
     limit_num = colander.SchemaNode(
             colander.Integer(), title=u'人数限制', default=500)
