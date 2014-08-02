@@ -4,6 +4,7 @@ import os
 from UserDict import DictMixin
 from fnmatch import fnmatch
 from datetime import datetime
+from datetime import date
 import pytz
 
 from pyramid.threadlocal import get_current_registry
@@ -179,6 +180,12 @@ class MbaUser(Base):
 
     def __repr__(self):  # pragma: no cover
         return '<MbaUser %r>' % self.name
+
+    @property
+    def sex_info(self):
+        if 0 == self.sex:
+            return u"男"
+        return u"女"
 
 friend_union = select([
                 friend.c.user_a_id,
@@ -381,7 +388,7 @@ class Student(MbaUser):
     home_number = Column(String(20))
     location = Column(String(20))
     salary = Column(Integer())
-    work_years = Column(String(20))
+    work_years = Column(Integer())
     company_phone = Column(String(30))
     keyword = Column(String(100))
     job_status = Column(String(100))
@@ -392,12 +399,22 @@ class Student(MbaUser):
         self.real_name = real_name
         self.birth_date = birth_date
         self.school = school
-        self.shcool_year = school_year
+        self.school_year = school_year
         super(Student, self).__init__(name, **kwargs)
 
     def __repr__(self):  # pragma: no cover
         return '<Student %r>' % self.name
 
+    @property
+    def work_info(self):
+        arrs = [u"小于一年", u"一到三年", u"三到五年", u"五年以上"]
+        if self.work_years >= 0 and self.work_years < len(arrs):
+            return arrs[self.work_years]
+        return arrs[0]
+
+    @property
+    def birth_old(self):
+        return abs(date.today().year - self.birth_date.year)+1
 
 # Tables about resume
 # Education n -- 1 Resume 

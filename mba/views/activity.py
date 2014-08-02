@@ -305,10 +305,14 @@ class PositionAddForm(AddFormView):
     add = Position
     item_type = _(u"职位")
 
+    def __init__(self, context, request, **kwargs):
+        context = DBSession.query(Node).filter_by(name="position").one()
+        AddFormView.__init__(self, context, request, **kwargs)
+        print self.context
+
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)
-        #TODO for default_view
         new_item = self.context[name] = self.add(**appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)

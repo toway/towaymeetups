@@ -182,13 +182,13 @@
                             <div class="col-md-7 mba-resume-part tab-pane fade  in active" id="resume_info">
                                 <div class="jianjie">
                                    <dl>
-                                     <dt><h1>余 争</h1></dt>
+					   <dt><h1>{{person_info.real_name}}</h1></dt>
                                      <dd style=" overflow:hidden;">
                                      <div class="jj_content" style="float:left;" >
-                                       <p class="bfont">五年以上工作经验<span class="ml30">男</span>&nbsp;&nbsp;|&nbsp;&nbsp;27岁&nbsp;(1989年4月22日)</p>
-                                       <p>居住地：深圳南山区</p>
-                                       <p>电&nbsp;&nbsp;话： 1330393439(手机)</p>
-                                       <p>Email： jsfdkf@163.com</p>
+					     <p class="bfont">{{person_info.work_info}}工作经验<span class="ml30">{{person_info.sex_info}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;{{person_info.birth_old}}岁&nbsp;({{person_info.birth_date}})</p>
+				       <p>居住: {{person_info.location}}</p>
+				       <p>电&nbsp;&nbsp;话： {{person_info.phone}}(手机)</p>
+				       <p>Email： {{person_info.email}}</p>
                                        </div>
                                        <p class="ico_update" style="margin-left:475px; margin-top:5px;"></p>
                                      </dd>
@@ -198,14 +198,9 @@
                             
                                   <div class="panel_head"><h3>最新招聘</h3><a href="#" class="ico_shou">&nbsp; </a></div>
                                   <ul class="panel_content new_zp">
-                                     <li class="col-md-6"><a href="#">大华会计师事务所（特殊普通合伙）</a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">苏州国芯科技有限公司<span>市场经理IC设计工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">雅兰国际集团</a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">商船三井（中国）有限公司</a></li>
-                                     <li class="col-md-6"><a href="#">唯康通信技术<span>区域经理</span>&nbsp;<span>销售经理</span>&nbsp;<span>项目销售经理</span></a></li>
+				     {% for pos in new_positions %}
+				     <li class="col-md-6"><a href="/position/{{pos.name}}">{{pos.description}}</a></li>
+				     {% endfor %}
                                  </ul>
                              
                                 
