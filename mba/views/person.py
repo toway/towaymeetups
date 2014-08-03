@@ -127,7 +127,7 @@ def friend_set(request):
                 curr_user.friends.append(u2)
             except:
                 is_error = True
-        if id3 <= 0 and u2 in current.friends:
+        if id3 <= 0 and u2 in curr_user.friends:
             try:
                 curr_user.friends.remove(u2)
             except:
