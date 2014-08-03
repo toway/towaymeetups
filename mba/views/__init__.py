@@ -22,7 +22,6 @@ def includeme(config):
     config.include('mba.views.col_test')
     config.include('mba.views.resume')
     config.include('mba.views.job')
-    config.include('mba.views.resume_edit')
     config.include('mba.views.resume_preview')
     config.include('mba.views.activity')
     #reimplement the content templates

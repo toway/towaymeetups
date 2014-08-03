@@ -393,6 +393,14 @@ class Student(MbaUser):
     keyword = Column(String(100))
     job_status = Column(String(100))
 
+    #为名片增加的字段,暂时放这里，可能放到MbaUser里
+    company = Column(String(255), default=u"")
+    industry = Column(String(255), default=u"")
+    special_skill = Column(String(255), default=u"")
+    interest = Column(String(255), default=u"")
+    between = Column(String(255), default=u"")
+    introduction = Column(String(255), default=u"")
+
     resumes = relationship('Resume', backref='user')
 
     def __init__(self, name, real_name='', birth_date=None, school=None, school_year=0, **kwargs):
