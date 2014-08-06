@@ -13,7 +13,7 @@ from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime, Date
 from sqlalchemy import ForeignKey
-from sqlalchemy import Integer
+from sqlalchemy import Integer, Float
 from sqlalchemy import LargeBinary
 from sqlalchemy import String
 from sqlalchemy import Unicode
@@ -308,6 +308,12 @@ class Act(Document):
 
 
     location = Column(UnicodeText())
+
+    #经度
+    latitude = Column(Float())
+    longitude = Column(Float())
+    zoomlevel = Column(Integer())
+
 
     _teacher_tags = relation(
         TeacherTagToActs,

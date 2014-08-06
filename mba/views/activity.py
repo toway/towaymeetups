@@ -10,7 +10,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget, TextInputWidget
+from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -32,7 +32,7 @@ from kotti.views.form import EditFormView
 from kotti.views.edit.content import ContentSchema
 from kotti.views.form import ObjectType
 from kotti.views.form import deferred_tag_it_widget
-from kotti.views.form import CommaSeparatedListWidget
+from kotti.views.form import CommaSeparatedListWidget, get_appstruct
 from kotti.fanstatic import tagit
 from kotti.views.util import search_content
 
@@ -45,7 +45,7 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
-from mba.views.widget import URLInputWidget,ImageUploadWidget
+from mba.views.widget import URLInputWidget,ImageUploadWidget, GeoWidget
 from mba.views.view import MbaTemplateAPI
 
 
@@ -152,17 +152,26 @@ def deferred_duplicated_meetupname_validator(node, kw):
     reqst = kw['request']
     
     
-    print 'reqst'
-    print reqst.POST
-    print reqst.params
+    # print 'reqst'
+    # print reqst.POST
+    # print reqst.params
     
     if reqst.POST and 'save' in reqst.POST:
         urlname = reqst.params.get('name')
         if DBSession.query(Node).filter_by(name=urlname).count() != 0:        
             return raise_duplicated_name
         
+class GeoSchema(colander.MappingSchema):
+    latitude = colander.SchemaNode(colander.String(),
+                                   widget=HiddenWidget())
+    longitude = colander.SchemaNode(colander.String(),
+                                    widget=HiddenWidget())
+    zoomlevel = colander.SchemaNode(colander.Integer(),
+                                    widget=HiddenWidget())
 
 class ActSchema(colander.MappingSchema):
+
+
     title = colander.SchemaNode(
         colander.String(),
         title=_(u'标题'),
@@ -177,7 +186,7 @@ class ActSchema(colander.MappingSchema):
 
 
     poster_id = colander.SchemaNode(
-        colander.String(),
+        colander.Integer(),
         title=_(u'海报'),
         description=_(u'上传海报'),
         widget=ImageUploadWidget(title=_(u"上传海报"))
@@ -209,9 +218,26 @@ class ActSchema(colander.MappingSchema):
     location = colander.SchemaNode(
         colander.String(),
         title=_(u'详细位置'),
-        widget=TextAreaWidget(cols=40, rows=5),
+        # widget=TextAreaWidget(cols=40, rows=5),
         missing=u"",
         )
+    geo = GeoSchema(
+        widget= GeoWidget(),
+        missing=u"",
+    )
+
+    def preparer(self, appstruct):
+        print '\nprepare appstruct', appstruct
+        popped = appstruct.pop('geo')
+
+        print 'popped',popped
+
+        appstruct.update({'latitude': popped.get('latitude',0),
+                          'longitude':popped.get('longitude',0),
+                          'zoomlevel':popped.get('zoomlevel',0)})
+
+        return appstruct
+
     meetup_start_time = colander.SchemaNode(
             colander.DateTime(default_tzinfo=None), title=u'活动开始时间')
     meetup_finish_time = colander.SchemaNode(
@@ -287,8 +313,24 @@ class ActEditForm(EditFormView):
         EditFormView.__init__(self, context, request, **kwargs)
         
     def update_success(self, appstruct):
+
         return self.save_success(appstruct)
-    # def appstruct(self):
+
+    def appstruct(self):
+        print self.context
+        print self.schema
+        print self.context.latitude
+        print self.context.longitude
+
+        appstruct = get_appstruct(self.context, self.schema)
+        lat = getattr(self.context,'latitude', 0)
+        lng = getattr(self.context, 'longitude', 0)
+        zoomlevel = getattr(self.context, 'zoomlevel', 0)
+        appstruct.update({'geo': {'latitude':lat,
+                          'longitude':lng,
+                          'zoomlevel':zoomlevel}})
+
+        return appstruct
         # return ( {'title':'sb'})
         
 class PositionSchema(ContentSchema):

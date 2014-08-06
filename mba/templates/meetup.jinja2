@@ -277,8 +277,8 @@
                 map = new qq.maps.Map(
                     $("#meetup-map")[0],
                         {
-                        center: new qq.maps.LatLng(39.914850, 116.403765),
-                        zoom:13
+                        center: new qq.maps.LatLng({{ context.latitude }}, {{ context.longitude }}),
+                        zoom:{{ context.zoomlevel }}
                         }
                 );
 

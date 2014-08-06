@@ -50,10 +50,9 @@ def view_meetup(context, request):
     self_enrolled = False
     
     user = get_user(request)  
-    if user in context.parts:
-        self_enrolled = True
+
         
-    total_enrolled_count = len(context.parts )
+
             
     if request.POST :
     
@@ -90,8 +89,10 @@ def view_meetup(context, request):
             comment.content =  comment_content
             DBSession.add( comment)
             DBSession.flush()
-            
 
+    if user in context.parts:
+        self_enrolled = True
+    total_enrolled_count = len(context.parts )
         
     return  wrap_user2(request, 
                 {'context':context, 

@@ -2,7 +2,9 @@ __author__ = 'sunset'
 
 from colander import null
 
-from deform.widget import Widget, TextInputWidget
+from deform.widget import Widget, TextInputWidget, MappingWidget
+from colander import Invalid
+
 
 
 class URLInputWidget(TextInputWidget):
@@ -13,6 +15,9 @@ class ImageUploadWidget(Widget):
     template = "imageupload"
 
     strip = True
+
+
+    requirements = ( ('jquery', None), )
 
     def serialize(self, field, cstruct, **kw):
         if cstruct in (null, None):
@@ -30,3 +35,7 @@ class ImageUploadWidget(Widget):
         if not pstruct:
             return null
         return pstruct
+
+class GeoWidget(MappingWidget):
+    template = "qqmap_input"
+

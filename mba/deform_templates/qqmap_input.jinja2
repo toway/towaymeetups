@@ -1,0 +1,90 @@
+{% set rndr = field.renderer %}
+{% set tmpl = field.widget.item_template %}
+
+  <!-- mapping -->
+  <label class="latlnglb">({{ cstruct.get('latitude') }},{{ cstruct.get('longitude') }},{{ cstruct.get('zoomlevel') }})</label>
+  <button type="button" class="btn btn-default {{ field.css_class }}" id="{{ field.oid }}-btn">在地图上选择位置</button>
+  <span class="qqmap" id="qqmap" style="position: absolute;display: none;width:300px;height: 300px"></span>
+  <ul>
+    {% if field.errormsg %}
+    <li class="errorLi">
+      <h3 class="errorMsgLbl">{{_("There was a problem with this section")}}</h3>
+      <p class="errorMsg">{{_(field.errormsg)}}</p>
+    </li>
+    {% endif %}
+    {% if field.description %}
+    <li class="section">
+      <div>{{_(field.description)}}</div>
+    </li>
+    {% endif %}
+
+    <input type="hidden" name="__start__" value="{{field.name}}:mapping"/>
+    {% for f in field.children %}
+        {{rndr(tmpl, field=f, cstruct=cstruct.get(f.name, null))}}
+    {% endfor %}
+    <input type="hidden" name="__end__" value="{{field.name}}:mapping"/>
+  </ul>
+  <!-- /mapping -->
+
+
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+<script>
+    $(function(){
+
+
+        map = new qq.maps.Map(
+            $("#qqmap")[0],
+                {
+                center: new qq.maps.LatLng(39.914850, 116.403765),
+                zoom:13
+                }
+        );
+
+        var scaleControl = new qq.maps.ScaleControl({
+            align: qq.maps.ALIGN.BOTTOM_LEFT,
+            margin: qq.maps.Size(20, 10),
+
+            map: map
+        });
+
+        window.map = map;
+
+        qq.maps.event.addListener(map, 'click', function(event){
+            var lat = event.latLng.getLat();
+            var lng = event.latLng.getLng();
+            window.qmape = event;
+            var zoomlevel = map.getZoom();
+            $('input[name="latitude"]').val(lat);
+            $('input[name="longitude"]').val(lng);
+            $('input[name="zoomlevel"]').val(zoomlevel);
+            $('.latlnglb').html('('+lat+','+lng+','+zoomlevel+')');
+            $("#qqmap").hide();
+        });
+
+
+    });
+
+</script>
+
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.oid}}',
+     function (oid) {
+        $('#' + oid + '-btn').click(function(){
+            var lat = $('input[name="latitude"]').val();
+            var lng = $('input[name="longitude"]').val();
+            window.map.setCenter(new qq.maps.LatLng(
+                lat ? lat : 22.5314898650969 ,
+                lng ? lng : 113.915101289749
+            ))
+            var zoom =$('input[name="zoomlevel"]').val() ;
+
+            window.map.setZoom(
+                zoom ? parseInt(zoom) : 13
+            );
+            $("#qqmap").show();
+            return false;
+        });
+     });
+</script>
+
