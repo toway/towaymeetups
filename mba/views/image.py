@@ -54,9 +54,7 @@ class ImageView(object):
 
         jquery.need()
 
-        print "view image..."
-
-        return {}
+        return {'image_id': self.context.id}
 
     @view_config(name="image",)
     def image(self, subpath=None):
@@ -76,7 +74,6 @@ class ImageView(object):
         :rtype: pyramid.response.Response
         """
 
-        print 'sb image..'
 
         if subpath is None:
             subpath = self.request.subpath

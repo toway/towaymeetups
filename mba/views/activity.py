@@ -175,7 +175,7 @@ class ActSchema(colander.MappingSchema):
     )
 
 
-    poster = colander.SchemaNode(
+    poster_id = colander.SchemaNode(
         colander.String(),
         title=_(u'海报'),
         description=_(u'上传海报'),

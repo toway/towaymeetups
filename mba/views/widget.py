@@ -12,6 +12,8 @@ class URLInputWidget(TextInputWidget):
 class ImageUploadWidget(Widget):
     template = "imageupload"
 
+    strip = True
+
     def serialize(self, field, cstruct, **kw):
         if cstruct in (null, None):
             cstruct = ''

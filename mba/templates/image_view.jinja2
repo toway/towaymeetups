@@ -36,7 +36,7 @@
                     </p>
                     <div>{{api.render_template('tags.jinja2')|safe}}</div>
                     <div class="body">
-                        <img src="{{request.resource_url(context)}}image" />
+                        <img src="{{request.resource_url(context)}}image"  data-imageid="{{ image_id }}"/>
                     </div>
                     </div>
                 </div>
@@ -63,8 +63,8 @@
             $(function(){
                  $("#sure").click(function(){
                     if( opener){
-                        var imgUrl = $(".body img").attr("src");
-                        $("#poster_img_url", opener.window.document).html(imgUrl).val(imgUrl);
+                        var imageId = $(".body img").attr("data-imageid");
+                        $("#poster_id", opener.window.document).html(imageId).val(imageId);
                         $("#poster_img_name", opener.window.document).html( $("#img-title").html() );
                         window.close();
                     }

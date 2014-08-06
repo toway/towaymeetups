@@ -262,7 +262,10 @@ class MeetupType(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(100), nullable=True)
     acts = relationship("Act", backref='meetup_types')
-   
+
+from kotti.views.edit.content import Image
+#Image.acts = relationship("Act", backref('images'))
+
 #人数限制、钱钱、地点、嘉宾
 # Act means activity
 class Act(Document):
@@ -270,7 +273,17 @@ class Act(Document):
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
     
     meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
-    meetup_type_title = association_proxy('meetup_types', 'title' )    
+    meetup_type_title = association_proxy('meetup_types', 'title' )
+
+
+    #海报ID
+    poster_id =  Column(Integer, ForeignKey('images.id'))
+    poster = relationship('Image')
+    @property
+    def poster_img(self):
+        return  "/images/%s/image/" % (self.poster.name)
+
+
     
     # TODO Ignore the city ?
     city_id = Column(Integer, ForeignKey('city.id'))
