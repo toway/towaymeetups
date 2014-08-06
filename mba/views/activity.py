@@ -213,14 +213,14 @@ class ActSchema(colander.MappingSchema):
         missing=u"",
         )
     meetup_start_time = colander.SchemaNode(
-            colander.DateTime(), title=u'活动开始时间')
+            colander.DateTime(default_tzinfo=None), title=u'活动开始时间')
     meetup_finish_time = colander.SchemaNode(
-            colander.DateTime(), title=u'活动结束时间')
+            colander.DateTime(default_tzinfo=None), title=u'活动结束时间')
 
     enroll_start_time = colander.SchemaNode(
-            colander.DateTime(), title=u'报名开始时间')
+            colander.DateTime(default_tzinfo=None), title=u'报名开始时间')
     enroll_finish_time = colander.SchemaNode(
-            colander.DateTime(), title=u'报名结束时间')
+            colander.DateTime(default_tzinfo=None), title=u'报名结束时间')
 
     limit_num = colander.SchemaNode(
             colander.Integer(), title=u'人数限制', default=500)
