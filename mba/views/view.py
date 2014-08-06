@@ -93,5 +93,4 @@ def view(context, request):
     return {'api': api, 'context':context}
 
 def includeme(config):
-    print 'hear'
     config.scan(__name__)
