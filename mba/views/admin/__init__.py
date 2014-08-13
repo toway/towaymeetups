@@ -97,7 +97,7 @@ def view_review_entry(page_index=1, num_per_page=10):
             'page_index': 1}
     
 
-@view_config(route_name='admin_reviews', renderer='admin/reviews.jinja2')
+@view_config(route_name='admin_reviews', renderer='admin/reviews.jinja2',permission='view')
 @wrap_user
 def view_reviews(request):     
     return view_review_entry()    
@@ -119,13 +119,13 @@ def includeme(config):
     config.add_route('admin_reviews','/admin/reviews')
     
     config.add_route('admin_meetup_add',  '/admin/meetup/add')
-    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2")
+    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2", permission='view')
     
     config.add_route('admin_meetup_edit',  '/admin/meetup/edit/{id}')
-    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2")    
+    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2", permission='view')
     
     config.add_route('admin_review_add',  '/admin/review/add')
-    config.add_view(ReviewAddForm, route_name='admin_review_add', renderer="admin/meetup_add.jinja2")      
+    config.add_view(ReviewAddForm, route_name='admin_review_add', renderer="admin/meetup_add.jinja2", permission='view')
     
     # config.add_route('admin_review_add',  '/admin/review/add?meetup-id={id}')
     # config.add_view(ReviewAddForm, route_name='admin_review_add', renderer="admin/meetup_add.jinja2")        
@@ -134,7 +134,7 @@ def includeme(config):
     # config.add_view(ReviewAddForm, route_name='admin_review_add3', renderer="admin/meetup_add.jinja2")            
 
     config.add_route('admin_review_edit',  '/admin/review/edit/{id}')
-    config.add_view(ReviewEditForm, route_name='admin_review_edit', renderer="admin/meetup_add.jinja2")    
+    config.add_view(ReviewEditForm, route_name='admin_review_edit', renderer="admin/meetup_add.jinja2", permission='view')
 
 
 

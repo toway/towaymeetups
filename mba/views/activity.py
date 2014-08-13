@@ -315,7 +315,9 @@ class ActEditForm(EditFormView):
         deform.Button('cancel', _(u'取消')))
         
     schema_factory = ActSchema
-    
+
+
+
     def __init__(self, context, request, **kwargs):
         
         id = request.matchdict['id']
@@ -323,16 +325,24 @@ class ActEditForm(EditFormView):
         context = meetup
         
         EditFormView.__init__(self, context, request, **kwargs)
-        
+
+
+    def __call__(self):
+        ret = EditFormView.__call__(self)
+        if isinstance(ret, dict):
+            ret = wrap_user2(self.request, ret)
+            ret.update({'api': MbaTemplateAPI(self.context, self.request)})
+        return ret
+
     def update_success(self, appstruct):
 
         return self.save_success(appstruct)
 
     def appstruct(self):
-        print self.context
-        print self.schema
-        print self.context.latitude
-        print self.context.longitude
+        # print self.context
+        # print self.schema
+        # print self.context.latitude
+        # print self.context.longitude
 
         appstruct = get_appstruct(self.context, self.schema)
         lat = getattr(self.context,'latitude', 0)
