@@ -51,7 +51,7 @@ def view_meetup(context, request):
     
     user = get_user(request)  
 
-        
+    enroll_success = False
 
             
     if request.POST :
@@ -74,6 +74,7 @@ def view_meetup(context, request):
 
             # context._parts.append(user)
             self_enrolled = True
+            enroll_success = True
             
         elif 'submit' in request.POST:
 
@@ -100,6 +101,7 @@ def view_meetup(context, request):
                 # 'time_now': datetime.now(TZ_HK)
                 'time_now': datetime.now(),
                 'self_enrolled': self_enrolled,
+                'enroll_success': enroll_success,
                 'comments_count': len(context._comments),
                 'total_enrolled_count': total_enrolled_count                
                 })

@@ -234,10 +234,7 @@ class ActSchema(colander.MappingSchema):
     )
 
     def preparer(self, appstruct):
-        print '\nprepare appstruct', appstruct
         popped = appstruct.pop('geo')
-
-        print 'popped',popped
 
         appstruct.update({'latitude': popped.get('latitude',0),
                           'longitude':popped.get('longitude',0),
@@ -378,7 +375,6 @@ class PositionAddForm(AddFormView):
     def __init__(self, context, request, **kwargs):
         context = DBSession.query(Node).filter_by(name="position").one()
         AddFormView.__init__(self, context, request, **kwargs)
-        print self.context
 
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
