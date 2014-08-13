@@ -262,7 +262,15 @@ class TeacherTagToActs(Base):
         return cls(teacher_tag=tag)
 
 class ActStatus:
-    DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
+    PUBLIC, DRAFT, PRIVATE, CANCEL = 0, 1, 2, 3
+    # public :  seen by anyone
+    # priveate: seen by admins
+    # draft: seen by self
+    # cancel: meetup is canceled
+
+# 是否是活动首页推荐、全站首页推荐,全站首页推荐待考虑
+class HeadLine:
+    NOT_TOP, MEETUPS_TOP, SITE_TOP = 0, 1, 2
 
 # 活动的类别        
 class MeetupType(Base):
@@ -277,7 +285,9 @@ from kotti.views.edit.content import Image
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    status = Column(Integer(), nullable=False, default=ActStatus.PUBLIC)
+
+    headline = Column(Integer, nullable=False, default=HeadLine.NOT_TOP)
     
     meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
     meetup_type_title = association_proxy('meetup_types', 'title' )

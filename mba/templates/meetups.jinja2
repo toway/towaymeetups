@@ -44,10 +44,56 @@
 
 
                     <div class="col-md-12">
-                    <div class="jumbotron" id="meetup-recommend">
-                        <h2>万科和百度跨界联姻 能带来哪些想象？</h2>
-                        两者的跨界联姻，不仅有利于推进地产行业的科技化应用进程，更在于能为客户提供更精准的服务，为双方的商业版图打造更大的想象空间。
+                    <div class="meetups-header" id="meetup-recommend">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+                            <div class="carousel-inner">
+                                {% for context in headlines %}
+                                <div class="item {% if context == headlines[0] %}active{% endif %}">
+                                    <div class="row">
+                                        <div class="col-md-3 col-md-offset-1">
+                                            <img src="{{  context.poster_img }}" width="190px" height="240px" />
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h1>{{ context.title }}</h1><br/>
+                                            <div>
+                                                分享嘉宾：
+                                                {% for teacher in context.teachers %}
+                                                    {{ teacher }} &nbsp;
+                                                {% endfor %}
+                                            </div>
+                                            <div>地点：{{ context.location }}</div>
+                                            <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
+
+                                            <div>费用：{{ context.pay_count }}元/人</div>
+                                            <div>人数限制：{{ context.limit_num }}人</div>
+                                            <br/>
+
+
+                                            <a  href="/meetup/{{ context.name }}" class="btn btn-primary" >去报名</a>
+
+
+
+
+                                    </div>
+
+                                    </div>
+                                </div>
+
+                                {% else %}
+                                    <center><br/><h1>无头条推荐</h1><br/></center>
+                                {% endfor %}
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                            </a>
+                      </div>
                     </div>
+
                     </div>
 
                 </div>
@@ -63,7 +109,7 @@
 
                                   <div class="row">
 
-                                    <div class="col-md-offset-2">
+                                    <div class="col-md-offset-1">
                                         <ul class="nav nav-tabs newest-tabs" >
                                           <li class="active"><a href="#all" data-toggle="tab">全部</a></li>
                                           <li><a href="#bj" data-toggle="tab">北京</a></li>
@@ -174,7 +220,7 @@
 
                                   <div class="row">
 
-                                    <div class="col-md-offset-2">
+                                    <div class="col-md-offset-1">
                                         <ul class="nav nav-tabs review-tabs" ">
                                           <li class="active"><a href="#review-all" data-toggle="tab">全部</a></li>
                                           <li><a href="#review-bj" data-toggle="tab">北京</a></li>
@@ -197,7 +243,7 @@
                                               <ul class="meetuplist">
                                                     {% if reviews.all %}
                                                         {% for review in reviews.all %}
-                                                            <li><a href="/review/{{review.name}}">[{{review.meetup_type}}] {{ review.title }}</a></li>
+                                                            <li><a href="/review/{{review.name}}">{{ review.title }}</a></li>
                                                         {% endfor %}
                                                         
                                                     {% else %}
@@ -225,7 +271,7 @@
 
                     <div class="col-md-3" ic="meetups-right-bar">
 
-
+                        {%  if user %}
                         <div class="home-myinfo">
                             <div class="panel panel-default">
                                 <div class="panel-body">
@@ -276,6 +322,9 @@
                             </div>
 
                         </div>
+
+                        {% endif %}
+
 
 
 

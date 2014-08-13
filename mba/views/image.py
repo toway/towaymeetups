@@ -32,7 +32,7 @@ image_scales = {
     }
 
 
-@view_defaults(context=IImage, permission='view')
+@view_defaults(context=IImage)
 class ImageView(object):
     """The ImageView class is registered for the :class:`IImage` context."""
 

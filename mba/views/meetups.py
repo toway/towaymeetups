@@ -79,22 +79,29 @@ def view_meetups(request):
     sz2  = [ i for i in all if i['city'] == u"深圳"]
     others2  = [ i for i in all 
                     if i['city'] != u"深圳" and i['city'] != u"广州"
-                       and i['city'] != u"上海" and i['city'] != u"北京" ]                       
+                       and i['city'] != u"上海" and i['city'] != u"北京" ]
+
+
+    headline = DBSession.query(Act).filter_by(headline=1)
     
     return { 'meetups': 
-                {'all': all[:5],
+                {'all': all,
+                 'first_five': all[:5],
                 'bj': bj,
                 'sh': sh,
                 'gz': gz,
                 'sz': sz,
                 'others':others},
              'reviews':
-                {'all': all2[:5],
+                {'all': all2,
+                 'first_five': all2[:5],
                 'bj': bj2,
                 'sh': sh2,
                 'gz': gz2,
                 'sz': sz2,
                 'others':others2},
+             'headlines': headline
+
             } 
 
 

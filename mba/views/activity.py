@@ -10,7 +10,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget
+from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget, CheckboxWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -192,6 +192,13 @@ class ActSchema(colander.MappingSchema):
         widget=ImageUploadWidget(title=_(u"上传海报"))
     )
 
+    headline = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u'是否在头条推荐：'),
+        widget=CheckboxWidget(true_val="1",false_val="0"),
+        default=HeadLine.NOT_TOP
+    )
+
     meetup_type = colander.SchemaNode(
         colander.Integer(),
         title=_(u'活动类型'),
@@ -272,6 +279,11 @@ class ActAddForm(AddFormView):
     
     
     item_type = _(u"活动")
+
+    # buttons = (
+    #     deform.Button('save',_(u'发布')),
+    #     deform.Button('preview',_(u'预览'))
+    # )
 
     form_options = ({'css_class':'form-horizontal'})
     
