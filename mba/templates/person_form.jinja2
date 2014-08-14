@@ -14,7 +14,7 @@
 		  <span class="name">{{person_info.real_name}}</span><span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
                   </p>
 		  <p class="basic"><label class="lbl_info">手机：</label><span class="info_show auth_hidden fixed_width">{{person_info.phone}}</span><input type="text" class="info_edit hidden" name="phone" value="{{person_info.phone}}" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
-		  <p class="basic"><label class="lbl_info">邮箱：</label><span class="info_show  auth_hidden fixed_width">{{person_info.email}}</span><input type="text" class="info_edit hidden"  value="{{person_info.email}}" name="email"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+		  <p class="basic"><label class="lbl_info">邮箱：</label><span class="info_show  auth_hidden fixed_width">{{person_info.email}}</span><input type="text" readonly="readonly" class="info_edit hidden"  value="{{person_info.email}}" name="email"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                  
 		  <p class="basic"><label class="lbl_info">公司：</label><span class="info_show  auth_hidden fixed_width">{{person_info.company}}</span><input type="text"  class="info_edit hidden"  value="{{person_info.company}}" name="company"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                   
@@ -41,9 +41,7 @@
           <div  id="part3">
               <p><strong>个人简介</strong></p>
 	      <p   class="info_show">{{person_info.introduction}}</p>
-              <textarea name="introduction" class="info_edit hidden" width="100%" cols="64">
-		      {{person_info.introduction}}
-              </textarea>
+              <textarea name="introduction" class="info_edit hidden" width="100%" cols="64">{{person_info.introduction}}</textarea>
           </div>
 
             </form>
