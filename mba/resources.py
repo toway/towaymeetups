@@ -113,6 +113,10 @@ class PositionCollect(Base):
             raise Exception('position can not be None')
         return cls(position=p)
 
+class Visit(Base):
+    user_id1 = Colomn('uid1', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    user_id2 = Colomn('uid2', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    create_date = Column(DateTime(), default=datetime.now(TZ_HK))
 
 #This is a base class for all users
 class MbaUser(Base):
@@ -154,6 +158,9 @@ class MbaUser(Base):
     _positions = relationship("PositionCollect", backref='user')
     positions = association_proxy("_positions","position", creator=PositionCollect._create)
 
+    visits = relationship("MbaUser", secondary=friend,
+                primaryjoin=id==friend.c.user_a_id,
+
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id,
@@ -186,6 +193,11 @@ class MbaUser(Base):
         if 0 == self.sex:
             return u"男"
         return u"女"
+
+    @property
+    def visitors(self):
+        for v in DBSession.query(Visit).filter_by(user_id1 = self.id)[0:18]:
+            ;
 
 friend_union = select([
                 friend.c.user_a_id,
@@ -432,11 +444,17 @@ class Student(MbaUser):
 
     resumes = relationship('Resume', backref='user')
 
-    def __init__(self, name, real_name='', birth_date=None, school=None, school_year=0, **kwargs):
+    def __init__(self, name, real_name='', birth_date=None, school=u"", school_year=0
+            , company=u"", industry=u"", special_skill=u"", interest=u"", between=u"", introduction=u"", **kwargs):
         self.real_name = real_name
         self.birth_date = birth_date
         self.school = school
         self.school_year = school_year
+        self.company = company
+        self.industry = industry
+        self.special_skill = special_skill
+        self.between = between
+        self.introduction = introduction
         super(Student, self).__init__(name, **kwargs)
 
     def __repr__(self):  # pragma: no cover

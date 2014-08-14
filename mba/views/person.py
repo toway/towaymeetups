@@ -56,6 +56,12 @@ class PersonInfoWidget(object):
         self.template = 'person_form.jinja2'
 
     def render(self):
+        #TODO do better
+        ss = [u'company', u'industry', u'special_skill', u'interest', u'between', u'introduction', u'location']
+        u = self.user
+        for s in ss:
+            if not getattr(u,s):
+                setattr(u, s, u"")
         return self.renderer(self.template, person_info=self.user)
 
 @view_config(route_name='person', renderer='person.jinja2', custom_predicates=(person_id_predic,))
@@ -73,7 +79,7 @@ def view_person(request):
             user = DBSession.query(Student).get(userid)
             if curr_user.id != user.id:
                 return Response("ERROR")
-            user.email = post['email']
+            #user.email = post['email']
             user.phone = post['phone']
             user.company = post['company']
             user.industry = post['industry']
