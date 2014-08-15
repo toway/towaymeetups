@@ -131,7 +131,9 @@ class MbaUser(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), unique=True)
     password = Column(Unicode(100))
-    
+
+    real_name = Column(Unicode(50))
+
     avatar = Column(String(100))
     
     @property
@@ -421,8 +423,8 @@ class Student(MbaUser):
     id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
     school = Column(String(100))
     school_year = Column(Integer())
-    
-    real_name = Column(String(20))
+
+    # real_name = Column(String(20))， real_name is put in superclass ,for global site, real name is needed
     birth_date = Column(Date())
     identify_type = Column(Integer())
     identify = Column(String(30))
@@ -442,6 +444,29 @@ class Student(MbaUser):
     interest = Column(String(255), default=u"")
     between = Column(String(255), default=u"")
     introduction = Column(String(255), default=u"")
+
+    auths =  Column(String(255),default="0$0$0")
+
+    @property
+    def auth_info(self):
+        return True if self.auths[0]=="1" else False
+    @auth_info.setter
+    def auth_info(self, value):
+        self.auths[0] = "1" if value else "0"
+
+    @property
+    def auth_meetup(self):
+        return True if self.auths[2]=="1" else False
+    @auth_meetup.setter
+    def auth_meetup(self, value):
+        self.auths[2] = "1" if value else "0"
+
+    @property
+    def auth_friend(self):
+        return True if self.auths[4]=="1" else False
+    @auth_friend.setter
+    def auth_friend(self, value):
+        self.auths[4] = "1" if value else "0"
 
     resumes = relationship('Resume', backref='user')
 
