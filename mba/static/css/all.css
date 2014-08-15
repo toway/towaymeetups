@@ -495,15 +495,15 @@ table.mba-resume-tbl{
   }
 
     .basic_info .info_auth_disable{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
+    background-image: url("/fanstatic/mba/img/info_auth_disable.png");
   }
 
   .basic_info .activity_auth_disable{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
+    background-image: url("/fanstatic/mba/img/activity_auth_disable.png");
   }
 
   .basic_info .friend_auth_disable{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
+    background-image: url("/fanstatic/mba/img/friend_auth_disable.png");
   }
 
    .basic_info p.first{

@@ -15,7 +15,7 @@
         {% include "inc/css.jinja2" %}
 
 
-        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <style type="text/css">
 
@@ -33,11 +33,10 @@
 
         {% include "header.jinja2" %}
 
-       <div class="container-fluid mba-margin-top mba-banner" >
-      <center><img src="/fanstatic/mba/img/banner.jpg"></center>
-</div>
- <div class="container ">
+
+ <div class="container mba-margin-top">
    <div class="col-md-12 col-md-offset-0">
+        <br/>
         <div id="info_cnt" class="inline-block">
         
 		{{person_info_form|safe}}	
@@ -168,14 +167,7 @@
 
 
         
-        <script>window.jQuery || document.write('<script src="../static/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-
-        <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
-
-        <script src="static/js/plugins.js"></script>
-
-        <script src="static/js/main.js"></script>
+        {% include "inc/js.jinja2" %}
         <script src="../static/js/bootstrap-tooltip.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -193,12 +185,13 @@
 	   }
 	 };
 
-            $(document).ready(function() {
+         $(document).ready(function() {
 
-               // $("li#li_job").parent().find("li").removeClass("active");
-               // $("li#li_job").find(a).addClass("active");
+               $("li#li_card").parent().find("li").removeClass("active");
+               $("li#li_card").addClass("active");
                // $('.activity_auth').tooltip("show");
-                $('.activity_auth').tooltip({"placement":"top"});
+                $('.info_auth').tooltip({"placement":"bottom"});
+                $('.activity_auth').tooltip({"placement":"bottom"});
                 $('.friend_auth').tooltip({"placement":"bottom"});
                // $(".switch").addClass("sub");
                 $(".sixin_close").bind("click",function(){
@@ -208,43 +201,43 @@
 		
 	       {% if user_status == 1 %}
                $("#info_edit_set").bind("click",function(){
-		  el = $(this);
-		  if('保存' == el.html()) {
-        		$('#person_info').ajaxSubmit(options);
-			el.html('资料编辑');
-		  }
-		  else {
-			  $(".info_show").addClass("hidden");
-			  $(".jiaohuan_see").addClass("hidden");
-			  $(".auth_set").addClass("hidden");
-			  $(".info_edit").removeClass("hidden");
-			  el.html('保存');
-		  }
+                  el = $(this);
+                  if('保存' == el.html()) {
+                        $('#person_info').ajaxSubmit(options);
+                    el.html('资料编辑');
+                  }
+                  else {
+                      $(".info_show").addClass("hidden");
+                      $(".jiaohuan_see").addClass("hidden");
+                      $(".auth_set").addClass("hidden");
+                      $(".info_edit").removeClass("hidden");
+                      el.html('保存');
+                  }
                });
 	       {% else %} 
                $("#info_friend_set").bind("click", function(){
-		  el = $(this);
+                  el = $(this);
 
-		var on_result = function(result) {
-			if( result != 0) {
-				alert("设置错误！");
-				return;
-			}
-			if(el.html() == "加为好友"){
-				el.html("取消好友");
-			}
-			else {
-				el.html("加为好友");
-			}
-		};
+                    var on_result = function(result) {
+                        if( result != 0) {
+                            alert("设置错误！");
+                            return;
+                        }
+                        if(el.html() == "加为好友"){
+                            el.html("取消好友");
+                        }
+                        else {
+                            el.html("加为好友");
+                        }
+                    };
 
-		  if(el.html() == "加为好友") {
-			$.get("/friend_set/{{curr_id}}/{{person_info.id}}/1", on_result);
-		  }
-		  else {
-			$.get("/friend_set/{{curr_id}}/{{person_info.id}}/0", on_result);
-		   }
-		});
+                  if(el.html() == "加为好友") {
+                    $.get("/friend_set/{{curr_id}}/{{person_info.id}}/1", on_result);
+                  }
+                  else {
+                    $.get("/friend_set/{{curr_id}}/{{person_info.id}}/0", on_result);
+                   }
+                });
 
 	       {% endif %}
 

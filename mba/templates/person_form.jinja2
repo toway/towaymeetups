@@ -5,24 +5,32 @@
               <table>
               <tr  id="part1">
                 <td class="avstar">
-                    <img src="/fanstatic/mba/img/avatar.泪jpg">
+                    <img width="200px" height="200px" alt="{{ person_info.title }}"
+                         src="{{ person_info.avatar_prefix }}{{ person_info.avatar }}">
                     <p style="text-align:center">(志友号-000008)</p>
                 </td>
                
                 <td class="basic_info">
                   <p class="first">
-		  <span class="name">{{person_info.real_name}}</span><span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
+		                <div class="name">
+                            <span class="info_show">{{person_info.real_name or person_info.title or person_info.name }}</span>
+                            <input type="text" value="{{person_info.real_name or person_info.title or person_info.name }}" class="info_edit hidden" name="title"/>
+                        </div>
+
+                        <span class="info_auth"  title="管理员确认后即可完成认证"></span>
+                        <span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span>
+                        <span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
                   </p>
-		  <p class="basic"><label class="lbl_info">手机：</label><span class="info_show auth_hidden fixed_width">{{person_info.phone}}</span><input type="text" class="info_edit hidden" name="phone" value="{{person_info.phone}}" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+		  <p class="basic"><label class="lbl_info">手机：</label><span class="info_show auth_hidden fixed_width">{{person_info.phone or "暂未填写"}}</span><input type="text" class="info_edit hidden" name="phone" value="{{person_info.phone}}" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
 		  <p class="basic"><label class="lbl_info">邮箱：</label><span class="info_show  auth_hidden fixed_width">{{person_info.email}}</span><input type="text" readonly="readonly" class="info_edit hidden"  value="{{person_info.email}}" name="email"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                  
-		  <p class="basic"><label class="lbl_info">公司：</label><span class="info_show  auth_hidden fixed_width">{{person_info.company}}</span><input type="text"  class="info_edit hidden"  value="{{person_info.company}}" name="company"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+		  <p class="basic"><label class="lbl_info">公司：</label><span class="info_show  auth_hidden fixed_width">{{person_info.company or "暂未填写"}}</span><input type="text"  class="info_edit hidden"  value="{{person_info.company}}" name="company"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                   
-		  <p class="basic"><label class="lbl_info">行业：</label><span class="info_show">{{person_info.industry}}</span><input type="text" value="{{person_info.industry}}" class="info_edit hidden" name="industry"/></p>
+		  <p class="basic"><label class="lbl_info">行业：</label><span class="info_show">{{person_info.industry or "暂未填写"}}</span><input type="text" value="{{person_info.industry}}" class="info_edit hidden" name="industry"/></p>
                  
-		  <p class="basic"><label class="lbl_info">居住地：</label><span class="info_show">{{person_info.location}}</span><input type="text"  class="info_edit hidden" value="{{person_info.location}}" name="location"/></p>
+		  <p class="basic"><label class="lbl_info">居住地：</label><span class="info_show">{{person_info.location or "暂未填写"}}</span><input type="text"  class="info_edit hidden" value="{{person_info.location}}" name="location"/></p>
                 
-		  <p class="basic"><label class="lbl_info">毕业学校：</label><span class="info_show">{{person_info.school}}</span><input type="text"  value="{{person_info.school}}" class="info_edit hidden" name="school"/></p>    
+		  <p class="basic"><label class="lbl_info">毕业学校：</label><span class="info_show">{{person_info.school or "暂未填写"}}</span><input type="text"  value="{{person_info.school}}" class="info_edit hidden" name="school"/></p>
                 </td>
               </tr>
              
@@ -33,14 +41,14 @@
 
           <hr>
           <div  id="part2">
-		  <p  class="hobby"><label class="lbl_hobby">专长：</label><span  class="info_show">{{person_info.special_skill}}</span><input type="text"  value="{{person_info.special_skill}}" class="info_edit hidden" name="special_skill"/></p>
-		  <p  class="hobby"><label  class="lbl_hobby">兴趣：</label><span  class="info_show">{{person_info.interest}}</span><input type="text"  value="{{person_info.interest}}" class="info_edit hidden" name="interest"/></p>
-		  <p  class="hobby"><label class="lbl_hobby">往来：</label><span  class="info_show">{{person_info.between}}</span><input type="text"  value="{{person_info.between}}" class="info_edit hidden" name="between"/></p>
+		  <p  class="hobby"><label class="lbl_hobby">专长：</label><span  class="info_show">{{person_info.special_skill or "没神马专长"}}</span><input type="text"  value="{{person_info.special_skill}}" class="info_edit hidden" name="special_skill"/></p>
+		  <p  class="hobby"><label  class="lbl_hobby">兴趣：</label><span  class="info_show">{{person_info.interest  or "没神马兴趣"}}</span><input type="text"  value="{{person_info.interest}}" class="info_edit hidden" name="interest"/></p>
+		  <p  class="hobby"><label class="lbl_hobby">往来：</label><span  class="info_show">{{person_info.between or "很宅，从不出去"}}</span><input type="text"  value="{{person_info.between}}" class="info_edit hidden" name="between"/></p>
           </div>
            <hr>
           <div  id="part3">
               <p><strong>个人简介</strong></p>
-	      <p   class="info_show">{{person_info.introduction}}</p>
+	      <p   class="info_show">{{person_info.introduction or "这家伙很懒，什么都没有写" }}</p>
               <textarea name="introduction" class="info_edit hidden" width="100%" cols="64">{{person_info.introduction}}</textarea>
           </div>
 

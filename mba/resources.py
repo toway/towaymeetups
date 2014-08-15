@@ -114,8 +114,8 @@ class PositionCollect(Base):
         return cls(position=p)
 
 class Visit(Base):
-    user_id1 = Colomn('uid1', Integer, ForeignKey('mba_users.id'), primary_key=True)
-    user_id2 = Colomn('uid2', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    user_id1 = Column('uid1', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    user_id2 = Column('uid2', Integer, ForeignKey('mba_users.id'), primary_key=True)
     create_date = Column(DateTime(), default=datetime.now(TZ_HK))
 
 #This is a base class for all users
@@ -158,13 +158,13 @@ class MbaUser(Base):
     _positions = relationship("PositionCollect", backref='user')
     positions = association_proxy("_positions","position", creator=PositionCollect._create)
 
-    visits = relationship("MbaUser", secondary=friend,
-                primaryjoin=id==friend.c.user_a_id,
+    # visits = relationship("MbaUser", secondary=friend,
+    #             primaryjoin=id==friend.c.user_a_id)
+
 
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
-                secondaryjoin=id==friend.c.user_b_id,
-            )
+                secondaryjoin=id==friend.c.user_b_id)
 
     def __init__(self, name, password=None, active=True, confirm_token=None,
                  title=u"", email=None, groups=(), **kwargs):
@@ -197,7 +197,8 @@ class MbaUser(Base):
     @property
     def visitors(self):
         for v in DBSession.query(Visit).filter_by(user_id1 = self.id)[0:18]:
-            ;
+            #TODO: this is done by jannson, I currently don't know what to do next, so pass is added
+            pass
 
 friend_union = select([
                 friend.c.user_a_id,

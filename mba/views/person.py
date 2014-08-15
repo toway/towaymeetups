@@ -64,13 +64,16 @@ class PersonInfoWidget(object):
                 setattr(u, s, u"")
         return self.renderer(self.template, person_info=self.user)
 
-@view_config(route_name='person', renderer='person.jinja2', custom_predicates=(person_id_predic,))
+@view_config(route_name='person', renderer='person.jinja2', custom_predicates=(person_id_predic,),permission='view')
 def view_person(request):
     jquery.need()
     jqueryui.need()
     jquery_form.need()
 
+
     curr_user = get_user(request)
+    if not curr_user:
+        return HTTPFound(location="/login?came_from=%s" % request.url)
 
     if "hd_id" in request.POST:
         try:
@@ -89,6 +92,7 @@ def view_person(request):
             user.interest = post['interest']
             user.between = post['between']
             user.introduction = post['introduction']
+            user.real_name = post['title']
             person_info_widget = PersonInfoWidget(user)
             return Response(person_info_widget.render())
         except:
