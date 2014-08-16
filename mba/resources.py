@@ -213,7 +213,7 @@ class MbaUser(Base):
             new_v = True
         if not v:
             v = Visit(user_id1=self.id, user_id2=u.id)
-        v.visit_date = datetime.now(TZ_HK)
+        v.visit_date = datetime.now(tz=None)
         if new_v:
             DBSession.add(v)
 
