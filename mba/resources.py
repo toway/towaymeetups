@@ -134,7 +134,9 @@ class MbaUser(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), unique=True)
     password = Column(Unicode(100))
-    
+
+    real_name = Column(Unicode(50))
+
     avatar = Column(String(100))
     
     @property
@@ -172,8 +174,7 @@ class MbaUser(Base):
 
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
-                secondaryjoin=id==friend.c.user_b_id,
-            )
+                secondaryjoin=id==friend.c.user_b_id)
 
     def __init__(self, name, password=None, active=True, confirm_token=None,
                  title=u"", email=None, groups=(), **kwargs):
@@ -282,7 +283,15 @@ class TeacherTagToActs(Base):
         return cls(teacher_tag=tag)
 
 class ActStatus:
-    DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
+    PUBLIC, DRAFT, PRIVATE, CANCEL = 0, 1, 2, 3
+    # public :  seen by anyone
+    # priveate: seen by admins
+    # draft: seen by self
+    # cancel: meetup is canceled
+
+# 是否是活动首页推荐、全站首页推荐,全站首页推荐待考虑
+class HeadLine:
+    NOT_TOP, MEETUPS_TOP, SITE_TOP = 0, 1, 2
 
 # 活动的类别        
 class MeetupType(Base):
@@ -297,7 +306,9 @@ from kotti.views.edit.content import Image
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    status = Column(Integer(), nullable=False, default=ActStatus.PUBLIC)
+
+    headline = Column(Integer, nullable=False, default=HeadLine.NOT_TOP)
     
     meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
     meetup_type_title = association_proxy('meetup_types', 'title' )
@@ -418,8 +429,8 @@ class Student(MbaUser):
     id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
     school = Column(String(100))
     school_year = Column(Integer())
-    
-    real_name = Column(String(20))
+
+    # real_name = Column(String(20))， real_name is put in superclass ,for global site, real name is needed
     birth_date = Column(Date())
     identify_type = Column(Integer())
     identify = Column(String(30))
@@ -439,6 +450,29 @@ class Student(MbaUser):
     interest = Column(String(255), default=u"")
     between = Column(String(255), default=u"")
     introduction = Column(String(255), default=u"")
+
+    auths =  Column(String(255),default="0$0$0")
+
+    @property
+    def auth_info(self):
+        return True if self.auths[0]=="1" else False
+    @auth_info.setter
+    def auth_info(self, value):
+        self.auths[0] = "1" if value else "0"
+
+    @property
+    def auth_meetup(self):
+        return True if self.auths[2]=="1" else False
+    @auth_meetup.setter
+    def auth_meetup(self, value):
+        self.auths[2] = "1" if value else "0"
+
+    @property
+    def auth_friend(self):
+        return True if self.auths[4]=="1" else False
+    @auth_friend.setter
+    def auth_friend(self, value):
+        self.auths[4] = "1" if value else "0"
 
     resumes = relationship('Resume', backref='user')
 

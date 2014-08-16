@@ -10,7 +10,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget
+from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget, CheckboxWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -192,6 +192,13 @@ class ActSchema(colander.MappingSchema):
         widget=ImageUploadWidget(title=_(u"上传海报"))
     )
 
+    headline = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u'是否在头条推荐：'),
+        widget=CheckboxWidget(true_val="1",false_val="0"),
+        default=HeadLine.NOT_TOP
+    )
+
     meetup_type = colander.SchemaNode(
         colander.Integer(),
         title=_(u'活动类型'),
@@ -227,10 +234,7 @@ class ActSchema(colander.MappingSchema):
     )
 
     def preparer(self, appstruct):
-        print '\nprepare appstruct', appstruct
         popped = appstruct.pop('geo')
-
-        print 'popped',popped
 
         appstruct.update({'latitude': popped.get('latitude',0),
                           'longitude':popped.get('longitude',0),
@@ -273,6 +277,11 @@ class ActAddForm(AddFormView):
     
     item_type = _(u"活动")
 
+    # buttons = (
+    #     deform.Button('save',_(u'发布')),
+    #     deform.Button('preview',_(u'预览'))
+    # )
+
     form_options = ({'css_class':'form-horizontal'})
     
     
@@ -303,7 +312,9 @@ class ActEditForm(EditFormView):
         deform.Button('cancel', _(u'取消')))
         
     schema_factory = ActSchema
-    
+
+
+
     def __init__(self, context, request, **kwargs):
         
         id = request.matchdict['id']
@@ -311,16 +322,24 @@ class ActEditForm(EditFormView):
         context = meetup
         
         EditFormView.__init__(self, context, request, **kwargs)
-        
+
+
+    def __call__(self):
+        ret = EditFormView.__call__(self)
+        if isinstance(ret, dict):
+            ret = wrap_user2(self.request, ret)
+            ret.update({'api': MbaTemplateAPI(self.context, self.request)})
+        return ret
+
     def update_success(self, appstruct):
 
         return self.save_success(appstruct)
 
     def appstruct(self):
-        print self.context
-        print self.schema
-        print self.context.latitude
-        print self.context.longitude
+        # print self.context
+        # print self.schema
+        # print self.context.latitude
+        # print self.context.longitude
 
         appstruct = get_appstruct(self.context, self.schema)
         lat = getattr(self.context,'latitude', 0)
@@ -356,7 +375,6 @@ class PositionAddForm(AddFormView):
     def __init__(self, context, request, **kwargs):
         context = DBSession.query(Node).filter_by(name="position").one()
         AddFormView.__init__(self, context, request, **kwargs)
-        print self.context
 
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)

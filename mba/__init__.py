@@ -18,6 +18,8 @@ def includeme(config):
     config.include('kotti')
     #config.include('kotti.views.login')
     config.include('mba.views')
+
+    config.include('mba.override')
     #config.add_route('home', '/')
     #config.add_route('register','/register')
     #config.scan(__name__)
