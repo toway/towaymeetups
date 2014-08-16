@@ -205,14 +205,17 @@ class MbaUser(Base):
         return u"女"
 
     def add_visit(self, u):
-        v = DBsession.query(Visit).filter(Visit.user_id1==self.id, Visit.user_id2==u.id).one()
+        v = None
         new_v = False
+        try:
+            v = DBSession.query(Visit).filter(Visit.user_id1==self.id, Visit.user_id2==u.id).one()
+        except:
+            new_v = True
         if not v:
             v = Visit(user_id1=self.id, user_id2=u.id)
-            new_v = True
         v.visit_date = datetime.now(TZ_HK)
         if new_v:
-            DBsession.add(v)
+            DBSession.add(v)
 
 friend_union = select([
                 friend.c.user_a_id,
@@ -461,21 +464,21 @@ class Student(MbaUser):
 
     @property
     def auth_info(self):
-        return True if self.auths[0]=="1" else False
+        return True if (self.auths and self.auths[0]=="1") else False
     @auth_info.setter
     def auth_info(self, value):
         self.auths[0] = "1" if value else "0"
 
     @property
     def auth_meetup(self):
-        return True if self.auths[2]=="1" else False
+        return True if (self.auths and self.auths[2]=="1") else False
     @auth_meetup.setter
     def auth_meetup(self, value):
         self.auths[2] = "1" if value else "0"
 
     @property
     def auth_friend(self):
-        return True if self.auths[4]=="1" else False
+        return True if (self.auths and self.auths[4]=="1") else False
     @auth_friend.setter
     def auth_friend(self, value):
         self.auths[4] = "1" if value else "0"
