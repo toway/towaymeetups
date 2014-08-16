@@ -112,19 +112,9 @@
           <div id="renmai" class="right_head little_pad">最近来访<a class="all" href="">全部</a></div>
             <div id="renmai_info">
 
-                
+		    {% for v in visitors %}                
                     <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-                      
-                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-                     
-                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-
-                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-                      
-                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-                     
-                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
-                      
+        		{% endfor %} 
              
               
               <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->

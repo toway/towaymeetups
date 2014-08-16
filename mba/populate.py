@@ -298,7 +298,7 @@ def populate():
     create_mba_root()
 
     print 'Just test in mba.resources: '
-    test_visitors()
+    #test_visitors()
     #test_document()
     #test_act()
     #test_act2()

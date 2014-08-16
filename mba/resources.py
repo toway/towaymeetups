@@ -116,7 +116,7 @@ class PositionCollect(Base):
 class Visit(Base):
     user_id1 = Column('user_id1', Integer, ForeignKey('mba_users.id'), primary_key=True)
     user_id2 = Column('user_id2', Integer, ForeignKey('mba_users.id'), primary_key=True)
-    create_date = Column(DateTime(), default=datetime.now(TZ_HK))
+    visit_date = Column(DateTime(), default=datetime.now(TZ_HK))
 
     # 1 <--> 1
     user = relationship("MbaUser", foreign_keys="[Visit.user_id2]")
@@ -165,10 +165,10 @@ class MbaUser(Base):
 
     #http://stackoverflow.com/questions/17252816/create-many-to-many-on-one-table
     #http://docs.sqlalchemy.org/en/rel_0_8/orm/relationships.html#adjacency-list-relationships
-    #visit = relationship("Visit", foreign_keys="[Visit.user_id2]", backref='users', order_by='desc(Visit.create_date)')
+    #visit = relationship("Visit", foreign_keys="[Visit.user_id2]", backref='users', order_by='desc(Visit.visit_date)')
     # 1 <--> 1
     visit = relationship("Visit", primaryjoin="and_(MbaUser.id==Visit.user_id1)"
-            , order_by='desc(Visit.create_date)')
+            , order_by='desc(Visit.visit_date)')
     # 1 <--> n
     visitors = association_proxy("visit", "user")
 
@@ -205,8 +205,14 @@ class MbaUser(Base):
         return u"女"
 
     def add_visit(self, u):
-        v = Visit(user_id1=self.id, user_id2=u.id)
-        DBSession.add(v)
+        v = DBsession.query(Visit).filter(Visit.user_id1==self.id, Visit.user_id2==u.id).one()
+        new_v = False
+        if not v:
+            v = Visit(user_id1=self.id, user_id2=u.id)
+            new_v = True
+        v.visit_date = datetime.now(TZ_HK)
+        if new_v:
+            DBsession.add(v)
 
 friend_union = select([
                 friend.c.user_a_id,

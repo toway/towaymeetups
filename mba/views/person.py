@@ -106,14 +106,17 @@ def view_person(request):
     user_status = 0
     if curr_user.id == user.id:
         user_status = 1
-    elif user in curr_user.all_friends:
-        user_status = 2
+    else:
+        user.add_visit(curr_user)
+        if user in curr_user.all_friends:
+            user_status = 2
 
     return wrap_user(request, {
                 "person_info": user,
                 "user_status": user_status,
                 "curr_id": curr_user.id,
                 "resumes": user.resumes,
+                "visitors": user.visitors,
                 "new_positions": new_positions,
                 "person_info_form": person_info_widget.render(),
                 "toknown_list": toknown_list,
