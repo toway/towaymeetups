@@ -207,6 +207,19 @@ def test_position():
     DBSession.flush()
     print stu.position_items
 
+def test_visitors():
+    stu1 = Student(name=u'test1', real_name=u'testit1')
+    stu2 = Student(name=u'test2', real_name=u'testit2')
+    stu3 = Student(name=u'test3', real_name=u'testit3')
+    DBSession.add(stu1)
+    DBSession.add(stu2)
+    DBSession.add(stu3)
+    DBSession.flush()
+
+    stu2.add_visit(stu1)
+    stu2.add_visit(stu3)
+    print stu2.visitors
+
 def create_mba_root():
     if DBSession.query(Node).filter_by(name="meetup").count() == 0:
         meet_attrs = dict(
@@ -282,6 +295,7 @@ def populate():
     create_mba_root()
 
     print 'Just test in mba.resources: '
+    test_visitors()
     #test_document()
     #test_act()
     #test_act2()
