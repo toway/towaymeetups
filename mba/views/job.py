@@ -36,7 +36,12 @@ from mba.utils import wrap_user
 def view_job(request):
     return wrap_user(request, {
     			"test":"test",
-    			"resumes":	[{"date": "2013-3-2", "name":u"UI设计师"},{"date": "2013-3-2", "name":u"UI设计师"}]
+    			"resumes":	[{"date": "2013-3-8", "name":u"UI设计师"},{"date": "2013-3-2", "name":u"UI设计师"}],
+                "gaoxin":  [{"zhiwei": u"投资项目管理人", "region": u"深圳", "updatedate": u"2014-4-5", "salary":u"100-200万"},
+                            {"zhiwei": u"投资项目管理人", "region": u"深圳", "updatedate": u"2014-4-5", "salary":u"100-200万"},
+                            {"zhiwei": u"投资项目管理人", "region": u"深圳", "updatedate": u"2014-4-5", "salary":u"100-200万"},
+                            {"zhiwei": u"投资项目管理人", "region": u"深圳", "updatedate": u"2014-4-5", "salary":u"100-200万"}
+                ]
     	   })
 
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]--> <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
@@ -12,6 +13,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         {% include "inc/css.jinja2" %}
+
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -25,7 +27,7 @@
   cursor: pointer;
 }
     </style>
-    <body>
+    <body class="job_manage">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -38,203 +40,305 @@
 
         {% include "header.jinja2" %}
 
-        <div class="container-fluid mba-margin-top mba-banner" >
+       <!--  <div class="container-fluid mba-margin-top mba-banner" >
             <center><img src="static/img/banner.jpg"></center>
-        </div>
-        <div class="container">
-            <div class="col-md-10 col-md-offset-1 mba-my-resume-cnt">
+        </div> -->
+        <div class="container mt50">
+            <div class="col-md-9 mba-my-resume-cnt">
                 <div class="mba-resume-total-grid">
-                    <img src="static/img/my_resume_title.jpg">
-                    <p>
-                        <form class="form-inline" role="form">
+                   <!--  <img src="static/img/my_resume_title.jpg"> -->
+                    <div class="search_cnt2">
+                        <form class="form-inline" action="job_search.jinja2" role="form">
                           <div class="form-group">
-                            <label class="sr-only" for="job_or_company">职位名称或者公司名称</label>
-                            <input type="text" class="form-control" id="job_or_company" placeholder="职位名称或者公司名称">
+                            <select id="search_region" name="search_region" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=1>北京</option>  
+                              <option value=2>上海</option>  
+                              <option value=3>深圳</option>  
+                            </select>  
                           </div>
                           <div class="form-group">
-                            <label class="sr-only" for="gangwei">选择岗位</label>
-                            <input type="text" class="form-control" id="gangwei" placeholder="选择岗位">
+                           <select id="search_hangye" name="search_hangye" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=1>IT</option>  
+                              <option value=2>通信/移动网络</option>  
+                              <option value=3>传媒</option>  
+                            </select>  
                           </div>
                            <div class="form-group">
-                            <label class="sr-only" for="region">选择地区</label>
-                            <input type="text" class="form-control" id="region" placeholder="选择地区">
+                           <select id="search_fabufang" name="search_fabufang" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=0>猎头</option> 
+                              <option value=0>公司</option> 
+                            </select>
                           </div>
-                          <button type="submit" class="btn btn-default">搜索</button>
+                           <div class="form-group">
+                           <label class="sr-only" for="gangwei">请输入关键字</label>
+                            <input type="text" class="form-control" id="gangwei" placeholder="请输入关键字">
+                          </div>
+                          <button type="submit" id="btn-search" class="btn btn-search"></button>
                         </form>
 
-                    </p>
+                    </div>
 
-                    <hr/>
+                    <div>
+                      <table id="gaoxin_job" class="table table-hover">
+                               <thead>  
+                                  <tr>  
+                                    <th>高薪职位</th>  
+                                  </tr>  
+                                </thead>    
+                              <tr> 
+                                <td class="job_link">投资项目管理人</td>  
+                                <td>深圳</td>
+                                <td>2014-4-5</td>
+                                <td>100-200万</td>
+                                <td><button  class="btn btn-primary view_job">查看</button></td>
+                              </tr>
+                              <tr> 
+                                <td class="job_link">投资项目管理人</td>  
+                                <td>深圳</td>
+                                <td>2014-4-5</td>
+                                <td>100-200万</td>
+                                <td><button class="btn btn-primary view_job">查看</button></td>
+                              </tr>  
+                              <tr> 
+                                <td class="job_link">投资项目管理人</td>  
+                                <td>深圳</td>
+                                <td>2014-4-5</td>
+                                <td>100-200万</td>
+                                <td><button class="btn btn-primary view_job">查看</button></td>
+                              </tr>  
+                              <tr> 
+                                <td class="job_link">投资项目管理人</td>  
+                                <td>深圳</td>
+                                <td>2014-4-5</td>
+                                <td>100-200万</td>
+                                <td><button class="btn btn-primary view_job">查看</button></td>
+                              </tr>    
+                        </table>
+                      </div>
+                    </div>
 
-                   <!--  <div class="row"> -->
-                        <div class="col-md-3 mba-right-nav">
-                            <div class="mba-right-nav-cnt">
-                                <center>
-                                    <ul class="nav nav-stacked nav-pills">
-                                        <li class="active"><a  data-toggle="tab" data-target="" href="#resume_manage">简历管理</a></li>
-                                        <li ><a data-toggle="tab" href="#my_resume">求职信息</a></li>
-                                    </ul>
-                                </center>
-                            </div>
-                        </div>
-                        <div id="myTabContent" class="tab-content">
-                            <div class="col-md-9  tab-pane fade  in active" id="resume_manage">
-                                <p>
-                                <form name="resume_create" method="POST" action="job">
-                            <label class="sr-only" for="job_or_company">简历名称</label>
-                            <input type="text" name='resume_title' class="form-control" placeholder="简历名称">
-                            <button type="submit" name="add_resume" class="btn btn-default navbar-btn">创建简历</button>
-								</form>
-                                </p>
-                                <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
-                                    <thead>  
-                                        <tr>  
-                                          <th>简历名称</th>  
-                                          <th>更新日期</th> 
-                                          <th>简历修改</th> 
-                                          <th>简历刷新</th> 
-                                          <th>简历预览</th>
-                                          <th>简历删除</th>  
-                                        </tr>  
-                                      </thead>  
-                                      <tbody>  
-                                        {% for item in resumes %}
-                                        <tr> 
-                                          <td>{{item.title}}</td>
-                                          <td>{{item.modify_date.strftime('%Y-%m-%d')}}</td>
-										  <td><a href='/resume_edit2/{{item.id}}' alt='修改简历'>
-												  <span class="mba-resume-edit resume_operate" url="resume_edit"><img src="static/img/resume_edit.jpg"></span>
-											  </a>
-											  </td>
-                                          <td><span class="mba-resume-refresh resume_operate"  url="resume_refresh"><img src="static/img/resume_refresh.jpg"></span></td>
-										  <td><a href="/resume_preview" alt="简历预览"><span class="mba-resume-preview resume_operate"  url="resume_preview"><img src="static/img/resume_preview.jpg"></span>
-											  </a>
-											  </td>
-										  <td><span data-val="{{item.id}}" class="resume-delete resume_operate"><img src="static/img/resume_delete.jpg" alt="简历删除"></span></td>
-                                          
-                                        </tr>  
-                                        {% endfor %} 
-                                        </tbody>
-                                </table>
-                                
-                            </div>
 
-                            <div class="col-md-9 tab-pane fade" id="my_resume">
-                               <div>
+                    <div>
+                      <table id="lastest_job" class="table table-hover">
+                               <thead>  
+                                  <tr>  
+                                    <th>最新招聘</th>  
+                                  </tr>  
+                                </thead>    
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>中华英才网广州猎头部</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">投资管理人（北京）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr>
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>中华英才网广州猎头部</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">投资管理人（北京）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr> 
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>中华英才网广州猎头部</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">投资管理人（北京）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr> 
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>中华英才网广州猎头部</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">投资管理人（北京）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr>   
+                        </table>
 
-                                        <ul class="nav nav-pills">
-                                            <li class="active"><a  data-toggle="tab" data-target="" href="#my_shenqing">我的申请</a></li>
-                                            <li ><a data-toggle="tab" href="#my_shoucang">我的收藏</a></li>
-                                            <li ><a data-toggle="tab" href="#my_hr_invited">hr邀请</a></li>
-                                        </ul>
+                    </div>
 
-                                </div>
-                                <div id="myInfoContent" class="tab-content">
-                                    <div  id="my_shenqing" class="tab-pane  in active">
-                                        <table class="table table-hover table-striped table-bordered mba-resume-tbl ">  
-                                            <thead>  
-                                                <tr>  
-                                                  <th>简历名称</th>  
-                                                  <th>更新日期</th> 
-                                                  <th>简历修改</th> 
-                                                  <th>简历刷新</th> 
-                                                  <th>简历预览</th>
-                                                  <th>简历删除</th>  
-                                                </tr>  
-                                              </thead>  
-                                              <tbody>  
-                                                <tr>  
-                                                  <td>ui设计师</td>  
-                                                  <td>2013-1-2</td>
-                                                  <td><span class="mba-resume-edit2" ><img src="static/img/resume_edit.jpg"></span></td>
-                                                  <td><span class="mba-resume-refresh"><img src="static/img/resume_refresh.jpg"></span></td>
-                                                  <td><span class="mba-resume-preview" onClick="location.href='./resume_edit'"><img src="static/img/resume_preview.jpg"></span></td>
-                                                  <td><span class="mba-resume-delete"><img src="static/img/resume_delete.jpg"></span></td>
-                                                  
-                                                </tr>
-                                            </tbody>  
-                                        </table>
-                                    </div>
-                                    <div  id="my_shoucang" class="tab-pane fade">
-                                        <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
-                                            <thead>  
-                                                <tr>  
-                                                  <th>职位</th>  
-                                                  <th>公司名称</th> 
-                                                  <th>学历</th> 
-                                                  <th>经验</th> 
-                                                  <th>薪资</th>
-                                                  <th>收藏日期</th>  
-                                                </tr>  
-                                              </thead>  
-                                              <tbody>
-											  {% for item1,item2 in pcs %}
-                                                <tr>  
-													<td>{{item2.job_name}}</td>  
-													<td>{{item2.company_name}}</td>
-													<td>{{item2.degree}}</td>
-													<td>{{item2.experience}}</td>
-													<td>{{item2.salary}}</td>
-													<td>{{item1.create_date}}</td>
-                                                </tr>  
-											 {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <div  id="my_hr_invited" class="tab-pane fade">
-                                        <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
-                                            <thead>  
-                                                <tr>  
-                                                  <th>简历名称</th>  
-                                                  <th>更新日期</th> 
-                                                  <th>简历修改</th> 
-                                                  <th>简历刷新</th> 
-                                                  <th>简历预览</th>
-                                                  <th>简历删除</th>  
-                                                </tr>  
-                                              </thead>  
-                                              <tbody>  
-                                                <tr>  
-                                                  <td>ui设计师3</td>  
-                                                  <td>2013-1-2</td>
-                                                  <td><span class="mba-resume-edit2"><img src="static/img/resume_edit.jpg"></span></td>
-                                                  <td><span class="mba-resume-refresh"><img src="static/img/resume_refresh.jpg"></span></td>
-                                                  <td><span class="mba-resume-preview"><img src="static/img/resume_preview.jpg"></span></td>
-                                                  <td><span class="mba-resume-delete"><img src="static/img/resume_delete.jpg"></span></td>
-                                                  
-                                                </tr>
-                                                 </tbody>
-                                             </tbody> 
-                                        </table>
-                                    </div>
 
-<form id="form_hidden" method="POST" action="">
-	<input type="hidden" id="operator" name="operator" value=""/>
-	<input type="hidden" id="operator_id" name="operator_id" value=""/>
-</form>
-<script type="text/javascript">
-(function (){
-	$(".resume-delete").click(function(){
-		if(window.confirm("确定删除吗？")) {
-			id = $(this).attr("data-val");
-			$("#operator").val("del_resume");
-			$("#operator_id").val(id);
-			$("#form_hidden").submit();
-		}
-		});
- })();
-</script>
+                     <div>
+                      <table id="lastest_job" class="table table-hover">
+                               <thead>  
+                                  <tr>  
+                                    <th>您可能感兴趣的职位</th>  
+                                  </tr>  
+                                </thead>    
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>深圳市齐齐礼品有限公司</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">UI设计师（深圳）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr>
+                              <tr> 
+                                <td  class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>深圳市齐齐礼品有限公司</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">UI设计师（深圳）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr>
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>深圳市齐齐礼品有限公司</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">UI设计师（深圳）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job  class="job_link"" href="">收藏职位</a></p></td>
+                              </tr>
+                              <tr> 
+                                <td class="job_link">【猎头】</td>  
+                                <td>
+                                  <p>深圳市齐齐礼品有限公司</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">UI设计师（深圳）</p>
+                                  <p><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                              </tr>
+                        </table>
+                      </div>
 
-                                </div>
-                        </div>
-                    <!-- </div> -->
-                </div>
+            </div>
+
+                
+
+                  
+            <div class="col-md-3 no_padding">
+              <div id="person_info">
+                <img src="/fanstatic/mba/img/touxiang.png">
+                <div class="person_info_absolute">
+                  <p><span>张某某</span></br></p>   
+                  <p><span>居住地</span></br></p>  
+                  <p><span>(志友号-000008)</span></p>
                 </div>
                 
+                    <!-- <p style="text-align:center">(志友号-000008)</p> -->
+                
+                  <p class="first">
+                    <span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
+                  </p>
+              </div>
+              <div id="job_manange">
+                简历管理
+              </div>
+              <div class="jianli_manage" class="right_head little_pad"><span>投递记录</span>
+              </div>
+                <ul  class="right_list_cnt">
+                   <li class="right_list_item  clearfix">
+                        <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info  job_link">视觉设计师（深圳）</p>
+                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                        </div>
+                    </li>
+                   <li class="right_list_item  clearfix">
+                        <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info  job_link">视觉设计师（深圳）</p>
+                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                        </div>
+                    </li>
+                    <li class="right_list_item  clearfix">
+                        <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
+                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                        </div>
+                    </li>
+                </ul>
+
+                <div  class="jianli_manage"  class="right_head little_pad"><span>收藏的职位
+                </span></div>
+                  <ul class="right_list_cnt">
+                     <li class="right_list_item  clearfix">
+                          <div class="renmai_detail_cnt">
+                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
+                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                          </div>
+                      </li>
+                     <li class="right_list_item  clearfix">
+                          <div class="renmai_detail_cnt">
+                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
+                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                          </div>
+                      </li>
+                      <li class="right_list_item  clearfix">
+                          <div class="renmai_detail_cnt">
+                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
+                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+                          </div>
+                      </li>
+                  </ul>
             </div>
         </div>
+        
+
 
         {% include "footer.jinja2" %}
+
+
+
+
+
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 
         <!-- Bootstrap -->
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
@@ -252,10 +356,19 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
 
-              $(document).ready(function() {
-                $("li#li_job").parent().find("li").removeClass("active");
-                $("li#li_job").find("a").addClass("active");
-              });
+            $(".resume_operate").click(function(){
+              var url = $(this).attr("url");
+              console.log(url);
+              if(url)
+              {
+                location.href="./"+url;
+              } 
+            })
+
+            $(document).ready(function() {
+               $("li#li_job").parent().find("li").removeClass("active");
+               $("li#li_job").find(a).addClass("active")
+            })
         </script>
     </body>
 </html>

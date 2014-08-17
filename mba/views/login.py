@@ -143,6 +143,7 @@ def login(context, request):
 def view_prelogin(context, request):
     return {'aaa':'bbb'}
 
+
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()
