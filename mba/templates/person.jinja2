@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
@@ -15,88 +15,12 @@
         {% include "inc/css.jinja2" %}
 
 
-<script src="js/jquery-1.10.2.min.js"></script>
-     <script src="js/modernizr-2.6.2.min.js"></script>
-     <script type="text/javascript">
-       $(function(){
-		   $(".personal_menu li").click(function(){
-			   $(this).addClass("menu_click").siblings().removeClass("menu_click");
-			   });
-			   
-			   $(".ico_shou").click(function(){
-				   $(this).parents(".panel_head").next().slideToggle();
-				   
-				   });
-		   }); 
-    
-     </script>
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <style type="text/css">
-	body{ font-size:13px; font-family:'微软雅黑'; background-color:#eaf3ee;}
-	a{color:#777;}
-	ul{list-style-type:none;padding:0; margin:0;}
-    .tou_xiang { text-align:center;}	
-	.search1{margin-top:10px; margin-left:95px;}
-	
-	  .personal_note{border:1px solid #e6e7e9; margin:60px 0; overflow:hidden; padding:10px 0;}
-      .personal_note ul li{float:left; line-height:22px;}
-	  .personal_note ul li a{color:#428bca;}
-	 .bfont{color:#428bca;}
-	  
-      .personal_menu{padding:10px 0;}
-	  .personal_menu li{ line-height:25px; background:url(/fanstatic/mba/img/menu_point.jpg) 68px 9px no-repeat;}
-	  .personal_menu li a{color:#428bca;}
-      .panel_head{ background-color:#e1eaf1; padding:5px; text-align:left; padding-left:10px; border-radius:5px 5px 0 0;color:#428bca; text-align:right;}
-	  .panel_head a{ color:#428bca;}
-	  .panel_head h3{float:left;}
-      .panel_content{clear:both; border:1px solid #ebebed;color:#3f5181; margin-bottom:25px;}
-	  .panel_content li{text-align:center;}
-	  .menu_click{ background:url(/fanstatic/mba/img/menu_click.jpg) 0 0 no-repeat;}
-	  
-	  .jianjie p{ line-height:30px;}
-	  .jianjie .jj_content{padding:0 0 20px 20px;}
-	  .jianjie .bfont{padding-bottom:5px;}
-	  .jianjie dt{  border-bottom:1px solid #e1e2e4;padding-bottom:5px;}
-	  .jianjie dt h1{text-align:left; background:url(/fanstatic/mba/img/ico_gou.jpg) 70px 5px no-repeat;}
-	  .jianjie .ico_update{ background:url(/fanstatic/mba/img/ico-job.jpg) 0 0 no-repeat; width:33px; height:12px;}
-	  
-	  .new_zp{overflow:hidden;font-size:12px; padding:30px 0;}
-	  .new_zp a{color:#707070;}
-	  .new_zp li{text-align:left; padding:0; padding-left:10px; line-height:25px;}
-	 
-	 
-	  .new_zp span{color:#8cbb6b;}
-	  .ml30{margin-left:30px;}
-	  
-	  
-	   .friends_quan li{line-height:35px; text-align:left; padding-left:10px; font-size:12px;}
-	   .friends_quan .star{ background:url(/fanstatic/mba/img/friends.jpg) -5px -189px no-repeat; width:10px; height:10px; display:inline-block; }
-	   .friends_quan .panel_head a{color:#777; font-size:12px;}
-	  .f1{ background:url(/fanstatic/mba/img/friends.jpg)  0 0 no-repeat; width:22px; height:22px; padding-left:25px;}
-      .f2{ background:url(/fanstatic/mba/img/friends.jpg)  0 -35px no-repeat; width:22px; height:22px; padding-left:25px;}
-	  .f3{ background:url(/fanstatic/mba/img/friends.jpg)  0 -68px no-repeat; width:22px; height:22px; padding-left:25px;}
-	  .f4{ background:url(/fanstatic/mba/img/friends.jpg)  0 -101px no-repeat; width:22px; height:22px; padding-left:25px;}
-	  .f5{ background:url(/fanstatic/mba/img/friends.jpg)  0 -133px no-repeat; width:22px; height:22px; padding-left:25px;}
-	  .f6{ background:url(/fanstatic/mba/img/friends.jpg)  0 -167px no-repeat; width:22px; height:22px; padding-left:25px;}
-	  .panel_head a{padding-right:10px;}
-	 .panel_head .ico_shou{background:url(/fanstatic/mba/img/ico-job.jpg) 0 -13px no-repeat; display:inline-block; width:34px; height:13px; padding-right:40px;}
-     h3.panel_title{color:#428BCA; font-size:14px;}
-	  .job_news{ padding:10px 0;}
-	 .job_news a{color:#777;}
-	 .job_news li{text-align:left; padding-left:18px; line-height:25px; font-size:12px;}
-	 .ta{text-align:left;}
-	 .job_apply ul{ padding-left:10px; padding-top:8px; overflow:hidden; margin-bottom:20px;}
-	 .job_apply ul li{float:left;}
-	 .job_apply .active{ background-color:#47a914; color:#fff; padding:3px 0;}
-	 .job_apply table{ clear:both; margin-bottom:10px;}
-	 .job_apply table th{color:#bababa;}
-	 .job_apply table td{ color:#777; text-align:left;}
-	 .job_apply .ico_date{ background:url(/fanstatic/mba/img/ico-job.jpg) 0 -26px no-repeat; width:35px; height:13px; padding-left:30px;}
-	 
-	 .mba-footer{ padding-top:43px; padding-bottom:68px; background-color:#eee; border-top:2px solid #fafafa;}
-	 
+
     </style>
-    <body>
+    <body id="minpian_body">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -107,207 +31,207 @@
 
 
 
-        
-        <header class="navbar navbar-inverse navbar-fixed-top mba-nav" role="banner">
-            <div class="container">
-                <div class="col-md-10 col-md-offset-1">
+        {% include "header.jinja2" %}
 
-                    <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="#"><img src="/fanstatic/mba/img/logo.png" alt="MBA志友会"/></a>
-                    </div>
-                    <div class="collapse navbar-collapse">
-                      <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">首页</a></li>
-                        <li><a href="/activity">我的活动</a></li>
-                        <li><a href="/find">找找看</a></li>
-                          <li><a href="/job">求职</a></li>
-                      </ul>
-                       <div class="search_box search1">
-                        <input type="text" class="search_input" placeholder="搜索你感兴趣的活动"/>
-                        <button class="search_btn" ></button>
-                     </div>
-                     
-                    </div><!--/.nav-collapse -->
-                   
-
-                </div>
-            </div>
-        </header>
-
-        <div class="container" >
-            <div class="col-md-10 col-md-offset-1 mba-my-resume-cnt">
-                <div class="mba-resume-total-grid" style="border:none;">
-                    <img src="/fanstatic/mba/img/my_resume_title.jpg">
-                    
-
-                    <hr/>
-
-                   <div class="row" style="background-color:#fefefe; padding-top:38px; margin-top:50px;margin-bottom:50px;">
-                        <div class="col-md-3">
-                           <dl class="tou_xiang">
-                             <dt style="margin-left:0px;"><img src="/fanstatic/mba/img/tou_xiang.jpg" style="border:1px solid #ccc;"></dt>
-                             <dd>(ID:362551665)</dd>
-                           </dl>
-                           <div class="personal_note">
-                             <ul>
-                               <li class="col-md-6"><a href="#">我的头像</a></li>  
-                               <li class="col-md-6"><a href="#">我的资料</a></li>  
-                               <li class="col-md-6"><a href="#">主页风格</a></li>  
-                               <li class="col-md-6"><a href="#">我的积分</a></li>  
-                               <li class="col-md-6"><a href="#">邮件提醒</a></li>  
-                               <li class="col-md-6"><a href="#">隐私筛选</a></li>  
-                             </ul>
-                           </div>
-                           <div style="clear:both;"></div>
-                           <h3 class="panel_head ta">个人菜单</h3>
-                           <ul class="personal_menu panel_content">
-                             <li><a href="#">个人资料</a></li>
-                             <li><a href="#">我的简历</a></li>
-                             <li><a href="#">好友管理</a></li>
-                             <li><a href="#">职场资讯</a></li>
-                             <li><a href="#">增值服务</a></li>
-                             <li><a href="#">职位资讯</a></li>
-                             <li><a href="#">在线沙龙</a></li>
-                       
-                           </ul>
-                         
-                        </div>
- 
-                            <div class="col-md-7 mba-resume-part tab-pane fade  in active" id="resume_info">
-                                <div class="jianjie">
-                                   <dl>
-                                     <dt><h1>余 争</h1></dt>
-                                     <dd style=" overflow:hidden;">
-                                     <div class="jj_content" style="float:left;" >
-                                       <p class="bfont">五年以上工作经验<span class="ml30">男</span>&nbsp;&nbsp;|&nbsp;&nbsp;27岁&nbsp;(1989年4月22日)</p>
-                                       <p>居住地：深圳南山区</p>
-                                       <p>电&nbsp;&nbsp;话： 1330393439(手机)</p>
-                                       <p>Email： jsfdkf@163.com</p>
-                                       </div>
-                                       <p class="ico_update" style="margin-left:475px; margin-top:5px;"></p>
-                                     </dd>
-                                   </dl>
-                                </div>
-                                
-                            
-                                  <div class="panel_head"><h3>最新招聘</h3><a href="#" class="ico_shou">&nbsp; </a></div>
-                                  <ul class="panel_content new_zp">
-                                     <li class="col-md-6"><a href="#">大华会计师事务所（特殊普通合伙）</a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">苏州国芯科技有限公司<span>市场经理IC设计工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">雅兰国际集团</a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">北京大学工学院南京研究院<span>软件研发工程师</span></a></li>
-                                     <li class="col-md-6"><a href="#">商船三井（中国）有限公司</a></li>
-                                     <li class="col-md-6"><a href="#">唯康通信技术<span>区域经理</span>&nbsp;<span>销售经理</span>&nbsp;<span>项目销售经理</span></a></li>
-                                 </ul>
-                             
-                                
-                                  <div class="panel_head"><h3 class="panel_title">工作申请记录&amp;收藏</h3><a href="#">人事经理来信</a></div>
-                                  <div class="panel_content job_apply">
-                                   
-                                     <ul>
-                                       <li class="col-md-2 active">社会招聘申请</li>
-                                       <li class="col-md-3">校园招聘申请</li>
-                                       <li class="col-md-2">职位收藏</li>
-                                     </ul>
-                                
-                                     <table>
-                                        <tr>
-                                          <th class="col-md-3">职位名称</th>
-                                          <th class="col-md-6">公司名称</th>
-                                          <th class="col-md-3">申请日期</th>
-                                        </tr>
-                                        <tr>
-                                           <td class="col-md-3">平面设计</td>
-                                           <td class="col-md-6">刻度地产集团有限公司</td>
-                                           <td class="col-md-3 ico_date"><span style="padding-left:20px;">2014-04-11</span></td>
-                                        </tr>
-                                     </table>
-                                   
-                                 </div>
-                               
-                                  <div class="panel_head"><h3 class="panel_title">职场资讯</h3><a href="#">更多>></a></div>
-                                  <ul class="panel_content job_news">
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
-                                   
-                                 </ul>
-                             
-                            </div>
-                       
-                        
-                       <div class="col-md-2">
-                         <div class="friends_quan">
-                           <div class="panel_head"><h3 class=" panel_title">好友圈</h3> <a href="#">管理</a></div>
-                           <ul class="panel_content">
-                           <li><a class="f1" href="#">独立寒秋朱朱</a></li>
-                           <li><a href="#" class="f2">J-in-K</a><span class="star"> </span></li>
-                           <li><a href="#"  class="f3">超赚奇</a></li>
-                           <li><a href="#" class="f4">半夜醒着</a></li>
-                           <li><a href="#" class="f5">小小孩书生</a></li>
-                           <li><a href="#" class="f6">BinGo-HuA</a><span class="star"> </span></li>
-                           <li><a href="#"  class="f1">独立寒秋朱朱</a></li>
-                           <li><a href="#" class="f2">J-in-K</a><span class="star"> </span></li>
-                           <li><a href="#" class="f3">超赚奇</a></li>
-                           <li><a href="#" class="f4">半夜醒着</a></li>
-                           <li><a href="#" class="f5">小小孩书生</a></li>
-                           <li><a href="#" class="f6">BinGo-HuA</a><span class="star"> </span></li>
-                           </ul>
-                           <a href="#" style=" text-align:right; display:block;">更多>></a>
-                         </div>
-                       
-                       
-                       </div>
-                      </div>  
-                        
-                        
+       <div class="container-fluid mba-margin-top mba-banner" >
+      <center><img src="/fanstatic/mba/img/banner.jpg"></center>
+</div>
+ <div class="container ">
+   <div class="col-md-12 col-md-offset-0">
+        <div id="info_cnt" class="inline-block">
+         <form>
+          <div class="info_view">
+   
+              <table>
+              <tr  id="part1">
+                <td class="avstar">
+                    <img src="/fanstatic/mba/img/avatar.jpg">
+                    <p style="text-align:center">(志友号-000008)</p>
+                </td>
+               
+                <td class="basic_info">
+                  <p class="first">
+                    <span class="name">戴昊</span><span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
+                  </p>
+                  <p class="basic"><label class="lbl_info">手机：</label><span class="info_show auth_hidden fixed_width">13458776315</span><input type="text" class="info_edit hidden" name="tel" value="13458776315" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+                  <p class="basic"><label class="lbl_info">邮箱：</label><span class="info_show  auth_hidden fixed_width">daihao@163.com</span><input type="text" class="info_edit hidden"  value="daihao@163.com" name="email"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                  
-                </div>
-                </div>
+                  <p class="basic"><label class="lbl_info">公司：</label><span class="info_show  auth_hidden fixed_width">MBA志友汇-创始人</span><input type="text"  class="info_edit hidden"  value="MBA志友汇-创始人" name="company"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+                  
+                  <p class="basic"><label class="lbl_info">行业：</label><span class="info_show">互联网\社交网络\人脉管理</span><input type="text" value="互联网\社交网络\人脉管理" class="info_edit hidden" name="hangye"/></p>
+                  <!-- <p class="hidden">公司：MBA志友汇-创始人</p> -->
+                 
+                  <p class="basic"><label class="lbl_info">居住地：</label><span class="info_show">深圳</span><input type="text"  class="info_edit hidden" value="深圳" name="address"/></p>
+                
+                  <p class="basic"><label class="lbl_info">毕业学校：</label><span class="info_show">四川大学</span><input type="text"  value="四川大学" class="info_edit hidden" name="school"/></p>    
+                </td>
+              </tr>
+             
+              </table>
+             
+          </div>
+          <hr>
+          <div  id="part2">
+              <p  class="hobby"><label class="lbl_hobby">专长：</label><span  class="info_show">击剑、电脑、维修</span><input type="text"  value="击剑、电脑、维修" class="info_edit hidden" name="expert"/></p>
+              <p  class="hobby"><label  class="lbl_hobby">兴趣：</label><span  class="info_show">绘画、骑车、户外、音乐、电影</span><input type="text"  value="绘画、骑车、户外、音乐、电影" class="info_edit hidden" name="hobby"/></p>
+              <p  class="hobby"><label class="lbl_hobby">往来：</label><span  class="info_show">咖啡厅、图书馆、电影院</span><input type="text"  value="咖啡厅、图书馆、电影院" class="info_edit hidden" name="wanglai"/></p>
+          </div>
+           <hr>
+          <div  id="part3">
+              <p><strong>个人简介</strong></p>
+              <p   class="info_show">本人喜欢结交朋友，爱好广泛。希望和各行各业的人士进行交流，学习。热爱事业，热爱生活。爱美女，也爱江山。</p>
+              <textarea name="introduct" class="info_edit hidden" width="100%" cols="64">
+                本人喜欢结交朋友，爱好广泛。希望和各行各业的人士进行交流，学习。热爱事业，热爱生活。爱美女，也爱江山。
+              </textarea>
+              <!-- <input type="text" multiple="multiple" class="intro"  placaholder="aaa"> -->
+          </div>
+           <button type="submit" class="btn btn-success info_edit hidden"  style="float:right;margin-right:50px;margin-top:8px;">保存</button>
+          </form>
+        </div>  <!--end of info_cnt-->
+        <div class="info_right">
+            <div class="div_set">
+             <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
+             <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
+            </div>
+            <div id="renmai" class="right_head little_pad">我的人脉
+              <button class="switch add"></button></div>
+            <div class="hidden"  id="renmai_info">
+              <ul>
+                 <li class="renmai_item  clearfix">
+                      <img style="float:left" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      <div class="renmai_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;陈波</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;华为公司\四川大学</p>
+                      </div>
+                  </li>
+                   <li class="renmai_item  clearfix">
+                    <img style="float:left" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      <div class="renmai_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;陈波</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;华为公司\四川大学</p>
+                      </div>
+                  </li>
+                   <li class="renmai_item  clearfix">
+                    <img style="float:left" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      <div class="renmai_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;陈波</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;华为公司\四川大学</p>
+                      </div>
+                  </li>
+              </ul>
+              <div class="nav_down">
+                <a class="nav_down" href=""><img src="/fanstatic/mba/img/nav_down.gif"></a>
+              </div>
+              
+              <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->
+            </div>
+            <div class="right_head little_pad">来访纪录:<span class="visited_count">251</span><button class="switch add"></button></div>
+            <div id="friend" class="right_head">可能认识的人<button class="switch sub"></button></div>
+            <div id="friend_info" class="friend_list">
+                <ul>
+                  <li class="friend_item  clearfix">
+                      <img style="float:left" src="/fanstatic/mba/img/kown.jpg" height="100px" width="100px">
+                      <div class="friend_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;晴晴</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;职业经理\四川大学</p>
+                        <a class="friend_detail_info renshi" src="">&nbsp;&nbsp;认识她</a>
+                      </div>
+                  </li>
+                   <li class="friend_item clearfix">
+                      <img style="float:left" src="/fanstatic/mba/img/kown.jpg" height="100px" width="100px">
+                      <div class="friend_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;晴晴</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;职业经理\四川大学</p>
+                        <a class="friend_detail_info renshi" src="">&nbsp;&nbsp;认识她</a>
+                      </div>
+                  </li>
+                   <li  class="friend_item clearfix">
+                      <img style="float:left" src="/fanstatic/mba/img/kown.jpg" height="100px" width="100px">
+                      <div class="friend_detail_cnt">
+                        <p class="friend_detail_info">&nbsp;&nbsp;晴晴</p>
+                        <p class="friend_detail_info">&nbsp;&nbsp;职业经理\四川大学</p>
+                        <a class="friend_detail_info renshi" src="">&nbsp;&nbsp;认识她</a>
+                      </div>
+                  </li>
+                </ul>
+               
+            </div>
+            <div  class="right_head yaoqing">
+              邀请站外好友
                 
             </div>
+            <div>
+                <input type="text" id="name" placeholder="姓名" width="35px"/><input type="text" id="email" placeholder="邮箱"  width="35px"/>
+                <p><a class="add_yaoqing" src="">新增一位邀请者</a></p>
+                <button>邀请</button>
+            </div>
+          
+        </div> <!--end of info_right-->
+        
+         <div class="info_right   hidden">
+          <div class="div_set">
+             <a class="info_set" id="exchange_mingpian">交换名片</a>
+             <a class="info_set" id="sixin">站内私信</a>
+          </div>
+          <div id="renmai" class="right_head little_pad">最近来访<a class="all" href="">全部</a></div>
+            <div id="renmai_info">
+
+                
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                     
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                     
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+                      
+             
+              
+              <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->
+            </div>
+        
+            
+          </div>
+       
+      </div>
+
+      <div id="send_sixin" style="clear:both">
+          <h4 class="sixin_title">发私信<img src="/fanstatic/mba/img/sixin_colse.png"  class="sixin_close" style="float:right"></h4>
+          <div style="padding-left:10px;padding-top:10px">
+            <label>内&nbsp;&nbsp;容</label>
+            <textarea maxlength="250" cols="36" style="border:1px solid RGB(255,159,10)">
+              
+            </textarea>
+            <p id="sixin_tool_cnt">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_biaoqing.png">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_image.png">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_facebook.png">
+              <button class="btn btn-default btn-sm btn_sixin_send">发送</button> 
+            </p>
+            
+          </div>
+          
+      </div>
+
+
+ </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+
+
+
 
 
 
         
-<footer class="mba-footer">
-            <div class="container">
-                <div class="row">
-
-                    <div class="col-md-7 col-md-offset-1">
-                        <a href="#">关于我们</a> &nbsp;|&nbsp;
-                        <a href="#">联系我们</a> &nbsp;|&nbsp;
-                        <a href="#">法律条款</a> &nbsp;|&nbsp;
-                        <a href="#">帮助中心</a> &nbsp;|&nbsp;
-                        <a href="#">内容招募</a> &nbsp;|&nbsp;
-                        <a href="#">意见反馈</a> &nbsp;|&nbsp;
-                        <a href="#">关注我们</a> &nbsp;|&nbsp;               
-                    </div>
-                    <div class="col-md-3 col-md-offset-1">
-                      <img src="/fanstatic/mba/img/logo.png" width="140" height="41"/>
-                    
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </footer>
-
-
-
+        <script>window.jQuery || document.write('<script src="../static/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 
         <!-- Bootstrap -->
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
@@ -315,27 +239,74 @@
         <script src="static/js/plugins.js"></script>
 
         <script src="static/js/main.js"></script>
+        <script src="../static/js/bootstrap-tooltip.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
 
+            $(document).ready(function() {
 
-           $(document).ready(function(){
-              $("#resume_summary_cnt").delegate("li", "click", function() {
-                console.log(11);
-                $(this).parent().children().each(function() {
-                  $(this).removeClass("active");
-                });
-                $(this).addClasss("active");
+               // $("li#li_job").parent().find("li").removeClass("active");
+               // $("li#li_job").find(a).addClass("active");
+               // $('.activity_auth').tooltip("show");
+                $('.activity_auth').tooltip({"placement":"top"});
+                $('.friend_auth').tooltip({"placement":"bottom"});
+               // $(".switch").addClass("sub");
+                $(".sixin_close").bind("click",function(){
+                  $("#minpian_body").removeClass("mask");
+                  $("#send_sixin").hide();
+               });
+
+               $("#info_edit_set").bind("click",function(){
+                  $(".info_show").addClass("hidden");
+                  $(".jiaohuan_see").addClass("hidden");
+                  $(".auth_set").addClass("hidden");
+                  $(".info_edit").removeClass("hidden");
+               });
+
+                $("#info_auth_set").bind("click",function(){
+                  $(".info_show").removeClass("hidden");
+                  $(".auth_set").removeClass("hidden");
+                  $(".info_edit").addClass("hidden");
+                  $(".jiaohuan_see").addClass("hidden");
+               });
+
+              $(".auth_set").bind("click",function(){
+                  $(".auth_hidden").addClass("hidden");
+                  $(".info_edit").addClass("hidden");
+                 
+                  $(this).parents().find("a.jiaohuan_see").removeClass("hidden");
               });
 
-           });
+                
+
+
+               $("#sixin").bind("click",function(){
+                // console.log(22);
+                  $("#minpian_body").addClass("mask");
+                  // console.log($(window).height());
+                  // console.log($("#send_sixin").height());
+                  $("#send_sixin").show();
+                  var height = ($(window).height()-$("#send_sixin").height())/2;
+                  // console.log(height);
+                  var width = ($(window).width()-$("#send_sixin").width())/2;
+                  $("#send_sixin").css({"top":height,"left":width});
+               });
+
+               $(".switch").bind("click",function(){
+                  var id = "#" + $(this).parent().attr("id") + "_info";
+                  if($(this).hasClass("add"))
+                  {
+                    $(id).removeClass("hidden");
+                    $(this).removeClass("add").addClass("sub");
+                  }
+                  else
+                  {
+                    $(id).addClass("hidden");
+                    $(this).removeClass("sub").addClass("add");
+                  }
+               });
+            });
         </script>
     </body>
 </html>

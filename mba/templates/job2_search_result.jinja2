@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <style type="text/css">
+.mba-resume-refresh
+{
+  background:url("static/img/resume_refresh.jpg") no-repeat center;
+}
+
+.resume_operate{
+  cursor: pointer;
+}
+    </style>
+    <body class="job_manage">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+
+
+        {% include "header.jinja2" %}
+
+       <!--  <div class="container-fluid mba-margin-top mba-banner" >
+            <center><img src="static/img/banner.jpg"></center>
+        </div> -->
+        <div class="container mt50">
+            <div class="col-md-12 mba-my-resume-cnt">
+                <div class="mba-resume-total-grid">
+                   <!--  <img src="static/img/my_resume_title.jpg"> -->
+                    <div class="search_cnt_normal" >
+                        <form class="form-inline" action="job_search.jinja2" role="form">
+                          <div class="form-group">
+                            <select id="search_region" name="search_region" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=1>北京</option>  
+                              <option value=2>上海</option>  
+                              <option value=3>深圳</option>  
+                            </select>  
+                          </div>
+                          <div class="form-group">
+                           <select id="search_hangye" name="search_hangye" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=1>IT</option>  
+                              <option value=2>通信/移动网络</option>  
+                              <option value=3>传媒</option>  
+                            </select>  
+                          </div>
+                           <div class="form-group">
+                           <select id="search_fabufang" name="search_fabufang" class="form-control selectpicker">  
+                              <option value=0>不限</option>  
+                              <option value=0>猎头</option> 
+                              <option value=0>公司</option> 
+                            </select>
+                          </div>
+                           <div class="form-group">
+                           <label class="sr-only" for="gangwei">请输入关键字</label>
+                            <input type="text" class="form-control" width="200px" id="gangwei" placeholder="请输入关键字">
+                          </div>
+                          <button type="submit"  class="btn btn-search-normal"></button>
+                        </form>
+
+                    </div>
+
+                   
+                    </div>
+
+
+                    <div style="background-color:white;">
+                      <div style="height:40px;padding-top:10px">
+                           <div style="float:left;">共50个职位满足搜索条件:<span>结构设计工程师</span><span>+</span><span>深圳</span></div>
+                            <div style="float:right">排列方式： <select id="search_method" name="search_method" class="selectpicker">  
+                                    <option value=0>相关性</option>  
+                                    <option value=0>地区</option> 
+                                  </select>
+                            </div>
+                      </div>
+                     
+                      <table id="lastest_job" class="table table-hover">
+                              <!--  <thead>  
+                                  <tr>  
+                                    <th>最新招聘</th>  
+                                  </tr>  
+                                </thead>     -->
+                              <tr> 
+                                <!-- <td class="job_link">【猎头】</td>   -->
+                                <td>
+                                  <p class="job_link">视觉设计师(深圳)</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">深圳腾讯计算机有限公司</p>
+                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p>深圳</p>
+                                </td>
+                                <td>
+                                  <p>2014-7-7</p>
+                                </td>
+                                <td>
+                                  <button  class="btn btn-primary view_job">查看</button>
+                                </td>
+                              </tr>
+                             <tr> 
+                                <!-- <td class="job_link">【猎头】</td>   -->
+                                <td>
+                                  <p class="job_link">视觉设计师(深圳)</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">深圳腾讯计算机有限公司</p>
+                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p>深圳</p>
+                                </td>
+                                <td>
+                                  <p>2014-7-7</p>
+                                </td>
+                                <td>
+                                  <button  class="btn btn-primary view_job">查看</button>
+                                </td>
+                              </tr>
+                              <tr> 
+                                <!-- <td class="job_link">【猎头】</td>   -->
+                                <td>
+                                  <p class="job_link">视觉设计师(深圳)</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">深圳腾讯计算机有限公司</p>
+                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p>深圳</p>
+                                </td>
+                                <td>
+                                  <p>2014-7-7</p>
+                                </td>
+                                <td>
+                                  <button  class="btn btn-primary view_job">查看</button>
+                                </td>
+                              </tr>
+                              <tr> 
+                                <!-- <td class="job_link">【猎头】</td>   -->
+                                <td>
+                                  <p class="job_link">视觉设计师(深圳)</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">深圳腾讯计算机有限公司</p>
+                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p>深圳</p>
+                                </td>
+                                <td>
+                                  <p>2014-7-7</p>
+                                </td>
+                                <td>
+                                  <button  class="btn btn-primary view_job">查看</button>
+                                </td>
+                              </tr>
+                              <tr> 
+                                <!-- <td class="job_link">【猎头】</td>   -->
+                                <td>
+                                  <p class="job_link">视觉设计师(深圳)</p>
+                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+                                </td>
+                                <td>
+                                  <p class="job_link">深圳腾讯计算机有限公司</p>
+                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+                                </td>
+                                <td>
+                                  <p>深圳</p>
+                                </td>
+                                <td>
+                                  <p>2014-7-7</p>
+                                </td>
+                                <td>
+                                  <button  class="btn btn-primary view_job">查看</button>
+                                </td>
+                              </tr>
+                        </table>
+                    <div id="pageCnt" style="float:right"> </div>        
+                    </div>
+
+            </div>
+
+                
+
+
+        </div>
+        
+
+
+        {% include "footer.jinja2" %}
+
+
+
+
+
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+        <!-- Bootstrap -->
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="static/js/plugins.js"></script>
+
+        <script src="static/js/main.js"></script>
+
+        <script src="static/js/jquery.paginate.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+
+            $(".resume_operate").click(function(){
+              var url = $(this).attr("url");
+              console.log(url);
+              if(url)
+              {
+                location.href="./"+url;
+              } 
+            })
+
+            $("#pageCnt").paginate({
+              count     : 50,
+              start     : 5,
+              display     : 10,
+              border          : false,
+              text_color        : '#888',
+              background_color      : '#EEE', 
+              text_hover_color      : 'black',
+              background_hover_color  : '#CFCFCF'
+            });
+
+            $(document).ready(function() {
+               $("li#li_job").parent().find("li").removeClass("active");
+               $("li#li_job").find(a).addClass("active")
+            })
+        </script>
+    </body>
+</html>
