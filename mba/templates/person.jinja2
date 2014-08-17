@@ -176,6 +176,140 @@
           <div id="renmai" class="right_head little_pad">最近来访<a class="all" href="">全部</a></div>
             <div id="renmai_info">
 
+                </div>
+            </div>
+        </header>
+
+        <div class="container" >
+            <div class="col-md-10 col-md-offset-1 mba-my-resume-cnt">
+                <div class="mba-resume-total-grid" style="border:none;">
+                    <img src="/fanstatic/mba/img/my_resume_title.jpg">
+                    
+
+                    <hr/>
+
+                   <div class="row" style="background-color:#fefefe; padding-top:38px; margin-top:50px;margin-bottom:50px;">
+                        <div class="col-md-3">
+                           <dl class="tou_xiang">
+                             <dt style="margin-left:0px;"><img src="/fanstatic/mba/img/tou_xiang.jpg" style="border:1px solid #ccc;"></dt>
+                             <dd>(ID:362551665)</dd>
+                           </dl>
+                           <div class="personal_note">
+                             <ul>
+                               <li class="col-md-6"><a href="#">我的头像</a></li>  
+                               <li class="col-md-6"><a href="#">我的资料</a></li>  
+                               <li class="col-md-6"><a href="#">主页风格</a></li>  
+                               <li class="col-md-6"><a href="#">我的积分</a></li>  
+                               <li class="col-md-6"><a href="#">邮件提醒</a></li>  
+                               <li class="col-md-6"><a href="#">隐私筛选</a></li>  
+                             </ul>
+                           </div>
+                           <div style="clear:both;"></div>
+                           <h3 class="panel_head ta">个人菜单</h3>
+                           <ul class="personal_menu panel_content">
+                             <li><a href="#">个人资料</a></li>
+                             <li><a href="#">我的简历</a></li>
+                             <li><a href="#">好友管理</a></li>
+                             <li><a href="#">职场资讯</a></li>
+                             <li><a href="#">增值服务</a></li>
+                             <li><a href="#">职位资讯</a></li>
+                             <li><a href="#">在线沙龙</a></li>
+                       
+                           </ul>
+                         
+                        </div>
+ 
+                            <div class="col-md-7 mba-resume-part tab-pane fade  in active" id="resume_info">
+                                <div class="jianjie">
+                                   <dl>
+					   <dt><h1>{{person_info.real_name}}</h1></dt>
+                                     <dd style=" overflow:hidden;">
+                                     <div class="jj_content" style="float:left;" >
+					     <p class="bfont">{{person_info.work_info}}工作经验<span class="ml30">{{person_info.sex_info}}</span>&nbsp;&nbsp;|&nbsp;&nbsp;{{person_info.birth_old}}岁&nbsp;({{person_info.birth_date}})</p>
+				       <p>居住: {{person_info.location}}</p>
+				       <p>电&nbsp;&nbsp;话： {{person_info.phone}}(手机)</p>
+				       <p>Email： {{person_info.email}}</p>
+                                       </div>
+                                       <p class="ico_update" style="margin-left:475px; margin-top:5px;"></p>
+                                     </dd>
+                                   </dl>
+                                </div>
+                                
+                            
+                                  <div class="panel_head"><h3>最新招聘</h3><a href="#" class="ico_shou">&nbsp; </a></div>
+                                  <ul class="panel_content new_zp">
+				     {% for pos in new_positions %}
+				     <li class="col-md-6"><a href="/position/{{pos.name}}">{{pos.description}}</a></li>
+				     {% endfor %}
+                                 </ul>
+                             
+                                
+                                  <div class="panel_head"><h3 class="panel_title">工作申请记录&amp;收藏</h3><a href="#">人事经理来信</a></div>
+                                  <div class="panel_content job_apply">
+                                   
+                                     <ul>
+                                       <li class="col-md-2 active">社会招聘申请</li>
+                                       <li class="col-md-3">校园招聘申请</li>
+                                       <li class="col-md-2">职位收藏</li>
+                                     </ul>
+                                
+                                     <table>
+                                        <tr>
+                                          <th class="col-md-3">职位名称</th>
+                                          <th class="col-md-6">公司名称</th>
+                                          <th class="col-md-3">申请日期</th>
+                                        </tr>
+                                        <tr>
+                                           <td class="col-md-3">平面设计</td>
+                                           <td class="col-md-6">刻度地产集团有限公司</td>
+                                           <td class="col-md-3 ico_date"><span style="padding-left:20px;">2014-04-11</span></td>
+                                        </tr>
+                                     </table>
+                                   
+                                 </div>
+                               
+                                  <div class="panel_head"><h3 class="panel_title">职场资讯</h3><a href="#">更多>></a></div>
+                                  <ul class="panel_content job_news">
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                     <li><a href="#">[薪酬]小心,大牌企业也会有“短命”高薪!</a></li>
+                                   
+                                 </ul>
+                             
+                            </div>
+                       
+                        
+                       <div class="col-md-2">
+                         <div class="friends_quan">
+                           <div class="panel_head"><h3 class=" panel_title">好友圈</h3> <a href="#">管理</a></div>
+                           <ul class="panel_content">
+                           <li><a class="f1" href="#">独立寒秋朱朱</a></li>
+                           <li><a href="#" class="f2">J-in-K</a><span class="star"> </span></li>
+                           <li><a href="#"  class="f3">超赚奇</a></li>
+                           <li><a href="#" class="f4">半夜醒着</a></li>
+                           <li><a href="#" class="f5">小小孩书生</a></li>
+                           <li><a href="#" class="f6">BinGo-HuA</a><span class="star"> </span></li>
+                           <li><a href="#"  class="f1">独立寒秋朱朱</a></li>
+                           <li><a href="#" class="f2">J-in-K</a><span class="star"> </span></li>
+                           <li><a href="#" class="f3">超赚奇</a></li>
+                           <li><a href="#" class="f4">半夜醒着</a></li>
+                           <li><a href="#" class="f5">小小孩书生</a></li>
+                           <li><a href="#" class="f6">BinGo-HuA</a><span class="star"> </span></li>
+                           </ul>
+                           <a href="#" style=" text-align:right; display:block;">更多>></a>
+                         </div>
+                       
+                       
+                       </div>
+                      </div>  
+                        
+                        
+                 
+                </div>
+                </div>
                 
                     <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
                       

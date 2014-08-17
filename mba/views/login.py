@@ -23,7 +23,9 @@ from kotti.security import get_user
 
 from mba.resources import MbaUser
 from mba import _
-from mba.utils import wrap_user
+from mba.utils.decorators import wrap_user
+from mba.utils import wrap_user as wrap_user2
+from mba.views.view import MbaTemplateAPI
 
 @view_config(route_name='home2', renderer='index2.jinja2')
 def view_home(request):
@@ -38,12 +40,24 @@ def view_home(request):
 @view_config(route_name='permission', renderer='index.jinja2', permission='admin')
 def view_permission(request):
     return {'project': 'lesson2'}
+    
+
+from mba.views.register import name_pattern_validator       
+def login_pattern_validator(node, value):
+    try:
+        colander.Email()(node, value)
+    except colander.Invalid, ex:
+        try:
+            name_pattern_validator(node, value)
+        except colander.Invalid, ex:
+            raise colander.Invalid(node, _(u"不合法的用户名或Email格式"))
+
 
 class LoginSchema(colander.Schema):
-    email = colander.SchemaNode(
+    email_or_username = colander.SchemaNode(
         colander.String(),
-        title=_(u'邮箱'),
-        validator=colander.Email(),
+        title=_(u'邮箱或用户名'),
+        validator=login_pattern_validator
     )
     password = colander.SchemaNode(
         colander.String(),
@@ -70,16 +84,22 @@ def user_password_match_validator(form, value):
     """ TODO: Doesn't take effect yet
     """
     principals = get_principals()
-    principal = principals.get(value['email'])
+    principal = principals.get(value['email_or_username'])
 
 
 
 @view_config(name='login', renderer='login.jinja2')
 def login(context, request):
+
+    user = get_user(request)
+    if user :
+        # already login, redirect to home page
+        return HTTPFound(location="/")
+    
     schema = LoginSchema(validator=user_password_match_validator).bind(request=request)
 
     form = deform.Form(schema,
-                       buttons=[deform.form.Button(u'submit', title=u'登录')],
+                       buttons=[deform.form.Button(u'submit', title=u'登录', css_class="btn btn-primary")],
                        css_class="border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,0.075);" )
     rendered_form = None
 
@@ -93,10 +113,14 @@ def login(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            # msg = [ _(u"%s is %s")  for (k,v) in  e.error.items() ]    
+            # msg = u",".join( [m for m in e.error.messages] )
+            request.session.flash(_(u"登陆失败" ), 'error')
+            #request.session.flash(_(u"登陆失败：%s" % e.error), 'error')
+            # showing 登陆失败 {'password': u'shorting than miminum length 6'}
             rendered_form = e.render()
         else:
-            user = _find_user(appstruct['email'])
+            user = _find_user(appstruct['email_or_username'])
             if (user is not None and user.active and
                     principals.validate_password(appstruct['password'], user.password)):
                 headers = remember(request, user.name)
@@ -107,12 +131,12 @@ def login(context, request):
                 if came_from == 'login':
                     came_from = '/'
                 return HTTPFound(location=came_from, headers=headers)
-            request.session.flash(_(u"Login failed."), 'error')
+            request.session.flash(_(u"登陆失败，用户名或密码错误."), 'error')
 
     if rendered_form is None:
         rendered_form = form.render(request.params)
 
-    return wrap_user(request, {'form': jinja2.Markup(rendered_form)})
+    return  {'form': jinja2.Markup(rendered_form)}
 
 
 @view_config(route_name="prelogin", renderer='prelogin.jinja2')
@@ -120,13 +144,11 @@ def view_prelogin(context, request):
     return {'aaa':'bbb'}
 
 
-
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()
     config.add_route('home2', '/index_2')
     config.add_route('prelogin','/prelogin')
-    # config.add_route('person','/person')
     config.add_route('permission', '/permission')
 
     config.scan(__name__)

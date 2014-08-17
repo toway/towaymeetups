@@ -22,7 +22,7 @@
         </style>
 
 
-        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -46,6 +46,13 @@
                     <div class="col-md-3">
 
                         {%  include "/admin/menu.jinja2" %}
+
+                    </div>
+
+                    <div class="col-md-9">
+                    
+                        {% include "messages.jinja2" %}
+                        {{ form|safe }}
 
                     </div>
 

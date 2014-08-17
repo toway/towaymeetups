@@ -29,7 +29,20 @@
         <div class="container mba-margin-top">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
-			{{ form|safe }}
+
+<form class="navbar-search pull-right" action="/search-results"    method="post"    id="form-search">
+    <input type="text" name="search-term" class="search-query" />
+    <button type="submit" name="search-submit" text="search" value="search" class="btn" />
+</form>
+
+			{% for result in results %}
+			<a href="{{request.application_url}}{{result.path}}">{{result.title}}</a>
+			    <p class="description">
+			    {{result.description}}
+			    </p>
+			{% endfor %}
+
+    </div>
                 </div>
             </div>
 

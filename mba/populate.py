@@ -8,6 +8,8 @@ from kotti import get_settings
 import transaction
 from kotti.security import get_principals
 from kotti.resources import get_root
+from kotti.resources import Node
+from kotti.security import SITE_ACL
 
 from mba.resources import *
 
@@ -80,9 +82,8 @@ def test_act2():
     print 'student.real_name: ', act.parts[0].real_name
 
 def test_city():
-    city = City(name='Shenzhen')
     act = Act(**_TEST_ATTRS)
-    act.city = city
+    act.city = City(name='Shenzhen')
     DBSession.add(act)
     act = DBSession.query(Act).first()
     print 'act city title', act.city_name
@@ -151,7 +152,7 @@ def test_add_stu():
     name = u'方程程'
     appstruct['name'] = name
     appstruct['email'] = 'a@gmail.com'
-    appstruct['last_login_date'] = datetime.now()
+    appstruct['last_login_date'] = datetime.now(TZ_HK)
     appstruct['password'] = 'asdfgh'
     stu = Student(**appstruct)
     DBSession.add(stu)
@@ -206,7 +207,80 @@ def test_position():
     DBSession.flush()
     print stu.position_items
 
+def create_mba_root():
+    if DBSession.query(Node).filter_by(name="meetup").count() == 0:
+        meet_attrs = dict(
+            title=u'meetup',
+            name=u'meetup',
+            description=u'The root of meetup',
+            body=u"<p>Hello meetup</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+        
+    if DBSession.query(Node).filter_by(name="review").count() == 0:
+        meet_attrs = dict(
+            title=u'review',
+            name=u'review',
+            description=u'The root of review',
+            body=u"<p>Hello review</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)        
+    if DBSession.query(Node).filter_by(name="job").count() == 0:
+        job_attrs = dict(
+            title=u'job',
+            name=u'job',
+            description=u'The root of job',
+            body=u"<p>Hello job</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**job_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+    if DBSession.query(Node).filter_by(name="position").count() == 0:
+        job_attrs = dict(
+            title=u'position',
+            name=u'position',
+            description=u'The root of position',
+            body=u"<p>Hello Position</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**job_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+    if DBSession.query(Node).filter_by(name="images").count() == 0:
+        meet_attrs = dict(
+            title=u'images',
+            name=u'images',
+            description=u'The root of images',
+            body=u"<p>images</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**meet_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+
+    # TODO: Make this addable and  editable
+    if DBSession.query(MeetupType).count() == 0:        
+        node1 = MeetupType(title=u"聚友沙龙")        
+        node2 = MeetupType(title=u"志友下午茶")        
+        node3 = MeetupType(title=u"私人董事会")        
+        node4 = MeetupType(title=u"志友健康行")        
+        DBSession.add(node1)        
+        DBSession.add(node2)        
+        DBSession.add(node3)        
+        DBSession.add(node4)        
+        
+        
+
 def populate():
+    create_mba_root()
+
     print 'Just test in mba.resources: '
     #test_document()
     #test_act()

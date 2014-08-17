@@ -4,6 +4,8 @@ import os
 from UserDict import DictMixin
 from fnmatch import fnmatch
 from datetime import datetime
+from datetime import date
+import pytz
 
 from pyramid.threadlocal import get_current_registry
 from pyramid.traversal import resource_path
@@ -33,6 +35,7 @@ from transaction import commit
 from zope.deprecation.deprecation import deprecated
 from zope.interface import implements
 
+import kotti
 from kotti import Base
 from kotti import DBSession
 from kotti import get_settings
@@ -61,6 +64,7 @@ from kotti.resources import Document
 
 from mba import _
 
+TZ_HK = pytz.timezone('Asia/Hong_Kong')
 
 friend = Table(
         'friends', Base.metadata,
@@ -100,7 +104,7 @@ class Interest(Base):
 class PositionCollect(Base):
     position_id = Column(Integer, ForeignKey('positions.id', ondelete='cascade'), primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id', ondelete='cascade'), primary_key=True)
-    create_date = Column(DateTime(), default=datetime.utcnow())
+    create_date = Column(DateTime(), default=datetime.now(TZ_HK))
     position = relationship('Position', backref='position_items')
 
     @classmethod
@@ -123,7 +127,13 @@ class MbaUser(Base):
     id = Column(Integer, primary_key=True)
     name = Column(Unicode(100), unique=True)
     password = Column(Unicode(100))
+    
     avatar = Column(String(100))
+    
+    @property
+    def avatar_prefix(self):
+        return kotti.get_settings()['mba.avatar_prefix']
+    
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
     title = Column(Unicode(100), nullable=False)
@@ -171,6 +181,12 @@ class MbaUser(Base):
     def __repr__(self):  # pragma: no cover
         return '<MbaUser %r>' % self.name
 
+    @property
+    def sex_info(self):
+        if 0 == self.sex:
+            return u"男"
+        return u"女"
+
 friend_union = select([
                 friend.c.user_a_id,
                 friend.c.user_b_id
@@ -186,8 +202,6 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
-
-
 class City(Base):
     __tablename__ = 'city'
     __table_args__ = (
@@ -197,27 +211,108 @@ class City(Base):
     name = Column(String(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
 
+    @classmethod
+    def _find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            obj = DBSession.query(City).filter_by(name=name).first()
+        if obj is None:
+            obj = City(name=name)
+        #return cls(city=obj)
+        return obj
 
 class Participate(Base):
     __tablename__ = 'participate'
-    user_id = Column(Integer, ForeignKey('students.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
     act_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     #用户参加活动之后可进行评分
     rating = Column(Integer())
-    user = relationship("Student", backref='partin')
+    user = relationship("MbaUser", backref='partin')
 
+
+class TeacherTag(Base):
+
+    __tablename__ = 'teacher_tags'
+
+    id = Column(Integer, primary_key=True)
+    title = Column(Unicode(100), unique=True, nullable=False)
+
+    def __repr__(self):
+        return "<TeacherTag ('%s')>" % self.title
+
+    @property
+    def items(self):
+        return [rel.item for rel in self.content_tags]
+
+class TeacherTagToActs(Base):
+    __tablename__ = 'teacher_tag_to_acts'
+
+    tag_id = Column(Integer, ForeignKey('teacher_tags.id'), primary_key=True)
+    content_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
+    teacher_tag = relation(TeacherTag, backref=backref('teacher_tags', cascade='all'))
+    position = Column(Integer, nullable=False)
+    title = association_proxy('teacher_tag', 'title')
+
+    @classmethod
+    def _tag_find_or_create(cls, title):
+        with DBSession.no_autoflush:
+            tag = DBSession.query(TeacherTag).filter_by(title=title).first()
+        if tag is None:
+            tag = TeacherTag(title=title)
+        return cls(teacher_tag=tag)
 
 class ActStatus:
     DRAFT, PUBLIC, FINISH, CANCEL = 0, 1, 2, 3
 
-
+# 活动的类别        
+class MeetupType(Base):
+    id = Column(Integer, primary_key=True)
+    title = Column(String(100), nullable=True)
+    acts = relationship("Act", backref='meetup_types')
+   
+#人数限制、钱钱、地点、嘉宾
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    status = Column(Integer(), nullable=False)
+    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+    
+    meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
+    meetup_type_title = association_proxy('meetup_types', 'title' )    
+    
+    # TODO Ignore the city ?
     city_id = Column(Integer, ForeignKey('city.id'))
-    city_name = association_proxy('city', 'name')
+    city_name = association_proxy('city'
+            , 'name'
+            , creator=City._find_or_create)
+
+
+    # Meetup start time
+    meetup_start_time = Column(DateTime(timezone=TZ_HK))
+    # Meetup finish time
+    meetup_finish_time = Column(DateTime(timezone=TZ_HK))
+    enroll_finish_time = Column(DateTime(timezone=TZ_HK))
+    enroll_start_time = Column(DateTime(timezone=TZ_HK))
+
+
+    location = Column(UnicodeText())
+
+    _teacher_tags = relation(
+        TeacherTagToActs,
+        backref=backref('item'),
+        order_by=[TeacherTagToActs.position],
+        collection_class=ordering_list("position"),
+        cascade='all, delete-orphan',
+        )
+
+    teachers = association_proxy(
+        '_teacher_tags',
+        'title',
+        creator=TeacherTagToActs._tag_find_or_create,
+        )
+
+    limit_num = Column(Integer(), default=500)
+    pay_count = Column(Integer(), default=0)
+    #TODO for teacher selected
 
     type_info = Document.type_info.copy(
         name=u'Act',
@@ -231,6 +326,46 @@ class Act(Document):
     @property
     def parts(self):
         return [rel.user for rel in self._parts]
+        
+    _comments = relationship('Comment', backref='act')
+    
+    reviews = relationship('Review', backref='act')
+    # @property
+    # def comments(self):
+        # return [i. for rel in self._comments]
+    
+class Review(Document):
+    id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)    
+    review_to_meetup_id = Column('review_to_meetup_id', Integer)
+    type_info = Document.type_info.copy(
+        name=u'Review',
+        title=_(u'Review'),
+        add_view=u'add_review',
+        addable_to=[u'Review'],
+        )    
+    comments = relationship('Comment', backref='reivew')          
+
+class Comment(Base):
+    __tablename__ = 'comments'
+    id = Column(Integer, primary_key=True)
+    
+    TYPE_MEETUP = 0
+    TYPE_MEETUP_REVIEW = 1
+    
+    # 评论类型，0=活动评论，1=活动回顾评论
+    type = Column(Integer, default=TYPE_MEETUP)
+    # 评论关联的活动、活动回顾的ID
+    document_id = Column(Integer, ForeignKey('documents.id'))
+    
+    user_id = Column(Integer, ForeignKey('mba_users.id'))
+    content = Column(String(500),  nullable=True)
+    
+    
+    user = relationship("MbaUser", backref='comment')
+    
+    post_date = Column(DateTime(), nullable=False, default=datetime.now)
+    
+
 
 class Student(MbaUser):
 
@@ -253,7 +388,7 @@ class Student(MbaUser):
     home_number = Column(String(20))
     location = Column(String(20))
     salary = Column(Integer())
-    work_years = Column(String(20))
+    work_years = Column(Integer())
     company_phone = Column(String(30))
     keyword = Column(String(100))
     job_status = Column(String(100))
@@ -264,12 +399,22 @@ class Student(MbaUser):
         self.real_name = real_name
         self.birth_date = birth_date
         self.school = school
-        self.shcool_year = school_year
+        self.school_year = school_year
         super(Student, self).__init__(name, **kwargs)
 
     def __repr__(self):  # pragma: no cover
         return '<Student %r>' % self.name
 
+    @property
+    def work_info(self):
+        arrs = [u"小于一年", u"一到三年", u"三到五年", u"五年以上"]
+        if self.work_years >= 0 and self.work_years < len(arrs):
+            return arrs[self.work_years]
+        return arrs[0]
+
+    @property
+    def birth_old(self):
+        return abs(date.today().year - self.birth_date.year)+1
 
 # Tables about resume
 # Education n -- 1 Resume 
@@ -373,6 +518,15 @@ class Resume(Base):
                 rlts.append(ids[id])
         return (rlts+list(set(jobs).difference(set(rlts))))
 
+def get_act_root(request=None):
+    return DBSession.query(Document).filter_by(name="meetup").one()
+    
+def get_review_root(request=None):
+    return DBSession.query(Document).filter_by(name="review").one()
+    
+def get_image_root(request=None):
+    return DBSession.query(Document).filter_by(name="images").one()
+
 #用户投给职位的简历
 class PositionResume(Base):
     position_id = Column(Integer, ForeignKey('positions.id'), primary_key=True)
@@ -391,7 +545,7 @@ class Position(Document):
     degree = Column(String(100))
     experience = Column(String(100))
     salary = Column(Integer())
-    status = Column(Integer(), nullable=False)
+    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
 
     resumes = relationship('PositionResume', backref='position')
     users = association_proxy('resumes', 'user')
@@ -403,4 +557,4 @@ class Position(Document):
         addable_to=[u'Position'],
         )
 
-row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+# row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}

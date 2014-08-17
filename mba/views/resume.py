@@ -313,7 +313,9 @@ def resume_edit2(context, request):
             person2user(user, person_info)
             person_info['__result'] = 0
         except colander.Invalid as e:
+            print e
             # "1" means validate error in serve
+            person_info = {}
             person_info['__result'] = 1
         return Response(json.dumps(person_info, cls=MyEncoder))
     elif "education" in request.POST:
