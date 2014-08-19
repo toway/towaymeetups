@@ -291,6 +291,7 @@ def create_mba_root():
 
     if DBSession.query(Student).count() == 0:
         DBSession.add(Student(name="testmba",password="123456",email="1@1.com",real_name=u'陈测试'))
+        DBSession.add(Student(name="testmba2",password="123456",email="2@1.com",real_name=u'张软件'))
 
         
 
