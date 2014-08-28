@@ -15,7 +15,11 @@ from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
 from pyramid.view import view_config
 import kotti
+from kotti import get_settings
 from kotti.security import get_user
+
+
+
 
 DEFULT_AVATARS_COUNT_COLLETED = 2
 
@@ -27,7 +31,9 @@ def wrap_user(request, ret_dict_to_update):
             # assign a random avatar
             # Currently, I only collect 2 default avatars
             avatar_index = int(random.random() * DEFULT_AVATARS_COUNT_COLLETED)
-            user.avatar = "default_avatar_%d.png" % avatar_index
+            user.avatar = "%s/%s/default_avatar_%d.png" % (request.application_url,
+                                                           get_settings()['mba.avatar_prefix'] ,
+                                                           avatar_index)
 
         # user.avatar_prefix = kotti.get_settings()['mba.avatar_prefix']
 

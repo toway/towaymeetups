@@ -138,10 +138,8 @@ class MbaUser(Base):
     real_name = Column(Unicode(50))
 
     avatar = Column(String(100))
-    
-    @property
-    def avatar_prefix(self):
-        return kotti.get_settings()['mba.avatar_prefix']
+
+
     
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))

@@ -6,7 +6,7 @@ body,
 body h1,
 body h2,
 body h3 {
-  font-family: "微软雅黑", "黑体", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: "黑体", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 body { font-size: 14px }
 
@@ -32,8 +32,6 @@ ul { list-style-type: none; }
 .mba-nav {
   border: 0;
   text-shadow: 0 -1px 0 rgba(0,0,0,.15);
-  background-color: rgb(46, 112, 186);
-  border-color: rgb(46, 112, 186);
   box-shadow: 0 1px 0 rgba(255,255,255,.1);
 
 }
@@ -42,20 +40,18 @@ ul { list-style-type: none; }
   padding: 0 ;
 }
 .mba-nav .navbar-collapse {
-  margin-top: 12px;
+  margin: 12px 0;
 }
 .mba-nav .navbar-collapse .navbar-nav {
-	
+
   padding-left: 5px;
 }
 .mba-nav .navbar-collapse .navbar-nav > li > a {
-	
-  color: white;
+
 }
 .mba-nav .navbar-collapse .navbar-nav > li > a:hover,
 .mba-nav .navbar-collapse .navbar-nav > a:focus,
 .mba-nav .navbar-collapse .navbar-nav > .active >a{
-  background-color: #6c94be;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
@@ -74,12 +70,10 @@ ul { list-style-type: none; }
 #user-links {
    /* margin-top: 14px;*/
 }
+.navbar-iforgot{
+    font-size: 12px;
+    margin-left: 10px;
 
-#user-links li>a.navbar-reg-link{
-    padding:0;
-}
-#user-links li>a.navbar-login-link{
-    padding:0;
 }
 
 #user-links .navbar-name{
@@ -101,6 +95,7 @@ ul { list-style-type: none; }
 .mba-margin-top {
   margin-top: 76px;
 }
+/*
 .mba-carousel .carousel-inner .item {
   background-color: #2e70ba;
 }
@@ -114,16 +109,66 @@ ul { list-style-type: none; }
 .mba-login {
   margin: 20px;
 }
-.mba-index-main {
-  /*border-bottom: solid 1px #cccccc;*/
-}
+
 .mba-index-main ul li {
   line-height: 30px;
 }
 .mba-banner{
   background-color: RGB(41,103,178);
 }
+*/
+.mba-index .container{
+    padding: 0;
+    background-color: #e7e7e7;
+}
 
+.jumbotron-index{
+    background: #ffffff url("/fanstatic/mba/img/indexbg.png") no-repeat top center;
+    background-size: 100% auto;
+    padding:  120px 60px 155px 60px;
+}
+
+.jumbotron-index h1{
+    font-size: 26px ;
+    color: white;
+
+}
+
+.jumbotron-index .reg{
+
+    display: inline-block;
+    border: 1px solid #ffffff;
+}
+
+.index-news{
+    margin-bottom: 50px;
+}
+
+.index-news h2{
+    padding: 20px 0;
+}
+
+.index-news-item{
+    display: inline-block;
+    border: 2px solid #dbdbdb;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.index-news-item:hover{
+    border: 2px solid #dbdbdb;
+
+}
+
+.index-partner{
+    padding-bottom: 400px;
+}
+
+.index-partner .partner-list{
+    color: #444444;
+    line-height: 34px;
+    font-size: 12px;
+}
 
 /* /index style end */
 
@@ -541,7 +586,7 @@ table.mba-resume-tbl{
     height:56px;
     border: 1px solid RGB(232,232,232);
     font-size: 20px;
-    color: 1px solid RGB(232,232,232);
+    color:  RGB(232,232,232);
     padding-left: 20px;
     background-color: RGB(232,232,232);
    /* display: inline-block;

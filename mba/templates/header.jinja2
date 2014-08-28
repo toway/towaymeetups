@@ -1,69 +1,75 @@
 {% block header %}
-        <header class="navbar navbar-inverse navbar-fixed-top mba-nav" role="banner">
+        <header class="navbar navbar-fixed-top navbar-default mba-nav" role="navigation">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-
                         <div class="navbar-header">
-                          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                          </button>
-                          <a class="navbar-brand" href="#"><img src="fanstatic/mba/img/logo.png" alt="MBA志友会"/></a>
+                             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                              </button>
+                          <a class="navbar-brand" href="/"><img src="fanstatic/mba/img/logo.png" alt="MBA志友会"/></a>
                         </div>
 
+
+
                         <div class="collapse navbar-collapse">
-                          <ul class="nav navbar-nav">
-                        <li id="li_index" class="active"><a href="/">首页</a></li>
+                            {% if user %}
+                              <ul class="nav navbar-nav">
+                                <li id="li_index" class="active"><a href="/">首页</a></li>
+                                <li  id="li_card"><a href="/person/{{ user.id }}">我的名片</a></li>
+                                <li  id="li_meetups"><a href="/meetups">活动</a></li>
+                                <li  id="li_job"><a href="/job">求职</a></li>
+                                <li  id="li_admin"><a href="/admin">管理</a></li>
+
+                              </ul>
+
+                            {% endif %}
+
+
 
                           {% if user %}
-                           <li  id="li_card"><a href="/person/{{ user.id }}">我的名片</a></li>
-                           {% endif %}
+                             <ul class="nav navbar-nav navbar-right" id="user-links">
+                                <li><input type="text" class="form-control" placeholder="找找看"/></li>
+                                  <li>
+                                    <a href="{{ user.name }}" class="navbar-name">
+                                        <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar }}"
+                                                width="20px" height="20px"/>
+                                        {{ user.name }}
+                                    </a>
+                                  </li>
+                                  <li>
+                                      <form class="logout-form" action="/logout" method="post">
+                                        <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出" alt="退出">
+                                          <span class="glyphicon glyphicon-log-out"></span>
+                                        </button>
+                                      </form>
+                                  </li>
+                              </ul>
 
-                          <li  id="li_meetups"><a href="/meetups">活动</a></li>
-                          <li  id="li_job"><a href="/job">求职</a></li>
-                          <li  id="li_admin"><a href="/admin">管理</a></li>
-
-                          </ul>
-
-
-                          <ul class="nav navbar-nav navbar-right" id="user-links">
-                          <li><input type="text" class="form-control" placeholder="找找看"/></li>
-                          {% if user %}
-                              <li>
-                                <a href="{{ user.name }}" class="navbar-name">
-                                    <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                            width="20px" height="20px"/>
-                                    {{ user.name }}
-                                </a>
-                              </li>
-                              <li>
-                                  <form class="logout-form" action="/logout" method="post">
-                                    <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出" alt="退出">
-                                      <span class="glyphicon glyphicon-log-out"></span>
-                                    </button>
-                                  </form>
-                              </li>
                           {% else %}
-                              <li><a href="/register"  class="navbar-link navbar-reg-link">
-                                    <button type="button" class="btn btn-success">注 册</button>
-                              </a></li>
 
-                              <li><a href="/login" class="navbar-link  navbar-login-link">
-                                     <button type="button" class="btn btn-default ">登 陆</button>
-                              </a></li>
+                            <form class="form-inline nav navbar-nav navbar-right" role="form" method="post" action="/login">
 
+                              <div class="form-group">
+                                  <label class="sr-only" for="username">Password</label>
+                                  <input class="form-control" type="text" id="username" name="email_or_username" placeholder="用户名或邮箱" >
+                              </div>
+
+                              <div class="form-group">
+                                <label class="sr-only" for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="密码">
+                              </div>
+
+                              <input type="submit" class="btn btn-primary" name="submit" value="登录">
+                                <a href="/iforgot" class="navbar-iforgot">
+                                  忘记密码
+                                </a>
+                            </form>
                           {% endif %}
-                          </ul>
+                    </div><!--/.nav-collapse -->
 
 
-                        </div><!--/.nav-collapse -->
-
-                    </div>
-
-                </div>
             </div>
         </header>
 
