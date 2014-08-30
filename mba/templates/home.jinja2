@@ -32,7 +32,7 @@
 
         <div class="mba-margin-top">
 
-            <div class="container ">
+            <div class="container mba-home">
                 <div class="row">
                     <div class="col-md-12">
                     <div class="jumbotron">
@@ -49,13 +49,9 @@
 
                         <div class="home-meetups">
                             <div class="panel panel-default">
-                              <div class="panel-heading">活动推荐</div>
-                              <div class="panel-body">
-
-                                  <div class="row">
-
-                                    <div class="col-md-offset-2">
-                                        <ul class="nav nav-tabs home-tabs" id="meetup-tab">
+                              <div class="panel-heading">
+                                    <span class="title">活动推荐</span>
+                                    <ul class="nav nav-tabs home-tabs" id="meetup-tab">
                                           <li class="active"><a href="#all" data-toggle="tab">全部</a></li>
                                           <li><a href="#bj" data-toggle="tab">北京</a></li>
                                           <li><a href="#sh" data-toggle="tab">上海</a></li>
@@ -63,49 +59,52 @@
                                           <li><a href="#sz" data-toggle="tab">深圳</a></li>
                                           <li><a href="#others" data-toggle="tab">其他</a></li>
                                         </ul>
+                              </div>
+                              <div class="panel-body">
+
+                                  <div class="row">
+
+                                    <div class="col-md-offset-2">
+
                                     </div>
 
                                   </div>
 
                                   <div class="row home-sector-sub" >
-                                    <div class="col-md-2">
-                                        <ul><li>志友会活动:</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-10">
+
+                                    <div class="col-md-12">
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                          <div class="tab-pane active" id="all">爬南山活动A，志友会活动B，关于MBA如何在人际交往中上升的讲座， 旅行与人性的修炼。。。</div>
-                                          <div class="tab-pane" id="bj">北京活动A，北京活动B，北京活动C</div>
-                                          <div class="tab-pane" id="sh">上海活动A，上海活动B，上海活动C</div>
-                                          <div class="tab-pane" id="gz">广州活动A，广州活动B，广州活动C</div>
-                                          <div class="tab-pane" id="sz">深圳活动A，深圳活动B，深圳活动C</div>
-                                          <div class="tab-pane" id="others">其他城市活动A，其他城市活动B，其他城市活动C</div>
+                                        {% for a in ["all","bj","sh","gz","sz","others"] %}
+                                             <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ a }}">
+                                                  <ul class="meetuplist">
+                                                        {% if meetups.get(a) %}
+                                                            {% for meetup in meetups.all %}
+                                                                <li><a href="/meetup/{{meetup.name}}">
+                                                                    <span class="meetup-type">[{{meetup.meetup_type}}]</span>
+                                                                    <span>{{ meetup.title }}</span>
+                                                                    <span class="post-date">{{ meetup.time.strftime('%Y-%m-%d   %H:%M') }}</span>
+
+                                                                 </a></li>
+
+
+                                                            {% endfor %}
+
+                                                        {% else %}
+                                                            对不起，暂时没有活动
+                                                        {% endif %}
+                                                  </ul>
+                                              </div>
+                                        {% endfor %}
+
                                         </div>
                                     </div>
 
 
-                                  </div>
-
-                                  <div class="row home-sector-sub">
-                                    <div class="col-md-2">
-                                        <ul><li>活动精选:</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                          <div class="tab-pane active" id="all2">活动A，活动B，活动C</div>
-                                          <div class="tab-pane" id="bj2">北京活动A，北京活动B，北京活动C</div>
-                                          <div class="tab-pane" id="sh2">上海活动A，上海活动B，上海活动C</div>
-                                          <div class="tab-pane" id="gz2">广州活动A，广州活动B，广州活动C</div>
-                                          <div class="tab-pane" id="sz2">深圳活动A，深圳活动B，深圳活动C</div>
-                                          <div class="tab-pane" id="others2">其他城市活动A，其他城市活动B，其他城市活动C</div>
-                                        </div>
-                                    </div>
-
 
                                   </div>
+
+
 
                               </div>
                             </div>
@@ -116,13 +115,9 @@
 
                         <div class="jobs">
                           <div class="panel panel-default">
-                              <div class="panel-heading">最新职位</div>
-                              <div class="panel-body">
-
-                                  <div class="row">
-
-                                    <div class="col-md-offset-2">
-                                        <ul class="nav nav-tabs home-tabs" id="jobTab">
+                              <div class="panel-heading">
+                                  <span class="title">最新招聘</span>
+                                      <ul class="nav nav-tabs home-tabs" id="jobTab">
                                           <li class="active"><a href="#job-all" data-toggle="tab">全部</a></li>
                                           <li><a href="#job-bj" data-toggle="tab">北京</a></li>
                                           <li><a href="#job-sh" data-toggle="tab">上海</a></li>
@@ -130,46 +125,80 @@
                                           <li><a href="#job-sz" data-toggle="tab">深圳</a></li>
                                           <li><a href="#job-others" data-toggle="tab">其他</a></li>
                                         </ul>
-                                    </div>
+                              </div>
+                              <div class="panel-body">
 
-                                  </div>
+                                  <div class="row">
 
-                                  <div class="row home-sector-sub" >
-                                    <div class="col-md-2">
-                                        <ul><li>猎头:</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-10">
+
+
+                                    <div class="col-md-12">
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                          <div class="tab-pane active" id="job-all">高计会计师、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-bj">高计会计师2、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-sh">高计会计师3、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-gz">高计会计师4、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-sz">高计会计师5、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-others">高计会计师6、高级搬砖工、软件攻城狮</div>
+                                             {% for a in ["all","bj","sh","gz","sz","others"] %}
+                                             <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ a }}">
+                                                  <ul class="joblist">
+                                                        <li >
+                                                            <div class="row">
+                                                                <div class="col-md-2 job-type larger">
+                                                                    【猎头】
+                                                                </div>
+                                                                <div class="col-md-8 job-detail">
+                                                                    <div class="row">
+                                                                        <span class="col-md-5 job-company gray ">中华英才网广州猎头部</span>
+                                                                        <a class="col-md-7" href="#"><span class="job-title  ">投资管理人(北京)</span></a>
+                                                                    </div>
+
+                                                                    <span class="gray sm">公司规模：500-999人</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">薪资：面议</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">学历：硕士及以上</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                </div>
+                                                                <div class="col-md-2 job-apply">
+                                                                    <button name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
+                                                                    <i class="glyphicon glyphicon-star collect-job sm">收藏职位</i>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="gray" style="border-top: dotted 1px;"/>
+
+                                                        </li>
+
+
+
+
+                                                   <li >
+                                                            <div class="row">
+                                                                <div class="col-md-2 job-type larger">
+                                                                    【公司】
+                                                                </div>
+                                                                <div class="col-md-8 job-detail">
+                                                                    <div class="row">
+                                                                        <span class="col-md-5 job-company gray ">深圳市腾讯计算机有限公司</span>
+                                                                        <a class="col-md-7" href="#"><span class="job-title  ">视觉设计师(深圳)</span></a>
+                                                                    </div>
+
+                                                                    <span class="gray sm">公司规模：5000-9999人</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">薪资：面议</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">学历：硕士及以上</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                </div>
+                                                                <div class="col-md-2 job-apply">
+                                                                    <button name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
+                                                                    <i class="glyphicon glyphicon-star collect-job sm">收藏职位</i>
+                                                                </div>
+                                                            </div>
+                                                            <hr class="gray" style="border-top: dotted 1px;"/>
+
+                                                        </li>
+
+
+
+
+                                                  </ul>
+                                              </div>
+                                        {% endfor %}
                                         </div>
                                     </div>
 
 
-                                  </div>
-
-                                  <div class="row home-sector-sub">
-                                    <div class="col-md-2">
-                                        <ul><li>公司:</li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <!-- Tab panes -->
-                                        <div class="tab-content">
-                                          <div class="tab-pane active" id="job-all2">高计会计师7、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-bj2">高计会计师8、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-sh2">高计会计师9、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-gz2">高计会计师10、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-sz2">高计会计师11、高级搬砖工、软件攻城狮</div>
-                                          <div class="tab-pane" id="job-others2">高计会计师12、高级搬砖工、软件攻城狮</div>
-                                        </div>
-                                    </div>
 
 
                                   </div>
@@ -187,34 +216,23 @@
                           <div class="panel-heading">推荐信息</div>
                           <div class="panel-body">
 
-                              <div class="row">
-
-                                <div class="col-md-offset-2">
-                                    <ul class="nav nav-tabs home-tabs" id="infoTab">
-                                      <li class="active"><a href="#info" data-toggle="tab">资讯</a></li>
-                                      <li><a href="#sell" data-toggle="tab">供求</a></li>
-                                      <li><a href="#help" data-toggle="tab">帮忙</a></li>
-                                    </ul>
-                                </div>
-
-                              </div>
-
-                              <div class="row home-sector-sub">
-                                <div class="col-md-2">
-                                    <ul><li>管理智慧:</li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-10">
-                                    <!-- Tab panes -->
-                                    <div class="tab-content">
-                                      <div class="tab-pane active" id="info">什么什么智慧1</div>
-                                      <div class="tab-pane" id="sell">什么什么智慧2</div>
-                                      <div class="tab-pane" id="help">什么什么智慧3</div>
-                                    </div>
-                                </div>
-
-
-                              </div>
+                              <ul class="infolist">
+                                  <li>
+                                      <span class="info-title">【管理哲学】</span>
+                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
+                                      <span class="post-time">2014-06-08 11:23</span>
+                                  </li>
+                                  <li>
+                                      <span class="info-title">【管理哲学】</span>
+                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
+                                      <span class="post-time">2014-06-08 11:23</span>
+                                  </li>
+                                  <li>
+                                      <span class="info-title">【管理哲学】</span>
+                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
+                                      <span class="post-time">2014-06-08 11:23</span>
+                                  </li>
+                              </ul>
 
                           </div>
                     </div>
@@ -233,34 +251,51 @@
                         <div class="home-myinfo">
                             <div class="panel panel-default">
                             <div class="panel-body">
-                                <div class="myinfo-header">
-                                   <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                                width="30px" height="30px"/>
-                                        {{ user.name }}
-                                    <hr/>
+                                <div class="myinfo-header row">
+
+                                   <img alt="{{ user.name }}"class="navbar-avatar col-md-6" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                                width="80px" height="80px"/>
+                                   <div class="col-md-6 header-right">
+                                       <h2>{{ user.real_name or user.name }}</h2>
+                                       <div class="zyno">志友号-00000008</div>
+                                   </div>
                                 </div>
+
+                                    {% set auth_i = user.auth_info %}
+                                    {% set auth_m = user.auth_meetup %}
+                                    {% set auth_f = user.auth_friend %}
+                                    <div class="basic_info">
+
+                                        <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
+                                              title="{% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
+                                        <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
+                                              title="{% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
+                                        <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
+                                              title="{% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+
+
+                                    </div>
+                                <hr />
+
+
+
 
                                 <div class="action-buttons">
 
                                 <div>
-                                    <button class="btn  btn-default btn-xs">站 内 信</button>
-                                    <button class="btn  btn-default btn-xs">个人资料</button>
+                                    <button class="btn btn-info ">站 内 信<sup>1</sup></button>
+                                    <button class="btn  btn-info">个人资料</button>
                                 </div>
 
                                 <div>
-                                    <button class="btn btn-default btn-xs ">我的活动</button>
-                                    <button class="btn btn-default btn-xs">我的职位</button>
+                                    <button class="btn btn-info ">我的活动</button>
+                                    <button class="btn btn-info ">我的职位</button>
                                 </div>
 
 
                                 </div>
 
                                 <br/>
-                                <div class="info-auth">
-                                    资料认证<i class="icon vip"></i>
-                                    活动认证<i class="icon vip"></i>
-                                    志友认证<i class="icon vip"></i>
-                                </div>
 
 
 

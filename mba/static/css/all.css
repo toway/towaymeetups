@@ -277,35 +277,110 @@ ul { list-style-type: none; }
 }
  banished 20140607*/
 
-.home-sector-sub{
-    margin-top: 10px;
+.mba-home .panel{
+   border-radius: 0;
 }
 
-
-.icon{
-    background: url('/fanstatic/mba/img/txwb.png') no-repeat;
-    display: inline-block;
-    width: 15px;
-    height: 16px;
-    overflow: hidden;
-    cursor: pointer;
+.home-tabs{
+    display: inline;
+    float:right;
 }
 
-.vip{
-    background-position: 0 -126px;
+.mba-home .nav > li > a{
+    padding: 3px 5px;
 }
 
-.home-myinfo .panel-body{
-    padding: 5px;
+.meetuplist li>a{
+    font-size: 14px;
 }
 
-.home-myinfo .action-buttons {
-    text-align: center;
+.meetuplist .meetup-type{
+    color: #0066CC;
+    margin-right: 10px;
+    font-weight: bold;
 
 }
 
-.home-myinfo .myinfo-header{
-    text-align: center;
+.meetuplist .post-date{
+    color: #999999;
+    float: right;
+    font-size: 12px;
+}
+
+.joblist{
+    line-height: 26px;
+}
+
+.joblist .job-detail{
+    margin-left: -50px;
+    margin-right: 50px;
+}
+
+.joblist .gray{
+    color: #999999;
+}
+
+
+.joblist .job-title{
+    margin-left: 60px;
+    color: #0066CC;
+    font-weight: bold;
+}
+
+.joblist .collect-job{
+    color: #0066CC;
+}
+
+.joblist .sm{
+    font-size: 12px;
+}
+
+
+
+.infolist .post-time{
+    color: #999999;
+    float: right;
+    font-size: 12px;
+}
+
+.infolist .info-title{
+        color: #0066CC;
+    font-weight: bold;
+}
+
+
+.myinfo-header .header-right{
+
+    padding: 20px 0 0 0;
+
+}
+
+
+.myinfo-header .zyno{
+    font-size: 10px;
+    color: #999999;
+    padding-top: 10px;
+}
+
+.home-myinfo .basic_info {
+    padding-left: 0;
+    padding-top: 5px;
+}
+
+
+.action-buttons button{
+    width: 48%;
+    border-radius: 0;
+    background-color:  #CCCCCC;
+    border: 1px solid #ffffff;
+    color: #000000;
+}
+
+.action-buttons button sup{
+    background-color:  #CC0000;
+    color: #CCFFFF;
+    padding: 0 3px;
+
 }
 
 .home-trends .more{
