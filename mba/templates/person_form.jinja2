@@ -7,7 +7,7 @@
                 <td class="avstar">
                     <img width="200px" height="200px" alt="{{ person_info.title }}"
                          src="{{ person_info.avatar }}">
-                    <p style="text-align:center">(志友号-000008)</p>
+                    <p style="text-align:center">(志友号-{{ '%08d' % person_info.id}})</p>
                 </td>
                
                 <td class="basic_info">
@@ -57,7 +57,7 @@
           <div  id="part3">
               <p><strong>个人简介</strong></p>
 	      <p   class="info_show">{{person_info.introduction or "这家伙很懒，什么都没有写" }}</p>
-              <textarea name="introduction" class="info_edit hidden" width="100%" cols="64">{{person_info.introduction}}</textarea>
+              <textarea name="introduction" class="info_edit hidden" width="100%" cols="64" placeholder="70个字以内">{{person_info.introduction}}</textarea>
           </div>
 
             </form>

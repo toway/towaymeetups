@@ -117,8 +117,25 @@ ul { list-style-type: none; }
   background-color: RGB(41,103,178);
 }
 */
-.mba-index .container{
+.mba-index{
+    min-height:100%;
+   background-color: #e7e7e7;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: -76px;
+}
+
+.mba-index .index-body{
     padding: 0;
+    background-color: #e7e7e7;
+    padding-bottom:60px;   /* Height of the footer */
+}
+
+.mba-index .index-footer{
+    position: absolute;
+    bottom:  0;
+    width: 980px;
+    height: 60px;
     background-color: #e7e7e7;
 }
 
@@ -160,9 +177,6 @@ ul { list-style-type: none; }
 
 }
 
-.index-partner{
-    padding-bottom: 400px;
-}
 
 .index-partner .partner-list{
     color: #444444;

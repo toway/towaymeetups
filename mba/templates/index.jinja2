@@ -14,6 +14,12 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         {% include "inc/css.jinja2" %}
+        <style>
+            html,
+            body{
+                height: 100%;
+            }
+        </style>
 
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -28,8 +34,8 @@
 
         {% include "header.jinja2" %}
 
-        <div class="mba-margin-top mba-index">
-            <div class="container">
+        <div class="mba-margin-top mba-index container">
+            <div class=" index-body">
 
                 <div class="jumbotron-index">
                     <center>
@@ -49,15 +55,19 @@
                     </div>
                 </div>
 
-                <hr/>
 
+
+            </div>
+
+            <div class="index-footer">
+                <hr/>
                 <div class="row index-partner">
+
                     <div class="col-md-8 col-md-offset-2">
                         <span><b>合作伙伴：</b></span>
                         <span class="partner-list">腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技 腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技 腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技</span>
                     </div>
                 </div>
-
             </div>
 
         </div>

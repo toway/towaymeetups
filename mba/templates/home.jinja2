@@ -257,7 +257,7 @@
                                                 width="80px" height="80px"/>
                                    <div class="col-md-6 header-right">
                                        <h2>{{ user.real_name or user.name }}</h2>
-                                       <div class="zyno">志友号-00000008</div>
+                                       <div class="zyno">志友号-{{ '%08d' % user.id}}</div>
                                    </div>
                                 </div>
 
