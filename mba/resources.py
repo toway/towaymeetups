@@ -121,6 +121,30 @@ class Visit(Base):
     # 1 <--> 1
     user = relationship("MbaUser", foreign_keys="[Visit.user_id2]")
 
+
+class City(Base):
+    __tablename__ = 'city'
+    __table_args__ = (
+        UniqueConstraint('name'),
+        )
+    id = Column(Integer, primary_key=True)
+    name = Column(String(50), nullable=False)
+    acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
+    usercity = relationship("MbaUser", backref='city', order_by='desc(MbaUser.creation_date)')
+
+    @classmethod
+    def _find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            obj = DBSession.query(City).filter_by(name=name).first()
+        if obj is None:
+            obj = City(name=name)
+        #return cls(city=obj)
+        return obj
+
+
+
+from mba.utils import assign_default_avatar
+
 #This is a base class for all users
 class MbaUser(Base):
 
@@ -137,7 +161,19 @@ class MbaUser(Base):
 
     real_name = Column(Unicode(50))
 
-    avatar = Column(String(100))
+    _avatar = Column(String(100))
+
+    @property
+    def avatar(self):
+        if not self._avatar:
+            assign_default_avatar(self)
+        return self._avatar
+
+    @avatar.setter
+    def avatar(self, value):
+        self._avatar = value
+
+
 
 
     
@@ -174,8 +210,14 @@ class MbaUser(Base):
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id)
 
+
+    city_id = Column(Integer, ForeignKey('city.id'))
+    city_name = association_proxy('city'
+            , 'name'
+            , creator=City._find_or_create)
+
     def __init__(self, name, password=None, active=True, confirm_token=None,
-                 title=u"", email=None, groups=(), **kwargs):
+                 title=u"", email=None, groups=(), city_name='', **kwargs):
         self.name = name
         if password is not None:
             password = get_principals().hash_password(password)
@@ -187,6 +229,10 @@ class MbaUser(Base):
         self.groups = groups
         self.creation_date = datetime.now(tz=None)
         self.last_login_date = None
+
+        if city_name:
+            self.city_name = city_name
+
         super(MbaUser, self).__init__(**kwargs)
 
     @property
@@ -230,23 +276,7 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
-class City(Base):
-    __tablename__ = 'city'
-    __table_args__ = (
-        UniqueConstraint('name'),
-        )
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
-    acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
 
-    @classmethod
-    def _find_or_create(cls, name):
-        with DBSession.no_autoflush:
-            obj = DBSession.query(City).filter_by(name=name).first()
-        if obj is None:
-            obj = City(name=name)
-        #return cls(city=obj)
-        return obj
 
 class Participate(Base):
     __tablename__ = 'participate'
@@ -274,7 +304,7 @@ class TeacherTag(Base):
 
 class TeacherTagToActs(Base):
     __tablename__ = 'teacher_tag_to_acts'
-
+    #
     tag_id = Column(Integer, ForeignKey('teacher_tags.id'), primary_key=True)
     content_id = Column(Integer, ForeignKey('acts.id'), primary_key=True)
     teacher_tag = relation(TeacherTag, backref=backref('teacher_tags', cascade='all'))
@@ -400,7 +430,20 @@ class Review(Document):
         add_view=u'add_review',
         addable_to=[u'Review'],
         )    
-    comments = relationship('Comment', backref='reivew')          
+    comments = relationship('Comment', backref='reivew')
+
+
+
+class Infomation(Document):
+    '''This Class stores the infomatino recommended by admins '''
+    id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+    type_info = Document.type_info.copy(
+        name=u'Infomation',
+        title=_(u'推荐信息'),
+        add_view=u'add_info',
+        addable_to=[u'Infomation'],
+        )
+
 
 class Comment(Base):
     __tablename__ = 'comments'
@@ -620,6 +663,9 @@ def get_review_root(request=None):
     
 def get_image_root(request=None):
     return DBSession.query(Document).filter_by(name="images").one()
+
+def get_info_root(request=None):
+    return DBSession.query(Document).filter_by(name="infomation").one()
 
 #用户投给职位的简历
 class PositionResume(Base):

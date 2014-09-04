@@ -11,8 +11,8 @@ from deform.widget import CheckedPasswordWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember
 from pyramid.renderers import render_to_response
+from pyramid.security import remember
 from pyramid.encode import urlencode
 from formencode.validators import Email
 
@@ -21,7 +21,7 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 
-from mba.resources import MbaUser
+from mba.resources import Infomation
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.views.meetups import query_meetups
@@ -29,13 +29,23 @@ from mba.views.meetups import query_meetups
 __author__ = 'sunset'
 __date__ = '20140525'
 
+def query_info(request):
+     result = DBSession.query(Infomation).limit(20)
+     info = [ {'name': it.name,
+             'title': it.title,
+             'time': it.modification_date}
+              for it in result ]
+
+     return {'infomation': info}
 
 @view_config(route_name='home', renderer='home.jinja2')
 @wrap_user
-def view_home(request):
+def view_home(context, request):
     if not get_user(request):
         return HTTPFound("/login")
-    return query_meetups(request)
+    d = query_meetups(request)
+    d.update(query_info(request))
+    return d
 
 
 def includeme(config):

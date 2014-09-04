@@ -114,6 +114,12 @@ def view_response_test(request):
     return Response("SB")
 
 def includeme(config):
+
+
+    config.include("mba.views.admin.infomation")
+    config.include("mba.views.admin.meetup_types")
+
+
     config.add_route('admin','/admin')
     config.add_route('admin_meetups','/admin/meetups')
     config.add_route('admin_reviews','/admin/reviews')

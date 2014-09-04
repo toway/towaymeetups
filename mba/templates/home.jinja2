@@ -52,11 +52,11 @@
                               <div class="panel-heading">
                                     <span class="title">活动推荐</span>
                                     <ul class="nav nav-tabs home-tabs" id="meetup-tab">
-                                          <li class="active"><a href="#all" data-toggle="tab">全部</a></li>
-                                          <li><a href="#bj" data-toggle="tab">北京</a></li>
-                                          <li><a href="#sh" data-toggle="tab">上海</a></li>
-                                          <li><a href="#gz" data-toggle="tab">广州</a></li>
-                                          <li><a href="#sz" data-toggle="tab">深圳</a></li>
+                                          <li {% if user.city_name not in ['北京','上海','广州','深圳'] %}class="active"{% endif %}><a href="#all" data-toggle="tab">全部</a></li>
+                                          <li {% if user.city_name == '北京' %}class="active"{% endif %}><a href="#bj" data-toggle="tab">北京</a></li>
+                                          <li {% if user.city_name == '上海' %}class="active"{% endif %}><a href="#sh" data-toggle="tab">上海</a></li>
+                                          <li {% if user.city_name == '广州' %}class="active"{% endif %}><a href="#gz" data-toggle="tab">广州</a></li>
+                                          <li {% if user.city_name == '深圳' %}class="active"{% endif %}><a href="#sz" data-toggle="tab">深圳</a></li>
                                           <li><a href="#others" data-toggle="tab">其他</a></li>
                                         </ul>
                               </div>
@@ -118,11 +118,11 @@
                               <div class="panel-heading">
                                   <span class="title">最新招聘</span>
                                       <ul class="nav nav-tabs home-tabs" id="jobTab">
-                                          <li class="active"><a href="#job-all" data-toggle="tab">全部</a></li>
-                                          <li><a href="#job-bj" data-toggle="tab">北京</a></li>
-                                          <li><a href="#job-sh" data-toggle="tab">上海</a></li>
-                                          <li><a href="#job-gz" data-toggle="tab">广州</a></li>
-                                          <li><a href="#job-sz" data-toggle="tab">深圳</a></li>
+                                          <li{% if user.city_name not in ['北京','上海','广州','深圳'] %}class="active"{% endif %}><a href="#job-all" data-toggle="tab">全部</a></li>
+                                          <li {% if user.city_name == '北京' %}class="active"{% endif %}><a href="#job-bj" data-toggle="tab">北京</a></li>
+                                          <li {% if user.city_name == '上海' %}class="active"{% endif %}><a href="#job-sh" data-toggle="tab">上海</a></li>
+                                          <li {% if user.city_name == '广州' %}class="active"{% endif %}><a href="#job-gz" data-toggle="tab">广州</a></li>
+                                          <li {% if user.city_name == '深圳' %}class="active"{% endif %}><a href="#job-sz" data-toggle="tab">深圳</a></li>
                                           <li><a href="#job-others" data-toggle="tab">其他</a></li>
                                         </ul>
                               </div>
@@ -137,7 +137,7 @@
                                         <div class="tab-content">
                                              {% for a in ["all","bj","sh","gz","sz","others"] %}
                                              <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ a }}">
-                                                  <ul class="joblist">
+                                                  <ul class="5 ">
                                                         <li >
                                                             <div class="row">
                                                                 <div class="col-md-2 job-type larger">
@@ -217,21 +217,17 @@
                           <div class="panel-body">
 
                               <ul class="infolist">
+                                  {% for inf in infomation %}
+
                                   <li>
                                       <span class="info-title">【管理哲学】</span>
-                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
-                                      <span class="post-time">2014-06-08 11:23</span>
+                                      <span><a href="infomation/{{ inf.name }}">{{ inf.title }}</a></span>
+                                      <span class="post-time">{{ inf.time.strftime('%Y-%m-%d   %H:%M')  }}</span>
                                   </li>
-                                  <li>
-                                      <span class="info-title">【管理哲学】</span>
-                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
-                                      <span class="post-time">2014-06-08 11:23</span>
-                                  </li>
-                                  <li>
-                                      <span class="info-title">【管理哲学】</span>
-                                      <span>富不过三代成魔咒 家族传承为何如此之难</span>
-                                      <span class="post-time">2014-06-08 11:23</span>
-                                  </li>
+                                  {% else %}
+                                    <li>暂无推荐信息</li>
+                                  {% endfor %}
+
                               </ul>
 
                           </div>
@@ -257,6 +253,7 @@
                                                 width="80px" height="80px"/>
                                    <div class="col-md-6 header-right">
                                        <h2>{{ user.real_name or user.name }}</h2>
+                                       <div>常住地：{{ user.city_name or '未填写'  }}</div>
                                        <div class="zyno">志友号-{{ '%08d' % user.id}}</div>
                                    </div>
                                 </div>

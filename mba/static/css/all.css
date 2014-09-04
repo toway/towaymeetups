@@ -675,7 +675,7 @@ table.mba-resume-tbl{
     height:56px;
     border: 1px solid RGB(232,232,232);
     font-size: 20px;
-    color:  RGB(232,232,232);
+    /*color:  RGB(232,232,232); */
     padding-left: 20px;
     background-color: RGB(232,232,232);
    /* display: inline-block;
@@ -740,7 +740,7 @@ table.mba-resume-tbl{
 
    .friend_detail_cnt{
     /*vertical-align: middle; */
-    padding-top: 15px;
+    /*padding-top: 15px;*/
    }
 
    .friend_detail_info{

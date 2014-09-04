@@ -63,8 +63,7 @@ def query_meetups(request):
     gz  = [ i for i in all if i['city'] == u"广州"]
     sz  = [ i for i in all if i['city'] == u"深圳"]
     others  = [ i for i in all
-                    if i['city'] != u"深圳" and i['city'] != u"广州"
-                       and i['city'] != u"上海" and i['city'] != u"北京" ]
+                    if i['city'] not in [u"深圳", u"广州", u"上海" , u"北京" ] ]
 
     result2 = DBSession.query(Review).limit(20)
     all2 = [ {'name': it.name,
@@ -78,9 +77,7 @@ def query_meetups(request):
     gz2  = [ i for i in all if i['city'] == u"广州"]
     sz2  = [ i for i in all if i['city'] == u"深圳"]
     others2  = [ i for i in all
-                    if i['city'] != u"深圳" and i['city'] != u"广州"
-                       and i['city'] != u"上海" and i['city'] != u"北京" ]
-
+                    if i['city'] not in [u"深圳", u"广州", u"上海" , u"北京" ] ]
 
     headline = DBSession.query(Act).filter_by(headline=1)
 

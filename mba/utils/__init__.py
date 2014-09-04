@@ -20,22 +20,22 @@ from kotti.security import get_user
 
 
 
-
 DEFULT_AVATARS_COUNT_COLLETED = 2
+
+def assign_default_avatar(user):
+
+    # assign a random avatar
+    # Currently, I only collect 2 default avatars
+    avatar_index = int(random.random() * DEFULT_AVATARS_COUNT_COLLETED)
+    user.avatar = "%s/default_avatar_%d.png" % (
+                                                   get_settings()['mba.avatar_prefix'] ,
+                                                   avatar_index)
+
+    return user
 
 def wrap_user(request, ret_dict_to_update):
     user = get_user(request)
 
-    if user is not None:
-        if user.avatar is None:
-            # assign a random avatar
-            # Currently, I only collect 2 default avatars
-            avatar_index = int(random.random() * DEFULT_AVATARS_COUNT_COLLETED)
-            user.avatar = "%s/%s/default_avatar_%d.png" % (request.application_url,
-                                                           get_settings()['mba.avatar_prefix'] ,
-                                                           avatar_index)
-
-        # user.avatar_prefix = kotti.get_settings()['mba.avatar_prefix']
 
     ret_dict_to_update.update({'user':user})
 

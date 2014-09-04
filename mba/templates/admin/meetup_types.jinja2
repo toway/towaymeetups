@@ -52,29 +52,33 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h2>所有回顾</h2>
 
-                        {% include "/admin/pagination.jinja2" %}
-                        
+
+                        {% include "messages.jinja2" %}
+
+                        <h2>活动类别管理</h2>
+
+
                         <table class="table table-striped table-bordered">
                             <tr>
                                 <th>ID</th>
-                                <th>活动名</th>
-                                <th>状态</th>
+                                <th>活动类别名</th>
                                 <th>操作</th>
                             </tr>
-                            {% for review in reviews %}
+                            {% for type in meetup_types %}
                             <tr>
-                                <td>{{ review.index }}</td>
-                                <td>{{ review.title }}</td>
-                                <td>xx</td>
+                                <td>{{ type.id }}</td>
+                                <td>{{ type.title }}</td>
                                 <td>
-                                    <a href="/admin/review/edit/{{ review.id }}">修改</a>                                    
+                                    <button class="meetuptype_modify" id="mdf-{{ type.id }}" value="do-modify">修改</button>
+                                    <button class="meetuptype_delete" id="del-{{ type.id }}" value="do-delete">删除</button>
                                 </td>
-                            </tr>                            
+                            </tr>
                             {% endfor %}
-                            
+
                         </table>
+
+                        <button class="meetuptype_add" id="add-meetup-type" value="do-add">添加</button>
 
                     </div>
 
@@ -96,6 +100,54 @@
 
                $("li#li_admin").parent().find("li").removeClass("active");
                $("li#li_admin").addClass("active");
+
+
+                function do_job(method, options, callback){
+
+                    $.extend(options, {'method':method});
+                    $.post('/admin/meetups/types',options, callback);
+                }
+
+
+
+                $('.meetuptype_modify').click(function(){
+                    var self = this;
+                    var btn = $(this).html().trim();
+
+                    var titlewrap = $(this).parent().prev();
+                    if( btn === '修改'){
+                        var title = titlewrap.html().trim();
+                        titlewrap.html($('<input/>').attr('type', 'text').val(title));
+                        $(this).html('确定');
+
+                    }else {
+                        var title = titlewrap.children(0).val().trim();
+                        titlewrap.html(title);
+                        do_job('mdf-mt',{'mt-title':title,'mt-id': titlewrap.prev().html().trim() },function(ret){
+                            $(self).html('修改');
+                            window.location.reload();
+                        });
+                    }
+                 });
+
+
+                $('.meetuptype_delete').click(function(){
+                    var self = this;
+                    var titlewrap = $(this).parent().prev();
+                    if( confirm('确认删除此条目？') ) {
+                        var mt_id = $(self).attr('id').substr(4);
+                        var title = titlewrap.html().trim();
+                        do_job('del-mt', {'mt-id': mt_id, 'mt-title': title}, function () {
+                            window.location.reload();
+                        });
+                    }
+                });
+
+
+                $('#add-meetup-type').click(function(){
+
+                });
+
 
 
                 /*

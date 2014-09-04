@@ -80,11 +80,10 @@
                 <ul>
 			{% for friend in toknown_list %}
                   <li class="friend_item  clearfix">
-		  <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="/fanstatic/mba/img/kown.jpg" height="100px" width="100px">
+		  <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="{{ friend.avatar  }}" height="40px" width="40px">
 		      </a>
                       <div class="friend_detail_cnt">
-			      <p class="friend_detail_info">&nbsp;&nbsp;{{friend.real_name}}</p>
-			      <p class="friend_detail_info">&nbsp;&nbsp;{{friend.industry}}/{{friend.school}}</p>
+			      <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
 			      <a class="friend_detail_info renshi" href="/person/{{friend.id}}">&nbsp;&nbsp;认识她</a>
                       </div>
                   </li>
