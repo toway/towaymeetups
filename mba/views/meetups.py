@@ -48,43 +48,43 @@ def view_meetups_pjax(request):
 
 '''
 
-@view_config(route_name='meetups', renderer='meetups.jinja2')
-@wrap_user
-def view_meetups(request):
+def query_meetups(request):
     jquery.need()
-    
+
     result = DBSession.query(Act).limit(20)
-    all = [ {'name': it.name, 
+    all = [ {'name': it.name,
              'title': it.title,
              'meetup_type' : it.meetup_type_title,
-             'city': it.city_name} 
-                for it in result ]    
-    bj  = [ i for i in all if i['city'] == u"北京"]           
-    sh  = [ i for i in all if i['city'] == u"上海"]           
-    gz  = [ i for i in all if i['city'] == u"广州"]           
+             'city': it.city_name,
+             'time': it.modification_date}
+                for it in result ]
+    bj  = [ i for i in all if i['city'] == u"北京"]
+    sh  = [ i for i in all if i['city'] == u"上海"]
+    gz  = [ i for i in all if i['city'] == u"广州"]
     sz  = [ i for i in all if i['city'] == u"深圳"]
-    others  = [ i for i in all 
+    others  = [ i for i in all
                     if i['city'] != u"深圳" and i['city'] != u"广州"
                        and i['city'] != u"上海" and i['city'] != u"北京" ]
 
     result2 = DBSession.query(Review).limit(20)
-    all2 = [ {'name': it.name, 
+    all2 = [ {'name': it.name,
              'title': it.title,
              'meetup_type' : u"志友会Dummy",
-             'city': u"深圳"} 
-                for it in result2 ]    
-    bj2  = [ i for i in all if i['city'] == u"北京"]           
-    sh2  = [ i for i in all if i['city'] == u"上海"]           
-    gz2  = [ i for i in all if i['city'] == u"广州"]           
+             'city': u"深圳",
+               'time': it.modification_date}
+                for it in result2 ]
+    bj2  = [ i for i in all if i['city'] == u"北京"]
+    sh2  = [ i for i in all if i['city'] == u"上海"]
+    gz2  = [ i for i in all if i['city'] == u"广州"]
     sz2  = [ i for i in all if i['city'] == u"深圳"]
-    others2  = [ i for i in all 
+    others2  = [ i for i in all
                     if i['city'] != u"深圳" and i['city'] != u"广州"
                        and i['city'] != u"上海" and i['city'] != u"北京" ]
 
 
     headline = DBSession.query(Act).filter_by(headline=1)
-    
-    return { 'meetups': 
+
+    return { 'meetups':
                 {'all': all,
                  'first_five': all[:5],
                 'bj': bj,
@@ -102,7 +102,13 @@ def view_meetups(request):
                 'others':others2},
              'headlines': headline
 
-            } 
+            }
+
+
+@view_config(route_name='meetups', renderer='meetups.jinja2')
+@wrap_user
+def view_meetups(request):
+    return query_meetups(request)
 
 
 def includeme(config):

@@ -104,7 +104,7 @@ class Interest(Base):
 class PositionCollect(Base):
     position_id = Column(Integer, ForeignKey('positions.id', ondelete='cascade'), primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id', ondelete='cascade'), primary_key=True)
-    create_date = Column(DateTime(), default=datetime.now(TZ_HK))
+    create_date = Column(DateTime(), default=datetime.now(tz=None))
     position = relationship('Position', backref='position_items')
 
     @classmethod
@@ -116,7 +116,7 @@ class PositionCollect(Base):
 class Visit(Base):
     user_id1 = Column('user_id1', Integer, ForeignKey('mba_users.id'), primary_key=True)
     user_id2 = Column('user_id2', Integer, ForeignKey('mba_users.id'), primary_key=True)
-    visit_date = Column(DateTime(), default=datetime.now(TZ_HK))
+    visit_date = Column(DateTime(), default=datetime.now(tz=None))
 
     # 1 <--> 1
     user = relationship("MbaUser", foreign_keys="[Visit.user_id2]")
@@ -138,10 +138,8 @@ class MbaUser(Base):
     real_name = Column(Unicode(50))
 
     avatar = Column(String(100))
-    
-    @property
-    def avatar_prefix(self):
-        return kotti.get_settings()['mba.avatar_prefix']
+
+
     
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
@@ -187,7 +185,7 @@ class MbaUser(Base):
         self.title = title
         self.email = email
         self.groups = groups
-        self.creation_date = datetime.now()
+        self.creation_date = datetime.now(tz=None)
         self.last_login_date = None
         super(MbaUser, self).__init__(**kwargs)
 
