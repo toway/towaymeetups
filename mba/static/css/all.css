@@ -419,6 +419,11 @@ ul { list-style-type: none; }
     line-height: 26px;
 }
 
+
+.meetups .nav > li > a{
+    padding: 3px 5px;
+}
+
 .meetups-header .carousel  .carousel-control {
     width: 50px;
 }

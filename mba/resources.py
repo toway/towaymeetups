@@ -286,6 +286,7 @@ class Participate(Base):
     #用户参加活动之后可进行评分
     rating = Column(Integer())
     user = relationship("MbaUser", backref='partin')
+    meetup = relationship("Act")
 
 
 class TeacherTag(Base):
