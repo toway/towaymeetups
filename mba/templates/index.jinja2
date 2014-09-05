@@ -49,9 +49,12 @@
                 <div class="row index-news">
                     <div class="col-md-8 col-md-offset-2">
                         <h2>最新动态</h2>
-                        <a class="index-news-item" href="">afasfafasdfasfasdxxf</a>
-                        <a class="index-news-item" href="">afasfafasdfasfasdxxf</a>
-                        <a class="index-news-item" href="">afasfafasdfasfasdxxf</a>
+                        {% for meetup in meetups %}
+                            <a class="index-news-item" href="/meetup/{{ meetup.name }}">meetup.title</a>
+                        {% else %}
+                            暂无动态
+                        {% endfor %}
+
                     </div>
                 </div>
 

@@ -48,23 +48,18 @@ def view_meetup_types(context, request):
         return HTTPFound(location="/login?came_from=%s" % request.url)
 
 
-
-    ret_obj = {'success': True, 'errmsg': u'没有错误', 'retval': None }
     err_msg = u""
-
-
-    print request.POST
 
     if 'method' in request.POST:
         # mt stands for meetup-type
         try:
             method = request.POST['method'] # add-mt, del-mt, mdf-mt
-            print 'mothod:',method
+
             if method  == 'add-mt':
 
                 new_type_title = request.POST['mt-title']
                 DBSession.add( MeetupType(title=new_type_title))
-                request.session.flash((u"错误：'%s'" % err_msg), 'success')
+                request.session.flash((u"成功添加：'%s'" % new_type_title), 'success')
             else:
 
                 mt_id = int(request.POST['mt-id'])
@@ -99,10 +94,10 @@ def view_meetup_types(context, request):
 
 
     queried = DBSession.query(MeetupType)
+    count = DBSession.query(MeetupType).count()
 
 
-
-    return wrap_user(request, {'meetup_types': queried } )
+    return wrap_user(request, {'meetup_types': queried,'count': count } )
 
 
 

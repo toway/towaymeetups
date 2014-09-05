@@ -59,7 +59,7 @@
                         <h2>活动类别管理</h2>
 
 
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" id="mt-list">
                             <tr>
                                 <th>ID</th>
                                 <th>活动类别名</th>
@@ -145,6 +145,30 @@
 
 
                 $('#add-meetup-type').click(function(){
+                    var self = this,
+                        btn = $(self).html().trim();
+
+                    if( btn == "添加"){
+                        var toadd = "<tr> "+
+                                "<td>{{ count+1 }}</td>"+
+                                "<td><input id='toaddmt' type='text'/> </td>"+
+                                "<td></td>"+
+                                "</tr>";
+                        $("#mt-list").append(toadd);
+                        $(self).html("确定");
+                    }else{
+                        var title =  $("#mt-list input").val();
+                        if( ! title ){
+                            alert("请填写活动类别!");
+                            return;
+                        }
+
+                        do_job('add-mt', {'mt-title': title}, function(){
+                            window.location.reload();
+                            $(self).html("添加");
+                        });
+
+                    }
 
                 });
 

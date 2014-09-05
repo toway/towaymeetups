@@ -21,20 +21,24 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 
-from mba.resources import MbaUser
+from mba.resources import Act
 from mba import _
-from mba.utils import wrap_user
+from mba.utils.decorators import wrap_user
+
 
 __author__ = 'sunset'
 __date__ = '20140525'
 
 
 @view_config(route_name='index', renderer='index.jinja2')
+@wrap_user
 def view_index(request):
     if get_user(request):
         return HTTPFound("/home")
-    return wrap_user(request, {'project': 'lesson2'})
 
+    result = DBSession.query(Act).limit(6)
+
+    return {'meetups': result}
 
 def includeme(config):
     config.add_route('index','/')
