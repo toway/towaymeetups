@@ -84,7 +84,6 @@ def main(global_config, **settings):
     config.add_route('resume_edit','/resume_edit')
     config.add_route('resume_preview','/resume_preview')
     config.add_route('job','/job')
-
     
     config.scan()
     return config.make_wsgi_app()
