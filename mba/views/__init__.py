@@ -24,9 +24,10 @@ def includeme(config):
     config.include('mba.views.job')
     config.include('mba.views.resume_preview')
     config.include('mba.views.activity')
-
+    config.include('mba.views.infomation')
     #reimplement the content templates
     config.include('mba.views.content')
     config.include('mba.views.image')
+
 
     config.include('mba.views.admin')

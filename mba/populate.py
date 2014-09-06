@@ -278,22 +278,32 @@ def create_mba_root():
         root.__acl__ = SITE_ACL
         DBSession.add(root)
 
+
     # TODO: Make this addable and  editable
     if DBSession.query(MeetupType).count() == 0:        
-        node1 = MeetupType(title=u"聚友沙龙")        
-        node2 = MeetupType(title=u"志友下午茶")        
-        node3 = MeetupType(title=u"私人董事会")        
-        node4 = MeetupType(title=u"志友健康行")        
+        node1 = MeetupType(title=u"官方活动")
+        node2 = MeetupType(title=u"外部活动")
+
         DBSession.add(node1)        
         DBSession.add(node2)        
-        DBSession.add(node3)        
-        DBSession.add(node4)        
 
     if DBSession.query(Student).count() == 0:
-        DBSession.add(Student(name="testmba",password="123456",email="1@1.com",real_name=u'陈测试'))
-        DBSession.add(Student(name="testmba2",password="123456",email="2@1.com",real_name=u'张软件'))
+        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳'))
+        DBSession.add(Student(name="testmba2",title=u"产品总监",password="123456",email="2@1.com",real_name=u'张软件',city_name=u'北京'))
 
-        
+
+    if DBSession.query(Node).filter_by(name="infomation").count() == 0:
+        info_attrs = dict(
+            title=u'Infomations',
+            name=u'infomation',
+            description=u'The root of infomations',
+            body=u"<p>infomations</p>",
+            parent_id = get_root().id,
+        )
+        root = Document(**info_attrs)
+        root.__acl__ = SITE_ACL
+        DBSession.add(root)
+
 
 def populate():
     create_mba_root()

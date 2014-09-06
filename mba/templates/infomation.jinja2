@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
+
+        <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <div class="row">
+
+
+                    <br/>
+
+
+                    <div class="col-md-9 meetup-main">
+                         <div class="panel panel-default meetup-subject">
+
+                            <div class="panel-body">
+                            <h1>{{context.title}}</h1>
+                            <p>{{contextbody}}</p>
+                            
+                            
+                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>                            
+                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>
+                        
+                            </div>
+ 
+                         </div>
+
+
+                        <div class="panel panel-default meetup-comments">
+                            <div class="panel-body">
+                            
+                                
+                                
+                                <form name="comment-form" method="post">
+                                    {% if user %}
+                                        <div class="row">
+                                            <div class="col-md-3 col-md-offset-9">
+                                                <div class="meetup-comment-prompt">
+                                                    还可以输入<span id="left-comments-num">140</span>字
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-1">
+                                                <img src="{{ user.avatar_prefix}}{{user.avatar}}" width="40px" height="40px"/>
+                                            </div>
+                                            <div class="col-md-11">
+                                                <textarea name='review-comment-input'
+                                                    id='review-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
+                                            </div>
+                                        </div>
+                                        
+                                    {% endif %}
+                                    
+                                        <div class="row">
+                                            <div class="col-md-offset-10 col-md-2">
+                                                <br/>
+                                                <button type='submit' name='submit' 
+                                                    class="btn btn-primary" id="do-comment" 
+                                                    {% if user %}disabled="disabled{% endif %}">发表评论</button>
+                                            </div>
+                                        </div>
+                                    
+                                </form>
+  
+
+                                <br/>
+                                {{ comments_count }}条评论
+                                
+
+
+
+                                {% for comment in context.comments %}
+                                <hr/>            
+                                        
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <img src="{{ comment.user.avatar_prefix}}{{comment.user.avatar}}" width="40px" height="40px"/>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <span>{{ comment.user.name }}:</span>
+                                        <span class="meetup-comment-timeline">
+                                            {{comment.post_date}}
+                                        </span>
+                                        <div>{{ comment.content }}</div>
+                                        
+                                    </div>
+                                </div>
+                                
+                                {% endfor %}
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-3 meetup-rightbar">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+
+        {% include "inc/js.jinja2" %}
+
+
+        <script type="text/javascript">
+            $(function(){
+
+               $("li#li_meetups").parent().find("li").removeClass("active");
+               $("li#li_meetups").addClass("active");
+
+
+               $('#meetup-comment-input').keyup(function(){
+
+                   var len = $(this).val().trim().length;
+                   if(len>0 ){
+                       $('#do-comment').removeAttr('disabled');
+                   }else{
+                       $('#do-comment').attr('disabled','disabled');
+                   }
+                   $('#left-comments-num').html(140-len);
+               });
+
+                /*
+                $(document).pjax('.home-menu a', '#pjax-content');
+                 */
+            });
+        </script>
+
+
+
+
+
+    </body>
+</html>

@@ -104,101 +104,47 @@
 
                         <div class="newest">
                             <div class="panel panel-default">
-                              <div class="panel-heading">最新活动</div>
-                              <div class="panel-body">
-
-                                  <div class="row">
-
-                                    <div class="col-md-offset-1">
-                                        <ul class="nav nav-tabs newest-tabs" >
-                                          <li class="active"><a href="#all" data-toggle="tab">全部</a></li>
-                                          <li><a href="#bj" data-toggle="tab">北京</a></li>
-                                          <li><a href="#sh" data-toggle="tab">上海</a></li>
-                                          <li><a href="#gz" data-toggle="tab">广州</a></li>
-                                          <li><a href="#sz" data-toggle="tab">深圳</a></li>
+                              <div class="panel-heading">
+                                    <span class="title">活动推荐</span>
+                                    <ul class="nav nav-tabs home-tabs" id="meetup-tab">
+                                          <li {% if user.city_name not in ['北京','上海','广州','深圳'] %}class="active"{% endif %}><a href="#all" data-toggle="tab">全部</a></li>
+                                          <li {% if user.city_name == '北京' %}class="active"{% endif %}><a href="#bj" data-toggle="tab">北京</a></li>
+                                          <li {% if user.city_name == '上海' %}class="active"{% endif %}><a href="#sh" data-toggle="tab">上海</a></li>
+                                          <li {% if user.city_name == '广州' %}class="active"{% endif %}><a href="#gz" data-toggle="tab">广州</a></li>
+                                          <li {% if user.city_name == '深圳' %}class="active"{% endif %}><a href="#sz" data-toggle="tab">深圳</a></li>
                                           <li><a href="#others" data-toggle="tab">其他</a></li>
                                         </ul>
-                                    </div>
+                              </div>
+                              <div class="panel-body">
 
-                                  </div>
 
                                   <div class="row home-sector-sub" >
 
                                     <div class="col-md-10">
                                         <!-- Tab panes -->
                                         <div class="tab-content">
-                                          <div class="tab-pane active" id="all">
-                                              <ul class="meetuplist">
-                                                    {% if meetups.all %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，暂时没有活动
-                                                    {% endif %}                                                    
-                                              </ul>
-                                          </div>
-                                          <div class="tab-pane" id="bj">
-                                                <ul class="meetuplist">
-                                                    {% if meetups.bj %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，该城市暂时没有活动
-                                                    {% endif %}        
-                                                </ul>
-                                          </div>
-                                          <div class="tab-pane" id="sh">
-                                                <ul class="meetuplist">
-                                                    {% if meetups.sh %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，该城市暂时没有活动
-                                                    {% endif %} 
-                                                </ul>
-                                          </div>
-                                          <div class="tab-pane" id="gz">
-                                                <ul class="meetuplist">
-                                                    {% if meetups.gz %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，该城市暂时没有活动
-                                                    {% endif %} 
-                                                </ul>
-                                          </div>
-                                          <div class="tab-pane" id="sz">
-                                                <ul class="meetuplist">
-                                                    {% if meetups.sz %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，该城市暂时没有活动
-                                                    {% endif %}  
-                                                </ul>
-                                          </div>
-                                          <div class="tab-pane" id="others">
-                                                <ul class="meetuplist">
-                                                    {% if meetups.others %}
-                                                        {% for meetup in meetups.all %}
-                                                            <li><a href="/meetup/{{meetup.name}}">[{{meetup.meetup_type}}] {{ meetup.title }}</a></li>
-                                                        {% endfor %}
-                                                        
-                                                    {% else %}
-                                                        对不起，该城市暂时没有活动
-                                                    {% endif %} 
-                                                </ul>
-                                          </div>
+
+                                           {% for a in ["all","bj","sh","gz","sz","others"] %}
+                                                 <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ a }}">
+                                                      <ul class="meetuplist">
+                                                            {% if meetups.get(a) %}
+                                                                {% for meetup in meetups.all %}
+                                                                    <li><a href="/meetup/{{meetup.name}}">
+                                                                        <span class="meetup-type">[{{meetup.meetup_type}}]</span>
+                                                                        <span>{{ meetup.title }}</span>
+                                                                        <span class="post-date">{{ meetup.time.strftime('%Y-%m-%d   %H:%M') }}</span>
+
+                                                                     </a></li>
+
+
+                                                                {% endfor %}
+
+                                                            {% else %}
+                                                                对不起，暂时没有活动
+                                                            {% endif %}
+                                                      </ul>
+                                                  </div>
+                                            {% endfor %}
                                         </div>
                                     </div>
 
@@ -215,23 +161,20 @@
 
                         <div class="reviews">
                             <div class="panel panel-default">
-                              <div class="panel-heading">往期回顾</div>
+                              <div class="panel-heading">
+
+                                  <span class="title">往期回顾</span>
+                                   <ul class="nav nav-tabs review-tabs home-tabs">
+                                      <li {% if user.city_name not in ['北京','上海','广州','深圳'] %}class="active"{% endif %}><a href="#review-all" data-toggle="tab">全部</a></li>
+                                      <li {% if user.city_name == '北京' %}class="active"{% endif %}><a href="#review-bj" data-toggle="tab">北京</a></li>
+                                      <li {% if user.city_name == '上海' %}class="active"{% endif %}><a href="#review-sh" data-toggle="tab">上海</a></li>
+                                      <li {% if user.city_name == '广州' %}class="active"{% endif %}><a href="#review-gz" data-toggle="tab">广州</a></li>
+                                      <li {% if user.city_name == '深圳' %}class="active"{% endif %}><a href="#review-sz" data-toggle="tab">深圳</a></li>
+                                      <li><a href="#review-others" data-toggle="tab">其他</a></li>
+                                    </ul>
+                              </div>
                               <div class="panel-body">
 
-                                  <div class="row">
-
-                                    <div class="col-md-offset-1">
-                                        <ul class="nav nav-tabs review-tabs" ">
-                                          <li class="active"><a href="#review-all" data-toggle="tab">全部</a></li>
-                                          <li><a href="#review-bj" data-toggle="tab">北京</a></li>
-                                          <li><a href="#review-sh" data-toggle="tab">上海</a></li>
-                                          <li><a href="#review-gz" data-toggle="tab">广州</a></li>
-                                          <li><a href="#review-sz" data-toggle="tab">深圳</a></li>
-                                          <li><a href="#review-others" data-toggle="tab">其他</a></li>
-                                        </ul>
-                                    </div>
-
-                                  </div>
 
                                   <div class="row home-sector-sub" >
 
@@ -294,11 +237,24 @@
                                         </div>
                                         <div id="collapseOne" class="panel-collapse collapse in">
                                           <div class="panel-body">
-                                            <ul>
-                                                <li>志友健身行：清远之旅</li>
-                                                <li>高端讲堂：中国房价走向</li>
-                                                <li>志友健身行：清远之旅</li>
-                                            </ul>
+                                              {% if user %}
+                                                <ul>
+                                                    {% for m in my_meetups %}
+                                                        <li>
+                                                            <a href="/meetup/{{ m.meetup.name }}">
+                                                                {{ m.meetup.title }}  &nbsp;
+                                                                {{ m.meetup.creation_date.strftime('%m%d %H:%M') }}
+                                                            </a>
+                                                        </li>
+                                                    {% else %}
+                                                        您没有参加过任何活动喔..
+                                                    {% endfor %}
+                                                </ul>
+                                              {% else %}
+                                                  请先登陆
+                                              {% endif %}
+
+
                                           </div>
                                         </div>
                                       </div>
@@ -312,7 +268,7 @@
                                         </div>
                                         <div id="collapseTwo" class="panel-collapse collapse">
                                           <div class="panel-body">
-                                            sfdsafdasf
+                                            功能暂未实现
                                           </div>
                                         </div>
                                       </div>

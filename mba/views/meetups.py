@@ -29,7 +29,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
-from mba.resources import Act, Review
+from mba.resources import Act, Review, Participate
 
 __author__ = 'sunset'
 __date__ = '20140527'
@@ -51,6 +51,10 @@ def view_meetups_pjax(request):
 def query_meetups(request):
     jquery.need()
 
+    user = get_user(request)
+
+
+
     result = DBSession.query(Act).limit(20)
     all = [ {'name': it.name,
              'title': it.title,
@@ -63,8 +67,7 @@ def query_meetups(request):
     gz  = [ i for i in all if i['city'] == u"广州"]
     sz  = [ i for i in all if i['city'] == u"深圳"]
     others  = [ i for i in all
-                    if i['city'] != u"深圳" and i['city'] != u"广州"
-                       and i['city'] != u"上海" and i['city'] != u"北京" ]
+                    if i['city'] not in [u"深圳", u"广州", u"上海" , u"北京" ] ]
 
     result2 = DBSession.query(Review).limit(20)
     all2 = [ {'name': it.name,
@@ -78,11 +81,13 @@ def query_meetups(request):
     gz2  = [ i for i in all if i['city'] == u"广州"]
     sz2  = [ i for i in all if i['city'] == u"深圳"]
     others2  = [ i for i in all
-                    if i['city'] != u"深圳" and i['city'] != u"广州"
-                       and i['city'] != u"上海" and i['city'] != u"北京" ]
-
+                    if i['city'] not in [u"深圳", u"广州", u"上海" , u"北京" ] ]
 
     headline = DBSession.query(Act).filter_by(headline=1)
+
+    my_participate = None
+    if user:
+        my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)
 
     return { 'meetups':
                 {'all': all,
@@ -100,7 +105,8 @@ def query_meetups(request):
                 'gz': gz2,
                 'sz': sz2,
                 'others':others2},
-             'headlines': headline
+             'headlines': headline,
+             'my_meetups': my_participate
 
             }
 
