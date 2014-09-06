@@ -352,12 +352,25 @@ class ActEditForm(EditFormView):
         return appstruct
         # return ( {'title':'sb'})
         
+default_date = datetime.strptime('1990-1-1','%Y-%m-%d').date()
 class PositionSchema(ContentSchema):
     job_name = colander.SchemaNode(colander.String(), title=_(u"职位名字"))
     company_name = colander.SchemaNode(colander.String(), title=_(u"公司名字"))
     degree = colander.SchemaNode(colander.String(), title=_(u"学位要求"))
     experience = colander.SchemaNode(colander.String(), title=_(u"经验要求"))
     salary = colander.SchemaNode(colander.Integer(), title=_(u"待遇"))
+    public_date = colander.SchemaNode(
+            colander.Date(),
+            #'%Y-%m-%d %H:%M:%S'
+            default=default_date,
+            title=_(u"发布时间"),
+            )
+    end_date = colander.SchemaNode(
+            colander.Date(),
+            #'%Y-%m-%d %H:%M:%S'
+            default=default_date,
+            title=_(u"结束时间"),
+            )
     body = colander.SchemaNode(
             colander.String(),
             title = u'内容',

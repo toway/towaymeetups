@@ -639,6 +639,9 @@ class Position(Document):
     degree = Column(String(100))
     experience = Column(String(100))
     salary = Column(Integer())
+    public_date = Column(Date())
+    end_date = Column(Date())
+    location = Column(UnicodeText())
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
 
     resumes = relationship('PositionResume', backref='position')
