@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+       <!--  <link rel="stylesheet" href="static/style.css"> -->
+      
+        <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script type="text/javascript">
+        window.onload=function(){
+			var oHead=document.getElementById("head");
+			setInterval(function(){
+			 	if(oHead.style.backgroundImage=='url("/fanstatic/mba/img/bg1.gif")'){
+				oHead.style.backgroundImage="url(/fanstatic/mba/img/bg2.gif)";
+				
+				}else{
+					oHead.style.backgroundImage="url(/fanstatic/mba/img/bg1.gif)";	
+				}
+			   	
+				},3000);
+			
+			
+			
+			}
+        
+        </script>
+        <style type="text/css">
+          body{ font-family:'微软雅黑'; font-size:13px;}
+		  #head{background:url(/fanstatic/mba/img/bg1.gif) 0 0 no-repeat; width:100%;height:690px;position:relative;}
+
+          .nav{ padding-top:15px;}
+		  .partners{ padding:0; margin-left:-14px;}
+          .partners li{ width:70px; height:70px; background-color:#c9c9c9; float:left; margin-right:9px; margin-top:10px; text-align:left;}
+          .partners .no_margin{ margin-right:0;}
+	      .mba-footer{border-top: solid 1px #cccccc; margin-top:46px;}
+		  .mba-footer h3,.mba-footer h2{text-align:left;}
+		  .mba-footer h3{ margin-bottom:15px;}
+		 /* .mba-footer ul li{ line-height:25px;}*/
+		  .mba-weixin h2{color:#00428d;}
+		  .mba-weixin .ewma{ margin:27px 0 22px 0;}
+		  .mba-index-main{ margin-top:70px;}
+		  .mba-index-main h3{ margin-bottom:30px; text-align:left;}
+        </style>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+        <header class="navbar navbar-inverse navbar-fixed-top mba-nav headbg" role="banner" id="head">
+            <div class="container">
+                <div class="col-md-10 col-md-offset-1">
+
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                    
+                    </div>
+                    <div class="collapse navbar-collapse col-md-offset-5">
+                      <ul class="nav navbar-nav">
+                        <li class="active"><a href="/">首页</a></li>
+                        <li><a href="/activity">我的活动</a></li>
+                        <li><a href="/find">找找看</a></li>
+                          <li><a href="/job">求职</a></li>
+                      </ul>
+                    </div>
+
+                </div>
+            </div>
+        </header>
+        
+        <div>
+            <div class="mba-login">
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-offset-2 col-md-8">
+                        <form role="form">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-md">
+                                        <span class="input-group-addon">@</span>
+                                        <input type="text" class="form-control" placeholder="请输入注册邮箱">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group input-group-md">
+                                        <span class="input-group-addon"></span>
+                                        <input class="form-control" type="text" placeholder="请输入密码"/>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-1 ">
+                                    <input class="btn btn-primary" type="submit" value="登录"/>
+                                </div>
+                                <div class="col-md-1">
+                                    <a href="/register" class="btn" style="color:#fff; text-decoration:underline;">立即注册</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            </div>
+        </div>
+
+
+
+
+
+
+        <!--<div class="mba-carousel mba-margin-top">
+              <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                    </ol>
+                    
+                    <div class="carousel-inner">
+                        <div class="item active">
+                            <img src="/fanstatic/mba/img/slide1.jpg" alt="First slide">
+                        </div>
+                        <div class="item">
+                             <img src="/fanstatic/mba/img/slide1.jpg"  alt="Second slide">
+                        </div>
+                        <div class="item">
+                            <img src="/fanstatic/mba/img/slide1.jpg"  alt="Third slide">
+                        </div>
+                    </div>
+                    <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                        <span class="glyphicon glyphicon-chevron-left"></span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                        <span class="glyphicon glyphicon-chevron-right"></span>
+                    </a>
+              </div>
+
+
+
+        </div>-->
+
+
+
+
+        
+
+
+        <div class="mba-index-main">
+
+            <div class="container">
+
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3>现已加入</h3>
+                               
+                                <ul class="mba-famous-members">
+                                    <li>董明珠 总裁 董事长 珠海格力电器股份有限公司</li>
+                                    <li>周小川 行长 中国人民银行</li>
+                                    <li>马云 董事长 阿里巴巴集团</li>
+                                    <li>王小川 首席执行官 搜狗科技</li>
+                                    <li>陈宗泽 总载 2B集团</li>
+                                </ul>
+                             
+                            </div>
+                            <div class="col-md-4">
+                                <h3>最新动态</h3>
+
+                                <ul class="mba-news">
+                                    <li>谷歌2013热门搜索排行榜:iPhone 5s排第3</li>
+                                    <li>复旦大学冥想减压课引来白领 特地请假上课</li>
+                                    <li>麦格理:昆仑能源策略不变 仍是明年首先之一</li>
+                                    <li>奚国华:中移动明年将销售1亿部4G终端</li>
+                                    <li>达能索赔陷僵局:企业间利益捆绑关系深或寻求和</li>
+                                </ul>
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <h3>合作伙伴</h3>
+                                <ul class="partners">
+                                  <li></li>
+                                  <li></li>
+                                  <li></li>
+                                  <li class="no_margin"></li>
+                                  <li></li>
+                                  <li></li>
+                                  <li></li>
+                                  <li class="no_margin"></li>
+                                
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        
+<!-- <footer class="mba-footer">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-10 col-md-offset-1">
+
+                        <div class="row">
+
+                            <div class="col-md-4 mba-guide">
+                                <h3>用户指南</h3>
+                                <ul>
+                                    <li>关于MBAers</li>
+                                    <li>联系我们</li>
+                                    <li>服务条款</li>
+                                    <li>隐私政策</li>
+                                </ul>
+                            </div>
+
+
+                            <div class="col-md-4 mba-weixin">
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <img src="/fanstatic/mba/img/weixin.jpg">
+                                    </div>
+                                    <div class="col-md-6">
+                                         <h2>官方微信</h2>
+                                         <div class="ewma">微信扫描二维码</div>
+                                        <div>获得最新招聘资讯</div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-md-2 col-md-offset-1 mba-links">
+                                <h3>友情链接</h3>
+                                <ul>
+                                    <li>MBA中国</li>
+                                    <li>人人网</li>
+                                    <li>创业家</li>
+                                    <li>腾讯网</li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </footer> -->
+
+         {% include "footer.jinja2" %}
+
+
+
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+        <!-- Bootstrap -->
+        <script src="/fanstatic/mba/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="/fanstatic/mba/js/plugins.js"></script>
+
+        <script src="/fanstatic/mba/js/main.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+
+             $(document).ready(function() {
+                $("li#li_index").find("a").addClass("active")
+              });
+        </script>
+    </body>
+</html>

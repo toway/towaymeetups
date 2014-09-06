@@ -360,8 +360,39 @@ def job_view(context, request):
             'pcs':user.position_items,
             })
 
+@view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
+def job_detail_view(context, request):
+    return {}
+
+@view_config(route_name='job_company_info', renderer='job2_company_info.jinja2')
+def job_companyinfo_view(context, request):
+    return {}
+
+@view_config(route_name='job_real', renderer='job2_real.jinja2')
+def job_real_view(context, request):
+    return {}
+
+@view_config(route_name='job_combine', renderer='job2_combine.jinja2')
+def job_combine_view(context, request):
+    return {}
+
+@view_config(route_name='job_shenqing', renderer='job2_shenqing_more.jinja2')
+def job_shenqing_view(context, request):
+    return {}
+
+#	templates/job2_combine.jinja2
+#	templates/job2_company_info.jinja2
+#	templates/job2_detail.jinja2
+#	templates/job2_real.jinja2
+#	templates/job2_shenqing_more.jinja2
+
 def includeme(config):
     settings = config.get_settings()
     config.add_route('resume_edit2','/resume_edit2/{id:\d+}')
     config.add_route('job_view','/job')
+    config.add_route('job_detail','/job-detail')
+    config.add_route('job_company_info','/job-company')
+    config.add_route('job_shenqing','/job-apply')
+    config.add_route('job_combine','/job-combine')
+    config.add_route('job_real','/job-real')
     config.scan(__name__)
