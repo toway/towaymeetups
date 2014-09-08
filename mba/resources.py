@@ -668,6 +668,14 @@ def get_image_root(request=None):
 def get_info_root(request=None):
     return DBSession.query(Document).filter_by(name="infomation").one()
 
+class CompanyInfo(Base):
+    id = Column('id', Integer, primary_key=True)
+    name = Column(String(100))
+    scope = Column(String(200))
+    industry = Column(String(200))
+    type_info = Column(String(200))
+    info = Column(UnicodeText())
+
 #用户投给职位的简历
 class PositionResume(Base):
     position_id = Column(Integer, ForeignKey('positions.id'), primary_key=True)
@@ -678,21 +686,25 @@ class PositionResume(Base):
     resume = relationship('Resume', backref='postition_items')
     user = association_proxy('resume', 'user')
 
-#工作职位表
+#工作职位表 views/active.py
 class Position(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
-    job_name = Column(String(100))
-    company_name = Column(String(100))
+    company_id = Column(Integer, ForeignKey('company_infos.id'))
+    city_name = Column(String(100))
     degree = Column(String(100))
     experience = Column(String(100))
-    salary = Column(Integer())
-    public_date = Column(Date())
-    end_date = Column(Date())
+    salary = Column(Integer(), default=0)
+    public_date = Column(Date(), default=datetime.now(tz=None).date())
+    end_date = Column(Date(), default=datetime.now(tz=None).date())
     location = Column(UnicodeText())
+    #猎头/公司
+    hunting_type = Column(Integer(), default=0)
     status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
 
     resumes = relationship('PositionResume', backref='position')
     users = association_proxy('resumes', 'user')
+    company = relationship('CompanyInfo', backref='postitions')
+    company_name = association_proxy('company', 'name')
 
     type_info = Document.type_info.copy(
         name=u'Position',

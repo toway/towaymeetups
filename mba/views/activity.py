@@ -176,6 +176,7 @@ class ActSchema(colander.MappingSchema):
         colander.String(),
         title=_(u'标题'),
         )
+
     name = colander.SchemaNode(
         colander.String(),
         title=_(u"活动URL"),
@@ -352,51 +353,6 @@ class ActEditForm(EditFormView):
         return appstruct
         # return ( {'title':'sb'})
         
-default_date = datetime.strptime('1990-1-1','%Y-%m-%d').date()
-class PositionSchema(ContentSchema):
-    job_name = colander.SchemaNode(colander.String(), title=_(u"职位名字"))
-    company_name = colander.SchemaNode(colander.String(), title=_(u"公司名字"))
-    degree = colander.SchemaNode(colander.String(), title=_(u"学位要求"))
-    experience = colander.SchemaNode(colander.String(), title=_(u"经验要求"))
-    salary = colander.SchemaNode(colander.Integer(), title=_(u"待遇"))
-    public_date = colander.SchemaNode(
-            colander.Date(),
-            #'%Y-%m-%d %H:%M:%S'
-            default=default_date,
-            title=_(u"发布时间"),
-            )
-    end_date = colander.SchemaNode(
-            colander.Date(),
-            #'%Y-%m-%d %H:%M:%S'
-            default=default_date,
-            title=_(u"结束时间"),
-            )
-    body = colander.SchemaNode(
-            colander.String(),
-            title = u'内容',
-            widget=RichTextWidget(theme='modern'
-                , template = 'richtext.jinja2'
-                , width=790
-                , height=500),
-        )
-
-class PositionAddForm(AddFormView):
-    schema_factory = PositionSchema
-    add = Position
-    item_type = _(u"职位")
-
-    def __init__(self, context, request, **kwargs):
-        context = DBSession.query(Node).filter_by(name="position").one()
-        AddFormView.__init__(self, context, request, **kwargs)
-
-    def save_success(self, appstruct):
-        appstruct.pop('csrf_token', None)
-        name = self.find_name(appstruct)
-        new_item = self.context[name] = self.add(**appstruct)
-        self.request.session.flash(self.success_message, 'success')
-        location = self.success_url or self.request.resource_url(new_item)
-        return HTTPFound(location=location)
-
 @view_config(route_name="find", renderer='find.jinja2')
 def view_find(context, request):
     return {'aaa':'bbb'}
@@ -406,12 +362,6 @@ def includeme(config):
         ActAddForm,
         name=Act.type_info.add_view,
         #permission='add',
-        renderer='col_test.jinja2',
-        )
-
-    config.add_view(
-        PositionAddForm,
-        name=Position.type_info.add_view,
         renderer='col_test.jinja2',
         )
 

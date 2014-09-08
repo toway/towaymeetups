@@ -331,8 +331,9 @@ def resume_edit2(context, request):
             'exp':JobsWidget(resume_id, resume.jobs),
     }
 
-@view_config(route_name='job_view', renderer='job2.jinja2')
-def job_view(context, request):
+#TODO
+#@view_config(route_name='resume_view', renderer='job2.jinja2')
+def resume_view(context, request):
     jquery.need()
     
     user = get_user(request)
@@ -359,6 +360,17 @@ def job_view(context, request):
             'resumes':user.resumes,
             'pcs':user.position_items,
             })
+
+@view_config(route_name='job_view', renderer='job2.jinja2')
+def job_view(context, request):
+    user = get_user(request)
+    if not user:
+        raise UserNotFount()
+
+    pos_normals = DBSession.query(resources.Positions).filter_by(is_hunting=0).order_by(resources.Position.salary.desc())[0:5]
+    pos_huntings = DBSession.query(resources.Positions).filter_by(is_hunting=1).order_by(resources.Position.salary.desc())[0:5]
+
+    return {}
 
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
 def job_detail_view(context, request):
