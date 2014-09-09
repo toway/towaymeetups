@@ -467,7 +467,7 @@ class Comment(Base):
     post_date = Column(DateTime(), nullable=False, default=datetime.now)
     
 
-
+# NOTE:　class Student contains not only students, should refactor the name to MainUser.
 class Student(MbaUser):
 
     @classproperty
@@ -494,6 +494,11 @@ class Student(MbaUser):
     keyword = Column(String(100))
     job_status = Column(String(100))
 
+
+    auth_info =  Column(Integer,default=0) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
+    auth_meetup =  Column(Integer,default=0)
+    auth_friend =  Column(Integer,default=0)
+
     #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")
     industry = Column(String(255), default=u"")
@@ -502,28 +507,7 @@ class Student(MbaUser):
     between = Column(String(255), default=u"")
     introduction = Column(String(255), default=u"")
 
-    auths =  Column(String(255),default="0$0$0")
 
-    @property
-    def auth_info(self):
-        return True if (self.auths and self.auths[0]=="1") else False
-    @auth_info.setter
-    def auth_info(self, value):
-        self.auths[0] = "1" if value else "0"
-
-    @property
-    def auth_meetup(self):
-        return True if (self.auths and self.auths[2]=="1") else False
-    @auth_meetup.setter
-    def auth_meetup(self, value):
-        self.auths[2] = "1" if value else "0"
-
-    @property
-    def auth_friend(self):
-        return True if (self.auths and self.auths[4]=="1") else False
-    @auth_friend.setter
-    def auth_friend(self, value):
-        self.auths[4] = "1" if value else "0"
 
     resumes = relationship('Resume', backref='user')
 
