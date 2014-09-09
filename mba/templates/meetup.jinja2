@@ -165,7 +165,7 @@
                                     <div class="col-md-11">
                                         <span>{{ comment.user.name }}:</span>
                                         <span class="meetup-comment-timeline">
-                                            {{comment.post_date}}
+                                           {{comment.post_date.strftime("%Y-%m-%d %H:%M") }}
                                         </span>
                                         <div>{{ comment.content }}</div>
                                         
