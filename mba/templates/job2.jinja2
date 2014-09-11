@@ -88,34 +88,15 @@
                                     <th>高薪职位</th>  
                                   </tr>  
                                 </thead>    
+				{% for pos in pos_normals %}
                               <tr> 
-                                <td class="job_link">投资项目管理人</td>  
-                                <td>深圳</td>
-                                <td>2014-4-5</td>
-                                <td>100-200万</td>
-                                <td><button  class="btn btn-primary view_job">查看</button></td>
+				      <td class="job_link">{{pos.title}}</td>  
+				      <td>{{pos.city}}</td>
+				      <td>{{pos.end_date}}</td>
+				      <td>{{pos.salary}}万</td>
+				      <td><button  class="btn btn-primary view_job" onclick="document.location.href='/job-detail/{{pos.id}}'">查看</button></td>
                               </tr>
-                              <tr> 
-                                <td class="job_link">投资项目管理人</td>  
-                                <td>深圳</td>
-                                <td>2014-4-5</td>
-                                <td>100-200万</td>
-                                <td><button class="btn btn-primary view_job">查看</button></td>
-                              </tr>  
-                              <tr> 
-                                <td class="job_link">投资项目管理人</td>  
-                                <td>深圳</td>
-                                <td>2014-4-5</td>
-                                <td>100-200万</td>
-                                <td><button class="btn btn-primary view_job">查看</button></td>
-                              </tr>  
-                              <tr> 
-                                <td class="job_link">投资项目管理人</td>  
-                                <td>深圳</td>
-                                <td>2014-4-5</td>
-                                <td>100-200万</td>
-                                <td><button class="btn btn-primary view_job">查看</button></td>
-                              </tr>    
+			      {% endfor %}
                         </table>
                       </div>
                     </div>
@@ -127,63 +108,24 @@
                                   <tr>  
                                     <th>最新招聘</th>  
                                   </tr>  
-                                </thead>    
+                                </thead>
+				{% for pos in pos_huntings %}
                               <tr> 
                                 <td class="job_link">【猎头】</td>  
                                 <td>
-                                  <p>中华英才网广州猎头部</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+					<p>{{pos.company_name}}</p>
+					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
+					<span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
-                                  <p class="job_link">投资管理人（北京）</p>
-                                  <p><span>学历:硕士以上</span></p>
+					<p class="job_link">{{pos.title}}（{{pos.city_name}}）</p>
+				  <p><span>学历:{{pos.degree}}</span></p>
                                 </td>
                                 <td>
                                   <p><button  class="btn btn-warning view_job">申请</button></p>
                                   <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
                               </tr>
-                              <tr> 
-                                <td class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>中华英才网广州猎头部</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">投资管理人（北京）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
-                              </tr> 
-                              <tr> 
-                                <td class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>中华英才网广州猎头部</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">投资管理人（北京）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
-                              </tr> 
-                              <tr> 
-                                <td class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>中华英才网广州猎头部</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">投资管理人（北京）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
-                              </tr>   
+			      {% endfor %}
                         </table>
 
                     </div>
