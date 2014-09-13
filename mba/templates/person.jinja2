@@ -97,7 +97,7 @@
         </div>
             <div class="hidden"  id="visitors_info">
               <ul>
-		        {% for friend in user.all_friends %}
+		        {% for friend in person_info.visitors %}
                  <li class="renmai_item  clearfix">
 		                <a href="/person/{{friend.id}}" alt="{{friend.real_name}}">
                             <img style="float:left" src="{{ friend.avatar }}"  height="40px" width="40px">
