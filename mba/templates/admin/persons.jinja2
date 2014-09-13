@@ -52,6 +52,9 @@
                     </div>
 
                     <div class="col-md-9">
+
+                         {% include "messages.jinja2" %}
+
                         <h2>所有用户</h2>
 
                         {% include "/admin/pagination.jinja2" %}
@@ -65,20 +68,39 @@
                                 <th>邮箱</th>
                                 <th>姓名</th>
                                 <th>激活状态</th>
+                                <th>资料认证</th>
                                 <th>用户种类</th>
                                 <th>用户组</th>
                                 <th>操作</th>
                             </tr>
                             {% for person in persons %}
                                 <tr>
-                                    <td>{{ person.id }}</td>
-                                    <td><a href="/person/{{ person.id }}">{{ person.name }}</a></td>
+                                    <td><a style="text-decoration: underline;color: #0000ff" target="_blank" href="/person/{{ person.id }}">{{ person.id }}</a></td>
+                                    <td>{{ person.name }}</td>
                                     <td>{{ person.email }}</td>
                                     <td>{{ person.real_name }}</td>
                                     <td>{{ person.active }}</td>
+                                    <td>{% if person.auth_info == 0 %}
+                                            未认证
+                                        {% elif person.auth_info == 1 %}
+                                            认证通过
+                                        {% elif person.auth_info == 2%}
+                                            认证不通过
+                                        {% else %}
+                                            未知状态
+                                        {% endif %}
+                                    </td>
                                     <td>{{ person.type }}</td>
                                     <td>{{ person.groups }}</td>
-                                    <td> # </td>
+                                    <td>
+                                        {% if person.auth_info in [0,2] %}
+                                            <button class="person-iauth" name="pass-iauth" id="pass-iauth-{{ person.id }}" value="{{ person.id }}" >通过认证</button>
+                                            <button class="person-iauth" name="fail-iauth" id="fail-iauth-{{ person.id }}" value="{{ person.id }}" >不通过认证</button>
+                                        {% else %}
+                                            <button class="person-iauth" name="cancel-iauth" id="cancel-iauth-{{ person.id }}" value="{{ person.id }}" >取消认证</button>
+
+                                        {% endif %}
+                                    </td>
 
                                 </tr>
 
@@ -113,9 +135,25 @@
                $("li#li_admin").addClass("active");
 
 
-                /*
-                $(document).pjax('.home-menu a', '#pjax-content');
-                 */
+                function do_job(method, options, callback){
+
+                    $.extend(options, {'method':method});
+                    $.post('/admin/persons',options, callback);
+
+                }
+
+
+
+                $('.person-iauth').click(function(){
+                    var self = this;
+                    var method = $(this).attr('name');
+                    var personid = $(this).val();
+                    do_job(method,{'person-id':personid },function(ret){
+                            window.location.reload();
+                    });
+                    return false;
+                 });
+
             });
         </script>
 

@@ -295,7 +295,9 @@ def create_mba_root():
 
     if DBSession.query(Student).count() == 0:
         DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳'))
-        DBSession.add(Student(name="testmba2",title=u"产品总监",password="123456",email="2@1.com",real_name=u'张软件',city_name=u'北京'))
+        DBSession.add(Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京'))
+        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海'))
+        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州'))
 
 
     if DBSession.query(Node).filter_by(name="infomation").count() == 0:
