@@ -723,6 +723,7 @@ class Position(Document):
     users = association_proxy('resumes', 'user')
     company = relationship('CompanyInfo', backref='postitions')
     company_name = association_proxy('company', 'name')
+    industry = association_proxy('company', 'industry')
 
     type_info = Document.type_info.copy(
         name=u'Position',
