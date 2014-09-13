@@ -122,7 +122,7 @@
 				  <p><span>学历:{{pos.degree}}</span></p>
                                 </td>
                                 <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+					<p><button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button></p>
                                   <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
                               </tr>
 			      {% endfor %}
@@ -150,7 +150,7 @@
 					<p><span>学历:{{pos.experience}}</span></p>
                                 </td>
                                 <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
+                                  <p><button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button></p>
                                   <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
                               </tr>
 			      {% endfor %}
@@ -183,24 +183,14 @@
               <div class="jianli_manage" class="right_head little_pad"><span>投递记录</span>
               </div>
                 <ul  class="right_list_cnt">
+			{% for pos in pos_apply %}
                    <li class="right_list_item  clearfix">
                         <div class="renmai_detail_cnt">
-                          <p class="friend_detail_info  job_link">视觉设计师（深圳）</p>
-                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+				<p class="friend_detail_info  job_link">{{pos.title}}（{{pos.city_name}}）</p>
+				<p class="friend_detail_info">{{pos.company_name}}</p>
                         </div>
                     </li>
-                   <li class="right_list_item  clearfix">
-                        <div class="renmai_detail_cnt">
-                          <p class="friend_detail_info  job_link">视觉设计师（深圳）</p>
-                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                        </div>
-                    </li>
-                    <li class="right_list_item  clearfix">
-                        <div class="renmai_detail_cnt">
-                          <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                          <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                        </div>
-                    </li>
+		    {% endfor %}
                 </ul>
 
                 <div  class="jianli_manage"  class="right_head little_pad"><span>收藏的职位
@@ -234,14 +224,6 @@
 
 
 
-
-
-
-
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-
         <!-- Bootstrap -->
         <script src="static/bootstrap/js/bootstrap.min.js"></script>
 
@@ -271,6 +253,16 @@
                $("li#li_job").parent().find("li").removeClass("active");
                $("li#li_job").find(a).addClass("active")
             })
+
+	    function applyit(id) {
+		  $.get("/job-postit/"+id, function(result){
+			if('ok' == result || 'dup' == result) {
+				alert("申请成功");
+			} else {
+				alert("申请失败");
+			}
+		  });
+	    }
         </script>
     </body>
 </html>
