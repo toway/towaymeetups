@@ -70,6 +70,7 @@ friend = Table(
         'friends', Base.metadata,
         Column('user_a_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
         Column('user_b_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
+        Column('status', Integer, default=0)  # 0: No friend yet, 1: friend already
         )
 
 
@@ -206,9 +207,16 @@ class MbaUser(Base):
     # 1 <--> n
     visitors = association_proxy("visit", "user")
 
+
+
     friends = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id)
+
+
+
+
+
 
 
     city_id = Column(Integer, ForeignKey('city.id'))
@@ -264,11 +272,11 @@ class MbaUser(Base):
 friend_union = select([
                 friend.c.user_a_id,
                 friend.c.user_b_id
-                ]).union(
+                ]).where(friend.c.status==1).union(
                         select([
                             friend.c.user_b_id,
                             friend.c.user_a_id,
-                            ])
+                            ]).where(friend.c.status==1)
                 ).alias()
 
 MbaUser.all_friends = relationship('MbaUser',
@@ -276,6 +284,32 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
+
+
+my_requests = select([
+                friend.c.user_a_id,
+                friend.c.user_b_id
+                ]).where(friend.c.status==0).alias()
+
+MbaUser.my_requests = relationship('MbaUser',
+                        secondary=my_requests,
+                        primaryjoin=MbaUser.id==my_requests.c.user_a_id,
+                        secondaryjoin=MbaUser.id==my_requests.c.user_b_id,
+                        viewonly=True)
+
+
+others_requests = select([
+                friend.c.user_a_id,
+                friend.c.user_b_id,
+                ]).where(friend.c.status==0).alias()
+
+MbaUser.others_requests = relationship('MbaUser',
+                        secondary=others_requests,
+                        primaryjoin=MbaUser.id==others_requests.c.user_b_id,
+                        secondaryjoin=MbaUser.id==others_requests.c.user_a_id,
+                        viewonly=True)
+
+
 
 
 class Participate(Base):
