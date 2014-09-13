@@ -52,8 +52,8 @@
                     
                     <div class="job_title_cnt">
                         <div class="left">
-                           <h2 class="job_zhiwei">CG3D_运营专员</h2>
-                           <h4 class="job_company job_link">三星通讯</h4>
+				<h2 class="job_zhiwei">{{pos.title}}</h2>
+				<h4 class="job_company job_link">{{pos.company_name}}</h4>
                         </div>
                         <div class="right">
                            <button class="btn_job_shenqing"></button>
@@ -65,42 +65,19 @@
                     <div class="job_detail_cnt">
                       <div class="container">
                           <div class="col-md-5">
-                               <p><label>月薪：</label><span>面议</span></p>
-                               <p><label>工作经验：</label><span>不限</span></p>
+				  <p><label>月薪：</label><span>{{pos.salary}}</span></p>
+				  <p><label>工作经验：</label><span>{{pos.experience}}</span></p>
                                <p><label>招聘人数：</label><span>2人</span></p>
                           </div>
                           <div class="col-md-7">
-                            <p><label>工作地点：</label><span>深圳</span></p>
+				  <p><label>工作地点：</label><span>{{pos.city_name}}</span></p>
                             <p><label>工作性质：</label><span>全职</span></p>
                             <p><label>职位类别：</label><span>网络运营专员</span></p>
                           </div>
                       </div>
                       <hr />
                       <div class="container">
-                          <div class="col-md-12 job_detail_part_cnt">
-                               <p><label>职位描述</label></p>
-                               <ol>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                               </ol>
-                          </div>
-                          <div class="col-md-12">
-                            <p><label>应聘要求</label></p>
-                               <ol>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                                 <li>能够使用工具对手机进行2D、3D工业设计</li>
-                               </ol>
-                          </div>
-                          <div class="col-md-12">
-                            <p><label>公司介绍</label></p>
-                               <p>
-                                 三星电子是一家具有设计、研发、销售能力的大型通讯公司。手机市场份额在国内前三，深受消费者好评。
-                               </p>
-                          </div>
+			      {{pos.body|safe}}
                       </div>
                       <hr/>
                       <button class="btn_job_shenqing2"></button><button class="btn_job_shoucang"</button>
@@ -140,43 +117,17 @@
                 <div  class="job_relative"  class="right_head little_pad"><span>您可能感兴趣的职位
                 </span></div>
                   <ul class="right_list_cnt">
+			  {% for p in pos_like %}
                      <li class="right_list_item  clearfix">
                           <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+				  <p class="friend_detail_info job_link">{{p.title}}</p>
+				  <p class="friend_detail_info">{{p.company_name}}</p>
                           </div>
                       </li>
-                     <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
-                      <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
-                      <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
-                      <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
+		      {% endfor %}
                       <a src="" class="more_job">查看更多相似职位</a>
                   </ul>
             </div>
-
-
-
-
 
         </div>
         
@@ -217,12 +168,6 @@
         </div>
 
         {% include "footer.jinja2" %}
-
-
-
-
-
-
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>

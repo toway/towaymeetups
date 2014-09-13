@@ -17,6 +17,11 @@ from formencode.validators import Email
 from deform.widget import RichTextWidget
 from deform.widget import TextAreaWidget
 
+from sqlalchemy import and_
+from sqlalchemy import not_
+from sqlalchemy import or_
+from  sqlalchemy.sql.expression import func
+
 from kotti import get_settings
 from kotti.security import get_principals
 from kotti import DBSession
@@ -116,14 +121,51 @@ def job_view(context, request):
     pos_normals = DBSession.query(Position).filter_by(hunting_type=0).order_by(Position.salary.desc())[0:5]
     pos_huntings = DBSession.query(Position).filter_by(hunting_type=1).order_by(Position.salary.desc())[0:5]
 
+    interest = ""
+    if user.interest:
+        interest = user.interest
+    industry = ""
+    if user.industry:
+        industry = user.industry
+    if interest == "" and industry == "":
+        pos_like = DBSession.query(Position).all()[0:5]
+    else:
+        pos_like = DBSession.query(Position).join(CompanyInfo).filter(
+                or_(Position.title.like(interest)
+                    , CompanyInfo.industry.like(industry)) )[0:5]
+
     return {
             'pos_normals':pos_normals,
             'pos_huntings':pos_huntings,
+            'pos_like': pos_like,
             }
 
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
+@wrap_user
 def job_detail_view(context, request):
-    return {}
+    pos_id = request.matchdict['id']
+    pos_id = int(pos_id)
+    
+    user = get_user(request)
+    interest = ""
+    if user.interest:
+        interest = user.interest
+    industry = ""
+    if user.industry:
+        industry = user.industry
+    if interest == "" and industry == "":
+        pos_like = DBSession.query(Position).all()[0:5]
+    else:
+        pos_like = DBSession.query(Position).join(CompanyInfo).filter(
+                or_(Position.title.like(interest)
+                    , CompanyInfo.industry.like(industry)) )[0:5]
+
+    pos = DBSession.query(Position).get(pos_id)
+
+    return {
+            'pos': pos,
+            'pos_like': pos_like,
+            }
 
 @view_config(route_name='job_company_info', renderer='job2_company_info.jinja2')
 def job_companyinfo_view(context, request):
@@ -155,7 +197,7 @@ def includeme(config):
         renderer='col_test.jinja2',
         )
     config.add_route('job_view','/job')
-    config.add_route('job_detail','/job-detail')
+    config.add_route('job_detail','/job-detail/{id:\d+}')
     config.add_route('job_company_info','/job-company')
     config.add_route('job_shenqing','/job-apply')
     config.add_route('job_combine','/job-combine')

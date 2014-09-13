@@ -93,7 +93,7 @@
 				      <td class="job_link">{{pos.title}}</td>  
 				      <td>{{pos.city}}</td>
 				      <td>{{pos.end_date}}</td>
-				      <td>{{pos.salary}}万</td>
+				      <td>{{pos.salary}}</td>
 				      <td><button  class="btn btn-primary view_job" onclick="document.location.href='/job-detail/{{pos.id}}'">查看</button></td>
                               </tr>
 			      {% endfor %}
@@ -138,62 +138,22 @@
                                     <th>您可能感兴趣的职位</th>  
                                   </tr>  
                                 </thead>    
+				      {% for pos in pos_like %}
                               <tr> 
                                 <td class="job_link">【猎头】</td>  
                                 <td>
-                                  <p>深圳市齐齐礼品有限公司</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
+					<p>{{pos.title}}</p>
+					<p><span class="inline-block">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
-                                  <p class="job_link">UI设计师（深圳）</p>
-                                  <p><span>学历:硕士以上</span></p>
+					<p class="job_link">{{pos.title}}</p>
+					<p><span>学历:{{pos.experience}}</span></p>
                                 </td>
                                 <td>
                                   <p><button  class="btn btn-warning view_job">申请</button></p>
                                   <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
                               </tr>
-                              <tr> 
-                                <td  class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>深圳市齐齐礼品有限公司</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">UI设计师（深圳）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
-                              </tr>
-                              <tr> 
-                                <td class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>深圳市齐齐礼品有限公司</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">UI设计师（深圳）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job  class="job_link"" href="">收藏职位</a></p></td>
-                              </tr>
-                              <tr> 
-                                <td class="job_link">【猎头】</td>  
-                                <td>
-                                  <p>深圳市齐齐礼品有限公司</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span><span>薪资:面谈</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">UI设计师（深圳）</p>
-                                  <p><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p><button  class="btn btn-warning view_job">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
-                              </tr>
+			      {% endfor %}
                         </table>
                       </div>
 
