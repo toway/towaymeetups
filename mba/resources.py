@@ -209,7 +209,7 @@ class MbaUser(Base):
 
 
 
-    friends = relationship("MbaUser", secondary=friend,
+    friendship = relationship("MbaUser", secondary=friend,
                 primaryjoin=id==friend.c.user_a_id,
                 secondaryjoin=id==friend.c.user_b_id)
 

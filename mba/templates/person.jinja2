@@ -57,14 +57,17 @@
                 <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
                 <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
             {% else %}
-                {% if person_info in user.my_requests %} {# 我已经发送了加为好友的请求 #}
-                    已经申请加为好友，等待对方同意
-                {% elif person_info in user.others_requests %}
-                    对方申请向你加为好友，<a href="#">同意</a>, <a href="#">不同意</a>
+                {# 我已经发送了加为好友的请求 #}
+                <span id="rsqted-msg" class=" {% if not person_info in user.my_requests %} hidden {% endif %}">已经申请加为好友，等待对方同意</span>
+
+                {% if person_info in user.others_requests %}
+                    对方申请向你加为好友
+                    <button class="btn btn-sm btn-default op-friend" id="agree_friend"  value="{{ person_info.id }}">同意</button>
+                    <!--<button class="btn btn-sm btn-default op-friend" id="agree_friend" >同意</button>,-->
                 {% elif person_info in user.all_friends %}
-                    <button class="btn btn-default btn-sm" id="info_friend_set">取消好友</button>
+                    <button class="btn btn-default btn-sm op-friend" id="cancel_friend">取消好友</button>
                 {% else %}
-                    <button class="btn btn-default btn-sm" id="info_friend_set">加为好友</button>
+                    <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
                 {% endif %}
             {% endif %}
 
@@ -214,6 +217,8 @@
 
          $(document).ready(function() {
 
+
+
                $("li#li_card").parent().find("li").removeClass("active");
                $("li#li_card").addClass("active");
                // $('.activity_auth').tooltip("show");
@@ -224,7 +229,35 @@
                 $(".sixin_close").bind("click",function(){
                   $("#minpian_body").removeClass("mask");
                   $("#send_sixin").hide();
-               });
+               })
+
+
+                function do_job(method, opts, callback){
+                    $.extend(opts, {method:method});
+                    $.post("/friends", opts, function(ret){
+                        if(ret.errcode == ret.SUCCESS){
+                            callback(ret);
+                            // window.location.reload();
+                        }else{
+                            alert('错误：'+ret.errmsg);
+                        }
+                    })
+                }
+
+
+                $(".op-friend").click(function(){
+                    var method = $(this).attr("id");
+                    var to_add = $(this).val();
+                    var self = this;
+                    do_job(method, {'target-person':to_add},function(ret){
+{#                        if(method=='add_friend'){#}
+                            // $(".rsqted-msg").show();
+                            $(self).before(ret.retval);
+{#                        }#}
+                    })
+
+
+                });
 		
 	       {% if user_status == 1 %}
                $("#info_edit_set").bind("click",function(){

@@ -15,6 +15,9 @@ from deform.widget import HiddenWidget
 import colander
 import jinja2
 from deform import ValidationFailure
+
+from sqlalchemy.sql.expression import and_
+
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -33,8 +36,9 @@ from kotti import DBSession
 from kotti.security import get_user
 
 from mba import _
-from mba.utils import wrap_user
-from mba.resources import Student, Position
+from mba.utils import wrap_user, RetDict
+from mba.resources import Student, Position, MbaUser, friend
+
 
 def integers(*segment_names):
     def predicate(context, request):
@@ -123,6 +127,9 @@ def view_person(request):
                 "toknown_list": toknown_list,
            })
 
+
+
+
 @view_config(route_name='friend_set')
 def friend_set(request):
     curr_user = get_user(request)
@@ -151,7 +158,68 @@ def friend_set(request):
         else:
             return Response("0")
 
+@view_config(route_name='ajax_friends', renderer='json', xhr=True)
+def ajax_friends(request):
+
+    #return dict(retval='ok',SUCCESS=0,errcode=0)
+    #return RetDict(retval="OK")
+
+    cur_user = get_user(request)
+    if not cur_user:
+        return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+
+    method = request.POST.get('method', None)
+
+    if not method or method not in ['add_friend','cancel_friend','agree_friend']:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+
+
+    target_person_id = request.POST.get('target-person', None)
+
+    if not target_person_id :
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+    target_person = DBSession.query(MbaUser).filter_by(id=target_person_id).first()
+
+    if target_person in cur_user.all_friends:
+        return RetDict(errmsg=u"已经是朋友")
+
+    elif target_person in cur_user.my_requests:
+        return RetDict(errmsg=u"等待对方通过")
+
+    elif target_person in cur_user.others_requests:
+        # Impossible in front-end , but we did in backend
+        relation= DBSession.query(friend).filter(
+            and_(
+                friend.c.user_a_id==target_person_id,
+                friend.c.user_b_id==cur_user.id)
+            ).one()
+
+        relation.status = 1 # It seems does not work
+
+
+        return RetDict(retval=u"同意对方加友请求")
+
+    else: # We add frined now
+        # new_friend_relationship = friend(user_a_id=cur_user.id,
+        #        user_b_id=target_person_id)
+        cur_user.friendship.append(target_person)
+        #target_person.others_requests.append(cur_user)
+        #DBSession.commit()
+
+        return RetDict(retval=u"已经申请加为好友，等待对方同意")
+
+
+
+
+
+
+
+
+
 def includeme(config):
     config.add_route('person','/person/{id}')
+    config.add_route('ajax_friends', '/friends')
     config.add_route('friend_set','/friend_set/{id1:\d+}/{id2:\d+}/{id3:\d+}')
     config.scan(__name__)
