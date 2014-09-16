@@ -150,6 +150,7 @@ def job_view(context, request):
             'pos_huntings':pos_huntings,
             'pos_like': pos_like,
             'pos_apply': pos_apply,
+            'collects': user.positions,
             }
 
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
@@ -196,7 +197,7 @@ def job_shenqing_view(context, request):
     return {}
 
 @view_config(route_name='job_postit')
-def job_apply(context, request):
+def job_postit_view(context, request):
     pos_id = request.matchdict['id']
     pos_id = int(pos_id)
     
@@ -218,6 +219,20 @@ def job_apply(context, request):
     else:
         return Response('ok')
 
+@view_config(route_name='job_collect')
+def job_collect_view(context, request):
+    pos_id = request.matchdict['id']
+    pos_id = int(pos_id)
+
+    user = get_user(request)
+    try:
+        pos = DBSession.query(Position).get(pos_id)
+        if pos not in user.positions:
+            user.positions.append(pos)
+    except:
+        return Response("error")
+    return Response("ok")
+
 #	templates/job2_combine.jinja2
 #	templates/job2_company_info.jinja2
 #	templates/job2_detail.jinja2
@@ -234,6 +249,7 @@ def includeme(config):
     config.add_route('job_view','/job')
     config.add_route('job_detail','/job-detail/{id:\d+}')
     config.add_route('job_postit','/job-postit/{id:\d+}')
+    config.add_route('job_collect','/job-collect/{id:\d+}')
     config.add_route('job_company_info','/job-company')
     config.add_route('job_shenqing','/job-apply')
     config.add_route('job_combine','/job-combine')

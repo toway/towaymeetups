@@ -111,7 +111,7 @@
                                 </thead>
 				{% for pos in pos_huntings %}
                               <tr> 
-                                <td class="job_link">【猎头】</td>  
+				      <td class="job_link">【{{pos.KindName}}】</td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
 					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
@@ -123,7 +123,7 @@
                                 </td>
                                 <td>
 					<p><button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                                  <p><a class="shoucang_job job_link" href="javascript:collectit('{{pos.id}}')">收藏职位</a></p></td>
                               </tr>
 			      {% endfor %}
                         </table>
@@ -151,7 +151,7 @@
                                 </td>
                                 <td>
                                   <p><button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button></p>
-                                  <p><a class="shoucang_job job_link" href="">收藏职位</a></p></td>
+                                  <p><a class="shoucang_job job_link" href="javascript:collectit('{{pos.id}}')">收藏职位</a></p></td>
                               </tr>
 			      {% endfor %}
                         </table>
@@ -166,8 +166,8 @@
               <div id="person_info">
                 <img src="/fanstatic/mba/img/touxiang.png">
                 <div class="person_info_absolute">
-                  <p><span>张某某</span></br></p>   
-                  <p><span>居住地</span></br></p>  
+			<p><span>{{user.name}}</span></br></p>   
+			<p><span>{{user.location if user.location != None}}</span></br></p>  
                   <p><span>(志友号-000008)</span></p>
                 </div>
                 
@@ -196,24 +196,14 @@
                 <div  class="jianli_manage"  class="right_head little_pad"><span>收藏的职位
                 </span></div>
                   <ul class="right_list_cnt">
+			  {% for pos in collects %}
                      <li class="right_list_item  clearfix">
                           <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
+				  <p class="friend_detail_info job_link">{{pos.title}}（{{pos.city_name}}）</p>
+				  <p class="friend_detail_info">{{pos.company_name}}</p>
                           </div>
                       </li>
-                     <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
-                      <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-                            <p class="friend_detail_info job_link">视觉设计师（深圳）</p>
-                            <p class="friend_detail_info">深圳腾讯计算机有限公司</p>
-                          </div>
-                      </li>
+		      {% endfor %}
                   </ul>
             </div>
         </div>
@@ -247,12 +237,12 @@
               {
                 location.href="./"+url;
               } 
-            })
+            });
 
             $(document).ready(function() {
-               $("li#li_job").parent().find("li").removeClass("active");
-               $("li#li_job").find(a).addClass("active")
-            })
+               //$("li#li_job").parent().find("li").removeClass("active");
+               //$("li#li_job").find(a).addClass("active");
+            });
 
 	    function applyit(id) {
 		  $.get("/job-postit/"+id, function(result){
@@ -263,6 +253,17 @@
 			}
 		  });
 	    }
+
+	    function collectit(id) {
+		  $.get("/job-collect/"+id, function(result){
+			if('ok' == result) {
+				alert("收藏成功");
+			} else {
+				alert("收藏失败");
+			}
+		  });
+	    }
+
         </script>
     </body>
 </html>
