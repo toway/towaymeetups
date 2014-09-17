@@ -733,3 +733,25 @@ class Position(Document):
         )
 
 # row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+
+
+class Banner(Base):
+    id = Column(Integer, primary_key=True)
+
+    banner_position = Column(Integer, default=0) # 0：home banner, 1:meetup 2： Job， Currently, home banner is the only selection
+
+    type = Column(Integer, default=0)  # 0: pic Banner, 1:Meetup Banner, 2: Job Banner
+
+    title = Column(String(100))
+
+    img_url = Column(String(100))
+
+    link_url = Column(String(100))
+
+    htmlcontent = Column(String(500), default=0)
+
+    last_edit_date =  Column(Date(), default=datetime.now(tz=None).date())
+
+    status = Column(Integer,default=1)  # 1: 生效， 0:失效
+
+

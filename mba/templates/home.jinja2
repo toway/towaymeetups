@@ -34,11 +34,39 @@
 
             <div class="container mba-home">
                 <div class="row">
-                    <div class="col-md-12">
-                    <div class="jumbotron">
-                        <h2>重点推荐</h2>
-                        可改成图片
-                    </div>
+                    <div class="col-md-12 ">
+                        <div class="mba-headers">
+                            <div  id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+                                <div class="carousel-inner">
+                                    {% for banner in banners %}
+                                    <div class="item {% if banner == banners[0] %}active{% endif %}">
+                                        <div class="row">
+                                           {% if banner.type == 0 %}
+                                               <a href="{{ banner.link_url }}">
+                                                    <img src="{{ banner.img_url }}" width="100%" />
+                                               </a>
+                                           {% else %}
+                                               no
+                                           {% endif %}
+
+                                        </div>
+
+                                    </div>
+
+                                    {% else %}
+                                        <center><br/><h1>无头条推荐</h1><br/></center>
+                                    {% endfor %}
+                                </div>
+                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                            </div>
+
+                        </div>
                     </div>
 
                 </div>

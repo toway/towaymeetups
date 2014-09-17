@@ -36,6 +36,10 @@ class ImageUploadWidget(Widget):
             return null
         return pstruct
 
+class ImageUploadWidget2(ImageUploadWidget):
+    template = "imageupload2"
+
+
 class GeoWidget(MappingWidget):
     template = "qqmap_input"
 

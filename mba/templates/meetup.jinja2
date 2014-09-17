@@ -196,7 +196,7 @@
                             <div class="panel-body">
                                     <div class="applicants">
                                         {% for part in context.parts %}
-                                            <img alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
+                                            <img title="{{ part.real_name or part.name }}" alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
                                             width="30px" height="30px"/>
                                         {% else %}
                                             暂无报名

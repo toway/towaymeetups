@@ -119,6 +119,7 @@ def includeme(config):
     config.include("mba.views.admin.infomation")
     config.include("mba.views.admin.meetup_types")
     config.include("mba.views.admin.persons")
+    config.include("mba.views.admin.banners")
 
 
     config.add_route('admin','/admin')

@@ -1,0 +1,10 @@
+<html>
+<head></head>
+<body style="margin: 0;padding: 0;border: 0">
+{% if upload_success %}
+<div id="thudnail-wrap"><img  id="thudnail" src="{{ img_url }}"  height="100%"/> </div>
+{% endif %}
+
+{{ form|safe }}
+</body>
+</html>

@@ -1,14 +1,14 @@
 <label id="poster_img_name"></label>
-<input type="hidden" id="poster_id" name="poster_id"
+<input type="hidden" id="{{ field.oid }}" name="{{ field.name }}"
         value="{{ cstruct }}"/>
-<button id="{{ field.oid }}"
-        class="btn btn-default {{ field.widget.css_class }}"
-        name="{{ field.name }}">{{ field.widget.title }}</button>
+<button id="{{ field.oid }}-btn"
+        class="btn btn-default {{ field.widget.css_class }}">
+    {{ field.widget.title }}</button>
 
 
 <script type="text/javascript">
   deform.addCallback(
-     '{{field.oid}}',
+     '{{field.oid}}-btn',
      function (oid) {
          $("#" + oid).click(function(){
             var openurl = "/add_image"
