@@ -1,22 +1,29 @@
-TODO list
-=======
-
-11/02/14 17:43:33
+A SNS Site for MBAers
 =====================
-* 所有视图放在mba/views
-* 数据库表相关类在mba/resources.py
-* 数据库测试相关函数在mba/populate.py
 
-14/01/14 13:52:42
-=================
-* 首页
 
-  * 首页效果图还不够用，HTML实现还不够好(TODO)
-  * 需要继续沟通交流，不过与软件实现没关系
+REQURIMENTS
+===========
+* Python 2.7.5
+* Git
 
-* 注册模块
 
-  * 实现用户分组，用户角色，以及权限设置(TODO)
-  * 需要用户注册界面、用户登录效果图(TODO)
-  * 已经建立好register分支(OK)
+INSTALATION
+===========
+* pip install virtualenv
+* mkdir /dir/to/mba/projects/ & cd /dir/to/mba/projects/
+* virtualenv mba_env
+* source mba_env/scripts/activate(linux) or mba_env/scripts/activate(windows)
+* git clone https://github.com/toway/mba.git
+* pip install -r requirements.txt
+ (For Windows user, you should download [py-bcrypt binary][1] first and install it, and remove the package from requirements.txt)
 
+
+RUN
+====
+* pserve development.ini --reload
+
+
+
+
+[1]: https://bitbucket.org/alexandrul/py-bcrypt/downloads
