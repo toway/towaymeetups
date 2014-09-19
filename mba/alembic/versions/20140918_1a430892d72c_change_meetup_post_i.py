@@ -66,13 +66,13 @@ class SqliteOp():
 
 
     def restore_table_data(self, tablename, datalist):
+        if datalist:
+            col = ['?'] * len( datalist[0] )
+            col2 = ','.join(col )
 
-        col = ['?'] * len( datalist[0] )
-        col2 = ','.join(col )
+            self.cursor.executemany("""INSERT INTO %s VALUES (%s)""" % (tablename,col2) , datalist )
 
-        self.cursor.executemany("""INSERT INTO %s VALUES (%s)""" % (tablename,col2) , datalist )
-
-        self.conn.commit()
+            self.conn.commit()
 
 sqliteop = SqliteOp()
 
