@@ -79,7 +79,9 @@ def ImageSchema(tmpstore, title_missing=None):
 
 
 class MbaImageAddForm(ImageAddForm):
-
+    buttons = (
+        deform.Button('save',u"上传"),
+        deform.Button('cancel', u"取消"))
 
 
     form_options = {'action': '/add_image_iframe'}
@@ -117,18 +119,9 @@ class MbaImageAddForm(ImageAddForm):
 
         return "%s_%s" % (nowt, postfix)
 
-    def save_success(self, appstruct):
-        appstruct['name'] = self.random_filename()
-        return super(ImageAddForm, self).save_success(appstruct)
-
-class MbaImageAddForm2(MbaImageAddForm):
-    buttons = (
-        deform.Button('save',u"上传"),
-        deform.Button('cancel', u"取消"))
-
 
     def failure(self, e):
-        ret = MbaImageAddForm.failure(self, e)
+        ret = ImageAddForm.failure(self, e)
         ret['upload_success'] =  False
         return ret
 
@@ -137,34 +130,12 @@ class MbaImageAddForm2(MbaImageAddForm):
 
         appstruct.pop('csrf_token', None)
         name = appstruct['name'] = self.random_filename()
-
-        # name = self.find_name(appstruct)
         new_item = self.context[name] = self.add(**appstruct)
-
-
         img_url =  self.request.resource_url(new_item) + "image"
-
 
         return {"upload_success": True, "img_url": img_url }
 
-        # self.request.session.flash(self.success_message, 'success')
 
-
-        # ret = RetDict(retval=location+"image")
-
-        # return Response(content_type="text/plain",body=json.dumps(ret))
-
-
-
-
-
-
-
-
-
-    @view_config( name="image_upload_view")
-    def upload(self):
-        return Response("OK")
 
 def includeme(config):
     config.add_view(
@@ -194,7 +165,7 @@ def includeme(config):
         )
 
     config.add_view(
-        MbaImageAddForm2,
+        MbaImageAddForm,
         name="add_image_iframe",
         renderer='image_upload_iframe.jinja2',
         )

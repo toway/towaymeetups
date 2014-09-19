@@ -76,8 +76,8 @@
                                 <td>{{ banner.link_url }}</td>
                                 <td>{{ banner.htmlcontent }}</td>
                                 <td>
-                                    <a href="/admin/banner/edit/{{ banner.id }}" class="banner_modify" id="mdf-{{ banner.id }}" value="do-modify">修改</a>
-                                    <button class="banner_delete" id="del-{{ banner.id }}" value="do-delete">删除</button>
+                                    <a href="/admin/banner/edit/{{ banner.id }}" class="btn btn-default "   value="{{ banner.id }}" >修改</a>
+                                    <button class="btn btn-default" id="del-banner" value="{{ banner.id }}">删除</button>
                                 </td>
                             </tr>
                             {% else %}
@@ -113,72 +113,29 @@
                 function do_job(method, options, callback){
 
                     $.extend(options, {'method':method});
-                    $.post('/admin/meetups/types',options, callback);
+                    $.post("/admin/banners", options, function(ret){
+                        if(ret.errcode == ret.SUCCESS){
+                            callback(ret);
+                            // window.location.reload();
+                        }else{
+                            alert('错误：'+ret.errmsg);
+                        }
+                    });
                 }
 
 
 
-                $('.meetuptype_modify').click(function(){
+
+                $('#del-banner').click(function(){
                     var self = this;
-                    var btn = $(this).html().trim();
-
-                    var titlewrap = $(this).parent().prev();
-                    if( btn === '修改'){
-                        var title = titlewrap.html().trim();
-                        titlewrap.html($('<input/>').attr('type', 'text').val(title));
-                        $(this).html('确定');
-
-                    }else {
-                        var title = titlewrap.children(0).val().trim();
-                        titlewrap.html(title);
-                        do_job('mdf-mt',{'mt-title':title,'mt-id': titlewrap.prev().html().trim() },function(ret){
-                            $(self).html('修改');
-                            window.location.reload();
-                        });
-                    }
-                 });
-
-
-                $('.meetuptype_delete').click(function(){
-                    var self = this;
-                    var titlewrap = $(this).parent().prev();
+                    var bannerid = $(this).val();
                     if( confirm('确认删除此条目？') ) {
-                        var mt_id = $(self).attr('id').substr(4);
-                        var title = titlewrap.html().trim();
-                        do_job('del-mt', {'mt-id': mt_id, 'mt-title': title}, function () {
+                        do_job('del-banner', {'banner-id': bannerid }, function () {
                             window.location.reload();
                         });
                     }
                 });
 
-
-                $('#add-meetup-type').click(function(){
-                    var self = this,
-                        btn = $(self).html().trim();
-
-                    if( btn == "添加"){
-                        var toadd = "<tr> "+
-                                "<td>{{ count+1 }}</td>"+
-                                "<td><input id='toaddmt' type='text'/> </td>"+
-                                "<td></td>"+
-                                "</tr>";
-                        $("#mt-list").append(toadd);
-                        $(self).html("确定");
-                    }else{
-                        var title =  $("#mt-list input").val();
-                        if( ! title ){
-                            alert("请填写活动类别!");
-                            return;
-                        }
-
-                        do_job('add-mt', {'mt-title': title}, function(){
-                            window.location.reload();
-                            $(self).html("添加");
-                        });
-
-                    }
-
-                });
 
 
 

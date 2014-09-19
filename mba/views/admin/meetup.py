@@ -45,27 +45,13 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
-from mba.views.widget import URLInputWidget,ImageUploadWidget, GeoWidget
+from mba.views.widget import URLInputWidget,ImageUploadWidget,ImageUploadWidget2, GeoWidget
 from mba.views.view import MbaTemplateAPI
 
 
-@view_config(route_name='activity', renderer='activity.jinja2')
-@wrap_user
-def view_activity(context, request):
-    resp_dict = {
-        'status': 1,# 1=ON_GOING/0=FINISHED
-        'status_desc': u'正在进行中...',
-        'title':u'人格解析与信任建立',
-        'abstract':u'简介',
-        'content':u'活动介绍',
-        'tips':u'xxxxx',
-        'speaker':u'李玫瑾',
-        'speaker_introduction':u'李玫瑾，系中国人民公安大学教授，研究生导师。中国警察协会学术委员，中国青少年犯罪研究会副会长，中国心理学会法心理学专业委员会副主任等。',
-        'comments':[u'ok',u'ok2'],
-        'applicants':[u'陈...',u'余争'] * 10
-    }
+from js.jquery import jquery
 
-    return resp_dict
+
 
 class TagNode(colander.SequenceSchema):
     tag = colander.SchemaNode(colander.String())
@@ -83,36 +69,7 @@ class ActivitySchema(colander.MappingSchema):
         )
     tags = TagNode()
 
-#@view_config(route_name='act_add', renderer='col_test.jinja2')
-def view_activity_add(context, request):
-    schema = ActivitySchema().bind(request=request)
-    form = deform.Form(schema,
-                buttons=[deform.form.Button(u'submit', title=u'发布')])
-    rendered_form = None
-    appstruct = request.params
-    if u'submit' in request.POST:
-        try:
-            appstruct = form.validate(request.POST.items())
-        except ValidationFailure, e:
-            rendered_form = e.render()
-        else:
-            try:
-                act = Act(name=appstruct['title']
-                        , parent_id = get_act_root().id
-                        , status = ActStatus.DRAFT
-                        , title=appstruct['title']
-                        , description=appstruct['description']
-                        , body=appstruct['body']
-                        , tags=appstruct['tags'])
-                DBSession.add(act)
-            except:
-                return {'form': "Exists"}
-            else:
-                return {'form': "Succeed"}
-    if rendered_form is None:
-        rendered_form = form.render(appstruct)
-        #rendered_form = form.render({'title':'a','description':'b','body':'c','tags':['a','b','c']})
-    return {'form': jinja2.Markup(rendered_form)}
+
 
 @colander.deferred
 def deferred_teachertag_it_widget(node, kw):
@@ -151,10 +108,7 @@ def deferred_duplicated_meetupname_validator(node, kw):
             node, _(u"已经存在的URL名!"))
     reqst = kw['request']
     
-    
-    # print 'reqst'
-    # print reqst.POST
-    # print reqst.params
+
     
     if reqst.POST and 'save' in reqst.POST:
         urlname = reqst.params.get('name')
@@ -186,11 +140,19 @@ class ActSchema(colander.MappingSchema):
     )
 
 
-    poster_id = colander.SchemaNode(
-        colander.Integer(),
+    # poster_id = colander.SchemaNode(
+    #     colander.Integer(),
+    #     title=_(u'海报'),
+    #     description=_(u'上传海报'),
+    #     widget=ImageUploadWidget(title=_(u"上传海报"))
+    # )
+
+    poster_img = colander.SchemaNode(
+        colander.String(),
         title=_(u'海报'),
         description=_(u'上传海报'),
-        widget=ImageUploadWidget(title=_(u"上传海报"))
+        widget=ImageUploadWidget2(title=_(u"上传海报"))
+
     )
 
     headline = colander.SchemaNode(
@@ -357,7 +319,60 @@ class ActEditForm(EditFormView):
 def view_find(context, request):
     return {'aaa':'bbb'}
 
+
+
+
+
+def view_meetup_entry(page_index=1, num_per_page=10):
+    jquery.need()
+    queried = DBSession.query(Act)
+    count = queried.count()
+    start = (page_index-1) * num_per_page
+    result = DBSession.query(Act).slice(start,num_per_page)
+    part = [ { 'id': it.id,
+              'name': it.name,
+              'title': it.title,
+              'status': it.status,
+              'headline': it.headline
+             }
+                for it in result ]
+
+    for i in range(len(part)):
+        part[i]['index'] = i+1
+
+    total_page = count / num_per_page + 1
+
+    return {'meetups': part,
+            'total_count': count ,
+            'total_page':total_page,
+            'num_per_page':num_per_page,
+            'page_index': 1}
+
+@view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='view')
+@wrap_user
+def view_admin_home(request):
+    return view_meetup_entry()
+
+@view_config(route_name='admin_meetups', renderer='admin/meetups.jinja2',permission='view')
+@wrap_user
+def view_meetups(request):
+    return view_meetup_entry()
+
+
 def includeme(config):
+
+
+    config.add_route('admin','/admin')
+    config.add_route('admin_meetups','/admin/meetups')
+    config.add_route('admin_reviews','/admin/reviews')
+
+    config.add_route('admin_meetup_add',  '/admin/meetup/add')
+    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2", permission='view')
+
+    config.add_route('admin_meetup_edit',  '/admin/meetup/edit/{id}')
+    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2", permission='view')
+
+
     config.add_view(
         ActAddForm,
         name=Act.type_info.add_view,

@@ -208,10 +208,10 @@ class MbaUser(Base):
     visitors = association_proxy("visit", "user")
 
 
-
-    friendship = relationship("MbaUser", secondary=friend,
-                primaryjoin=id==friend.c.user_a_id,
-                secondaryjoin=id==friend.c.user_b_id)
+    #
+    # friendship = relationship("MbaUser", secondary=friend,
+    #             primaryjoin=id==friend.c.user_a_id,
+    #             secondaryjoin=id==friend.c.user_b_id)
 
 
 
@@ -386,12 +386,18 @@ class Act(Document):
     meetup_type_title = association_proxy('meetup_types', 'title' )
 
 
+
+
+
     #海报ID
-    poster_id =  Column(Integer, ForeignKey('images.id'))
-    poster = relationship('Image')
-    @property
-    def poster_img(self):
-        return  "/images/%s/image/" % (self.poster.name)
+    # poster_id =  Column(Integer, ForeignKey('images.id'))
+    # poster = relationship('Image')
+    # @property
+    # def poster_img(self):
+    #     # return  "/images/%s/image/" % (self.poster.name)
+    #     return self.poster_img_url
+
+    poster_img = Column(String(50))
 
 
     
@@ -531,7 +537,7 @@ class Student(MbaUser):
 
     auth_info =  Column(Integer,default=0) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
     auth_meetup =  Column(Integer,default=0)
-    auth_friend =  Column(Integer,default=0)
+    auth_friend =  Column(Integer,default=0) #
 
     #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")

@@ -91,22 +91,7 @@ class ReviewAddForm(AddFormView):
             ret = wrap_user2(self.request, ret)
             ret.update({'api': MbaTemplateAPI(self.context, self.request)})            
         return ret
-        
-    # def appstruct(self):
-        # appst = AddFormView.appstruct(self)
-        # print (appst)
 
-        # if appst is None:
-            # appst = {'review_to_meetup': self.meetup_id }
-        # else:
-            # appst.update( {'review_to_meetup': self.meetup_id } )
-            
-        # return appst
-    
-    # add_template_vars  = ('review_to_meetup',)
-    # @reify
-    # def review_to_meetup(self):
-        # return self.meetup_id
     
     
     def save_success(self, appstruct):

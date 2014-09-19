@@ -1,6 +1,6 @@
 {# Use FormData(https://developer.mozilla.org/en-US/docs/Web/API/FormData)(ie8/9 not support) for more user-friendly #}
 <div><img id="{{ field.oid }}-img" src="{{ cstruct }}"  width="40px">
-<input type="text" name="{{ field.name }}" val="{{ cstruct }}" hidden="true"/>
+<input type="hidden" name="{{ field.name }}" value="{{ cstruct }}" />
 </div>
 <button name="{{ field.name }}-btn"
         data-toggle="modal"

@@ -37,6 +37,7 @@
  <div class="container mba-margin-top">
    <div class="col-md-12 col-md-offset-0">
         <br/>
+        {% include "messages.jinja2" %}
         <div id="info_cnt" class="inline-block">
         
 		{{person_info_form|safe}}	
@@ -44,11 +45,11 @@
         </div>  <!--end of info_cnt-->
 
         <div class="info_right">
-{#            friends:{% print(user.friends) %}<br/>#}
+{#            friendship:{% print(user.friendship) %}<br/>#}
 {#                all friends:{% print(user.all_friends) %}<br/>#}
 {#                my requests:{% print(user.my_requests) %}<br/>#}
 {#                others requests:{% print(user.others_requests) %}<br/>#}
-                {{  person_info.visitors }}
+{#                {{  person_info.visitors }}#}
             <div class="div_set">
 
 
@@ -65,7 +66,7 @@
                     <button class="btn btn-sm btn-default op-friend" id="agree_friend"  value="{{ person_info.id }}">同意</button>
                     <!--<button class="btn btn-sm btn-default op-friend" id="agree_friend" >同意</button>,-->
                 {% elif person_info in user.all_friends %}
-                    <button class="btn btn-default btn-sm op-friend" id="cancel_friend">取消好友</button>
+                    <button class="btn btn-default btn-sm op-friend" id="cancel_friend" value="{{ person_info.id }}">取消好友</button>
                 {% else %}
                     <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
                 {% endif %}
@@ -237,7 +238,7 @@
                     $.post("/friends", opts, function(ret){
                         if(ret.errcode == ret.SUCCESS){
                             callback(ret);
-                            // window.location.reload();
+                            window.location.reload();
                         }else{
                             alert('错误：'+ret.errmsg);
                         }
@@ -250,9 +251,10 @@
                     var to_add = $(this).val();
                     var self = this;
                     do_job(method, {'target-person':to_add},function(ret){
+
 {#                        if(method=='add_friend'){#}
                             // $(".rsqted-msg").show();
-                            $(self).before(ret.retval);
+                           // $(self).before(ret.retval);
 {#                        }#}
                     })
 

@@ -34,6 +34,9 @@ from mba.views.widget import ImageUploadWidget2
 from js import fineuploader
 from js.jquery import jquery
 
+
+from mba.utils import RetDict
+
 __author__ = 'sunset'
 __date__ = '20140916'
 __desc__ = u'首页BANNER管理'
@@ -92,14 +95,7 @@ class BannerAddForm(AddFormView):
 
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
-
-        print "appstruct:",
-        print appstruct
-        try:
-            DBSession.add( self.add(**appstruct) )
-        except Exception,e:
-            print "Error: %s" % e
-            raise e
+        DBSession.add( self.add(**appstruct) )
 
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url
@@ -114,6 +110,7 @@ class BannerEditForm(EditFormView):
 
     schema_factory = BannerSchema
 
+    success_url = "/admin/banners"
 
 
     def __init__(self, context, request, **kwargs):
@@ -147,47 +144,56 @@ def admin_home_banners(context, request):
         return HTTPFound(location="/login?came_from=%s" % request.url)
 
 
-    err_msg = u""
+
 
     if 'method' in request.POST:
         # mt stands for meetup-type
         try:
-            method = request.POST['method'] # add-mt, del-mt, mdf-mt
+            method = request.POST['method'] # del-banner
 
-            if method  == 'add-mt':
+            if method  == 'del-banner':
 
-                new_type_title = request.POST['mt-title']
-                DBSession.add( Banner(title=new_type_title))
-                request.session.flash((u"成功添加：'%s'" % new_type_title), 'success')
-            else:
 
-                mt_id = int(request.POST['mt-id'])
+
+                mt_id = int(request.POST['banner-id'])
+
                 to_op_mt = DBSession.query(Banner).filter_by(id=mt_id).first()
 
-                mt_title =  request.POST['mt-title']
 
-                if not to_op_mt:
-                    raise Exception(u"错误的参数")
 
-                if method == 'del-mt':
-                    DBSession.delete(to_op_mt)
-                    request.session.flash(_(u"成功删除'%s'" % mt_title), 'success')
+                banner_id = request.POST.get('banner-id', None)
 
-                elif method == 'mdf-mt':
-                    to_op_mt.title = mt_title
-                    request.session.flash(_(u"修改成功!"), 'success')
+                if not banner_id :
+                    return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
-                else:
-                    err_msg = u"错误的方法"
-                    request.session.flash(_(u"错误的参数"))
+                try:
+                    banner_id = int(banner_id)
+                except ValueError,e:
+                    return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+
+                banner = DBSession.query(Banner).filter_by(id=banner_id).first()
+
+                if not banner:
+                    return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+
+                DBSession.delete(banner)
+
+                msg = u"成功删除BANNER %d" % banner_id
+
+                request.session.flash(msg, 'success')
+
+                return RetDict(retval=msg)
+
+
+
 
         except Exception,ex:
-            err_msg = "%s" % ex
-            request.session.flash(_(u"错误：'%s'" % err_msg), 'error')
+            err_msg = "错误：%s" % ex
+            request.session.flash(err_msg, 'error')
 
-
-        finally:
-            return {}
+            return RetDict(errmsg=err_msg)
 
 
 
@@ -206,10 +212,3 @@ def includeme(config):
     config.add_route('admin_home_banners','/admin/banners')
     config.add_route('admin_home_banner_add','/admin/banner/add')
     config.add_route('admin_home_banner_edit',  '/admin/banner/edit/{id}')
-    # config.add_view(
-    #     BannerAddForm,
-    #     name=Banner.type_info.add_view,
-    #     #permission='add',
-    #     renderer='admin/banner_add.jinja2',
-    #     )
-    # config.scan(__name__)

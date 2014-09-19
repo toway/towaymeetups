@@ -158,6 +158,45 @@ def friend_set(request):
         else:
             return Response("0")
 
+from zope.sqlalchemy import mark_changed
+import transaction
+
+
+def calculate_friend_auth(cur_user, target_person):
+
+    myschool = getattr(cur_user, 'school', None)
+    otherschool = getattr(target_person, 'school', None)
+
+    if not myschool or not otherschool or myschool != otherschool:
+        # We sure the will not reach the friend auth
+        pass
+    else:
+
+        if cur_user.auth_friend == 0:
+            # 计算是否满足校友认证
+            count = 0
+
+            # We are pretty sure they will make friends next(actully not very sure), so the min count -1
+            mincount = int( get_settings()['friend_auth_min_count'] ) -1
+
+            for myfriend in cur_user.all_friends:
+                school = getattr(myfriend, 'school', None)
+                if myschool == school:
+                    count +=1
+
+                    if count >= mincount:
+                        cur_user.auth_friend = 1
+
+        if target_person.auth_friend == 0:
+            count = 0
+            for otherfriend in target_person.all_friends:
+                school = getattr(otherfriend, 'school', None)
+                if otherschool == school:
+                    count +=1
+                    if count >= mincount:
+                        target_person.auth_friend = 1
+                        break
+
 @view_config(route_name='ajax_friends', renderer='json', xhr=True)
 def ajax_friends(request):
 
@@ -179,42 +218,100 @@ def ajax_friends(request):
 
     if not target_person_id :
         return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+    try:
+        target_person_id = int(target_person_id)
+    except ValueError,e:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
     target_person = DBSession.query(MbaUser).filter_by(id=target_person_id).first()
 
-    if target_person in cur_user.all_friends:
-        return RetDict(errmsg=u"已经是朋友")
-
-    elif target_person in cur_user.my_requests:
-        return RetDict(errmsg=u"等待对方通过")
-
-    elif target_person in cur_user.others_requests:
-        # Impossible in front-end , but we did in backend
-        relation= DBSession.query(friend).filter(
-            and_(
-                friend.c.user_a_id==target_person_id,
-                friend.c.user_b_id==cur_user.id)
-            ).one()
-
-        relation.status = 1 # It seems does not work
+    if not target_person:
+        return  RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
 
-        return RetDict(retval=u"同意对方加友请求")
+    if method in ['add_friend', 'agree_friend']:
 
-    else: # We add frined now
-        # new_friend_relationship = friend(user_a_id=cur_user.id,
-        #        user_b_id=target_person_id)
-        cur_user.friendship.append(target_person)
-        #target_person.others_requests.append(cur_user)
-        #DBSession.commit()
+        if target_person in cur_user.all_friends:
+            return RetDict(errmsg=u"已经是朋友")
 
-        return RetDict(retval=u"已经申请加为好友，等待对方同意")
+        elif target_person in cur_user.my_requests:
+            return RetDict(errmsg=u"等待对方通过")
+
+        elif target_person in cur_user.others_requests:
 
 
 
+            # We calcute the friend auth first, but actually we should make them friend first
+            # But doing that will raise a Exception:
+            #   DetachedInstanceError: Instance <Student at 0x5788210> is not bound to a Session; attribute refresh operation cannot proceed
+            # So I have no idea but moving this section up
+            calculate_friend_auth(cur_user, target_person)
+
+
+            # relation= DBSession.query(friend).filter(
+            #     and_(
+            #         friend.c.user_a_id==target_person_id,
+            #         friend.c.user_b_id==cur_user.id)
+            #     ).one()
+            #
+            # relation.status = 1 # It seems does not work
 
 
 
+            # So we use raw sql
+
+            session = DBSession()
+            session.execute("""UPDATE friends SET status=1 WHERE user_a_id =:a AND user_b_id=:b """,
+                                 {'a':target_person_id, 'b': cur_user.id } )
+
+            mark_changed(session)
+            transaction.commit()
+
+            request.session.flash(u"同意对方加友请求", 'success')
+
+
+
+
+
+            return RetDict(retval=u"同意对方加友请求")
+
+        else: # We add frined now
+
+            # cur_user.friendship.append(target_person) # abondon this method
+
+
+
+            session = DBSession()
+            session.execute("""INSERT INTO friends(user_a_id, user_b_id, status) VALUES (:a,:b, 0)""",
+                                 {'a':cur_user.id, 'b': target_person_id } )
+
+            mark_changed(session)
+            transaction.commit()
+
+            request.session.flash(u"已经申请加为好友，等待对方同意", 'success')
+            return RetDict(retval=u"已经申请加为好友，等待对方同意")
+
+
+
+    elif method == 'cancel_friend':
+
+        if not target_person in cur_user.all_friends:
+            return RetDict(errmsg=u"你们不是朋友，不能取消")
+
+        # cur_user.friendship.remove(target_person)
+        session = DBSession()
+        session.execute("""DELETE FROM  friends WHERE user_a_id =:a AND user_b_id=:b """,
+                                 {'a':target_person_id, 'b': cur_user.id } )
+        mark_changed(session)
+        transaction.commit()
+
+        request.session.flash(u"成功取消好友关系", 'success')
+
+        return RetDict(retval=u"成功取消好友关系")
+
+
+
+    return  RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
 
 
