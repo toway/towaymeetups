@@ -119,7 +119,7 @@ def view_person(request):
                 "person_info": user,
                 "user_status": user_status,
                 "curr_id": curr_user.id,
-                "resumes": user.resumes,
+                "resume": user.resume,
                 "visitors": user.visitors[0:8],
                 "visit_count": len(user.visitors),
                 "new_positions": new_positions,
