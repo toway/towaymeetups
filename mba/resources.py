@@ -549,7 +549,7 @@ class Student(MbaUser):
 
 
 
-    resumes = relationship('Resume', backref='user')
+    resume = relationship('Resume', backref='user', uselist=False)
 
     def __init__(self, name, real_name='', birth_date=None, school=u"", school_year=0
             , company=u"", industry=u"", special_skill=u"", interest=u"", between=u"", introduction=u"", **kwargs):
@@ -651,9 +651,7 @@ class Skill(Base):
         return [rel.resume for rel in self.resume_items]
 
 class Resume(Base):
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('mba_users.id'))
-    title = Column(String(250))
+    id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
     create_date = Column(DateTime(), default=datetime.utcnow)
     modify_date = Column(DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
     _skills = relationship('ResumeSkill', backref='resume')
@@ -664,7 +662,7 @@ class Resume(Base):
         )
 
     # String like jobid1,jobid2,jobid3 5,6,3,1 
-    job_order = Column(String(100))
+    job_order = Column(String(100), nullable=True)
     jobs = relationship('Job', cascade="save-update, merge, delete")
     educations = relationship('Education', cascade="save-update, merge, delete")
     trains = relationship('Train', cascade="save-update, merge, delete")
@@ -737,6 +735,11 @@ class Position(Document):
         add_view=u'add_position',
         addable_to=[u'Position'],
         )
+
+    @property
+    def KindName(self):
+        ss = [u'公司',u'猎头']
+        return ss[self.hunting_type]
 
 # row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
 

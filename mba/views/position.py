@@ -16,11 +16,18 @@ from pyramid.encode import urlencode
 from formencode.validators import Email
 from deform.widget import RichTextWidget
 from deform.widget import TextAreaWidget
+try:
+    from sqlalchemy.exceptions import IntegrityError
+except ImportError:
+    from sqlalchemy.exc import IntegrityError
 
 from sqlalchemy import and_
 from sqlalchemy import not_
 from sqlalchemy import or_
 from  sqlalchemy.sql.expression import func
+from pyramid.response import Response
+
+from js.jquery import jquery
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -114,6 +121,8 @@ class PositionAddForm(AddFormView):
 @view_config(route_name='job_view', renderer='job2.jinja2')
 @wrap_user
 def job_view(context, request):
+    jquery.need()
+
     user = get_user(request)
     if not user:
         raise UserNotFount()
@@ -134,10 +143,14 @@ def job_view(context, request):
                 or_(Position.title.like(interest)
                     , CompanyInfo.industry.like(industry)) )[0:5]
 
+    pos_apply = DBSession.query(Position).join(PositionResume).filter(PositionResume.resume_id==user.id)
+
     return {
             'pos_normals':pos_normals,
             'pos_huntings':pos_huntings,
             'pos_like': pos_like,
+            'pos_apply': pos_apply,
+            'collects': user.positions,
             }
 
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
@@ -183,6 +196,43 @@ def job_combine_view(context, request):
 def job_shenqing_view(context, request):
     return {}
 
+@view_config(route_name='job_postit')
+def job_postit_view(context, request):
+    pos_id = request.matchdict['id']
+    pos_id = int(pos_id)
+    
+    user = get_user(request)
+
+    if not user.resume:
+        user.resume = Resume()
+        DBSession.flush()
+
+    dup = False
+    try:
+        pr = PositionResume(position_id=pos_id, resume_id = user.resume.id)
+        DBSession.add(pr)
+        DBSession.flush()
+    except IntegrityError:
+        dup = True
+    if dup:
+        return Response('dup')
+    else:
+        return Response('ok')
+
+@view_config(route_name='job_collect')
+def job_collect_view(context, request):
+    pos_id = request.matchdict['id']
+    pos_id = int(pos_id)
+
+    user = get_user(request)
+    try:
+        pos = DBSession.query(Position).get(pos_id)
+        if pos not in user.positions:
+            user.positions.append(pos)
+    except:
+        return Response("error")
+    return Response("ok")
+
 #	templates/job2_combine.jinja2
 #	templates/job2_company_info.jinja2
 #	templates/job2_detail.jinja2
@@ -198,6 +248,8 @@ def includeme(config):
         )
     config.add_route('job_view','/job')
     config.add_route('job_detail','/job-detail/{id:\d+}')
+    config.add_route('job_postit','/job-postit/{id:\d+}')
+    config.add_route('job_collect','/job-collect/{id:\d+}')
     config.add_route('job_company_info','/job-company')
     config.add_route('job_shenqing','/job-apply')
     config.add_route('job_combine','/job-combine')
