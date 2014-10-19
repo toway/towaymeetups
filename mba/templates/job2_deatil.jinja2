@@ -17,7 +17,7 @@
         {% include "inc/css.jinja2" %}
 
 
-        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <style type="text/css">
 .mba-resume-refresh
@@ -174,11 +174,11 @@
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 
         <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/fanstatic/mba/bootstrap/js/bootstrap.min.js"></script>
 
-        <script src="static/js/plugins.js"></script>
+        <script src="/fanstatic/mba/js/plugins.js"></script>
 
-        <script src="static/js/main.js"></script>
+        <script src="/fanstatic/mba/js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -200,7 +200,7 @@
 
             $(document).ready(function() {
                $("li#li_job").parent().find("li").removeClass("active");
-               $("li#li_job").find(a).addClass("active")
+               $("li#li_job").find('a').addClass("active")
             })
         </script>
     </body>

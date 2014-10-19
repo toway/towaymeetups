@@ -50,9 +50,9 @@
                 <div class="mba-resume-total-grid">
                    <!--  <img src="static/img/my_resume_title.jpg"> -->
                     <div class="search_cnt_normal" >
-                        <form class="form-inline" action="job_search.jinja2" role="form">
+                        <form class="form-inline" action="job-search" role="form">
                           <div class="form-group">
-                            <select id="search_region" name="search_region" class="form-control selectpicker">  
+				  <select id="search_region" name="search_region" data='{{city}}' class="form-control searchitem selectpicker">  
                               <option value=0>不限</option>  
                               <option value=1>北京</option>  
                               <option value=2>上海</option>  
@@ -60,7 +60,7 @@
                             </select>  
                           </div>
                           <div class="form-group">
-                           <select id="search_hangye" name="search_hangye" class="form-control selectpicker">  
+				  <select id="search_hangye" name="search_hangye" data='{{industy}}' class="form-control searchitem selectpicker">  
                               <option value=0>不限</option>  
                               <option value=1>IT</option>  
                               <option value=2>通信/移动网络</option>  
@@ -68,17 +68,30 @@
                             </select>  
                           </div>
                            <div class="form-group">
-                           <select id="search_fabufang" name="search_fabufang" class="form-control selectpicker">  
-                              <option value=0>不限</option>  
+				   <select id="search_fabufang" name="search_fabufang" data='{{hunting}}' class="form-control selectpicker">  
+                              <option value=2>不限</option>  
                               <option value=0>猎头</option> 
-                              <option value=0>公司</option> 
+                              <option value=1>公司</option> 
                             </select>
                           </div>
                            <div class="form-group">
                            <label class="sr-only" for="gangwei">请输入关键字</label>
-                            <input type="text" class="form-control" width="200px" id="gangwei" placeholder="请输入关键字">
+			   <input type="text" class="form-control" width="200px" id="gangwei" value="{{keyword}}">
                           </div>
-                          <button type="submit"  class="btn btn-search-normal"></button>
+                          <button type="button"  class="btn btn-search-normal" onclick="do_search()"></button>
+			  <script>
+function do_search() {
+	var city = "";
+	if($("#search_region").val() != 0) {
+		city = $("#search_region option:selected").text();
+	}
+	var hungye = "";
+	if($("#search_hangye").val() != 0) {
+		hungye = $("#search_hangye option:selected").text();
+	}
+	window.location.href="job-search?city="+city+"&ind="+hungye+"&hun="+$("#search_fabufang").val()+"&key="+$("#gangwei").val();
+}
+			  </script>
                         </form>
 
                     </div>
@@ -89,7 +102,7 @@
 
                     <div style="background-color:white;">
                       <div style="height:40px;padding-top:10px">
-                           <div style="float:left;">共50个职位满足搜索条件:<span>结构设计工程师</span><span>+</span><span>深圳</span></div>
+			      <div style="float:left;">共{{result_len}}个职位满足搜索条件:<span>结构设计工程师</span><span>+</span><span>深圳</span></div>
                             <div style="float:right">排列方式： <select id="search_method" name="search_method" class="selectpicker">  
                                     <option value=0>相关性</option>  
                                     <option value=0>地区</option> 
@@ -98,111 +111,28 @@
                       </div>
                      
                       <table id="lastest_job" class="table table-hover">
-                              <!--  <thead>  
-                                  <tr>  
-                                    <th>最新招聘</th>  
-                                  </tr>  
-                                </thead>     -->
+			      {% for job in results %}
                               <tr> 
-                                <!-- <td class="job_link">【猎头】</td>   -->
                                 <td>
-                                  <p class="job_link">视觉设计师(深圳)</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
+					<p class="job_link">{{job.title}}({{job.city_name}})</p>
+					<p><span class="inline-block">{{job.industry}}</span></p>
                                 </td>
                                 <td>
-                                  <p class="job_link">深圳腾讯计算机有限公司</p>
-                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
+					<p class="job_link">{{job.company_name}}</p>
+					<p><span>薪资:{{job.salar}}</span><span>学历:{{job.degree}}</span></p>
                                 </td>
                                 <td>
-                                  <p>深圳</p>
+					<p>{{job.city_name}}</p>
                                 </td>
                                 <td>
-                                  <p>2014-7-7</p>
+					<p>{{job.public_date.strftime('%Y-%m-%d')}}</p>
                                 </td>
                                 <td>
-                                  <button  class="btn btn-primary view_job">查看</button>
-                                </td>
-                              </tr>
-                             <tr> 
-                                <!-- <td class="job_link">【猎头】</td>   -->
-                                <td>
-                                  <p class="job_link">视觉设计师(深圳)</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">深圳腾讯计算机有限公司</p>
-                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p>深圳</p>
-                                </td>
-                                <td>
-                                  <p>2014-7-7</p>
-                                </td>
-                                <td>
-                                  <button  class="btn btn-primary view_job">查看</button>
+					<button  class="btn btn-primary view_job"
+					       	onclick='window.location.href="/job-detail/{{job.id}}"'>查看</button>
                                 </td>
                               </tr>
-                              <tr> 
-                                <!-- <td class="job_link">【猎头】</td>   -->
-                                <td>
-                                  <p class="job_link">视觉设计师(深圳)</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">深圳腾讯计算机有限公司</p>
-                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p>深圳</p>
-                                </td>
-                                <td>
-                                  <p>2014-7-7</p>
-                                </td>
-                                <td>
-                                  <button  class="btn btn-primary view_job">查看</button>
-                                </td>
-                              </tr>
-                              <tr> 
-                                <!-- <td class="job_link">【猎头】</td>   -->
-                                <td>
-                                  <p class="job_link">视觉设计师(深圳)</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">深圳腾讯计算机有限公司</p>
-                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p>深圳</p>
-                                </td>
-                                <td>
-                                  <p>2014-7-7</p>
-                                </td>
-                                <td>
-                                  <button  class="btn btn-primary view_job">查看</button>
-                                </td>
-                              </tr>
-                              <tr> 
-                                <!-- <td class="job_link">【猎头】</td>   -->
-                                <td>
-                                  <p class="job_link">视觉设计师(深圳)</p>
-                                  <p><span class="inline-block">公司规模:1000-5000人</span></p>
-                                </td>
-                                <td>
-                                  <p class="job_link">深圳腾讯计算机有限公司</p>
-                                  <p><span>薪资:面谈</span><span>学历:硕士以上</span></p>
-                                </td>
-                                <td>
-                                  <p>深圳</p>
-                                </td>
-                                <td>
-                                  <p>2014-7-7</p>
-                                </td>
-                                <td>
-                                  <button  class="btn btn-primary view_job">查看</button>
-                                </td>
-                              </tr>
+			      {% endfor %}
                         </table>
                     <div id="pageCnt" style="float:right"> </div>        
                     </div>
@@ -267,6 +197,17 @@
             });
 
             $(document).ready(function() {
+		$(".searchitem").each(function() {
+			var txt = $(this).attr("data");
+			if(txt == '') {
+				txt = '不限';
+			}
+			var sel = "#" + $(this).attr('id') + " option";
+			$(sel).filter(function() {
+			    return this.text == txt;
+			}).attr('selected', true);
+		});
+		$("#search_fabufang").val($("#search_fabufang").attr("data"));
                $("li#li_job").parent().find("li").removeClass("active");
                $("li#li_job").find(a).addClass("active")
             })

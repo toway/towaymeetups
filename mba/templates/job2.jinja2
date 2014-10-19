@@ -48,7 +48,7 @@
                 <div class="mba-resume-total-grid">
                    <!--  <img src="static/img/my_resume_title.jpg"> -->
                     <div class="search_cnt2">
-                        <form class="form-inline" action="job_search.jinja2" role="form">
+                        <form class="form-inline" action="" role="form">
                           <div class="form-group">
                             <select id="search_region" name="search_region" class="form-control selectpicker">  
                               <option value=0>不限</option>  
@@ -76,7 +76,20 @@
                            <label class="sr-only" for="gangwei">请输入关键字</label>
                             <input type="text" class="form-control" id="gangwei" placeholder="请输入关键字">
                           </div>
-                          <button type="submit" id="btn-search" class="btn btn-search"></button>
+                          <button type="button" id="btn-search" class="btn btn-search" onclick="do_search()"></button>
+			  <script>
+function do_search() {
+	var city = "";
+	if($("#search_region").val() != 0) {
+		city = $("#search_region option:selected").text();
+	}
+	var hungye = "";
+	if($("#search_hangye").val() != 0) {
+		hungye = $("#search_hangye option:selected").text();
+	}
+	window.location.href="job-search?city="+city+"&ind="+hungye+"&hun="+$("#search_fabufang").val()+"&key="+$("#gangwei").val();
+}
+			  </script>
                         </form>
 
                     </div>

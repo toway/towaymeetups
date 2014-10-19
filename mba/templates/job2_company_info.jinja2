@@ -54,17 +54,17 @@
                     <div class="company_detail_cnt">
                       <div class="container">
 
-                               <p><label>公司性质：</label><span>民营</span></p>
-                               <p><label>公司规模：</label><span>1000-2000人</span></p>
-                               <p><label>公司行业：</label><span>农林牧渔</span></p>
+			      <p><label>公司性质：</label><span>{{company.type_info}}</span></p>
+			      <p><label>公司规模：</label><span>{{company.scope}}</span></p>
+			      <p><label>公司行业：</label><span>{{company.industry}}</span></p>
                          
                       </div>
                       <h3 class="company_part_title">公司介绍</h3>
                       <p class="company_detail_info">
-                          深圳市芭田生态工程股份有限公司，是一家集科研、生产、销售为一体，以生产复合肥、控释肥、绿色生态肥为主业，开发利用工农业废弃物变废为肥的环保型高新技术企业、国家科技创新型星火龙头企业，是2003年度深圳市50强民营企业之一，成立于1989年，注册资金7000万元，员工1100余人，年产能力100万吨。1999年在全国同行业中率先通过ISO9002国际质量体系认证，2001年启用国际一流的ERP管理软件，同年获中华人民共和国部颁“化工生产企业质量监督检验机构基本条件”一级证书，2003年通过ISO14001环保体系认证。
-                        </p>
+				{{company.description|safe}}
+                      </p>
                         <p>
-                          公司地址：深圳南山区白石洲。
+			公司地址：{{company.location}}
                         </p>
                         <h3 class="company_part_title">招聘职位</h3>
                          <ul class="nav nav-tabs review-tabs" >

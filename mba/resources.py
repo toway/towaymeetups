@@ -672,7 +672,8 @@ class CompanyInfo(Base):
     scope = Column(String(200))
     industry = Column(String(200))
     type_info = Column(String(200))
-    info = Column(UnicodeText())
+    location = Column(String(300))
+    description = Column(UnicodeText())
 
 #用户投给职位的简历
 class PositionResume(Base):

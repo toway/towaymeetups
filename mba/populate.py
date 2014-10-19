@@ -317,7 +317,8 @@ def populate():
             , scope=u"1000-2000人"
             , industry=u"农林"
             , type_info=u"民营"
-            , info=u"深圳市芭田生态工程股份有限公司")
+            , location=u"南山区前海路"
+            , description=u"深圳市芭田生态工程股份有限公司")
         DBSession.add(c)
         DBSession.flush()
 
