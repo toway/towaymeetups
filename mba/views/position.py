@@ -24,7 +24,8 @@ except ImportError:
 from sqlalchemy import and_
 from sqlalchemy import not_
 from sqlalchemy import or_
-from  sqlalchemy.sql.expression import func
+from sqlalchemy.sql.expression import func
+from sqlalchemy import or_
 from pyramid.response import Response
 
 from js.jquery import jquery
@@ -106,17 +107,63 @@ class PositionAddForm(AddFormView):
         context = DBSession.query(Node).filter_by(name="position").one()
         AddFormView.__init__(self, context, request, **kwargs)
         try:
-            self.company_id = request.matchdict['cid']
+            self.company_id = request.params['cid']
         except:
             pass
 
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
         name = self.find_name(appstruct)
+        print self.add
         new_item = self.context[name] = self.add(company_id=self.company_id, **appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
+        print new_item.id
         return HTTPFound(location=location)
+
+class CompanySchema(colander.Schema):
+    name = colander.SchemaNode(colander.String(), title=_(u"公司名字"))
+    type_info = colander.SchemaNode(colander.String(), title=_(u"公司性质"))
+    scope = colander.SchemaNode(colander.String(), title=_(u"公司规模"))
+    industry = colander.SchemaNode(colander.String(), title=_(u"公司行业"))
+    location = colander.SchemaNode(colander.String(), title=_(u"公司地址"))
+    description = colander.SchemaNode(
+            colander.String(),
+            title = u'公司描述',
+            widget=RichTextWidget(theme='modern'
+                , template = 'richtext.jinja2'
+                , width=790
+                , height=500),
+        )
+
+@view_config(route_name='add_company', renderer='col_test.jinja2')
+def company_add(context, request):
+    schema = CompanySchema().bind(request=request)
+
+    form = deform.Form(schema, buttons=('Save', 'Cancel')) ;
+    rendered_form = None
+
+    if 'Save' in request.POST:
+        try:
+            appstruct = form.validate(request.POST.items())
+        except ValidationFailure, e:
+            request.session.flash(_(u"添加失败" ), 'error')
+            rendered_form = e.render()
+        else:
+            company = CompanyInfo(**appstruct)
+            DBSession.add(company)
+            DBSession.flush()
+            url = '/job-company/%d' % company.id
+            return HTTPFound(location=url)
+
+    if rendered_form is None:
+        rendered_form = form.render(request.params)
+
+    return  {'form': jinja2.Markup(rendered_form)}
+
+@view_config(route_name='edit_company', renderer='col_test.jinja2')
+def company_edit(context, request):
+    pass
 
 @view_config(route_name='job_view', renderer='job2.jinja2')
 @wrap_user
@@ -182,7 +229,14 @@ def job_detail_view(context, request):
 
 @view_config(route_name='job_company_info', renderer='job2_company_info.jinja2')
 def job_companyinfo_view(context, request):
-    return {}
+    id = request.matchdict['id']
+    id = int(id)
+    try:
+        company = DBSession.query(CompanyInfo).get(id)
+    except:
+        pass
+
+    return {'company':company}
 
 @view_config(route_name='job_real', renderer='job2_real.jinja2')
 def job_real_view(context, request):
@@ -233,12 +287,68 @@ def job_collect_view(context, request):
         return Response("error")
     return Response("ok")
 
-#	templates/job2_combine.jinja2
-#	templates/job2_company_info.jinja2
-#	templates/job2_detail.jinja2
-#	templates/job2_real.jinja2
-#	templates/job2_shenqing_more.jinja2
+@view_config(route_name='job_search', renderer='job2_search_result.jinja2')
+def job_search(context, request):
+    city = ""
+    industy = ""
+    hunting = 2
+    keyword = ""
+    try:
+        city = request.params['city']
+    except:
+        pass
+    try:
+        industy = request.params['ind']
+    except:
+        pass
+    try:
+        hunting = int(request.params['hun'])
+    except:
+        pass
+    try:
+        keyword = request.params['key']
+    except:
+        pass
 
+    filters = []
+    if city != "":
+        filters.append(Position.city_name.like(u'%%%s%%' % city))
+    if industy != "":
+        filters.append(CompanyInfo.industry.like(u'%%%s%%' % industy))
+    if hunting != 2:
+        filters.append(Position.hunting_type == hunting)
+
+    filter1 = None
+    if len(filters) == 1:
+        filter1 = filters[0]
+    elif len(filters) == 2:
+        filter1 = and_(filters[0], filters[1])
+    elif len(filters) == 3:
+        filter1 = and_(filters[0], filters[1], filters[2])
+
+    filter_all = None
+    if keyword != "":
+        if filter1 is None:
+            filter_all = or_(Position.title.like(u'%%%s%%' % keyword)
+                    , CompanyInfo.name.like(u'%%%s%%' % keyword))
+        else:
+            filter_all = and_(filter1, or_(Position.title.like(u'%%%s%%' % keyword)
+                    , CompanyInfo.name.like(u'%%%s%%' % keyword)))
+    else:
+        filter_all = filter1
+
+    if filter_all is None:
+        results = DBSession.query(Position).all()
+    else:
+        results = DBSession.query(Position).join(CompanyInfo).filter(filter_all).all()
+
+    return {
+            'city': city,
+            'industy': industy,
+            'hunting': hunting,
+            'keyword': keyword,
+            'results':results
+            , 'result_len':len(results)}
 
 def includeme(config):
     config.add_view(
@@ -246,12 +356,15 @@ def includeme(config):
         name=Position.type_info.add_view,
         renderer='col_test.jinja2',
         )
+    config.add_route('add_company','/add-company')
+    config.add_route('edit_company','/edit-company')
     config.add_route('job_view','/job')
     config.add_route('job_detail','/job-detail/{id:\d+}')
     config.add_route('job_postit','/job-postit/{id:\d+}')
     config.add_route('job_collect','/job-collect/{id:\d+}')
-    config.add_route('job_company_info','/job-company')
+    config.add_route('job_company_info','/job-company/{id:\d+}')
     config.add_route('job_shenqing','/job-apply')
     config.add_route('job_combine','/job-combine')
     config.add_route('job_real','/job-real')
+    config.add_route('job_search','/job-search')
     config.scan(__name__)

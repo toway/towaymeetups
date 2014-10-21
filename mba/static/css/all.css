@@ -970,6 +970,241 @@ div.jianli_manage span{
   border-bottom:  1px dashed rgb(240,238,239);
 }
 
+#gaoxin_job{
+  margin-top: 20px;
+  background-color: rgb(240,238,239);
+  border: 2px solid rgb(240,238,239);
+}
+
+
+#person_info{
+  border:1px solid RGB(199,199,199);
+}
+
+  #person_info .info_auth,.activity_auth,.friend_auth
+  {
+      width:74px;
+      height: 21px;
+      display:inline-block; 
+      margin-right: 2px;
+  }
+.person_info_absolute{
+  position: absolute;
+  left: 115px;
+  top: 20px;
+}
+
+#job_manange{
+  background-color: rgb(243,160,2);
+  height: 50px;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  font-size: 26px;
+  margin: 10px 0;
+}
+
+.search_cnt_normal{
+  background-color: #2283D7;
+  padding-left: 20px;
+  height: 80px;
+  padding-top: 20px;
+}
+
+.btn-search-normal{
+  background: url('/fanstatic/mba/img/botton_sprites.png') no-repeat -300px 0px;
+  width: 200px;
+  height: 40px;
+}
+
+#person_info .info_auth{
+    background-image: url("/fanstatic/mba/img/info_auth.png");
+  }
+#person_info .activity_auth{
+    background-image: url("/fanstatic/mba/img/activity_auth.png");
+  }
+
+ #person_info .friend_auth{
+    background-image: url("/fanstatic/mba/img/friend_auth.png");
+  }
+
+  #person_info.info_auth_disable{
+    background-image: url("/fanstatic/mba/img/info_auth.png");
+  }
+
+  #person_info .activity_auth_disable{
+    background-image: url("/fanstatic/mba/img/activity_auth.png");
+  }
+
+  #person_info .friend_auth_disable{
+    background-image: url("/fanstatic/mba/img/friend_auth.png");
+  }
+
+.shoucang_job{
+  padding-left: 15px;
+  background: url("/fanstatic/mba/img/shoucang_job.png") no-repeat scroll 0 5px rgba(0, 0, 0, 0);
+}
+
+div.jianli_manage{
+  background-color: #F7F7F6;
+  border: 1px solid #CDC9C4;
+  height: 38px;
+  height: 42px;
+  font-size: 20px;
+} 
+
+
+div.jianli_manage span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.right_list_cnt{
+  border-left: 1px solid #CDC9C4;
+  border-right: 1px solid #CDC9C4;
+  border-bottom: 1px solid #CDC9C4;
+}
+
+.job_link{
+  color: #2C60C7;
+}
+
+.right_list_item{
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  margin-left: 10px;
+}
+
+#gaoxin_job > thead > tr > th {
+  text-align: left;
+}
+
+#gaoxin_job > tbody > tr{
+  border-bottom:  1px dashed rgb(240,238,239);
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.job_manage{
+  background-color: rgb(247,247,247);
+}
+
+.mt50{
+  margin-top: 78px;
+
+}
+
+.pt25{
+  padding-top: 25px;
+}
+
+.job_title_cnt{
+  background-color: #D0EFFF;
+  height:80px;
+  vertical-align: middle;
+  /*line-height: 80px;*/
+  padding:18px 15px;
+}
+
+.job_detail_cnt{
+  background-color: white;
+}
+
+.company_detail_cnt{
+  background-color: white;
+  padding: 10px 10px 10px 15px;
+}
+
+p.company_detail_info{
+ line-height: 28px;
+letter-spacing: 1px;
+}
+
+.job_detail_part_cnt{
+  padding:20px 10px;
+}
+
+div.left{
+  float: left;
+}
+
+div.right{
+  float: right;
+}
+
+h4.job_company{
+
+}
+
+.btn_job_shenqing{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -90px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 150px;
+}
+
+.btn_job_shenqing2{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+    margin-right: 20px;
+}
+
+.btn_job_shoucang{
+    background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+}
+
+h2.company_name{
+  margin-bottom: 15px;
+}
+
+.company_part_title
+{
+  background-color: #ECF6FF;
+  height: 30px;
+  line-height: 30px;
+  margin: 15px 0px;
+  padding-left:5px; 
+}
+
+
+div.job_relative{
+  background-color: #F7F7F6;
+  background-color: #E2E0DB;
+  border: 1px solid #CDC9C4;
+  height: 38px;
+  height: 42px;
+  font-size: 18px;
+} 
+
+
+div.job_relative span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.more_job{
+  color: RGB(27,110,180);
+  /*float: right;*/
+  position: relative;
+  right:0px;
+  padding-right: 15px;
+  cursor: pointer;
+  background: url("/fanstatic/mba/img/go.png") no-repeat right;
+}
+
+
 
 
 
@@ -1100,9 +1335,16 @@ div.job_relative span{
 
 .search_cnt2{
  /* background-color: RGB(72,190,234);*/
-  background: url('/fanstatic/mba/img/search_bg.png') repeat-x;
+ /* background: url('/fanstatic/mba/img/search_bg.png') repeat-x;*/
+  background-color: #D0E9F3;
   border: 1px solid RGB(72,190,234);
   height: 134px;
+}
+
+#btn-search{
+  background: url('/fanstatic/mba/img/btn_search.png') no-repeat;
+  width: 82px;
+  height:82px;
 }
 
 /***************分页******************/
