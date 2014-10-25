@@ -197,6 +197,7 @@ def calculate_friend_auth(cur_user, target_person):
                         target_person.auth_friend = 1
                         break
 
+# Do friend operations
 @view_config(route_name='ajax_friends', renderer='json', xhr=True)
 def ajax_friends(request):
 
@@ -313,10 +314,35 @@ def ajax_friends(request):
 
     return  RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
+#Get all my friends
+@view_config(route_name='get_my_friends', renderer='json',  request_method="GET")
+def get_my_friends(request):
+
+    cur_user = get_user(request)
+    if not cur_user:
+        return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+
+
+    friends = cur_user.all_friends
+    json_friends = [
+        {'id': i.id,
+         'name': i.name,
+         'real_name': i.real_name ,
+         'avatar': i.avatar
+         }
+        for i in friends
+    ]
+
+    return RetDict(retval=json_friends)
+
+
+
 
 
 def includeme(config):
     config.add_route('person','/person/{id}')
     config.add_route('ajax_friends', '/friends')
+    config.add_route('get_my_friends', '/my_friends')
+
     config.add_route('friend_set','/friend_set/{id1:\d+}/{id2:\d+}/{id3:\d+}')
     config.scan(__name__)

@@ -73,6 +73,21 @@ friend = Table(
         Column('status', Integer, default=0)  # 0: No friend yet, 1: friend already
         )
 
+# Meetup Invitation
+class MeetupInvitation(Base):
+     id = Column('id', Integer, nullable=False,  primary_key=True, autoincrement=True)
+     inviter_id = Column('inviter_id',Integer, ForeignKey('mba_users.id'))     #邀请者
+     inviter = relationship("MbaUser", foreign_keys="[MeetupInvitation.inviter_id]")
+     invitee_id = Column('invitee_id', Integer, ForeignKey('mba_users.id') )     #被邀请者
+     invitee = relationship("MbaUser", foreign_keys="[MeetupInvitation.invitee_id]")
+
+     meetup_id = Column(Integer, ForeignKey('acts.id'))
+     meetup =  relationship('Act')
+
+
+     status = Column(Integer, default=0) # 0 : unread, 1: ignore 2:accept, 3: reject 4: deleted
+
+
 
 class UserInterest(Base):
     interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
@@ -215,7 +230,8 @@ class MbaUser(Base):
 
 
 
-
+    invited_meetups  = relationship("MeetupInvitation",
+                                    foreign_keys="[MeetupInvitation.invitee_id]" )
 
 
 
@@ -763,5 +779,7 @@ class Banner(Base):
     last_edit_date =  Column(Date(), default=datetime.now(tz=None).date())
 
     status = Column(Integer,default=1)  # 1: 生效， 0:失效
+
+
 
 

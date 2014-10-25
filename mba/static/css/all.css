@@ -486,6 +486,19 @@ ul { list-style-type: none; }
     margin-left: 30px;
     margin-top: 20px;
 }
+
+
+.meetup-invite-friend-box {
+    width: 200px;
+    display: none;
+    position: fixed;
+}
+.meetup-invite-friend-body{
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 .meetup-comment-prompt{
     color:#808080;
 }
