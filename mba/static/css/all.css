@@ -409,6 +409,39 @@ ul { list-style-type: none; }
 
 
 
+/* /home again start */
+.mba-headers .carousel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+.mba-headers .carousel  .carousel-control {
+    width: 50px;
+}
+
+.mba-headers .carousel  .carousel-control.left {
+    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to right, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+.mba-headers .carousel  .carousel-control.right {
+    background-image: -webkit-linear-gradient(right, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to left, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+
+.mba-headers .carousel  .carousel-control .glyphicon-chevron-left {
+    left: 10px;
+}
+.mba-headers .carousel  .carousel-control .glyphicon-chevron-right {
+    right: 10px;
+}
+
+/* /home again end */
+
+
 /* /meetups style begin */
 .meetups-header .carousel {
     margin-top: 10px;

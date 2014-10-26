@@ -37,6 +37,7 @@
  <div class="container mba-margin-top">
    <div class="col-md-12 col-md-offset-0">
         <br/>
+        {% include "messages.jinja2" %}
         <div id="info_cnt" class="inline-block">
         
 		{{person_info_form|safe}}	
@@ -44,29 +45,49 @@
         </div>  <!--end of info_cnt-->
 
         <div class="info_right">
+{#            friendship:{% print(user.friendship) %}<br/>#}
+{#                all friends:{% print(user.all_friends) %}<br/>#}
+{#                my requests:{% print(user.my_requests) %}<br/>#}
+{#                others requests:{% print(user.others_requests) %}<br/>#}
+{#                {{  person_info.visitors }}#}
             <div class="div_set">
-		    {% if user_status == 1 %}
-             <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
-             <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
-	     {% elif user_status == 0 %}
-             <button class="btn btn-default btn-sm" id="info_friend_set">加为好友</button>
-	     {% else %}
-             <button class="btn btn-default btn-sm" id="info_friend_set">取消好友</button>
-	     {% endif %}
+
+
+
+            {% if person_info.id == user.id %}
+                <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
+                <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
+            {% else %}
+                {# 我已经发送了加为好友的请求 #}
+                <span id="rsqted-msg" class=" {% if not person_info in user.my_requests %} hidden {% endif %}">已经申请加为好友，等待对方同意</span>
+
+                {% if person_info in user.others_requests %}
+                    对方申请向你加为好友
+                    <button class="btn btn-sm btn-default op-friend" id="agree_friend"  value="{{ person_info.id }}">同意</button>
+                    <!--<button class="btn btn-sm btn-default op-friend" id="agree_friend" >同意</button>,-->
+                {% elif person_info in user.all_friends %}
+                    <button class="btn btn-default btn-sm op-friend" id="cancel_friend" value="{{ person_info.id }}">取消好友</button>
+                {% else %}
+                    <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
+                {% endif %}
+            {% endif %}
+
             </div>
-            <div id="renmai" class="right_head little_pad">我的人脉
+            <div id="renmai" class="right_head little_pad">我的人脉<span class="visited_count">({{ person_info.all_friends | length }})</span>
               <button class="switch add"></button></div>
             <div class="hidden"  id="renmai_info">
               <ul>
-		      {% for friend in person_info.all_friends %}
+		        {% for friend in user.all_friends %}
                  <li class="renmai_item  clearfix">
-		  <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="/fanstatic/mba/img/kown.jpg" height="100px" width="100px">
+		                <a href="/person/{{friend.id}}" alt="{{friend.real_name}}">
+                            <img style="float:left" src="{{ friend.avatar }}"  height="40px" width="40px">
+                        </a>
+
                       <div class="renmai_detail_cnt">
-			      <p class="friend_detail_info">&nbsp;&nbsp;{{friend.real_name}}</p>
-			      <p class="friend_detail_info">&nbsp;&nbsp;{{friend.industry}}/{{friend.school}}</p>
+                          <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
                       </div>
                   </li>
-		  {% endfor %}
+		        {% endfor %}
               </ul>
               <div class="nav_down">
                 <a class="nav_down" href=""><img src="/fanstatic/mba/img/nav_down.gif"></a>
@@ -74,14 +95,36 @@
               
               <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->
             </div>
-	    <div class="right_head little_pad">来访纪录:<span class="visited_count">{{visit_count}}</span><button class="switch add"></button></div>
-            <div id="friend" class="right_head">可能认识的人<button class="switch sub"></button></div>
+
+	    <div id="visitors" class="right_head little_pad">来访纪录:<span class="visited_count">{{visit_count}}</span><button class="switch add"></button>
+
+        </div>
+            <div class="hidden"  id="visitors_info">
+              <ul>
+		        {% for friend in person_info.visitors %}
+                 <li class="renmai_item  clearfix">
+		                <a href="/person/{{friend.id}}" alt="{{friend.real_name}}">
+                            <img style="float:left" src="{{ friend.avatar }}"  height="40px" width="40px">
+                        </a>
+
+                      <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
+                      </div>
+                  </li>
+		        {% endfor %}
+              </ul>
+              <div class="nav_down">
+                <a class="nav_down" href=""><img src="/fanstatic/mba/img/nav_down.gif"></a>
+              </div>
+           </div>
+
+        <div id="friend" class="right_head">可能认识的人<button class="switch sub"></button></div>
             <div id="friend_info" class="friend_list">
                 <ul>
 			{% for friend in toknown_list %}
                   <li class="friend_item  clearfix">
-		  <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="{{ friend.avatar  }}" height="40px" width="40px">
-		      </a>
+                    <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="{{ friend.avatar  }}" height="40px" width="40px">
+		            </a>
                       <div class="friend_detail_cnt">
 			      <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
 			      <a class="friend_detail_info renshi" href="/person/{{friend.id}}">&nbsp;&nbsp;认识她</a>
@@ -93,7 +136,6 @@
             </div>
             <div  class="right_head yaoqing">
               邀请站外好友
-                泪
             </div>
             <div>
                 <input type="text" id="name" placeholder="姓名" width="35px"/><input type="text" id="email" placeholder="邮箱"  width="35px"/>
@@ -176,6 +218,8 @@
 
          $(document).ready(function() {
 
+
+
                $("li#li_card").parent().find("li").removeClass("active");
                $("li#li_card").addClass("active");
                // $('.activity_auth').tooltip("show");
@@ -186,7 +230,36 @@
                 $(".sixin_close").bind("click",function(){
                   $("#minpian_body").removeClass("mask");
                   $("#send_sixin").hide();
-               });
+               })
+
+
+                function do_job(method, opts, callback){
+                    $.extend(opts, {method:method});
+                    $.post("/friends", opts, function(ret){
+                        if(ret.errcode == ret.SUCCESS){
+                            callback(ret);
+                            window.location.reload();
+                        }else{
+                            alert('错误：'+ret.errmsg);
+                        }
+                    })
+                }
+
+
+                $(".op-friend").click(function(){
+                    var method = $(this).attr("id");
+                    var to_add = $(this).val();
+                    var self = this;
+                    do_job(method, {'target-person':to_add},function(ret){
+
+{#                        if(method=='add_friend'){#}
+                            // $(".rsqted-msg").show();
+                           // $(self).before(ret.retval);
+{#                        }#}
+                    })
+
+
+                });
 		
 	       {% if user_status == 1 %}
                $("#info_edit_set").bind("click",function(){

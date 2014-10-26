@@ -70,6 +70,7 @@ friend = Table(
         'friends', Base.metadata,
         Column('user_a_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
         Column('user_b_id', Integer, ForeignKey('mba_users.id'), primary_key=True),
+        Column('status', Integer, default=0)  # 0: No friend yet, 1: friend already
         )
 
 
@@ -206,9 +207,16 @@ class MbaUser(Base):
     # 1 <--> n
     visitors = association_proxy("visit", "user")
 
-    friends = relationship("MbaUser", secondary=friend,
-                primaryjoin=id==friend.c.user_a_id,
-                secondaryjoin=id==friend.c.user_b_id)
+
+    #
+    # friendship = relationship("MbaUser", secondary=friend,
+    #             primaryjoin=id==friend.c.user_a_id,
+    #             secondaryjoin=id==friend.c.user_b_id)
+
+
+
+
+
 
 
     city_id = Column(Integer, ForeignKey('city.id'))
@@ -264,11 +272,11 @@ class MbaUser(Base):
 friend_union = select([
                 friend.c.user_a_id,
                 friend.c.user_b_id
-                ]).union(
+                ]).where(friend.c.status==1).union(
                         select([
                             friend.c.user_b_id,
                             friend.c.user_a_id,
-                            ])
+                            ]).where(friend.c.status==1)
                 ).alias()
 
 MbaUser.all_friends = relationship('MbaUser',
@@ -276,6 +284,32 @@ MbaUser.all_friends = relationship('MbaUser',
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
                         viewonly=True)
+
+
+my_requests = select([
+                friend.c.user_a_id,
+                friend.c.user_b_id
+                ]).where(friend.c.status==0).alias()
+
+MbaUser.my_requests = relationship('MbaUser',
+                        secondary=my_requests,
+                        primaryjoin=MbaUser.id==my_requests.c.user_a_id,
+                        secondaryjoin=MbaUser.id==my_requests.c.user_b_id,
+                        viewonly=True)
+
+
+others_requests = select([
+                friend.c.user_a_id,
+                friend.c.user_b_id,
+                ]).where(friend.c.status==0).alias()
+
+MbaUser.others_requests = relationship('MbaUser',
+                        secondary=others_requests,
+                        primaryjoin=MbaUser.id==others_requests.c.user_b_id,
+                        secondaryjoin=MbaUser.id==others_requests.c.user_a_id,
+                        viewonly=True)
+
+
 
 
 class Participate(Base):
@@ -352,12 +386,18 @@ class Act(Document):
     meetup_type_title = association_proxy('meetup_types', 'title' )
 
 
+
+
+
     #海报ID
-    poster_id =  Column(Integer, ForeignKey('images.id'))
-    poster = relationship('Image')
-    @property
-    def poster_img(self):
-        return  "/images/%s/image/" % (self.poster.name)
+    # poster_id =  Column(Integer, ForeignKey('images.id'))
+    # poster = relationship('Image')
+    # @property
+    # def poster_img(self):
+    #     # return  "/images/%s/image/" % (self.poster.name)
+    #     return self.poster_img_url
+
+    poster_img = Column(String(50))
 
 
     
@@ -467,7 +507,7 @@ class Comment(Base):
     post_date = Column(DateTime(), nullable=False, default=datetime.now)
     
 
-
+# NOTE:　class Student contains not only students, should refactor the name to MainUser.
 class Student(MbaUser):
 
     @classproperty
@@ -494,6 +534,11 @@ class Student(MbaUser):
     keyword = Column(String(100))
     job_status = Column(String(100))
 
+
+    auth_info =  Column(Integer,default=0) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
+    auth_meetup =  Column(Integer,default=0)
+    auth_friend =  Column(Integer,default=0) #
+
     #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")
     industry = Column(String(255), default=u"")
@@ -502,28 +547,7 @@ class Student(MbaUser):
     between = Column(String(255), default=u"")
     introduction = Column(String(255), default=u"")
 
-    auths =  Column(String(255),default="0$0$0")
 
-    @property
-    def auth_info(self):
-        return True if (self.auths and self.auths[0]=="1") else False
-    @auth_info.setter
-    def auth_info(self, value):
-        self.auths[0] = "1" if value else "0"
-
-    @property
-    def auth_meetup(self):
-        return True if (self.auths and self.auths[2]=="1") else False
-    @auth_meetup.setter
-    def auth_meetup(self, value):
-        self.auths[2] = "1" if value else "0"
-
-    @property
-    def auth_friend(self):
-        return True if (self.auths and self.auths[4]=="1") else False
-    @auth_friend.setter
-    def auth_friend(self, value):
-        self.auths[4] = "1" if value else "0"
 
     resume = relationship('Resume', backref='user', uselist=False)
 
@@ -714,3 +738,25 @@ class Position(Document):
         )
 
 # row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+
+
+class Banner(Base):
+    id = Column(Integer, primary_key=True)
+
+    banner_position = Column(Integer, default=0) # 0：home banner, 1:meetup 2： Job， Currently, home banner is the only selection
+
+    type = Column(Integer, default=0)  # 0: pic Banner, 1:Meetup Banner, 2: Job Banner
+
+    title = Column(String(100))
+
+    img_url = Column(String(100))
+
+    link_url = Column(String(100))
+
+    htmlcontent = Column(String(500), default=0)
+
+    last_edit_date =  Column(Date(), default=datetime.now(tz=None).date())
+
+    status = Column(Integer,default=1)  # 1: 生效， 0:失效
+
+

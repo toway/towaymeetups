@@ -1,0 +1,76 @@
+{# Use FormData(https://developer.mozilla.org/en-US/docs/Web/API/FormData)(ie8/9 not support) for more user-friendly #}
+<div><img id="{{ field.oid }}-img" src="{{ cstruct }}"  width="40px">
+<input type="hidden" name="{{ field.name }}" value="{{ cstruct }}" />
+</div>
+<button name="{{ field.name }}-btn"
+        data-toggle="modal"
+        data-target="#imgupload-{{ field.oid }}"
+        class="btn btn-default {{ field.css_class }}">
+    {{ field.title }}
+</button>
+
+
+<div class="modal fade" id="imgupload-{{ field.oid }}"
+        aria-labelledby="modalLabel-{{ field.oid }}"
+        aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="modalLabel-{{ field.oid }}">图片上传</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+            <div class="preview"></div>
+
+            <iframe  src="/add_image_iframe" name="upload-iframe" frameborder="0">
+            </iframe>
+
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="do-close" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" id="re-upload" class="btn btn-default" >重传</button>
+        <button type="button" id="do-upload" class="btn btn-primary">确定</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<script type="text/javascript">
+    deform.addCallback(
+        '{{ field.oid }}',
+        function (oid) {
+            $("#do-upload").click(function(){
+
+                var iframe = window.frames['upload-iframe'];
+
+                var thudnail = $("iframe[name='upload-iframe']").contents().find("#thudnail");
+                if( typeof(thudnail[0]) != undefined && thudnail[0]){
+                    var src = thudnail.attr("src");
+                    $("#" + oid + "-img").attr("src", src);
+                    $("input[name='{{ field.name }}']").val(src);
+
+                    $('#imgupload-'+oid).modal('hide');
+
+                    iframe.location.reload();
+                }
+
+            });
+
+            $("#re-upload").click(function(){
+
+                var iframe = window.frames['upload-iframe'];
+
+                    iframe.location.reload();
+
+            });
+
+
+
+     });
+</script>
+

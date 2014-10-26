@@ -21,7 +21,7 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 
-from mba.resources import Infomation
+from mba.resources import Infomation, Banner
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.views.meetups import query_meetups
@@ -38,6 +38,13 @@ def query_info(request):
 
      return {'infomation': info}
 
+
+def query_banners(request):
+    result = DBSession.query(Banner).limit(20)
+
+    return {'banners': result}
+
+
 @view_config(route_name='home', renderer='home.jinja2')
 @wrap_user
 def view_home(context, request):
@@ -45,6 +52,7 @@ def view_home(context, request):
         return HTTPFound("/login")
     d = query_meetups(request)
     d.update(query_info(request))
+    d.update(query_banners(request))
     return d
 
 
