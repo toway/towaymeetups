@@ -67,8 +67,8 @@
                           </div>
                            <div class="form-group">
                            <select id="search_fabufang" name="search_fabufang" class="form-control selectpicker">  
-                              <option value=0>不限</option>  
-                              <option value=0>猎头</option> 
+                              <option value=2>不限</option>  
+                              <option value=1>猎头</option> 
                               <option value=0>公司</option> 
                             </select>
                           </div>
@@ -124,7 +124,7 @@ function do_search() {
                                 </thead>
 				{% for pos in pos_huntings %}
                               <tr> 
-				      <td class="job_link">【{{pos.KindName}}】</td>  
+				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
 					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
@@ -153,7 +153,7 @@ function do_search() {
                                 </thead>    
 				      {% for pos in pos_like %}
                               <tr> 
-                                <td class="job_link">【猎头】</td>  
+				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.title}}</p>
 					<p><span class="inline-block">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
@@ -193,32 +193,11 @@ function do_search() {
               <div id="job_manange">
                 简历管理
               </div>
-              <div class="jianli_manage" class="right_head little_pad"><span>投递记录</span>
-              </div>
-                <ul  class="right_list_cnt">
-			{% for pos in pos_apply %}
-                   <li class="right_list_item  clearfix">
-                        <div class="renmai_detail_cnt">
-				<p class="friend_detail_info  job_link">{{pos.title}}（{{pos.city_name}}）</p>
-				<p class="friend_detail_info">{{pos.company_name}}</p>
-                        </div>
-                    </li>
-		    {% endfor %}
-                </ul>
 
-                <div  class="jianli_manage"  class="right_head little_pad"><span>收藏的职位
-                </span></div>
-                  <ul class="right_list_cnt">
-			  {% for pos in collects %}
-                     <li class="right_list_item  clearfix">
-                          <div class="renmai_detail_cnt">
-				  <p class="friend_detail_info job_link">{{pos.title}}（{{pos.city_name}}）</p>
-				  <p class="friend_detail_info">{{pos.company_name}}</p>
-                          </div>
-                      </li>
-		      {% endfor %}
-                  </ul>
-            </div>
+	    <div id="manager_info">
+		    {{manager_info|safe}}
+          </div>
+
         </div>
         
 
@@ -257,10 +236,19 @@ function do_search() {
                // $("li#li_job").find(a).addClass("active");
             });
 
+	    function refresh_manager() {
+		$.get("/job-manager-info", function(result) {
+			$("#manager_info").html(result);
+		});
+	    }
+
 	    function applyit(id) {
 		  $.get("/job-postit/"+id, function(result){
-			if('ok' == result || 'dup' == result) {
+			if('ok' == result) {
 				alert("申请成功");
+				refresh_manager();
+			} else if('dup' == result) {
+				alert('已经申请');
 			} else {
 				alert("申请失败");
 			}
@@ -271,6 +259,7 @@ function do_search() {
 		  $.get("/job-collect/"+id, function(result){
 			if('ok' == result) {
 				alert("收藏成功");
+				refresh_manager();
 			} else {
 				alert("收藏失败");
 			}

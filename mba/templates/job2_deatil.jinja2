@@ -56,7 +56,7 @@
 				<h4 class="job_company job_link">{{pos.company_name}}</h4>
                         </div>
                         <div class="right">
-                           <button class="btn_job_shenqing"></button>
+                           <button id="shengqing1" class="btn_job_shenqing"></button>
                         </div>
                     </div>
                 </div>
@@ -80,8 +80,10 @@
 			      {{pos.body|safe}}
                       </div>
                       <hr/>
-                      <button class="btn_job_shenqing2"></button><button class="btn_job_shoucang"</button>
+                      <button id="shengqing2" class="btn_job_shenqing2"></button><button id="shoucang" class="btn_job_shoucang"</button>
                     </div>
+		    <script>
+		    </script>
 
             </div>
 
@@ -189,16 +191,44 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
 
-            $(".resume_operate").click(function(){
-              var url = $(this).attr("url");
-              console.log(url);
-              if(url)
-              {
-                location.href="./"+url;
-              } 
-            })
+		function applyit(id) {
+		  $.get("/job-postit/"+id, function(result){
+			if('ok' == result) {
+				alert("申请成功");
+				refresh_manager();
+			} else if('dup' == result) {
+				alert('已经申请');
+			} else {
+				alert("申请失败");
+			}
+		  });
+	    }
 
+	    function collectit(id) {
+		  $.get("/job-collect/"+id, function(result){
+			if('ok' == result) {
+				alert("收藏成功");
+				refresh_manager();
+			} else {
+				alert("收藏失败");
+			}
+		  });
+	    }
+
+	   var this_id = {{pos.id}};
             $(document).ready(function() {
+		$("#shenqing1").click(function() {
+				applyit(this_id);
+				});
+
+		$("#shenqing2").click(function() {
+				applyit(this_id);
+				});
+
+		$("#shoucang").click(function() {
+			collectit(this_id);
+				});
+
                $("li#li_job").parent().find("li").removeClass("active");
                $("li#li_job").find('a').addClass("active")
             })

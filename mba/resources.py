@@ -713,9 +713,4 @@ class Position(Document):
         addable_to=[u'Position'],
         )
 
-    @property
-    def KindName(self):
-        ss = [u'公司',u'猎头']
-        return ss[self.hunting_type]
-
 # row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
