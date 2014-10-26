@@ -141,6 +141,7 @@ class CompanySchema(colander.Schema):
         )
 
 @view_config(route_name='add_company', renderer='col_test.jinja2')
+@wrap_user
 def company_add(context, request):
     schema = CompanySchema().bind(request=request)
 
@@ -303,6 +304,7 @@ def job_collect_view(context, request):
     return Response("ok")
 
 @view_config(route_name='job_search', renderer='job2_search_result.jinja2')
+@wrap_user
 def job_search(context, request):
     city = ""
     industy = ""
