@@ -308,7 +308,13 @@
                                 <div class="action-buttons">
 
                                 <div>
-                                    <button class="btn btn-info ">站 内 信<sup>1</sup></button>
+                                    <a href="/infobox">
+                                        <button class="btn btn-info ">站 内 信
+                                            {% if user.newmessages | count >0 %}
+                                            <sup>{{ user.newmessages | count }}</sup>
+                                            {% endif %}
+                                        </button>
+                                    </a>
                                     <button class="btn  btn-info">个人资料</button>
                                 </div>
 

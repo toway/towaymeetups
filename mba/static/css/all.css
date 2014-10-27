@@ -608,6 +608,18 @@ table.mba-resume-tbl{
 
 
 /*******名片*************/
+
+.friend-invite-friend-box {
+    width: 200px;
+    display: none;
+    position: fixed;
+}
+.friend-invite-friend-body{
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
 #info_cnt{
     /*display:inline-block;*/
     float: left;
@@ -1030,28 +1042,29 @@ div.jianli_manage span{
   height: 40px;
 }
 
-#person_info .info_auth{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
-  }
-#person_info .activity_auth{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
-  }
+/* below should be commented because it defined before */
+/*#person_info .info_auth{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
+/*#person_info .activity_auth{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
 
- #person_info .friend_auth{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
-  }
+ /*#person_info .friend_auth{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
 
-  #person_info.info_auth_disable{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
-  }
+  /*#person_info.info_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
 
-  #person_info .activity_auth_disable{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
-  }
+  /*#person_info .activity_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
 
-  #person_info .friend_auth_disable{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
-  }
+  /*#person_info .friend_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
 
 .shoucang_job{
   padding-left: 15px;

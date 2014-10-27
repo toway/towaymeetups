@@ -70,6 +70,10 @@
                 {% else %}
                     <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
                 {% endif %}
+
+
+                <button class="btn btn-default btn-sm" id="invite-friend">推荐给好友</button>
+
             {% endif %}
 
             </div>
@@ -188,6 +192,29 @@
  </div>
 
 
+<!--- invite friend --->
+
+<div class="panel panel-default  friend-invite-friend-box" aria-hidden="true">
+  <div class="panel-heading">
+    <h3 class="panel-title">选择要邀请的好友</h3>
+  </div>
+  <div class="panel-body">
+        <div class="friend-invite-friend-body">
+
+        </div>
+        <div class="">
+            <textarea  class="extra-msg form-control" rows="2" placeholder="附加消息"/></textarea>
+        </div>
+  </div>
+
+  <div class="panel-footer">
+      <button class="btn btn-xs btn-primary " id="do-invite-friend" >确定</button>
+      <button class="btn btn-xs btn-default" id="cancel-invite-friend" >取消</button>
+  </div>
+</div>
+
+
+
         {% include "footer.jinja2" %}
 
 
@@ -215,6 +242,80 @@
 		}
 	   }
 	 };
+
+
+
+     $(function() {
+         $('#invite-friend').click(function (e) {
+             // show invite-box  nearby the button
+             var pos = $(this).offset(),
+                     width = $(this).width();
+
+             var box = $('.friend-invite-friend-box');
+             if (box.is(":visible")) {
+                 box.hide();
+             } else {
+                 box.show().offset({
+                     top: pos.top,
+                     left: pos.left + width + 30
+                 });
+
+
+                 $.get('/my_friends', function (ret) {
+                     if (ret.errcode == ret.SUCCESS) {
+                         var val = ret.retval;
+                         var buildhtml = '';
+                         $.each(val, function (i, item) {
+                             buildhtml += '<input type="checkbox" value="' + item.id + '"/>';
+                             buildhtml += '<img src="' + item.avatar + '" width="14px" height="14px"/>' + (item.real_name || item.name);
+                             buildhtml += '<br/>';
+
+                         });
+                         $('.friend-invite-friend-body').html(buildhtml);
+                     }
+                 })
+
+
+             }
+
+
+         });
+
+
+         $('#do-invite-friend').click(function () {
+             var invite_list = $('.friend-invite-friend-body input:checked');
+             if(invite_list.length == 0){alert("至少选择一名好友"); return;}
+
+             var invite_id_list = [];
+             invite_list.each(function (i, item) {
+                 invite_id_list.push($(item).val());
+             });
+             var extramsg = $()
+             $.post('/api/infobox', {
+                 method: 'prompt_friend',
+                 invitee_list: invite_id_list,
+                 prompted_userid: {{ person_info.id }},
+                 extramsg: $('.extra-msg').val()
+
+             }, function (ret) {
+
+                 if (ret.errcode == ret.SUCCESS) {
+                     alert(ret.retval);
+
+                 } else {
+                     alert(ret.errmsg);
+                 }
+                 $('.friend-invite-friend-box').hide();
+
+             });
+
+         });
+
+         $("#cancel-invite-friend").click(function(){
+             $('.friend-invite-friend-box').hide();
+         })
+
+     });
 
          $(document).ready(function() {
 

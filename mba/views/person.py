@@ -37,7 +37,7 @@ from kotti.security import get_user
 
 from mba import _
 from mba.utils import wrap_user, RetDict
-from mba.resources import Student, Position, MbaUser, friend
+from mba.resources import Student, Position, MbaUser, friend, Message
 
 
 def integers(*segment_names):
@@ -286,8 +286,20 @@ def ajax_friends(request):
             session.execute("""INSERT INTO friends(user_a_id, user_b_id, status) VALUES (:a,:b, 0)""",
                                  {'a':cur_user.id, 'b': target_person_id } )
 
+            # add message here
+            content = u'<a href="/person/%d">%s</a>请求加您为好友' % (cur_user.id, cur_user.real_name or cur_user.name)
+
+            message = Message(sender_id=cur_user.id,
+                              reciever_id=target_person_id,
+                              type=10,
+                              content=content)
+
+            session.add(message)
+
             mark_changed(session)
             transaction.commit()
+
+
 
             request.session.flash(u"已经申请加为好友，等待对方同意", 'success')
             return RetDict(retval=u"已经申请加为好友，等待对方同意")
