@@ -52,7 +52,7 @@
                     <div class="search_cnt_normal" >
                         <form class="form-inline" action="job-search" role="form">
                           <div class="form-group">
-				  <select id="search_region" name="search_region" data='{{city}}' class="form-control searchitem selectpicker">  
+				  <select id="search_region" name="search_region" data='{{city}}' class="form-control searchitem searchitemall selectpicker">  
                               <option value=0>不限</option>  
                               <option value=1>北京</option>  
                               <option value=2>上海</option>  
@@ -60,7 +60,7 @@
                             </select>  
                           </div>
                           <div class="form-group">
-				  <select id="search_hangye" name="search_hangye" data='{{industy}}' class="form-control searchitem selectpicker">  
+				  <select id="search_hangye" name="search_hangye" data='{{industy}}' class="form-control searchitem searchitemall selectpicker">  
                               <option value=0>不限</option>  
                               <option value=1>IT</option>  
                               <option value=2>通信/移动网络</option>  
@@ -68,10 +68,10 @@
                             </select>  
                           </div>
                            <div class="form-group">
-				   <select id="search_fabufang" name="search_fabufang" data='{{hunting}}' class="form-control selectpicker">  
+				   <select id="search_fabufang" name="search_fabufang" data='{{hunting}}' class="form-control searchitemall selectpicker">  
                               <option value=2>不限</option>  
-                              <option value=0>猎头</option> 
-                              <option value=1>公司</option> 
+                              <option value=1>猎头</option> 
+                              <option value=0>公司</option> 
                             </select>
                           </div>
                            <div class="form-group">
@@ -102,7 +102,7 @@ function do_search() {
 
                     <div style="background-color:white;">
                       <div style="height:40px;padding-top:10px">
-			      <div style="float:left;">共{{result_len}}个职位满足搜索条件:<span>结构设计工程师</span><span>+</span><span>深圳</span></div>
+			      <div style="float:left;">共{{result_len}}个职位满足搜索条件:<span id="search_condition"></span></div>
                             <div style="float:right">排列方式： <select id="search_method" name="search_method" class="selectpicker">  
                                     <option value=0>相关性</option>  
                                     <option value=0>地区</option> 
@@ -207,9 +207,24 @@ function do_search() {
 			    return this.text == txt;
 			}).attr('selected', true);
 		});
+
 		$("#search_fabufang").val($("#search_fabufang").attr("data"));
+
+		var strSearch="";
+		$(".searchitemall").each(function() {
+			var tmptxt = $(this).find("option:selected").text();
+			if(tmptxt != '不限') {
+				strSearch += tmptxt + "+";
+			}
+		});
+		if($("#gangwei").val() != "") {
+			strSearch += $("#gangwei").val();
+		}
+		$("#search_condition").html(strSearch);
+
                $("li#li_job").parent().find("li").removeClass("active");
-               $("li#li_job").find(a).addClass("active")
+               $("li#li_job").find('a').addClass("active")
+
             })
         </script>
     </body>

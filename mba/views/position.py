@@ -57,6 +57,10 @@ from mba.fanstatic import city_css
 from mba.views.widget import URLInputWidget,ImageUploadWidget, GeoWidget
 from mba.views.view import MbaTemplateAPI
 
+def KindName(s):
+    ss = [u'公司',u'猎头']
+    return ss[s]
+
 default_date = datetime.strptime('1990-1-1','%Y-%m-%d').date()
 class PositionSchema(ContentSchema):
     title = colander.SchemaNode(colander.String(), title=_(u"职位名字"))
@@ -137,6 +141,7 @@ class CompanySchema(colander.Schema):
         )
 
 @view_config(route_name='add_company', renderer='col_test.jinja2')
+@wrap_user
 def company_add(context, request):
     schema = CompanySchema().bind(request=request)
 
@@ -191,14 +196,25 @@ def job_view(context, request):
                     , CompanyInfo.industry.like(industry)) )[0:5]
 
     pos_apply = DBSession.query(Position).join(PositionResume).filter(PositionResume.resume_id==user.id)
-
+    api = MbaTemplateAPI(context, request)
+    manager_info = api.render_template('manager_info.jinja2', pos_apply = pos_apply, collects = user.positions);
     return {
+            'api':api,
             'pos_normals':pos_normals,
             'pos_huntings':pos_huntings,
             'pos_like': pos_like,
-            'pos_apply': pos_apply,
-            'collects': user.positions,
+            'manager_info':manager_info
             }
+
+@view_config(route_name='job_manager', renderer='manager_info.jinja2')
+@wrap_user
+def job_manager_view(context, request):
+    print 'hear'
+    user = get_user(request)
+    if not user:
+        raise UserNotFount()
+    pos_apply = DBSession.query(Position).join(PositionResume).filter(PositionResume.resume_id==user.id)
+    return {'pos_apply':pos_apply, 'collects':user.positions}
 
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
 @wrap_user
@@ -288,6 +304,7 @@ def job_collect_view(context, request):
     return Response("ok")
 
 @view_config(route_name='job_search', renderer='job2_search_result.jinja2')
+@wrap_user
 def job_search(context, request):
     city = ""
     industy = ""
@@ -367,4 +384,5 @@ def includeme(config):
     config.add_route('job_combine','/job-combine')
     config.add_route('job_real','/job-real')
     config.add_route('job_search','/job-search')
+    config.add_route('job_manager','/job-manager-info')
     config.scan(__name__)

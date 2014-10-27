@@ -1,0 +1,26 @@
+              <div class="jianli_manage" class="right_head little_pad"><span>投递记录</span>
+              </div>
+                <ul  class="right_list_cnt">
+			{% for pos in pos_apply %}
+                   <li class="right_list_item  clearfix">
+                        <div class="renmai_detail_cnt">
+				<p class="friend_detail_info  job_link">{{pos.title}}（{{pos.city_name}}）</p>
+				<p class="friend_detail_info">{{pos.company_name}}</p>
+                        </div>
+                    </li>
+		    {% endfor %}
+                </ul>
+
+                <div  class="jianli_manage"  class="right_head little_pad"><span>收藏的职位
+                </span></div>
+                  <ul class="right_list_cnt">
+			  {% for pos in collects %}
+                     <li class="right_list_item  clearfix">
+                          <div class="renmai_detail_cnt">
+				  <p class="friend_detail_info job_link">{{pos.title}}（{{pos.city_name}}）</p>
+				  <p class="friend_detail_info">{{pos.company_name}}</p>
+                          </div>
+                      </li>
+		      {% endfor %}
+                  </ul>
+            </div>

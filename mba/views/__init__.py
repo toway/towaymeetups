@@ -1,4 +1,3 @@
-
 def includeme(config):
     #be first?
     config.include('mba.views.view')

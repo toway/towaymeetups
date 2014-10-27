@@ -66,5 +66,5 @@ zope.interface==4.0.5
 zope.schema==4.3.2
 zope.sqlalchemy==0.7.2
 deform_jinja2 == 0.5
-kotti==0.9.2
+kotti==0.10a1
 pyramid_jinja2
