@@ -12,6 +12,7 @@ from js.jquery import jquery
 from kotti import DBSession
 from kotti.security import get_user
 
+from sqlalchemy import or_, and_
 
 from mba.utils.decorators import wrap_user
 from mba.utils import RetDict
@@ -19,9 +20,8 @@ from mba.resources import Message, MbaUser
 
 
 
-@view_config(route_name="infobox", renderer='infobox.jinja2')
-@wrap_user
-def view_infobox(context, request):
+
+def get_messages(type, context, request):
     jquery.need()
 
     cur_user = get_user(request)
@@ -29,9 +29,53 @@ def view_infobox(context, request):
     if not cur_user:
         return HTTPFound(location="/login?came_from=%s" % request.url)
 
-    messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id).all()
+    messages = []
 
-    return { 'infobox': messages}
+    if type == 'all_messages':
+        messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id).all()
+    elif type == 'system_messages':
+        messages = DBSession.query(Message).filter(
+            and_(
+                Message.reciever_id==cur_user.id,
+                or_(Message.type==0 ,
+                    Message.type==1 ,
+                    Message.type==10)
+            )).all()
+    elif type == 'friend_messages':
+        messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id, type=2).all()
+
+    elif type == 'view_invitation_person':
+        messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id, type=11).all()
+
+
+    return {'type': type, 'messages': messages}
+
+
+@view_config(route_name="infobox_m", renderer='infobox.jinja2')
+@wrap_user
+def view_infobox_m(context, request):
+    return get_messages('all_messages', context, request)
+
+
+
+@view_config(route_name="infobox_mf", renderer='infobox.jinja2')
+@wrap_user
+def view_infobox_mf(context, request):
+    return get_messages('friend_messages', context, request)
+
+
+@view_config(route_name="infobox_ms", renderer='infobox.jinja2')
+@wrap_user
+def view_infobox_ms(context, request):
+    return get_messages('system_messages', context, request)
+
+
+
+@view_config(route_name="infobox_ip", renderer='infobox.jinja2')
+@wrap_user
+def view_infobox_ms(context, request):
+    return get_messages('view_invitation_person', context, request)
+
 
 
 
@@ -99,13 +143,29 @@ def prompt_friend(cur_user, context, request):
     return RetDict(retval=msg)
 
 
+def mark_msg_read(cur_user, context, request):
 
+    try:
+        msgid = request.POST.get('msgid',0)
+    except ValueError, ve:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+    if msgid == 0:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+    msg = DBSession.query(Message).filter_by(id=msgid).one()
+    if msg:
+        msg.status = 1 # 1 read
+
+    return RetDict(retval=u"成功标记为已读")
 
 
 @view_config(route_name='api_infobox', renderer='json', xhr=True, request_method="POST")
 def api_infobox(context, request):
 
     PROMPT_FRIEND = 'prompt_friend' #推荐好友给好友
+    MARK_AS_READ = 'mark_as_read'
+
+
 
 
     cur_user = get_user(request)
@@ -117,11 +177,14 @@ def api_infobox(context, request):
 
     method = request.POST.get('method',None)
 
-    if method not in [PROMPT_FRIEND]:
+    if method not in [PROMPT_FRIEND, MARK_AS_READ]:
         return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
     if method == PROMPT_FRIEND:
         return prompt_friend(cur_user, context, request)
+    elif method == MARK_AS_READ:
+        return mark_msg_read(cur_user, context, request)
+
 
 
     return {}
@@ -133,7 +196,12 @@ def api_infobox(context, request):
 
 def includeme(config):
 
-    config.add_route('infobox', '/infobox')
+    #config.add_route('infobox', '/infobox')
+    config.add_route('infobox_m', '/infobox/messages')
+    config.add_route('infobox_ms', '/infobox/messages/system')
+    config.add_route('infobox_mf', '/infobox/messages/friend')
+    # config.add_route('infobox_im', '/infobox/invitations/meetup')
+    config.add_route('infobox_ip', '/infobox/invitations/person')
 
     config.add_route('api_infobox','/api/infobox')
 

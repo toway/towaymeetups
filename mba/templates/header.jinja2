@@ -33,9 +33,9 @@
                                 <li><input type="text" class="form-control" placeholder="找找看"/></li>
                                   <li>
                                     <a href="{{ user.name }}" class="navbar-name">
-                                        <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar }}"
+                                        <img alt="{{ user.real_name or user.name }}"class="navbar-avatar" src="{{ user.avatar }}"
                                                 width="20px" height="20px"/>
-                                        {{ user.name }}
+                                        {{ user.real_name or user.name }}
                                     </a>
                                   </li>
                                   <li>
