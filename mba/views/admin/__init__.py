@@ -44,6 +44,8 @@ def includeme(config):
     config.include("mba.views.admin.banners")
     config.include("mba.views.admin.meetup")
     config.include("mba.views.admin.review")
+    config.include("mba.views.admin.company_admin")
+    config.include("mba.views.admin.position_admin")
 
 
 
