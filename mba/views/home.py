@@ -25,6 +25,7 @@ from mba.resources import Infomation, Banner
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.views.meetups import query_meetups
+from mba.views.person import persons_maybe_know
 
 __author__ = 'sunset'
 __date__ = '20140525'
@@ -48,11 +49,13 @@ def query_banners(request):
 @view_config(route_name='home', renderer='home.jinja2')
 @wrap_user
 def view_home(context, request):
-    if not get_user(request):
+    user = get_user(request)
+    if not user:
         return HTTPFound("/login")
     d = query_meetups(request)
     d.update(query_info(request))
     d.update(query_banners(request))
+    d.update(persons_maybe_know(user))
     return d
 
 

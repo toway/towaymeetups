@@ -348,6 +348,42 @@ def get_my_friends(request):
     return RetDict(retval=json_friends)
 
 
+# @view_config(route_name='persons_maybe_know', renderer='json',  request_method="GET")
+# def persons_maybe_know(request):
+#
+#     cur_user = get_user(request)
+#     if not cur_user:
+#         return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+#
+#     toknown_list = DBSession.query(Student).filter(Student.id != cur_user.id)[0:8]
+#
+#
+#     return RetDict(retval=json_friends)
+
+import json
+
+def persons_maybe_know(cur_user):
+    friends_idlist = [ f.id for f in cur_user.all_friends ]
+    toknown_list = DBSession.query(Student).filter(
+        and_(Student.id != cur_user.id,
+             Student.id not in friends_idlist  )
+    )[0:30]
+
+    #TODO:add school, company constaint
+
+    toknown_list_json = [ {'name':i.name,
+                           'id':i.id,
+                           'real_name':i.real_name,
+                           'avatar': i.avatar}
+                            for i in toknown_list]
+
+    return {'persons_maybe_know': toknown_list,
+            'persons_maybe_know_json': toknown_list_json}
+
+
+
+
+
 
 
 
@@ -355,6 +391,8 @@ def includeme(config):
     config.add_route('person','/person/{id}')
     config.add_route('ajax_friends', '/friends')
     config.add_route('get_my_friends', '/my_friends')
+    # config.add_route('persons_maybe_know', '/persons_maybe_know')
+
 
     config.add_route('friend_set','/friend_set/{id1:\d+}/{id2:\d+}/{id3:\d+}')
     config.scan(__name__)
