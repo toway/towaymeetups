@@ -290,7 +290,6 @@
              invite_list.each(function (i, item) {
                  invite_id_list.push($(item).val());
              });
-             var extramsg = $()
              $.post('/api/infobox', {
                  method: 'prompt_friend',
                  invitee_list: invite_id_list,

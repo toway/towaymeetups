@@ -66,6 +66,8 @@ class RetDict(dict):
 
         if errcode and not errmsg:
             errmsg = self.errcode_to_msg_map.get(errcode, u"未知错误")
+        elif errcode and errmsg:
+            errmsg = self.errcode_to_msg_map.get(errcode, u"未知错误") + ": " + errmsg
 
         dict.__init__(self, errcode = errcode,
                          errmsg= errmsg,

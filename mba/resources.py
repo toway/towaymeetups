@@ -441,7 +441,7 @@ class Act(Document):
     #     # return  "/images/%s/image/" % (self.poster.name)
     #     return self.poster_img_url
 
-    poster_img = Column(String(50))
+    poster_img = Column(String(200)) # change 50 to 200 , 2014.10.29 by sunset
 
 
     
