@@ -111,6 +111,18 @@
                          </div>
 
 
+
+
+                        <div class="meetup-invite">
+                                {% if user %}
+                                <button type='submit' name='submit'
+                                                    class="btn btn-primary" id="invite-friend"
+                                                    >邀请好友</button>
+                                {% endif %}
+                                <br/>
+                        </div>
+
+
                         <div class="panel panel-default meetup-comments">
                             <div class="panel-body">
                             
@@ -299,6 +311,19 @@
 
 
 
+<!--- invite friend --->
+
+<div class="panel panel-default  meetup-invite-friend-box" aria-hidden="true">
+  <div class="panel-heading">
+    <h3 class="panel-title">选择要邀请的好友</h3>
+  </div>
+  <div class="panel-body meetup-invite-friend-body">
+
+  </div>
+  <div class="panel-footer">
+      <button class="btn btn-xs btn-primary " id="do-invite-friend" >确定</button>
+  </div>
+</div>
 
 
 
@@ -326,6 +351,72 @@
                    }
                    $('#left-comments-num').html(140-len);
                });
+
+
+
+
+                $('#invite-friend').click(function(e) {
+                    // show invite-box  nearby the button
+                    var pos = $(this).offset(),
+                            width = $(this).width();
+
+                    var box = $('.meetup-invite-friend-box');
+                    if (box.is(":visible")) {
+                        box.hide();
+                    } else {
+                        box.show().offset({
+                            top: pos.top,
+                            left: pos.left + width + 30
+                        });
+
+
+                        $.get('/my_friends', function(ret){
+                            if( ret.errcode == ret.SUCCESS){
+                                var val = ret.retval;
+                                var buildhtml = '';
+                                $.each(val, function(i, item){
+                                    buildhtml += '<input type="checkbox" value="'+item.id+'"/>';
+                                    buildhtml += '<img src="'+item.avatar+'" width="14px" height="14px"/>'+(item.real_name||item.name);
+                                    buildhtml += '<br/>';
+
+                                });
+                                $('.meetup-invite-friend-body').html(buildhtml);
+                            }
+                        })
+
+
+                    }
+
+
+
+                });
+
+
+                $('#do-invite-friend').click(function(){
+                    var invite_list = $('.meetup-invite-friend-body input:checked');
+                    var invite_id_list = [];
+                    invite_list.each(function(i, item){
+                        invite_id_list.push( $(item).val() );
+                    });
+                    $.post('/api/invitations',{
+                        method:'invite',
+                        type: 'meetup',
+                        invitee_list: invite_id_list,
+                        meetup_id: {{ context.id }}
+                    },function(ret) {
+
+                        if( ret.errcode == ret.SUCCESS){
+                            alert(ret.retval);
+
+                        }else{
+                            alert(ret.errmsg);
+                        }
+                        $('.meetup-invite-friend-box').hide();
+
+                    });
+
+
+                });
 
                 /*
                 $(document).pjax('.home-menu a', '#pjax-content');

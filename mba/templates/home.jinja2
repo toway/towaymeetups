@@ -308,7 +308,13 @@
                                 <div class="action-buttons">
 
                                 <div>
-                                    <button class="btn btn-info ">站 内 信<sup>1</sup></button>
+                                    <a href="/infobox/messages">
+                                        <button class="btn btn-info ">站 内 信
+                                            {% if user.newmessages | count >0 %}
+                                            <sup>{{ user.newmessages | count }}</sup>
+                                            {% endif %}
+                                        </button>
+                                    </a>
                                     <button class="btn  btn-info">个人资料</button>
                                 </div>
 
@@ -338,31 +344,44 @@
                                         <span class="glyphicon glyphicon-star"></span>
                                         收到的邀请 <span class="more"><a href="#">更多</a></span>
                                         <div>
-                                            活动邀请<br/>
-                                            人脉邀请
+                                            <div><a href="/infobox/invitations/meetups">活动邀请</a></div>
+                                            <div><a href="/infobox/invitations/meetups">人脉邀请</a></div>
                                         </div>
                                     </div>
 
 
                                     <div class="trends-sector">
                                         <span class="glyphicon glyphicon-info-sign"></span>
-                                        可能认识的人 <span  class="more"><a href="#">更多</a></span>
-                                        <div>
-                                            <img src="/fanstatic/mba/img/avatars/default_avatar_0.png" width="18px" height="18px"/>余争<br/>
-                                            <img src="/fanstatic/mba/img/avatars/default_avatar_1.png" width="18px" height="18px"/>小泽<br/>
-                                            <img src="/fanstatic/mba/img/avatars/default_avatar_0.png" width="18px" height="18px"/>老羊<br/>
-                                            <img src="/fanstatic/mba/img/avatars/default_avatar_1.png" width="18px" height="18px"/>戴昊<br/>
-                                        </div>
+                                        可能认识的人 <span  class="more"><a id="pmk-change-group" href="#">换一组</a></span>
+
+                                        {% for i in range( (persons_maybe_know | length -1) // 4 +1) %}
+                                            <ul class="persons-maybe-know" data-group="{{ loop.index0 }}"
+                                                {% if loop.index0 != 0 %}style="display: none"{% endif %}
+                                                >
+                                                {% for person in persons_maybe_know[i*4:i*4+4] %}
+
+                                                    <li>
+                                                        <a href="/person/{{ person.id }}">
+                                                            <img src="{{ person.avatar }}" width="18px" height="18px"/>
+                                                            {{ person.real_name or person.name }}
+                                                        </a>
+                                                    </li>
+
+                                                {% endfor %}
+
+                                            </ul>
+                                        {% endfor %}
+
+
                                     </div>
 
 
                                     <div class="trends-sector">
                                          <span class="glyphicon glyphicon-user"></span>
                                         我的人脉 <span  class="more"><a href="#">更多</a></span>
-                                        <div>
-                                            人类1<br/>
-                                            人类2<br/>
-                                        </div>
+                                        <ul id="my-friends">
+
+                                        </ul>
                                     </div>
 
 
@@ -415,6 +434,51 @@
 
 
                 });
+
+                 $.get('/my_friends', function (ret) {
+                     if (ret.errcode == ret.SUCCESS) {
+                         var val = ret.retval;
+                         var buildhtml = '';
+                         if( val.length == 0){
+                             buildhtml = '暂没有好友哦!';
+                         }
+                         $.each(val, function (i, item) {
+                             buildhtml += '<li><a href="/person/'+item.id+'"';
+                             buildhtml += '<img src="' + item.avatar + '" width="14px" height="14px"/>' ;
+                             buildhtml +=  (item.real_name || item.name);
+                             buildhtml += '</a></li>';
+
+                         });
+                         $('#my-friends').html(buildhtml);
+                     }
+                 });
+
+                $("#pmk-change-group").click(function(){
+
+                    var pmk = $(".persons-maybe-know:visible");
+                    var all_pmk = $(".persons-maybe-know");
+                    var groupIdx = parseInt( pmk.attr('data-group') );
+                    var nextGroupIdx = groupIdx  >= all_pmk.length-1 ? 0  : groupIdx+1;
+
+                    pmk.hide('fade');
+                    $(all_pmk[nextGroupIdx]).show('fade');
+
+
+
+                    console.log(all_pmk);
+
+{#                    all_pmk[groupIdx*4,groupIdx*4+4]#}
+
+
+                    return false;
+
+
+
+
+                });
+
+
+
 
             });
 

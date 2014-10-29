@@ -25,13 +25,17 @@ from kotti import DBSession
 from kotti.security import get_user
 from kotti.interfaces import IContent
 
-from mba.resources import MbaUser, TZ_HK, Participate, Comment
+from mba.resources import MbaUser, TZ_HK, Participate, Comment, MeetupInvitation
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
 
+
 __author__ = 'sunset'
 __date__ = '20140614'
+
+
+
 
 
 
@@ -109,4 +113,5 @@ def view_meetup(context, request):
 
 def includeme(config):
     config.add_route('meetup','/meetup')
+
     config.scan(__name__)

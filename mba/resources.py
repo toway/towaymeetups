@@ -73,6 +73,21 @@ friend = Table(
         Column('status', Integer, default=0)  # 0: No friend yet, 1: friend already
         )
 
+# Meetup Invitation
+class MeetupInvitation(Base):
+     id = Column('id', Integer, nullable=False,  primary_key=True, autoincrement=True)
+     inviter_id = Column('inviter_id',Integer, ForeignKey('mba_users.id'))     #邀请者
+     inviter = relationship("MbaUser", foreign_keys="[MeetupInvitation.inviter_id]")
+     invitee_id = Column('invitee_id', Integer, ForeignKey('mba_users.id') )     #被邀请者
+     invitee = relationship("MbaUser", foreign_keys="[MeetupInvitation.invitee_id]")
+
+     meetup_id = Column(Integer, ForeignKey('acts.id'))
+     meetup =  relationship('Act')
+
+
+     status = Column(Integer, default=0) # 0 : unread, 1: ignore 2:accept, 3: reject 4: deleted
+
+
 
 class UserInterest(Base):
     interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
@@ -142,7 +157,28 @@ class City(Base):
         #return cls(city=obj)
         return obj
 
+class Message(Base):
+    id = Column(Integer, primary_key=True, autoincrement=True)
 
+    sender_id = Column(Integer, ForeignKey('mba_users.id'))
+    sender = relationship("MbaUser", foreign_keys="[Message.sender_id]")
+
+    reciever_id = Column(Integer, ForeignKey('mba_users.id'))
+    reciever = relationship("MbaUser", foreign_keys="[Message.reciever_id]")
+
+
+    # message type,
+    # 0: system message
+    # 1: admin message
+    # 2: friend private message
+    # 10: somebody ask to be friend
+    # 11: friends invite  me some person
+    # 12: friends invite me some meetup
+
+    type = Column(Integer)
+    content =  Column(String(500))
+
+    status = Column(Integer,default=0) # 0: unread, 1:read, 2:deleted
 
 from mba.utils import assign_default_avatar
 
@@ -215,7 +251,15 @@ class MbaUser(Base):
 
 
 
+    invited_meetups  = relationship("MeetupInvitation",
+                                    foreign_keys="[MeetupInvitation.invitee_id]" )
 
+
+    messages = relationship('Message',foreign_keys="[Message.reciever_id]")
+    # newmessages = Message.query.filter(status=10).count()
+    newmessages = relationship('Message',
+                           # foreign_keys="[Message.reciever_id]",
+                           primaryjoin="and_(MbaUser.id==Message.reciever_id, Message.status==0)")
 
 
 
@@ -758,5 +802,6 @@ class Banner(Base):
     last_edit_date =  Column(Date(), default=datetime.now(tz=None).date())
 
     status = Column(Integer,default=1)  # 1: 生效， 0:失效
+
 
 
