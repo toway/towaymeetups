@@ -110,6 +110,7 @@ def job_manager_view(context, request):
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
 @wrap_user
 def job_detail_view(context, request):
+    jquery.need()
     pos_id = request.matchdict['id']
     pos_id = int(pos_id)
     

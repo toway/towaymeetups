@@ -56,7 +56,7 @@
 				<h4 class="job_company job_link">{{pos.company_name}}</h4>
                         </div>
                         <div class="right">
-                           <button id="shengqing1" class="btn_job_shenqing"></button>
+                           <button id="shenqing1" class="btn_job_shenqing"></button>
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
 			      {{pos.body|safe}}
                       </div>
                       <hr/>
-                      <button id="shengqing2" class="btn_job_shenqing2"></button><button id="shoucang" class="btn_job_shoucang"</button>
+                      <button id="shenqing2" class="btn_job_shenqing2"></button><button id="shoucang" class="btn_job_shoucang"</button>
                     </div>
 		    <script>
 		    </script>
@@ -172,9 +172,6 @@
         {% include "footer.jinja2" %}
 
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-
         <!-- Bootstrap -->
         <script src="/fanstatic/mba/bootstrap/js/bootstrap.min.js"></script>
 
@@ -195,7 +192,6 @@
 		  $.get("/job-postit/"+id, function(result){
 			if('ok' == result) {
 				alert("申请成功");
-				refresh_manager();
 			} else if('dup' == result) {
 				alert('已经申请');
 			} else {
@@ -208,7 +204,6 @@
 		  $.get("/job-collect/"+id, function(result){
 			if('ok' == result) {
 				alert("收藏成功");
-				refresh_manager();
 			} else {
 				alert("收藏失败");
 			}

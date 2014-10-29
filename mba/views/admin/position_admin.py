@@ -117,6 +117,8 @@ class PositionAddForm(AddFormView):
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
         #session.refresh(f)
+        DBSession.flush()
+        location = 'job-detail/'+new_item.id
         return HTTPFound(location=location)
 
 def includeme(config):
