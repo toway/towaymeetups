@@ -36,9 +36,17 @@
                  
 		  <p class="basic"><label class="lbl_info">公司：</label><span class="info_show  auth_hidden fixed_width">{{person_info.company or "暂未填写"}}</span><input type="text"  class="info_edit hidden"  value="{{person_info.company}}" name="company"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
                   
-		  <p class="basic"><label class="lbl_info">行业：</label><span class="info_show">{{person_info.industry or "暂未填写"}}</span><input type="text" value="{{person_info.industry}}" class="info_edit hidden" name="industry"/></p>
+		  <p class="basic">
+              <label class="lbl_info">行业：</label>
+              <span class="info_show" id="info_industry">{{person_info.industry or "暂未填写"}}</span>
+              <input type="text" id="info_industry_input" value="{{person_info.industry}}" class="info_edit hidden" name="industry"/>
+          </p>
                  
-		  <p class="basic"><label class="lbl_info">居住地：</label><span class="info_show">{{person_info.location or "暂未填写"}}</span><input type="text"  class="info_edit hidden" value="{{person_info.location}}" name="location"/></p>
+		  <p class="basic">
+              <label class="lbl_info">居住地：</label>
+              <span class="info_show" id="info_location">{{person_info.location or "暂未填写"}}</span>
+              <input type="text"  id="info_location_input" class="info_edit hidden" value="{{person_info.location}}" name="location"/>
+          </p>
                 
 		  <p class="basic"><label class="lbl_info">毕业学校：</label><span class="info_show">{{person_info.school or "暂未填写"}}</span><input type="text"  value="{{person_info.school}}" class="info_edit hidden" name="school"/></p>
                 </td>
