@@ -37,7 +37,7 @@ from kotti.security import get_user
 
 from mba import _
 from mba.utils import wrap_user, RetDict
-from mba.resources import Student, Position, MbaUser, friend, Message
+from mba.resources import Student, Position, MbaUser, friend, Message, City
 
 
 def integers(*segment_names):
@@ -61,7 +61,7 @@ class PersonInfoWidget(object):
 
     def render(self):
         #TODO do better
-        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'location']
+        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'city']
         u = self.user
         for s in ss:
             if not getattr(u,s):
@@ -90,13 +90,20 @@ def view_person(request):
             user.phone = post['phone']
             user.company = post['company']
             user.industry = post['industry']
-            user.location = post['location']
+
+            city = DBSession.query(City).filter_by(name=post['city_name']).first()
+            if city:
+                user.city_id = city.id
+            else:
+                user.city_name = post['city_name']
+
             user.school = post['school']
             user.special_skills = [i.strip() for i in post['special_skills'].split(",") ]
             user.interests = [i.strip() for i in post['interests'].split(",") ]
             user.between = [i.strip() for i in post['between'].split(",") ]
             user.introduction = post['introduction']
-            user.real_name = post['title']
+            user.real_name = post['real_name']
+            user.title = post['title']
             person_info_widget = PersonInfoWidget(user)
             return Response(person_info_widget.render())
         except Exception,ex:

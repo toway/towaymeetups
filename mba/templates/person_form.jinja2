@@ -14,7 +14,7 @@
                   <p class="first">
 		                <div class="name">
                             <span class="info_show">{{person_info.real_name or  person_info.name }}</span>
-                            <input type="text" value="{{person_info.real_name or person_info.name }}" class="info_edit hidden" name="title"/>
+                            <input type="text" value="{{person_info.real_name or person_info.name }}" class="info_edit hidden" name="real_name"/>
                         </div>
 
                         {% set auth_i = person_info.auth_info %}
@@ -44,8 +44,8 @@
                  
 		  <p class="basic">
               <label class="lbl_info">居住地：</label>
-              <span class="info_show" id="info_location">{{person_info.location or "暂未填写"}}</span>
-              <input type="text"  id="info_location_input" class="info_edit hidden" value="{{person_info.location}}" name="location"/>
+              <span class="info_show" id="info_location">{{person_info.city.name or "暂未填写"}}</span>
+              <input type="text"  id="info_location_input" class="info_edit hidden" value="{{person_info.city.name}}" name="city_name"/>
           </p>
                 
 		  <p class="basic"><label class="lbl_info">毕业学校：</label><span class="info_show">{{person_info.school or "暂未填写"}}</span><input type="text"  value="{{person_info.school}}" class="info_edit hidden" name="school"/></p>

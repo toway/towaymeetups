@@ -297,7 +297,7 @@ class MbaUser(Base):
     company = Column(String(255), default=u"")
     industry = Column(String(255), default=u"")
     # special_skill = Column(String(255), default=u"")
-    # interest = Column(String(255), default=u"")
+    interest = Column(String(255), default=u"") # job interest
     # between = Column(String(255), default=u"")
     introduction = Column(String(255), default=u"")
 
@@ -333,7 +333,7 @@ class MbaUser(Base):
 
 
 
-    city_id = Column(Integer, ForeignKey('city.id'))
+    city_id = Column(Integer, ForeignKey('city.id')) # backref is defined in class City
     city_name = association_proxy('city'
             , 'name'
             , creator=City._find_or_create)
@@ -641,7 +641,7 @@ class Student(MbaUser):
     identify = Column(String(30))
     phone = Column(Integer())
     home_number = Column(String(20))
-    location = Column(String(20))
+    # location = Column(String(20)) # location is duplicated with city_name in MbaUser
     salary = Column(Integer())
     work_years = Column(Integer())
     company_phone = Column(String(30))
