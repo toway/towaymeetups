@@ -92,8 +92,15 @@ class MeetupInvitation(Base):
 class UserInterest(Base):
     interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
-    interest = relationship('Interest', backref='interest_items')
-    name = association_proxy('interest', 'name')
+    # interest = relationship('Interest', backref='interest_items')
+    # name = association_proxy('interest', 'name')
+
+    user = relationship("MbaUser",
+                        backref=backref("user_interests",
+                                        cascade="all, delete-orphan")
+                        )
+    interest = relationship("Interest")
+    interest_name = association_proxy("interest", "name")
 
     @classmethod
     def _interest_find_or_create(cls, name):
@@ -103,14 +110,42 @@ class UserInterest(Base):
             interest = Interest(name=name)
         return cls(interest=interest)
 
+class UserSkill(Base):
+    interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+
+
+    user = relationship("MbaUser",
+                        backref=backref("user_skills",
+                                        cascade="all, delete-orphan")
+                        )
+    skill = relationship("Interest")
+    skill_name = association_proxy("skill", "name")
+
+    @classmethod
+    def _interest_find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            interest = DBSession.query(Interest).filter_by(name=name).first()
+        if interest is None:
+            interest = Interest(name=name)
+        return cls(skill=interest)
+
+
 
 class Interest(Base):
     __table_args__ = (
         UniqueConstraint('name'),
         )
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False)
     description = Column(UnicodeText())
+
+    def __init__(self, name, **kw):
+        self.name = name
+        Base.__init__(self,**kw)
+
+    # def __repr__(self):
+    #     return (self.name)
 
     @property
     def users(self):
@@ -156,6 +191,23 @@ class City(Base):
             obj = City(name=name)
         #return cls(city=obj)
         return obj
+
+class UserBetween(Base):
+    city_id = Column(Integer, ForeignKey('city.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+
+
+    user = relationship("MbaUser",
+                        backref=backref("user_between",
+                                        cascade="all, delete-orphan")
+                        )
+    city = relationship("City")
+    city_name = association_proxy("city", "name")
+
+    @classmethod
+    def _city_find_or_create(cls, name):
+        city = City._find_or_create(name=name)
+        return cls(city=city)
 
 class Message(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -224,12 +276,30 @@ class MbaUser(Base):
     sex = Column(Integer())
     type = Column(String(50), nullable=False)
     
-    _interests = relationship("UserInterest", backref='user')
+    # _interests = relationship("UserInterest", backref='user')
     interests = association_proxy(
-        '_interests',
-        'name',
+        'user_interests',
+        'interest_name',
         creator=UserInterest._interest_find_or_create,
         )
+    special_skills = association_proxy(
+        'user_skills',
+        'skill_name',
+        creator=UserSkill._interest_find_or_create,
+        )
+    between = association_proxy(
+        'user_between',
+        'city_name',
+        creator=UserBetween._city_find_or_create,
+        )
+
+    #为名片增加的字段,暂时放这里，可能放到MbaUser里
+    company = Column(String(255), default=u"")
+    industry = Column(String(255), default=u"")
+    # special_skill = Column(String(255), default=u"")
+    # interest = Column(String(255), default=u"")
+    # between = Column(String(255), default=u"")
+    introduction = Column(String(255), default=u"")
 
     _positions = relationship("PositionCollect", backref='user')
     positions = association_proxy("_positions","position", creator=PositionCollect._create)
@@ -583,13 +653,7 @@ class Student(MbaUser):
     auth_meetup =  Column(Integer,default=0)
     auth_friend =  Column(Integer,default=0) #
 
-    #为名片增加的字段,暂时放这里，可能放到MbaUser里
-    company = Column(String(255), default=u"")
-    industry = Column(String(255), default=u"")
-    special_skill = Column(String(255), default=u"")
-    interest = Column(String(255), default=u"")
-    between = Column(String(255), default=u"")
-    introduction = Column(String(255), default=u"")
+
 
 
 

@@ -5,6 +5,7 @@
       options: {
         name: 'basewidget',
         title: null,
+        desc: null,
         item: {
           type: 'local',
           url: null,
@@ -69,19 +70,21 @@
         var offset, self;
         console.log("showDialog");
         offset = this.element.offset();
-        offset.top += this.element.height();
+        offset.top += this.element.height() + 8;
         self = this;
         if (!this.dialog) {
-          this._buildDialog(function() {
-            self.dialog.show().offset(offset);
-            self.visible = true;
-            return false;
-          });
-        } else {
-          this.dialog.show().offset(offset);
-          this.visible = true;
+          if (this.options.item.type !== 'local') {
+            this._buildDialog(function() {
+              self.dialog.show().offset(offset);
+              self.visible = true;
+            });
+            return;
+          } else {
+            this._buildDialog();
+          }
         }
-        return false;
+        this.dialog.show().offset(offset);
+        this.visible = true;
       },
       hideDialog: function(e) {
         var hide;
@@ -118,12 +121,24 @@
               return cb();
             }
           });
+        } else if (type === 'json') {
+          $.get(this.options.item.url, function(ret) {
+            if (ret.errcode === ret.SUCCESS) {
+              self.options.items = ret.retval;
+              self.buildDialog();
+              if (cb != null) {
+                return cb();
+              }
+            } else {
+              return alert(ret.errmsg);
+            }
+          });
         } else {
           this.buildDialog();
         }
       },
       buildDialog: function() {
-        var arr, btnhtml, button, buttons, content, footer, index, item, title, _i, _j, _len, _len1, _ref;
+        var arr, btnhtml, button, buttons, content, desc, footer, index, item, title, _i, _j, _len, _len1, _ref;
         console.log('buildDialog:');
         buttons = this.options.buttons;
         arr = [];
@@ -133,7 +148,11 @@
           btnhtml = button.prop('outerHTML');
           arr.push(btnhtml);
         }
-        title = $("<div/>").addClass("mba-dialog-title").html(this.options.title);
+        desc = "";
+        if (this.options.desc) {
+          desc = "<small>(" + this.options.desc + ")</small>";
+        }
+        title = $("<div/>").addClass("mba-dialog-title").html(this.options.title + desc);
         content = $("<div/>").addClass("mba-dialog-content").append(this.buildContent());
         footer = $("<div/>").addClass("mba-dialog-footer").append(arr.join("&nbsp;&nbsp;&nbsp;"));
         this.dialog = $("<div/>").addClass("mba-dialog").append(title[0]).append(content[0]).append(footer[0]).appendTo(this.document.find("body"));
@@ -205,14 +224,15 @@
   });
 
   $(function() {
-    $.widget("mba.multicheck", $.mbawidget.plain, {
+    $.widget("mbawidget.multicheck", $.mbawidget.plain, {
       options: {
-        name: 'multicheck'
+        name: 'multicheck',
+        maxcount: 3
       },
       save: function() {
         var checked, item, val;
         checked = this.dialog.find(":checkbox:checked");
-        val = (function() {
+        val = ((function() {
           var _i, _len, _results;
           _results = [];
           for (_i = 0, _len = checked.length; _i < _len; _i++) {
@@ -220,7 +240,7 @@
             _results.push($(item).val());
           }
           return _results;
-        })();
+        })()).slice(0, this.options.maxcount);
         this.element.val(val.join(","));
         return this._super();
       },
@@ -281,6 +301,67 @@
         }
         table = "<form><table>" + table + "</table></form>";
         return this.dialog.find('.subnodes').html(table);
+      }
+    });
+  });
+
+  $(function() {
+    $.widget("mbawidget.multichecktree", $.mbawidget.multicheck, {
+      options: {
+        name: 'multichecktree'
+      },
+      buildContent: function() {
+        var content, index, item, items, _i, _len;
+        content = "";
+        items = this.options.items;
+        for (index = _i = 0, _len = items.length; _i < _len; index = ++_i) {
+          item = items[index];
+          item = "<a href='#' data-index=" + index + " class='mba-dt-l1'>" + item.name + "</a>|";
+          content += item;
+        }
+        content += "<hr/><div class='subnodes'></div>";
+        return content;
+      },
+      buildDialog: function() {
+        this._super();
+        this._on(this.dialog, {
+          'click a': '_buildL2'
+        });
+        return false;
+      },
+      _buildL2: function(e) {
+        var col, cols, idx, item, len, row, rows, section, subitems, subnodes, table, td, tr, _i, _j, _ref, _ref1;
+        idx = parseInt($(e.target).attr("data-index"));
+        subitems = this.options.items[idx].items;
+        table = "";
+        cols = 3;
+        len = subitems.length;
+        rows = (len - 1) / cols + 1;
+        for (row = _i = 0, _ref = rows - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; row = 0 <= _ref ? ++_i : --_i) {
+          tr = "";
+          for (col = _j = 0, _ref1 = cols - 1; 0 <= _ref1 ? _j <= _ref1 : _j >= _ref1; col = 0 <= _ref1 ? ++_j : --_j) {
+            if (row * cols + col < len) {
+              item = subitems[row * cols + col].name;
+              td = "<td class='mba-di-l2'>" + this.buildCell(item) + "</td>";
+            } else {
+              td = "<td class='mba-di-l2'></td>";
+              break;
+            }
+            tr += td;
+          }
+          tr = "<tr>" + tr + "</tr>";
+          table += tr;
+        }
+        subnodes = this.dialog.find('.subnodes');
+        table = "<table id='subidx-" + idx + "'>" + table + "</table>";
+        section = subnodes.find('table[id=subidx-' + idx + ']');
+        subnodes.find("table[id^=subidx]").hide();
+        if (section.length === 0) {
+          subnodes.append(table);
+        }
+        ({
+          "else": section.show()
+        });
       }
     });
   });

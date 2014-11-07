@@ -59,9 +59,20 @@
 
           <hr>
           <div  id="part2">
-		  <p  class="hobby"><label class="lbl_hobby">专长：</label><span  class="info_show">{{person_info.special_skill or "没神马专长"}}</span><input type="text"  value="{{person_info.special_skill}}" class="info_edit hidden" name="special_skill"/></p>
-		  <p  class="hobby"><label  class="lbl_hobby">兴趣：</label><span  class="info_show">{{person_info.interest  or "没神马兴趣"}}</span><input type="text"  value="{{person_info.interest}}" class="info_edit hidden" name="interest"/></p>
-		  <p  class="hobby"><label class="lbl_hobby">往来：</label><span  class="info_show">{{person_info.between or "很宅，从不出去"}}</span><input type="text"  value="{{person_info.between}}" class="info_edit hidden" name="between"/></p>
+		  <p  class="hobby">
+              <label class="lbl_hobby">专长：</label>
+              <span  class="info_show">{{person_info.special_skills | join(", ") or "没神马专长"}}</span>
+              <input type="text" id="info_skills_input" value="{{person_info.special_skills | join(", ")}}" class="info_edit hidden" name="special_skills"/></p>
+		  <p  class="hobby">
+              <label  class="lbl_hobby">兴趣：</label>
+              <span  class="info_show">{{person_info.interests | join(", ")  or "没神马兴趣"}}</span>
+              <input type="text" id="info_interest_input"  value="{{person_info.interests | join(", ")}}" class="info_edit hidden" name="interests"/>
+          </p>
+		  <p  class="hobby">
+              <label class="lbl_hobby">往来：</label>
+              <span  class="info_show">{{person_info.between | join(", ") or "很宅，从不出去"}}</span>
+              <input type="text" id="info_between_input" value="{{person_info.between | join(", ")}}" class="info_edit hidden" name="between"/>
+          </p>
           </div>
            <hr>
           <div  id="part3">

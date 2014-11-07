@@ -253,11 +253,41 @@
                     url: '/fanstatic/mba/js/cityArray.js',
                     var: 'cityArray'
                 }});
+
+            $("#info_interest_input").multicheck( {
+                title: "选择兴趣:",
+                desc: "最多选三个",
+                item:{
+                    type: 'json',
+                    url: '/api/interests.json',
+                    var: 'interests'
+                }});
+            $("#info_skills_input").multicheck( {
+                title: "选择特长:",
+                desc: "最多选三个",
+                item:{
+                    type: 'json',
+                    url: '/api/interests.json',
+                    var: 'interests'
+                }});
+
+            $("#info_between_input").multichecktree( {
+                title: "选择往来地:",
+                desc: "最多选三个",
+
+                item:{
+                    type: 'script',
+                    url: '/fanstatic/mba/js/cityArray.js',
+                    var: 'cityArray'
+                }});
+
+
+
         });
 
 
 	 var options = {
-	   iframe: true,
+{#	   iframe: true,#}
 	   success:function (rText, statusText, xhr, $form) {
 	   	if(rText != 'ERROR') {
 			$('#info_cnt').html(rText);

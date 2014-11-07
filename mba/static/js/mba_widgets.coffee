@@ -3,6 +3,7 @@ $ ()->
         options:
             name: 'basewidget'
             title: null
+            desc: null
             item:
                 type:'local' # script, json is also available
                 url: null
@@ -72,20 +73,25 @@ $ ()->
         showDialog: ()->
             console.log "showDialog"
             offset = this.element.offset()
-            offset.top += this.element.height()
+            offset.top += this.element.height() + 8
             self = this
 
             if not this.dialog
-                this._buildDialog ()->
-                    self.dialog.show().offset offset
-                    self.visible = true
-                    return false
-            else
-                this.dialog.show().offset offset
-                this.visible = true
 
+                if this.options.item.type != 'local'
+                    this._buildDialog ()->
+                        self.dialog.show().offset offset
+                        self.visible = true
+                        return
+                    return
 
-            return false
+                else
+                    this._buildDialog()
+
+            this.dialog.show().offset offset
+            this.visible = true
+
+            return
 
 
         hideDialog: (e)->
@@ -124,6 +130,15 @@ $ ()->
                         self.options.items = window[self.options.item.var]
                         self.buildDialog()
                         cb() if cb?
+            else if type  == 'json'
+                $.get this.options.item.url,
+                    (ret)->
+                        if ret.errcode == ret.SUCCESS
+                            self.options.items = ret.retval
+                            self.buildDialog()
+                            cb() if cb?
+                        else
+                            alert ret.errmsg
             else
                 this.buildDialog()
 
@@ -151,9 +166,13 @@ $ ()->
                 btnhtml = button.prop('outerHTML')
                 arr.push(btnhtml)
 
+
+            desc = ""
+            desc = "<small>(" + this.options.desc + ")</small>"  if this.options.desc
+
             title = $ "<div/>"
                 .addClass "mba-dialog-title"
-                .html(this.options.title)
+                .html(this.options.title + desc)
             content = $ "<div/>"
                 .addClass "mba-dialog-content"
                 .append( this.buildContent() )
@@ -242,16 +261,17 @@ $ ()->
     return
 
 $ ()->
-    $.widget "mba.multicheck",
+    $.widget "mbawidget.multicheck",
         $.mbawidget.plain,
         options:
             name: 'multicheck'
+            maxcount: 3
 
 
         save: ()->
             checked = this.dialog.find ":checkbox:checked"
 
-            val = ( $(item).val() for item in checked)
+            val = ( $(item).val() for item in checked).slice(0,  this.options.maxcount)
 
             this.element.val val.join(",")
             return this._super()
@@ -327,4 +347,76 @@ $ ()->
 
 
     return
+
+$ ()->
+    $.widget "mbawidget.multichecktree",
+        $.mbawidget.multicheck,
+        options:
+            name: 'multichecktree'
+
+
+
+        buildContent: ()->
+            content = ""
+            items = this.options.items
+            for item,index in items
+                item =  "<a href='#' data-index="+index+" class='mba-dt-l1'>" + item.name + "</a>|"
+                content += item
+
+            content += "<hr/><div class='subnodes'></div>"
+
+            return content
+
+
+
+        buildDialog: ()->
+            this._super()
+
+            this._on this.dialog,
+                'click a': '_buildL2'
+
+            return false
+
+
+
+        _buildL2: (e)->
+            idx = parseInt $(e.target).attr("data-index")
+            subitems = this.options.items[idx].items
+
+            table = ""
+            cols = 3
+            len = subitems.length
+            rows = (len-1) / cols + 1
+
+            for row in [0..rows-1]
+                tr = ""
+                for col in [0..cols-1]
+                    if row*cols+col < len
+                        item = subitems[row*cols+col].name
+                        td = "<td class='mba-di-l2'>"+this.buildCell(item)+"</td>"
+                    else
+                        td = "<td class='mba-di-l2'></td>"
+                        break
+
+                    tr += td
+
+                tr = "<tr>" + tr + "</tr>"
+                table += tr
+
+            subnodes = this.dialog.find '.subnodes'
+
+            table = "<table id='subidx-"+idx+"'>" + table + "</table>"
+            section = subnodes.find('table[id=subidx-'+idx+']')
+
+            subnodes.find("table[id^=subidx]").hide()
+
+            if section.length == 0 #can't find it
+                subnodes.append table
+            else:
+                section.show()
+            return
+
+
+    return
+
 

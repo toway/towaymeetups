@@ -61,7 +61,7 @@ class PersonInfoWidget(object):
 
     def render(self):
         #TODO do better
-        ss = [u'company', u'industry', u'special_skill', u'interest', u'between', u'introduction', u'location']
+        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'location']
         u = self.user
         for s in ss:
             if not getattr(u,s):
@@ -92,14 +92,16 @@ def view_person(request):
             user.industry = post['industry']
             user.location = post['location']
             user.school = post['school']
-            user.special_skill = post['special_skill']
-            user.interest = post['interest']
-            user.between = post['between']
+            user.special_skills = [i.strip() for i in post['special_skills'].split(",") ]
+            user.interests = [i.strip() for i in post['interests'].split(",") ]
+            user.between = [i.strip() for i in post['between'].split(",") ]
             user.introduction = post['introduction']
             user.real_name = post['title']
             person_info_widget = PersonInfoWidget(user)
             return Response(person_info_widget.render())
-        except:
+        except Exception,ex:
+            print "Error:%s" % ex
+            # raise ex
             return Response("ERROR")
     
     userid = int(request.matchdict['id'])
