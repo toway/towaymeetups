@@ -275,6 +275,9 @@ class MbaUser(Base):
     last_login_date = Column(DateTime())
     sex = Column(Integer())
     type = Column(String(50), nullable=False)
+
+    invitation_code = Column(String(50))
+    invited_code = Column(String(50))
     
     # _interests = relationship("UserInterest", backref='user')
     interests = association_proxy(
@@ -868,4 +871,11 @@ class Banner(Base):
     status = Column(Integer,default=1)  # 1: 生效， 0:失效
 
 
+class RegisterSms(Base):
+    '''注册时发送短信的表'''
+    __tablename__ = "register_sms"
+    id = Column(Integer, primary_key=True)
+    phonenum = Column(String(20))
+    validate_code  = Column(String(20)) # 注册时发送的验证码
+    send_datetime = Column(DateTime(), default=datetime.now(tz=None) )
 

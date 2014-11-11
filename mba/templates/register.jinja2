@@ -16,84 +16,92 @@
         {% include "inc/css.jinja2" %}
 
         <style type="text/css">
-            .setup-wrapper {
-                padding-top: 60px;
-                padding-bottom: 60px;
-            }
-            .setup-wrapper .lead {
-                margin-bottom: 30px;
-                font-size: 20px;
-                font-weight: 300;
-                color: #555;
-            }
-            .setup-header {
-                text-align: left;
-                margin-bottom: 30px;
-            }
-            .setup-header h1{
-                text-align: left;
-            }
-            .steps {
-                display: table;
-                margin: 30px auto 0;
-                padding: 0;
-                overflow: hidden;
-                list-style: none;
-                border: 1px solid #ddd;
-                border-radius: 3px;
-                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-                width: 750px;
+{#            .setup-wrapper {#}
+{#                padding-top: 60px;#}
+{#                padding-bottom: 60px;#}
+{#            }#}
+{#            .setup-wrapper .lead {#}
+{#                margin-bottom: 30px;#}
+{#                font-size: 20px;#}
+{#                font-weight: 300;#}
+{#                color: #555;#}
+{#            }#}
+{#            .setup-header {#}
+{#                text-align: left;#}
+{#                margin-bottom: 30px;#}
+{#            }#}
+{#            .setup-header h1{#}
+{#                text-align: left;#}
+{#            }#}
+{#            .steps {#}
+{#                display: table;#}
+{#                margin: 30px auto 0;#}
+{#                padding: 0;#}
+{#                overflow: hidden;#}
+{#                list-style: none;#}
+{#                border: 1px solid #ddd;#}
+{#                border-radius: 3px;#}
+{#                box-shadow: 0 1px 3px rgba(0,0,0,0.05);#}
+{#                width: 750px;#}
+{#            }#}
+{##}
+{#            .steps li:first-child {#}
+{#                border-left: 0;#}
+{#            }#}
+{##}
+{#            .steps li.current {#}
+{#                background-color: #fff;#}
+{#                color: #333;#}
+{#            }#}
+{##}
+{#            .steps li {#}
+{#                display: table-cell;#}
+{#                width: 33.3%;#}
+{#                padding: 10px 15px;#}
+{#                color: #ccc;#}
+{#                cursor: default;#}
+{#                border-left: 1px solid #ddd;#}
+{#                background-color: #fafafa;#}
+{#            }#}
+{#            .steps li .step {#}
+{#                display: block;#}
+{#            }#}
+{#            <!--#}
+{#            .steps li .glyphicon {#}
+{#                float: left;#}
+{#                margin-right: 15px;#}
+{#                padding-bottom: 5px;#}
+{##}
+{#                font: normal normal 32px glyphicon;#}
+{#                line-height: 1;#}
+{#                display: inline-block;#}
+{#                text-decoration: none;#}
+{#                -webkit-font-smoothing: antialiased;#}
+{#            }#}
+{##}
+{#            -->#}
+{##}
+{#            .setup-main {#}
+{#                float: left;#}
+{#                width: 450px;#}
+{#            }#}
+{##}
+{#            .setup-main li.section.first{#}
+{#                display: none;#}
+{#            }#}
+{##}
+{#            .setup-main .setup-form-container .clearfix{#}
+{#                margin-bottom: 10px;#}
+{#            }#}
+
+
+            .login-hint{
+                float: right;
             }
 
-            .steps li:first-child {
-                border-left: 0;
+            .setup-wrapper{
+                margin-top : 40px;
             }
-
-            .steps li.current {
-                background-color: #fff;
-                color: #333;
-            }
-
-            .steps li {
-                display: table-cell;
-                width: 33.3%;
-                padding: 10px 15px;
-                color: #ccc;
-                cursor: default;
-                border-left: 1px solid #ddd;
-                background-color: #fafafa;
-            }
-            .steps li .step {
-                display: block;
-            }
-            <!--
-            .steps li .glyphicon {
-                float: left;
-                margin-right: 15px;
-                padding-bottom: 5px;
-
-                font: normal normal 32px glyphicon;
-                line-height: 1;
-                display: inline-block;
-                text-decoration: none;
-                -webkit-font-smoothing: antialiased;
-            }
-
-            -->
-
-            .setup-main {
-                float: left;
-                width: 450px;
-            }
-
-            .setup-main li.section.first{
-                display: none;
-            }
-
-            .setup-main .setup-form-container .clearfix{
-                margin-bottom: 10px;
-            }
-
 
 
         </style>
@@ -119,31 +127,20 @@
         <div class="container mba-margin-top">
             <div class="row">
 
-                <div class="setup-wrapper col-md-offset-2 col-md-8">
+                <p class="login-hint">已有帐户,<a href="/login">直接登陆</a></p>
+
+                <div class="setup-wrapper col-md-offset-1 col-md-10">
                     <div class="setup-header">
-                        <h1>加入MBA志友会</h1>
-                        <p class="lead">汇聚您的高端人脉.</p>
+                        <div class="container-fluid">
+                            <div class="col-md-9">
+                                <h1>帐户注册</h1>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="">汇聚您的高端人脉.</p>
+                            </div>
+                        </div>
 
-
-                      <!-- Show steps if user is creating an organiation -->
-                        <ol class="steps">
-                              <li class="current">
-                                <!--<span class="glyphicon glyphicon-user"></span>-->
-                                <strong class="step">Step 1:</strong>
-                                注册帐号
-                              </li>
-                              <li>
-                                <span class="mega-octicon octicon-versions"></span>
-                                <strong class="step">Step 2:</strong>
-                                完善信息(选填)
-                              </li>
-                              <li>
-                                <span class="mega-octicon octicon-dashboard"></span>
-                                <strong class="step">Step 3:</strong>
-                                完成注册
-                              </li>
-                        </ol>
-
+                        <hr/>
                     </div>
 
                     <div class="setup-main">
@@ -183,24 +180,7 @@
 
 
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        {% include "inc/js.jinja2" %}
 
-        <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
-
-        <script src="static/js/plugins.js"></script>
-
-        <script src="static/js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
-        </script>
     </body>
 </html>
