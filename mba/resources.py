@@ -179,7 +179,7 @@ class City(Base):
         UniqueConstraint('name'),
         )
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
+    name = Column(Unicode(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
     usercity = relationship("MbaUser", backref='city', order_by='desc(MbaUser.creation_date)')
 
