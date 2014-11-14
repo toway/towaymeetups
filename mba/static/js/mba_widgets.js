@@ -12,6 +12,7 @@
           "var": null
         },
         items: null,
+        content: '',
         width: null,
         buttons: [
           {
@@ -106,7 +107,7 @@
         }
       },
       buildContent: function() {
-        return "NeedSubclass";
+        return this.options.content;
       },
       _buildDialog: function(cb) {
         var self, type;

@@ -14,6 +14,7 @@
 
         {% include "inc/css.jinja2" %}
 
+        <link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/mba_widgets.css">
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
@@ -389,7 +390,7 @@
 
 
                                     <div class="trends-sector">
-                                        <button class="btn btn-default btn-sm">
+                                        <button class="btn btn-default btn-sm" id="home-invite-friend">
                                             <span class="glyphicon glyphicon-plus"></span>
                                             邀请好友</button>
                                     </div>
@@ -409,7 +410,7 @@
 
 
         {% include "inc/js.jinja2" %}
-
+        <script src="/fanstatic/mba/js/mba_widgets.js"></script>
 
         <script type="text/javascript">
             /*
@@ -479,6 +480,21 @@
 
 
                 });
+
+
+                $("#home-invite-friend").base({
+                    title: "邀请好友",
+                    content: '将下列URL分享给好友:',
+                    width: 200,
+                    buttons:[
+                        {
+                            name: 'save',
+                            clsNames: 'btn btn-xs btn-primary',
+                            value: '关&nbsp;&nbsp;闭',
+                            handler: 'save'
+                        }
+                    ]
+                 });
 
 
 

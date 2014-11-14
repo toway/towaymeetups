@@ -9,6 +9,7 @@ $ ()->
                 url: null
                 var: null
             items: null
+            content: ''
             width : null
 
             buttons: [
@@ -117,7 +118,7 @@ $ ()->
 
 
         buildContent: ()->
-            "NeedSubclass"
+            return this.options.content
 
 
         _buildDialog: (cb)->
