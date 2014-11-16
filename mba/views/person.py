@@ -37,7 +37,7 @@ from kotti.security import get_user
 
 from mba import _
 from mba.utils import wrap_user, RetDict
-from mba.resources import Student, Position, MbaUser, friend
+from mba.resources import Student, Position, MbaUser, friend, Message, City
 
 
 def integers(*segment_names):
@@ -61,7 +61,7 @@ class PersonInfoWidget(object):
 
     def render(self):
         #TODO do better
-        ss = [u'company', u'industry', u'special_skill', u'interest', u'between', u'introduction', u'location']
+        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'city']
         u = self.user
         for s in ss:
             if not getattr(u,s):
@@ -90,16 +90,25 @@ def view_person(request):
             user.phone = post['phone']
             user.company = post['company']
             user.industry = post['industry']
-            user.location = post['location']
+
+            city = DBSession.query(City).filter_by(name=post['city_name']).first()
+            if city:
+                user.city_id = city.id
+            else:
+                user.city_name = post['city_name']
+
             user.school = post['school']
-            user.special_skill = post['special_skill']
-            user.interest = post['interest']
-            user.between = post['between']
+            user.special_skills = [i.strip() for i in post['special_skills'].split(",") ]
+            user.interests = [i.strip() for i in post['interests'].split(",") ]
+            user.between = [i.strip() for i in post['between'].split(",") ]
             user.introduction = post['introduction']
-            user.real_name = post['title']
+            user.real_name = post['real_name']
+            user.title = post['title']
             person_info_widget = PersonInfoWidget(user)
             return Response(person_info_widget.render())
-        except:
+        except Exception,ex:
+            print "Error:%s" % ex
+            # raise ex
             return Response("ERROR")
     
     userid = int(request.matchdict['id'])
@@ -197,6 +206,7 @@ def calculate_friend_auth(cur_user, target_person):
                         target_person.auth_friend = 1
                         break
 
+# Do friend operations
 @view_config(route_name='ajax_friends', renderer='json', xhr=True)
 def ajax_friends(request):
 
@@ -285,8 +295,20 @@ def ajax_friends(request):
             session.execute("""INSERT INTO friends(user_a_id, user_b_id, status) VALUES (:a,:b, 0)""",
                                  {'a':cur_user.id, 'b': target_person_id } )
 
+            # add message here
+            content = u'<a href="/person/%d">%s</a>请求加您为好友' % (cur_user.id, cur_user.real_name or cur_user.name)
+
+            message = Message(sender_id=cur_user.id,
+                              reciever_id=target_person_id,
+                              type=10,
+                              content=content)
+
+            session.add(message)
+
             mark_changed(session)
             transaction.commit()
+
+
 
             request.session.flash(u"已经申请加为好友，等待对方同意", 'success')
             return RetDict(retval=u"已经申请加为好友，等待对方同意")
@@ -313,10 +335,73 @@ def ajax_friends(request):
 
     return  RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
+#Get all my friends
+@view_config(route_name='get_my_friends', renderer='json',  request_method="GET")
+def get_my_friends(request):
+
+    cur_user = get_user(request)
+    if not cur_user:
+        return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+
+
+    friends = cur_user.all_friends
+    json_friends = [
+        {'id': i.id,
+         'name': i.name,
+         'real_name': i.real_name ,
+         'avatar': i.avatar
+         }
+        for i in friends
+    ]
+
+    return RetDict(retval=json_friends)
+
+
+# @view_config(route_name='persons_maybe_know', renderer='json',  request_method="GET")
+# def persons_maybe_know(request):
+#
+#     cur_user = get_user(request)
+#     if not cur_user:
+#         return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+#
+#     toknown_list = DBSession.query(Student).filter(Student.id != cur_user.id)[0:8]
+#
+#
+#     return RetDict(retval=json_friends)
+
+import json
+
+def persons_maybe_know(cur_user):
+    friends_idlist = [ f.id for f in cur_user.all_friends ]
+    toknown_list = DBSession.query(Student).filter(
+        and_(Student.id != cur_user.id,
+             Student.id not in friends_idlist  )
+    )[0:30]
+
+    #TODO:add school, company constaint
+
+    toknown_list_json = [ {'name':i.name,
+                           'id':i.id,
+                           'real_name':i.real_name,
+                           'avatar': i.avatar}
+                            for i in toknown_list]
+
+    return {'persons_maybe_know': toknown_list,
+            'persons_maybe_know_json': toknown_list_json}
+
+
+
+
+
+
 
 
 def includeme(config):
     config.add_route('person','/person/{id}')
     config.add_route('ajax_friends', '/friends')
+    config.add_route('get_my_friends', '/my_friends')
+    # config.add_route('persons_maybe_know', '/persons_maybe_know')
+
+
     config.add_route('friend_set','/friend_set/{id1:\d+}/{id2:\d+}/{id3:\d+}')
     config.scan(__name__)

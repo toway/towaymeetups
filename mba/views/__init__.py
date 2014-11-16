@@ -30,4 +30,11 @@ def includeme(config):
     config.include('mba.views.image')
 
 
+    config.include('mba.views.invitations')
+    config.include('mba.views.infobox')
+
+    config.include('mba.views.api')
+
+    config.include('mba.views.captcha')
+
     config.include('mba.views.admin')

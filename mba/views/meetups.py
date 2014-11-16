@@ -117,6 +117,22 @@ def view_meetups(request):
     return query_meetups(request)
 
 
+
+
+# TODO: pagnation is needed
+
+@view_config(route_name='my_meetups', renderer='i_meetups.jinja2')
+@wrap_user
+def view_my_meetups(context, request):
+    user = get_user(request)
+    my_participate = None
+    if user:
+        my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)
+
+    return {'my_meetups': my_participate}
+
 def includeme(config):
     config.add_route('meetups','/meetups')
+    config.add_route('my_meetups','/i/meetups')
+
     config.scan(__name__)

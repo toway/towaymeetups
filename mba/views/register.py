@@ -13,7 +13,7 @@ from deform import Button
 from deform import Form
 from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
-from deform.widget import HiddenWidget
+from deform.widget import HiddenWidget, TextInputWidget, PasswordWidget
 
 import pyramid
 
@@ -35,6 +35,7 @@ from kotti.views.users import deferred_email_validator
 from mba import _
 from mba.views.form import FormCustom
 from mba.security import get_student
+from mba.views.widget import PhoneValidateCodeInputWidget
 from mba.resources import MbaUser,Student
 
 # TODO groups for mba
@@ -56,31 +57,69 @@ def name_new_validator(node, value):
         raise colander.Invalid(
             node, _(u"A user with that name already exists."))
 
+def invitation_code_validator(node, value):
+    if value and \
+            DBSession.query(MbaUser).filter_by(invitation_code=value).first() is None:
+        raise  colander.Invalid(
+            node, _(u"邀请码不存在"))
+
 def confirm_password_validator(node, value):
     print node
 
+def deffered_phone_validator(kw, val):
+    pass
+
+
 
 class RegisterSchema(colander.Schema):
+
+    invitation_code = colander.SchemaNode(
+        colander.String(),
+        title=_(u"邀请码"),
+        description=_(u"邀请码"),
+        validator=invitation_code_validator,
+        missing = u"",
+        widget=TextInputWidget(proportion=(2,7))
+    )
+
     name = colander.SchemaNode(
         colander.String(),
         title=_(u'用户名'),
         description=_(u'登陆用的唯一用户名'),
-        validator=colander.All(name_pattern_validator, name_new_validator)
+        validator=colander.All(name_pattern_validator, name_new_validator),
+        widget=TextInputWidget(proportion=(2,7))
     )
     email = colander.SchemaNode(
         colander.String(),
         title=_(u'邮箱'),
         description=_(u'请正确填写以便验证'),
         # validator=colander.All(colander.Email,deferred_email_validator),TODO: Email validator
-        validator = deferred_email_validator
+        validator = deferred_email_validator,
+        widget=TextInputWidget(proportion=(2,7))
     )
     password = colander.SchemaNode(
         colander.String(),
         title=_(u'密码'),
         validator=colander.Length(min=6),
-        widget=deform.widget.PasswordWidget(css_class="form-control"),
+        widget=deform.widget.PasswordWidget(proportion=(2,7),css_class="form-control"),
+
         #传递form-control之后不需要在deform_template/下重写password.jinja2, TextInputWidget同理
         )
+
+
+
+    phone = colander.SchemaNode(
+        colander.String(),
+        title=_(u'手机'),
+        widget=TextInputWidget(proportion=(2,7))
+    )
+
+    validate_code = colander.SchemaNode(
+        colander.String(10),
+        title=_(u"验证码"),
+        validator=deffered_phone_validator,
+        widget=PhoneValidateCodeInputWidget(inputname='phone', proportion=(2,7))
+    )
 
 
 def add_user_success(request, appstruct):
@@ -133,8 +172,8 @@ def add_user_details_success(request, appstruct):
 @view_config(route_name='register',renderer='register.jinja2')
 def view_register(context, request):
     schema = RegisterSchema(
-            css_class="setup-account",
-            title=u'注册帐号').bind(request=request)
+            css_class="form-horizontal",
+            title=u'').bind(request=request)
 
     form = deform.Form(schema, buttons=[
                 deform.form.Button(u'register',

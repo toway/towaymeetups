@@ -226,7 +226,24 @@ def test_visitors():
     stu2.add_visit(stu3)
     print stu2.visitors
 
+def populate_interests():
+    if DBSession.query(Interest).count() == 0:
+        inter = ["唱歌/K歌","听音乐","看电影","看韩剧/综艺娱乐节目","看书/小说/杂志","逛街/购物","跳舞","演奏乐器",
+                 "去健身房健身/减肥/塑形/瑜伽","打篮球","踢足球","打排球","跑步","打羽毛球","打乒乓球","保龄球",
+                 "高尔夫","远足","爬山/登山","X运动","游泳","划船/水上娱乐","钓鱼/养鱼","饲养宠物","玩网络游戏/单机游戏",
+                 "上网聊天/论坛/贴吧","看新闻","摄影/摄像","旅游","吃美食/做饭","十字绣/织毛衣/做服装服饰","打扑克/麻将",
+                 "写字/练字/书法","下棋/各种棋","睡觉","美容/保养/化妆/打扮"]
+        for int in inter:
+            io = Interest(name=int)
+            DBSession.add(io)
+
+
+        DBSession.flush()
+
+
+
 def create_mba_root():
+    populate_interests()
     if DBSession.query(Node).filter_by(name="meetup").count() == 0:
         meet_attrs = dict(
             title=u'meetup',

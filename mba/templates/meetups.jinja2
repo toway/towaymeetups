@@ -246,6 +246,7 @@
                                                                 {{ m.meetup.creation_date.strftime('%m%d %H:%M') }}
                                                             </a>
                                                         </li>
+                                                        <a href="/i/meetups">更多</a>
                                                     {% else %}
                                                         您没有参加过任何活动喔..
                                                     {% endfor %}
@@ -302,6 +303,9 @@
 
                $("li#li_meetups").parent().find("li").removeClass("active");
                $("li#li_meetups").addClass("active");
+
+
+
 
                 /*
                 $(document).pjax('.home-menu a', '#pjax-content');
