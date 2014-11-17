@@ -15,6 +15,7 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         {% include "inc/css.jinja2" %}
+		<link rel="stylesheet" href="/fanstatic/mba/css/default/zebra_dialog.css" type="text/css">
 
 
         <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -76,11 +77,13 @@
                           </div>
                       </div>
                       <hr />
-                      <div class="container">
+                      <div class="container  padding-15">
 			      {{pos.body|safe}}
                       </div>
                       <hr/>
-                      <button id="shengqing2" class="btn_job_shenqing2"></button><button id="shoucang" class="btn_job_shoucang"</button>
+					  <div class="job_detail_btn_container">
+						<button id="shengqing2" class="btn_job_shenqing2"></button><button id="shoucang" class="btn_job_shoucang"></button>
+					  </div>
                     </div>
 		    <script>
 		    </script>
@@ -172,8 +175,8 @@
         {% include "footer.jinja2" %}
 
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+       
+        <script>window.jQuery || document.write('<script src="/fanstatic/mba/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
 
         <!-- Bootstrap -->
         <script src="/fanstatic/mba/bootstrap/js/bootstrap.min.js"></script>
@@ -181,6 +184,7 @@
         <script src="/fanstatic/mba/js/plugins.js"></script>
 
         <script src="/fanstatic/mba/js/main.js"></script>
+		<script type="text/javascript" src="/fanstatic/mba/js/zebra_dialog.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -194,12 +198,24 @@
 		function applyit(id) {
 		  $.get("/job-postit/"+id, function(result){
 			if('ok' == result) {
-				alert("申请成功");
+				 $.Zebra_Dialog('<p>职位申请成功</p><p>您今天已经申请了一个职位，投的更多，机会越多，加油！</p>',{
+                      'type':     'confirmation',
+                      'buttons':  false,
+                      'title':    '简历申请'
+                    });
 				refresh_manager();
 			} else if('dup' == result) {
-				alert('已经申请');
+				 $.Zebra_Dialog('<p>职位已经申请过了</p><p>请选择其他职位进行申请！</p>',{
+                      'type':     'confirmation',
+                      'buttons':  false,
+                      'title':    '简历申请'
+                    });
 			} else {
-				alert("申请失败");
+				$.Zebra_Dialog('<p>申请失败</p><p>请重试或者选择其他职位进行申请！</p>',{
+                      'type':     'confirmation',
+                      'buttons':  false,
+                      'title':    '简历申请'
+                    });
 			}
 		  });
 	    }
@@ -207,10 +223,18 @@
 	    function collectit(id) {
 		  $.get("/job-collect/"+id, function(result){
 			if('ok' == result) {
-				alert("收藏成功");
+				 $.Zebra_Dialog('<p>收藏成功</p><p>您可以在收藏职位中查看详情</p>',{
+                      'type':     'confirmation',
+                      'buttons':  false,
+                      'title':    '简历申请'
+                    });
 				refresh_manager();
 			} else {
-				alert("收藏失败");
+				 $.Zebra_Dialog('<p>收藏失败</p><p>请重试或者选择其他职位进行收藏！</p>',{
+                      'type':     'confirmation',
+                      'buttons':  false,
+                      'title':    '简历申请'
+                    });
 			}
 		  });
 	    }
@@ -221,7 +245,8 @@
 				applyit(this_id);
 				});
 
-		$("#shenqing2").click(function() {
+		$("#shengqing2").click(function() {
+       console.log(this_id);
 				applyit(this_id);
 				});
 
@@ -230,7 +255,8 @@
 				});
 
                $("li#li_job").parent().find("li").removeClass("active");
-               $("li#li_job").find('a').addClass("active")
+               //$("li#li_job").find('a').addClass("active");
+			   $("li#li_job").addClass("active")
             })
         </script>
     </body>
