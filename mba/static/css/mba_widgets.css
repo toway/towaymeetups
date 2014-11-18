@@ -20,6 +20,10 @@
   line-height: 14px;
   padding: 10px ;
 }
+.mba-dialog .mba-dialog-content label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
 .mba-dialog .mba-dialog-footer {
   text-align: center;
   padding-bottom: 10px;

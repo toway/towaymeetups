@@ -67,6 +67,7 @@
                     <button class="btn btn-sm btn-default op-friend" id="agree_friend"  value="{{ person_info.id }}">同意</button>
                     <!--<button class="btn btn-sm btn-default op-friend" id="agree_friend" >同意</button>,-->
                 {% elif person_info in user.all_friends %}
+                    <button class="btn btn-default btn-sm " id="send_private_msg" value="{{ person_info.id }}">发送私信</button>
                     <button class="btn btn-default btn-sm op-friend" id="cancel_friend" value="{{ person_info.id }}">取消好友</button>
                 {% else %}
                     <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
@@ -171,23 +172,6 @@
        
       </div>
 
-      <div id="send_sixin" style="clear:both">
-          <h4 class="sixin_title">发私信<img src="/fanstatic/mba/img/sixin_colse.png"  class="sixin_close" style="float:right"></h4>
-          <div style="padding-left:10px;padding-top:10px">
-            <label>内&nbsp;&nbsp;容</label>
-            <textarea maxlength="250" cols="36" style="border:1px solid RGB(255,159,10)">
-              
-            </textarea>
-            <p id="sixin_tool_cnt">
-              <img class="sixin_image" src="/fanstatic/mba/img/sixin_biaoqing.png">
-              <img class="sixin_image" src="/fanstatic/mba/img/sixin_image.png">
-              <img class="sixin_image" src="/fanstatic/mba/img/sixin_facebook.png">
-              <button class="btn btn-default btn-sm btn_sixin_send">发送</button> 
-            </p>
-            
-          </div>
-          
-      </div>
 
 
  </div>
@@ -337,41 +321,48 @@
 
                 $("#info_location_input").radiotree({
                  title: "选择居住地:",
-                 item: {
+                 remoteContent: {
                      type: 'script',
                      url: '/fanstatic/mba/js/cityArray.js',
-                     var: 'cityArray'
+                     rootVar: 'cityArray'
                  }});
 
                 $("#info_interest_input").multicheck({
                  title: "选择兴趣:",
                  desc: "最多选三个",
-                 item: {
+                 remoteContent: {
                      type: 'json',
-                     url: '/api/interests.json',
-                     var: 'interests'
+                     url: '/api/interests.json'
                  }});
                 $("#info_skills_input").multicheck({
                  title: "选择特长:",
                  desc: "最多选三个",
-                 item: {
+                 remoteContent: {
                      type: 'json',
-                     url: '/api/interests.json',
-                     var: 'interests'
+                     url: '/api/interests.json'
                  }});
 
                 $("#info_between_input").multichecktree({
                  title: "选择往来地:",
                  desc: "最多选三个",
 
-                 item: {
+                 remoteContent: {
                      type: 'script',
                      url: '/fanstatic/mba/js/cityArray.js',
-                     var: 'cityArray'
+                     rootVar: 'cityArray'
                  }});
             }
 
+
+
+{#            $("#send_private_msg").base({#}
+{#                title: '发私信',#}
+{#                content: '<textarea class="form-control" rows="3"></textarea>'#}
+{#                buttons: []#}
+{#            });#}
+
             init_widget();
+            $("#send_private_msg").textareadialog({title:"发送私信", buttons:[ {name:'ok',value:"发&nbsp&nbsp&nbsp送"}]});
 
 
 
