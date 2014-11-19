@@ -5,6 +5,7 @@ $ ()->
             title: null
             desc: null
             content: 'Nothing here!'
+            position: 'element_right'
             remoteContent: {
                 type: null  # json, script, html, etc
                 url: null
@@ -12,6 +13,7 @@ $ ()->
             }
             width : null
             buttons: []
+            onDialogBuilt: null
 
 
         defaultButtons: [
@@ -73,10 +75,40 @@ $ ()->
 
             return false
 
+        calcPosition: ()->
+
+            offset = this.element.offset()
+            height = this.element.height()
+            width = this.element.width()
+
+            dwidth = this.dialog.width()
+            dheight = this.dialog.height()
+
+
+
+
+            offset.top +=  + 10
+
+            switch this.options.position
+                when 'element_bottom' then offset.top += height + 10
+                when 'element_right'  then offset.left += width + 10
+                when 'element_left' then offset.left -= dwidth/2
+                when 'element_top' then offset.top  -= dheight/2
+                when 'docoument_center'
+                    w = $ window
+                    d = $ document
+                    offset =
+                        top: d.height() - w.height()/2 - dheight/2
+                        left: d.width() - w.width()/2 - dwidth/2
+
+            return offset
+
         showDialog: ()->
             console.log "showDialog"
-            offset = this.element.offset()
-            offset.top += this.element.height() + 10
+
+
+
+
             self = this
 
             if not this.dialog
@@ -86,6 +118,7 @@ $ ()->
                     # dialog content is remote content, callback
 
                     this.buildDialog ()->
+                        offset = this.calcPosition()
                         self.dialog.show().offset offset
                         self.visible = true
                         return
@@ -95,6 +128,7 @@ $ ()->
                     this.buildDialog()
 
 
+            offset = this.calcPosition()
 
             this.dialog.show().offset offset
             this.visible = true
@@ -145,6 +179,7 @@ $ ()->
 
             content = $("<div/>")
                         .addClass "mba-dialog-content"
+                        .html ' Loading... '
 
             if remoteContent.type == 'json'
                 $.get remoteContent.url,
@@ -168,34 +203,36 @@ $ ()->
 
             else if remoteContent.type is null
                 # data is local parameter,  return the content directly
-                content.html this.options.content
+                origalContent = this.options.content
+                origalContent.show() if origalContent instanceof jQuery
+                content.html origalContent
             else
                 alert "Not supported remoteContent type"
 
-            content.html ' Loading... '
+
             return content.prop("outerHTML")
 
         buildFooter: ()->
             buttons = this.options.buttons
             defaultButtons = this.defaultButtons
-#            newButtons = defaultButtons + []
+            newButtons =  defaultButtons.slice 0
 
             for i, idx in buttons
                 found = false
-                for j in defaultButtons
+                for j, jdx in defaultButtons
                     if i.name == j.name
 
-                        defaultButtons[idx] =   $.extend( j, i )
+                        newButtons[jdx] =   $.extend( j, i )
                         found = true
                         break
 
-                defaultButtons.append i if not found
+                newButtons.push i if not found
 
-            this.options.buttons = defaultButtons
+            this.options.buttons = newButtons
 
             arr = []
 
-            for item ,index in defaultButtons
+            for item ,index in newButtons
                 button = $("<button/>")
                             .addClass item.clsNames
                             .attr "name", item.name
@@ -238,6 +275,7 @@ $ ()->
             return false
 
         postBuildDialog: ()->
+            this.options.onDialogBuilt.apply(this, arguments) if this.options.onDialogBuilt
             return false
 
 
@@ -553,5 +591,18 @@ $ ()->
 
             textarea = "<textarea type='input' class='form-control' rows="+this.options.rows+"></textarea>"
             return (content.html textarea).prop("outerHTML")
+
+
+## Abstract widget of all infomation showing dialog
+$ ()->
+    $.widget "mbawidget.alertinfo",
+        $.mbawidget.metadialog,
+        options:
+            name: 'alertinfo'
+            width: 400
+
+
+
+
 
 

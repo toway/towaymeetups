@@ -63,6 +63,7 @@ def view_home(context, request):
     d.update(query_info(request))
     d.update(query_banners(request))
     d.update(persons_maybe_know(user))
+    d.update({'application_url': request.application_url})
     return d
 
 

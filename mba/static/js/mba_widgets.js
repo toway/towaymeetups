@@ -7,13 +7,15 @@
         title: null,
         desc: null,
         content: 'Nothing here!',
+        position: 'element_right',
         remoteContent: {
           type: null,
           url: null,
           rootVar: null
         },
         width: null,
-        buttons: []
+        buttons: [],
+        onDialogBuilt: null
       },
       defaultButtons: [
         {
@@ -67,15 +69,46 @@
         }
         return false;
       },
+      calcPosition: function() {
+        var d, dheight, dwidth, height, offset, w, width;
+        offset = this.element.offset();
+        height = this.element.height();
+        width = this.element.width();
+        dwidth = this.dialog.width();
+        dheight = this.dialog.height();
+        offset.top += +10;
+        switch (this.options.position) {
+          case 'element_bottom':
+            offset.top += height + 10;
+            break;
+          case 'element_right':
+            offset.left += width + 10;
+            break;
+          case 'element_left':
+            offset.left -= dwidth / 2;
+            break;
+          case 'element_top':
+            offset.top -= dheight / 2;
+            break;
+          case 'docoument_center':
+            w = $(window);
+            d = $(document);
+            offset = {
+              top: d.height() - w.height() / 2 - dheight / 2,
+              left: d.width() - w.width() / 2 - dwidth / 2
+            };
+        }
+        return offset;
+      },
       showDialog: function() {
         var offset, self;
         console.log("showDialog");
-        offset = this.element.offset();
-        offset.top += this.element.height() + 10;
         self = this;
         if (!this.dialog) {
           if (this.options.remoteContent.type === !null) {
             this.buildDialog(function() {
+              var offset;
+              offset = this.calcPosition();
               self.dialog.show().offset(offset);
               self.visible = true;
             });
@@ -84,6 +117,7 @@
             this.buildDialog();
           }
         }
+        offset = this.calcPosition();
         this.dialog.show().offset(offset);
         this.visible = true;
       },
@@ -121,10 +155,10 @@
         return false;
       },
       buildContent: function() {
-        var content, remoteContent, self;
+        var content, origalContent, remoteContent, self;
         remoteContent = this.options.remoteContent;
         self = this;
-        content = $("<div/>").addClass("mba-dialog-content");
+        content = $("<div/>").addClass("mba-dialog-content").html(' Loading... ');
         if (remoteContent.type === 'json') {
           $.get(remoteContent.url, function(ret) {
             var retdata, rootVar;
@@ -147,36 +181,40 @@
             self.hookRemoteContent(obj);
           });
         } else if (remoteContent.type === null) {
-          content.html(this.options.content);
+          origalContent = this.options.content;
+          if (origalContent instanceof jQuery) {
+            origalContent.show();
+          }
+          content.html(origalContent);
         } else {
           alert("Not supported remoteContent type");
         }
-        content.html(' Loading... ');
         return content.prop("outerHTML");
       },
       buildFooter: function() {
-        var arr, btnhtml, button, buttons, defaultButtons, footer, found, i, idx, index, item, j, _i, _j, _k, _len, _len1, _len2;
+        var arr, btnhtml, button, buttons, defaultButtons, footer, found, i, idx, index, item, j, jdx, newButtons, _i, _j, _k, _len, _len1, _len2;
         buttons = this.options.buttons;
         defaultButtons = this.defaultButtons;
+        newButtons = defaultButtons.slice(0);
         for (idx = _i = 0, _len = buttons.length; _i < _len; idx = ++_i) {
           i = buttons[idx];
           found = false;
-          for (_j = 0, _len1 = defaultButtons.length; _j < _len1; _j++) {
-            j = defaultButtons[_j];
+          for (jdx = _j = 0, _len1 = defaultButtons.length; _j < _len1; jdx = ++_j) {
+            j = defaultButtons[jdx];
             if (i.name === j.name) {
-              defaultButtons[idx] = $.extend(j, i);
+              newButtons[jdx] = $.extend(j, i);
               found = true;
               break;
             }
           }
           if (!found) {
-            defaultButtons.append(i);
+            newButtons.push(i);
           }
         }
-        this.options.buttons = defaultButtons;
+        this.options.buttons = newButtons;
         arr = [];
-        for (index = _k = 0, _len2 = defaultButtons.length; _k < _len2; index = ++_k) {
-          item = defaultButtons[index];
+        for (index = _k = 0, _len2 = newButtons.length; _k < _len2; index = ++_k) {
+          item = newButtons[index];
           button = $("<button/>").addClass(item.clsNames).attr("name", item.name).val(item.name).html(item.value).attr("type", "button");
           btnhtml = button.prop('outerHTML');
           arr.push(btnhtml);
@@ -207,6 +245,9 @@
         return false;
       },
       postBuildDialog: function() {
+        if (this.options.onDialogBuilt) {
+          this.options.onDialogBuilt.apply(this, arguments);
+        }
         return false;
       }
     });
@@ -500,6 +541,15 @@
         content = $("<div/>").addClass("mba-dialog-content");
         textarea = "<textarea type='input' class='form-control' rows=" + this.options.rows + "></textarea>";
         return (content.html(textarea)).prop("outerHTML");
+      }
+    });
+  });
+
+  $(function() {
+    return $.widget("mbawidget.alertinfo", $.mbawidget.metadialog, {
+      options: {
+        name: 'alertinfo',
+        width: 400
       }
     });
   });
