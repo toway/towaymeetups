@@ -452,7 +452,48 @@
       options: {
         name: 'textareadialog',
         rows: 3,
-        width: 200
+        width: 200,
+        submit: {
+          method: 'post',
+          url: null,
+          params: null,
+          callback: null
+        }
+      },
+      submitCallback: function() {
+        var cb, retobj;
+        console.log(arguments);
+        console.log(arguments[0]);
+        console.log(arguments[1]);
+        console.log(arguments[2]);
+        cb = this.options.submit.callback;
+        if (cb) {
+          cb.apply(this, arguments);
+        } else {
+          retobj = arguments[0];
+          if (retobj.errcode !== retobj.SUCCESS) {
+            alert(retobj.errmsg);
+          } else {
+            this.hideDialog();
+            this.dialog.find('textarea').val('');
+          }
+        }
+      },
+      onOk: function() {
+        var content, options, self;
+        console.log('onOk in ' + this.options.name);
+        content = this.dialog.find('textarea').val();
+        self = this;
+        if (this.options.submit.url) {
+          console.log(this.options.submit.params);
+          options = $.extend(this.options.submit.params, {
+            content: content
+          });
+          console.log(options);
+          return $.post(this.options.submit.url, options, function() {
+            return self.submitCallback.apply(self, arguments);
+          });
+        }
       },
       buildContent: function() {
         var content, textarea;

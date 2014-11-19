@@ -362,7 +362,21 @@
 {#            });#}
 
             init_widget();
-            $("#send_private_msg").textareadialog({title:"发送私信", buttons:[ {name:'ok',value:"发&nbsp&nbsp&nbsp送"}]});
+            $("#send_private_msg").textareadialog({
+                title:"发送私信",
+                buttons:[ {
+                    name:'ok',
+                    value:"发&nbsp&nbsp&nbsp送"
+                }],
+                submit: {
+                    url: '/api/private_msg',
+                    params: {
+                        method: 'send_private_msg',
+                        target_person_id: {{ person_info.id }}
+                    }
+                }
+
+            });
 
 
 

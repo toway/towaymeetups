@@ -50,11 +50,13 @@ class RetDict(dict):
     ERR_CODE_BASE = 8000
     ERR_CODE_NOT_LOGIN      = ERR_CODE_BASE + 1
     ERR_CODE_WRONG_PARAM    = ERR_CODE_BASE + 2
+    ERR_CODE_NO_SUCH_PERSON = ERR_CODE_BASE + 3
 
 
     errcode_to_msg_map = {
         ERR_CODE_NOT_LOGIN      :   u'请先登陆',
-        ERR_CODE_WRONG_PARAM    :   u'错误的参数'
+        ERR_CODE_WRONG_PARAM    :   u'错误的参数',
+        ERR_CODE_NO_SUCH_PERSON :   u'不存在的人',
     }
 
 
