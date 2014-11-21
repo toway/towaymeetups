@@ -704,10 +704,11 @@ table.mba-resume-tbl{
 
   .basic_info .info_auth,.activity_auth,.friend_auth
   {
-      width:74px;
-      height: 21px;
+      width:28px;
+      height: 28px;
       display:inline-block; 
-      margin-right: 5px;
+      margin-right: 2px;
+      background-repeat: no-repeat;
   }
 
   .basic_info .info_auth{
@@ -1049,14 +1050,17 @@ div.jianli_manage span{
 
 #person_info{
   border:1px solid RGB(199,199,199);
+      display:inline-block;
+      background-repeat: no-repeat;
 }
 
   #person_info .info_auth,.activity_auth,.friend_auth
   {
-      width:74px;
-      height: 21px;
-      display:inline-block; 
-      margin-right: 2px;
+      /*width:74px;*/
+      /*height: 21px;*/
+      display:inline-block;
+      background-repeat: no-repeat;
+      /*margin-right: 2px;*/
   }
 .person_info_absolute{
   position: absolute;
@@ -1087,29 +1091,31 @@ div.jianli_manage span{
   height: 40px;
 }
 
-/* below should be commented because it defined before */
-#person_info .info_auth{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
-  }
-#person_info .activity_auth{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
-  }
+/* below should be commented because it defined before
+ TODO: All this images should be placed in one big spirit image to reduce bandwidth overload
+*/
+/*#person_info .info_auth{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
+/*#person_info .activity_auth{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
 
- #person_info .friend_auth{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
-  }
+ /*#person_info .friend_auth{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
 
-  #person_info.info_auth_disable{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
-  }
+  /*#person_info.info_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
 
-  #person_info .activity_auth_disable{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
-  }
+  /*#person_info .activity_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
 
-  #person_info .friend_auth_disable{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
-  }
+  /*#person_info .friend_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
 
 .shoucang_job{
   padding-left: 15px;
