@@ -56,8 +56,12 @@
 
 
             {% if person_info.id == user.id %}
-                <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
-                <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
+                <button class="btn btn-default btn-sm to-edit-mode" id="info_edit_set">资料编辑</button>
+                <button class="btn btn-default btn-sm to-edit-mode" id="info_auth_set">隐私设置</button>
+
+                <button class="btn btn-default btn-sm editing-mode hidden" id="edit-save">保存</button>
+                <button class="btn btn-default btn-sm editing-mode hidden" id="edit-cancel">取消</button>
+
             {% else %}
                 {# 我已经发送了加为好友的请求 #}
                 <span id="rsqted-msg" class=" {% if not person_info in user.my_requests %} hidden {% endif %}">已经申请加为好友，等待对方同意</span>
@@ -223,6 +227,10 @@
 
 
     $(function() {
+
+               $("li#li_card").parent().find("li").removeClass("active");
+               $("li#li_card").addClass("active");
+
          $('#invite-friend').click(function (e) {
              // show invite-box  nearby the button
              var pos = $(this).offset(),
@@ -355,11 +363,6 @@
 
 
 
-{#            $("#send_private_msg").base({#}
-{#                title: '发私信',#}
-{#                content: '<textarea class="form-control" rows="3"></textarea>'#}
-{#                buttons: []#}
-{#            });#}
 
             init_widget();
             $("#send_private_msg").textareadialog({
@@ -380,8 +383,6 @@
 
 
 
-               $("li#li_card").parent().find("li").removeClass("active");
-               $("li#li_card").addClass("active");
                // $('.activity_auth').tooltip("show");
                 $('.info_auth').tooltip({"placement":"bottom"});
                 $('.activity_auth').tooltip({"placement":"bottom"});
@@ -420,23 +421,25 @@
 
 
                 });
-		
-	       {% if user_status == 1 %}
-               $("#info_edit_set").bind("click",function(){
-                  el = $(this);
-                  if('保存' == el.html()) {
-                        $('#person_info').ajaxSubmit(options);
-                    el.html('资料编辑');
-                  }
-                  else {
-                      $(".info_show").addClass("hidden");
-                      $(".jiaohuan_see").addClass("hidden");
-                      $(".auth_set").addClass("hidden");
-                      $(".info_edit").removeClass("hidden");
-                      el.html('保存');
-                  }
+
+
+
+               $("#info_edit_set").click(function(){
+
+
+                   $(".editing-mode").removeClass("hidden");
+                   $(".to-edit-mode").addClass("hidden");
+
+                   $(".info_edit").removeClass("hidden");
+                   $(".info_show").addClass("hidden");
+
+                   $("#edit-save").attr("data-save-type", "info");
+
                });
-	       {% else %} 
+
+
+
+
                $("#info_friend_set").bind("click", function(){
                   el = $(this);
 
@@ -461,21 +464,107 @@
                    }
                 });
 
-	       {% endif %}
+                $("#info_auth_set").click(function(){
 
-                $("#info_auth_set").bind("click",function(){
-                  $(".info_show").removeClass("hidden");
-                  $(".auth_set").removeClass("hidden");
-                  $(".info_edit").addClass("hidden");
-                  $(".jiaohuan_see").addClass("hidden");
+
+                    $(".auth_hidden").addClass("hidden");
+                    $(".info_edit").addClass("hidden");
+
+                    $(".privacy-setting").removeClass("hidden");
+
+                    console.log("set privacy");
+
+
+                    var privacy = $(".privacy-setting");
+                    privacy.each(function(index, item){
+
+                        var pl = $(item).attr("data-privacy-level");
+                        var plcls = "privacy-level-" + pl;
+                        $(this).parent().children("."+plcls).removeClass("hidden");
+
+                    });
+
+
+
+                    $(".to-edit-mode").addClass("hidden");
+
+                    $(".editing-mode").removeClass("hidden");
+                    $("#edit-save").attr("data-save-type", "privacy");
+
+
+
                });
 
-              $(".auth_set").bind("click",function(){
-                  $(".auth_hidden").addClass("hidden");
-                  $(".info_edit").addClass("hidden");
+
+                $("#edit-save").click(function(){
+
+                    if( $(this).attr("data-save-type") === "info"){
+                        $('#person_info').ajaxSubmit(options);
+                    }else{ // privacy
+
+                    }
+
+
+
+                });
+
+
+                $("#edit-cancel").click(function(){
+
+                    $(".to-edit-mode").removeClass("hidden");
+                    $(".editing-mode").addClass("hidden");
+
+                    $(".auth_hidden").addClass("hidden");
+                    $(".info_edit").addClass("hidden");
+
+                    $(".privacy-setting").addClass("hidden");
+                    $(".privacy-level").addClass("hidden");
+
+                    $(".info_show").removeClass("hidden");
+
+
+                });
+
+
+              $(".privacy-setting").bind("click",function(){
+
+
+                  console.log("privacy setting");
+
+                  var pl = $(this).attr("data-privacy-level");
+                  var nextPl = '5';
+
+                  switch(pl){
+                      case '1':
+                          nextPl = '5';
+                          break;
+                      case '5':
+                          nextPl = '9';
+                          break;
+                      case '9':
+                          nextPl = '1';
+
+                  }
+
+                  var nextPlcls = "privacy-level-" + nextPl;
+                  var plcls = "privacy-level-" + pl;
+                  var parent = $(this).parent();
+
+                  parent.children("."+plcls).addClass("hidden");
+                  parent.children("."+nextPlcls).removeClass("hidden");
+
+
+                  $(this).attr("data-privacy-level", nextPl);
+
+
+{#                  $(".auth_hidden").addClass("hidden");#}
+{#                  $(".info_edit").addClass("hidden");#}
+
+
                  
-                  $(this).parents().find("a.jiaohuan_see").removeClass("hidden");
+{#                  $(this).parents().find("a.jiaohuan_see").removeClass("hidden");#}
               });
+
 
                 
 
