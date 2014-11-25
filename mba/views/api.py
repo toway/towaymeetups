@@ -130,6 +130,40 @@ def ajax_private_msg(request):
 
 
 
+@view_config(route_name='ajax_person', renderer='json', xhr=True)
+def ajax_person(request):
+    ret = None
+
+    user = get_user(request)
+    if not user:
+        return RetDict(errcode=RetDict.ERR_CODE_NOT_LOGIN)
+
+
+    method = request.POST.get("method", None)
+    if not method and method not in ['update_privacy_level']:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+    try:
+
+        email_privacy_level = request.POST.get("email-privacy-level", 5)
+        title_privacy_level = request.POST.get("title-privacy-level", 5)
+        phone_privacy_level = request.POST.get("phone-privacy-level", 5)
+        company_privacy_level = request.POST.get("company-privacy-level", 9)
+
+        user.email_privacy_level = email_privacy_level
+        user.title_privacy_level = title_privacy_level
+        user.phone_privacy_level = phone_privacy_level
+        user.company_privacy_level = company_privacy_level
+
+        ret = RetDict(retval="OK")
+
+    except Exception,ex:
+        ret = RetDict(errmsg="%s" % ex)
+
+    finally:
+        return ret
+
+
 
 
 
@@ -137,4 +171,5 @@ def includeme(config):
     config.add_route('ajax_interests','/api/interests.json')
     config.add_route('ajax_sms','/api/sendsms')
     config.add_route('ajax_private_msg','/api/private_msg')
+    config.add_route("ajax_person",'/api/person')
     config.scan(__name__)

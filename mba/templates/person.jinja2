@@ -302,17 +302,7 @@
     });
 
         $(function() {
-             var options = {
-               success:function (rText, statusText, xhr, $form) {
-                if(rText != 'ERROR') {
-                    $('#info_cnt').html(rText);
-                    init_widget();
-                }
-                else {
-                    alert('更新出错');
-                }
-               }
-             };
+
 
             var init_widget =  function() {
                 var industry = [ "互联网/电子商务", "计算机软件", "IT服务(系统/数据/维护)", "电子技术/半导体/集成电路", "计算机硬件",
@@ -424,7 +414,7 @@
 
 
 
-               $("#info_edit_set").click(function(){
+                $("#info_edit_set").click(function(){
 
 
                    $(".editing-mode").removeClass("hidden");
@@ -440,7 +430,7 @@
 
 
 
-               $("#info_friend_set").bind("click", function(){
+                $("#info_friend_set").bind("click", function(){
                   el = $(this);
 
                     var on_result = function(result) {
@@ -499,8 +489,41 @@
                 $("#edit-save").click(function(){
 
                     if( $(this).attr("data-save-type") === "info"){
-                        $('#person_info').ajaxSubmit(options);
-                    }else{ // privacy
+                        $('#person_info').ajaxSubmit({
+
+                           success:function (rText, statusText, xhr, $form) {
+                            if(rText != 'ERROR') {
+                                window.location.reload();
+                            }
+                            else {
+                                alert('更新出错');
+                            }
+                           }
+                        });
+                    }else{ // =privacy
+
+
+                        var  params = {method: "update_privacy_level"}
+                        $(".privacy-setting").each(function(index, item){
+
+                            var pname = $(item).attr("data-privacy-name");
+                            var plevel = $(item).attr("data-privacy-level");
+
+                            console.log(pname);
+                            console.log(plevel);
+                            params[pname] =  plevel;
+
+                        });
+
+                        $.post("/api/person", params, function(ret){
+                            if( ret.errcode == ret.SUCCESS){
+                                alert("更新成功");
+                                $("#edit-cancel").trigger("click");
+                            }else{
+                                alert("更新出错:"+ret.errmsg);
+                            }
+                        })
+
 
                     }
 
@@ -556,13 +579,6 @@
 
                   $(this).attr("data-privacy-level", nextPl);
 
-
-{#                  $(".auth_hidden").addClass("hidden");#}
-{#                  $(".info_edit").addClass("hidden");#}
-
-
-                 
-{#                  $(this).parents().find("a.jiaohuan_see").removeClass("hidden");#}
               });
 
 

@@ -405,6 +405,7 @@ def includeme(config):
     config.add_route('person','/person/{id}')
     config.add_route('ajax_friends', '/friends')
     config.add_route('get_my_friends', '/my_friends')
+
     # config.add_route('persons_maybe_know', '/persons_maybe_know')
 
 
