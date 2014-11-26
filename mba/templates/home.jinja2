@@ -278,29 +278,33 @@
                             <div class="panel-body">
                                 <div class="myinfo-header row">
 
-                                   <img alt="{{ user.name }}"class="navbar-avatar col-md-6" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                                width="80px" height="80px"/>
-                                   <div class="col-md-6 header-right">
-                                       <h2>{{ user.real_name or user.name }}</h2>
-                                       <div>常住地：{{ user.city_name or '未填写'  }}</div>
-                                       <div class="zyno">志友号-{{ '%08d' % user.id}}</div>
-                                   </div>
-                                </div>
+                                    <div class="col-md-6">
+                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                                    width="80px" height="80px"/>
+                                       <div class="zyno">志友号: {{ '%08d' % user.id}}</div>
+                                    </div>
 
-                                    {% set auth_i = user.auth_info %}
-                                    {% set auth_m = user.auth_meetup %}
-                                    {% set auth_f = user.auth_friend %}
-                                    <div class="basic_info">
+                                    <div class="col-md-6 header-right">
+                                        <h2>{{ user.real_name or user.name }}</h2>
+                                        <div>常住地：{{ user.city_name or '未填写'  }}</div>
 
-                                        <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
-                                              title="{% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
-                                        <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
-                                              title="{% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
-                                        <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
-                                              title="{% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+                                        {% set auth_i = user.auth_info %}
+                                        {% set auth_m = user.auth_meetup %}
+                                        {% set auth_f = user.auth_friend %}
+                                        <div class="basic_info">
 
+                                            <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
+                                                  title="资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
+                                            <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
+                                                  title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
+                                            <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
+                                                  title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+
+                                        </div>
 
                                     </div>
+                                </div>
+
                                 <hr />
 
 
@@ -406,6 +410,16 @@
         </div>
 
 
+<div id="invite-friend-reg" style="display: none">
+<h3>将下列URL分享给好友:</h3>
+<input class="form-control" type="text" onClick="this.select();"  readonly="readonly" value="{{ application_url }}/register?invite={{ user.id }}"/>
+    <span id="copy-status"></span>
+</div>
+
+<!-- JiaThis Button END -->
+
+
+
         {% include "footer.jinja2" %}
 
 
@@ -482,16 +496,43 @@
                 });
 
 
-                $("#home-invite-friend").base({
+
+
+                $("#home-invite-friend").alertinfo({
                     title: "邀请好友",
-                    content: '将下列URL分享给好友:',
-                    width: 200,
+                    content:  $("#invite-friend-reg"),
+                    width: 300,
+                    position: 'docoument_center',
+                    onDialogBuilt: function(){
+                        // Get ZeroClipboard
+                        var self = this;
+                        $.getScript("/fanstatic/mba/zeroclipboard/ZeroClipboard.min.js", function(){
+                            var client = new ZeroClipboard(
+                                    self.dialog.find("button[name='ok']")[0],
+                                    {moviePath: "/fanstatic/mba/zeroclipboard/ZeroClipboard.swf"}
+                            );
+                            client.on( "load", function(client) {
+                                // alert( "movie is loaded" );
+                                client.setText( $("#invite-friend-reg input").val() );
+
+                                client.on( "complete", function(client, args) {
+                                    // `this` is the element that was clicked
+{#                                    this.style.display = "none";#}
+                                    client.setText( $("#invite-friend-reg input").val() );
+{#                                    alert("Copied text to clipboard: " + args.text );#}
+                                    self.dialog.find("#copy-status").text("复制成功!");
+                                } );
+                            });
+
+                        });
+                    },
                     buttons:[
+                        {   name: 'ok',
+                            value: '复&nbsp&nbsp&nbsp制'
+                        },
                         {
-                            name: 'save',
-                            clsNames: 'btn btn-xs btn-primary',
-                            value: '关&nbsp;&nbsp;闭',
-                            handler: 'save'
+                            name: 'cancel',
+                            value: '关&nbsp&nbsp&nbsp闭'
                         }
                     ]
                  });

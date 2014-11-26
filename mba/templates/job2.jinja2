@@ -127,7 +127,7 @@ function do_search() {
 				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
-					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
+					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}</span>
 					<span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
@@ -156,7 +156,7 @@ function do_search() {
 				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.title}}</p>
-					<p><span class="inline-block">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
+					<p><span class="inline-block company-scale">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
 					<p class="job_link">{{pos.title}}</p>
@@ -232,8 +232,9 @@ function do_search() {
             });
 
             $(document).ready(function() {
-               // $("li#li_job").parent().find("li").removeClass("active");
-               // $("li#li_job").find(a).addClass("active");
+               $("li#li_job").parent().find("li").removeClass("active");
+               //$("li#li_job").find("a").addClass("active");
+			   $("li#li_job").addClass("active");
             });
 
 	    function refresh_manager() {

@@ -269,7 +269,9 @@ class MbaUser(Base):
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
     title = Column(Unicode(100), nullable=False)
+    title_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     email = Column(Unicode(100), unique=True)
+    email_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     groups = Column(JsonType(), nullable=False)
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
@@ -298,6 +300,7 @@ class MbaUser(Base):
 
     #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")
+    company_privacy_level =  Column(Integer, default=1) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     industry = Column(String(255), default=u"")
     # special_skill = Column(String(255), default=u"")
     interest = Column(String(255), default=u"") # job interest
@@ -643,6 +646,7 @@ class Student(MbaUser):
     identify_type = Column(Integer())
     identify = Column(String(30))
     phone = Column(Integer())
+    phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     home_number = Column(String(20))
     # location = Column(String(20)) # location is duplicated with city_name in MbaUser
     salary = Column(Integer())

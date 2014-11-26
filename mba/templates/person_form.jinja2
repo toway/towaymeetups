@@ -23,23 +23,130 @@
 
 
                         <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
-                              title="{% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
+                              title="资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
                         <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
-                              title="{% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
+                              title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
                         <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
-                              title="{% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+                              title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
                   </p>
           <p class="basic">
               <label class="lbl_info">公司：</label>
-              <span class="info_show  auth_hidden fixed_width">{{person_info.company or "暂未填写"}}</span>
+              <span class="info_show  auth_hidden fixed_width">
+                {% if is_self %}
+                    {{person_info.company or "暂未填写"}}
+                {% else %}
+                    {% if person_info.company_privacy_level == 5 %}
+                        {% if cur_user not in person_info.all_friends  %}
+                            成功交换名片可看
+                        {% else %}
+                            {{person_info.company or "暂未填写"}}
+                        {% endif %}
+                    {% elif person_info.company_privacy_level == 1 %}
+                        {{person_info.company or "暂未填写"}}
+                    {% else %}
+                        保密
+                    {% endif %}
+
+                {% endif %}
+              </span>
               <input type="text"  class="info_edit hidden"  value="{{person_info.company}}" name="company"/>
-              <a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" />
+              <span class="privacy-level privacy-level-1  fixed_width hidden">对所有会员公开</span>
+              <span class="privacy-level privacy-level-5 fixed_width hidden">成功交换名片可看</span>
+              <span class="privacy-level privacy-level-9 fixed_width hidden">完全保密</span>
+              <img src="/fanstatic/mba/img/auth_img.png"
+                 data-privacy-name="company-privacy-level"
+                 data-privacy-level="{{ person_info.company_privacy_level }}"
+                 class="privacy-setting hidden" />
           </p>
 
-        <p class="basic"><label class="lbl_info">职务：</label><span class="info_show auth_hidden fixed_width">{{person_info.title or "暂未填写"}}</span><input type="text" class="info_edit hidden" name="title" value="{{person_info.title}}" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
-		  <p class="basic"><label class="lbl_info">手机：</label><span class="info_show auth_hidden fixed_width">{{person_info.phone or "暂未填写"}}</span><input type="text" class="info_edit hidden" name="phone" value="{{person_info.phone}}" /><a class="jiaohuan_see  fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+        <p class="basic">
+            <label class="lbl_info">职务：</label>
+            <span class="info_show auth_hidden fixed_width">
+                {% if is_self %}
+                    {{person_info.title or "暂未填写"}}
+                {% else %}
+                    {% if person_info.title_privacy_level == 5 %}
+                        {% if cur_user not in person_info.all_friends  %}
+                            成功交换名片可看
+                        {% else %}
+                            {{person_info.title or "暂未填写"}}
+                        {% endif %}
+                    {% elif person_info.title_privacy_level == 1 %}
+                        {{person_info.title or "暂未填写"}}
+                    {% else %}
+                        保密
+                    {% endif %}
 
-		  <p class="basic"><label class="lbl_info">邮箱：</label><span class="info_show  auth_hidden fixed_width">{{person_info.email}}</span><input type="text" readonly="readonly" class="info_edit hidden"  value="{{person_info.email}}" name="email"/><a class="jiaohuan_see fixed_width hidden">成功交换名片可看</a><img src="/fanstatic/mba/img/auth_img.png" class="auth_set hidden" /></p>
+                {% endif %}
+            </span>
+            <input type="text" class="info_edit hidden" name="title" value="{{person_info.title}}" />
+            <span class="privacy-level privacy-level-1  fixed_width hidden">对所有会员公开</span>
+            <span class="privacy-level privacy-level-5  fixed_width hidden">成功交换名片可看</span>
+            <span class="privacy-level privacy-level-9  fixed_width hidden">完全保密</span>
+            <img src="/fanstatic/mba/img/auth_img.png"
+                 data-privacy-name="title-privacy-level"
+                 data-privacy-level="{{ person_info.title_privacy_level }}"
+                 class="privacy-setting hidden" />
+        </p>
+		<p class="basic">
+            <label class="lbl_info">手机：</label>
+            <span class="info_show auth_hidden fixed_width">
+                {% if is_self %}
+                    {{person_info.phone or "暂未填写"}}
+                {% else %}
+                    {% if person_info.phone_privacy_level == 5 %}
+                        {% if cur_user not in person_info.all_friends  %}
+                            成功交换名片可看
+                        {% else %}
+                            {{person_info.phone or "暂未填写"}}
+                        {% endif %}
+                    {% elif person_info.phone_privacy_level == 1 %}
+                        {{person_info.phone or "暂未填写"}}
+                    {% else %}
+                        保密
+                    {% endif %}
+
+                {% endif %}
+            </span>
+            <input type="text" class="info_edit hidden" name="phone" value="{{person_info.phone}}" />
+            <span class="privacy-level privacy-level-1  fixed_width hidden">对所有会员公开</span>
+            <span class="privacy-level privacy-level-5  fixed_width hidden">成功交换名片可看</span>
+            <span class="privacy-level privacy-level-9  fixed_width hidden">完全保密</span>
+            <img src="/fanstatic/mba/img/auth_img.png"
+                 data-privacy-name="phone-privacy-level"
+                 data-privacy-level="{{ person_info.phone_privacy_level }}"
+                 class="privacy-setting hidden" />
+        </p>
+
+		<p class="basic">
+            <label class="lbl_info">邮箱：</label>
+            <span class="info_show  auth_hidden fixed_width">
+                {% if is_self %}
+                    {{person_info.email}}
+                {% else %}
+                    {% if person_info.email_privacy_level == 5 %}
+                        {% if cur_user not in person_info.all_friends  %}
+                            成功交换名片可看
+                        {% else %}
+                            {{person_info.email or "暂未填写"}}
+                        {% endif %}
+                    {% elif person_info.email_privacy_level == 1 %}
+                        {{person_info.email}}
+                    {% else %}
+                        保密
+                    {% endif %}
+
+                {% endif %}
+            </span>
+            <input type="text" readonly="readonly" class="info_edit hidden"  value="{{person_info.email}}" name="email"/>
+            <span class="privacy-level privacy-level-1  fixed_width hidden">对所有会员公开</span>
+            <span class="privacy-level privacy-level-5  fixed_width hidden">成功交换名片可看</span>
+            <span class="privacy-level privacy-level-9  fixed_width hidden">完全保密</span>
+            <img src="/fanstatic/mba/img/auth_img.png"
+                 data-privacy-name="email-privacy-level"
+                 data-privacy-level="{{ person_info.email_privacy_level }}"
+                 class="privacy-setting hidden" />
+        </p>
                  
 
                   
