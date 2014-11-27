@@ -163,9 +163,9 @@ ul { list-style-type: none; }
 }
 
 .mba-index .index-footer{
-    position: absolute;
+    
     bottom:  0;
-    width: 980px;
+    
     height: 60px;
     background-color: #e7e7e7;
 }
@@ -1087,7 +1087,7 @@ div.jianli_manage span{
 
 .btn-search-normal{
   background: url('/fanstatic/mba/img/botton_sprites.png') no-repeat -300px 0px;
-  width: 200px;
+  width: 130px;
   height: 40px;
 }
 
@@ -1614,4 +1614,51 @@ ul.nav-tabs > li.active > a, ul.nav-tabs > li.active > a:hover, ul.nav-tabs > li
 .company-scale{
 	margin-right:10px;
 }
+
+div.white{
+background-color:#fff;
+height:310px;
+vertical-align:middle;
+}
+div.gray{
+background-color:#F1F2F4;
+height:310px;
+vertical-align:middle;
+
+}
+
+div.white p.info_title{
+	color:#103C63;
+	font-size:42px;
+	margin-bottom:10px;
+}
+
+div.gray p.info_title{
+	color:#103C63;
+	font-size:42px;
+	margin-bottom:10px;
+}
+
+div.white,div.gray p.info_detail{
+	color:#103C63;
+	font-size:20px;
+}
+
+div.index_part_info {
+  display:table;
+  height:310px;
+  _position:relative;
+  overflow:hidden;
+ }
+ div.subwrap {
+  vertical-align:middle;
+  display:table-cell;
+  _position:absolute;
+  _top:50%;
+ }
+ 
+ div.content {
+  _position:relative;
+  _top:-50%;
+ }
 /** merged from laoyang css end **/

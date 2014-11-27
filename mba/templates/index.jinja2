@@ -34,7 +34,7 @@
 
         {% include "header.jinja2" %}
 
-        <div class="mba-margin-top mba-index container">
+        <div class="mba-margin-top mba-index">
             <div class=" index-body">
 
                 <div class="jumbotron-index">
@@ -46,16 +46,68 @@
                 </div>
 
 
-                <div class="row index-news">
-                    <div class="col-md-8 col-md-offset-2">
-                        <h2>最新动态</h2>
+                <div class="index-news">
+ 
+                       
                         {% for meetup in meetups %}
+							<h2>最新动态</h2>
                             <a class="index-news-item" href="/meetup/{{ meetup.name }}">{{ meetup.title }}</a>
                         {% else %}
-                            暂无动态
+                            
+								<div class="white" id="part1">
+								 <div class="col-md-4  col-md-offset-2">
+									<img src="/fanstatic/mba/img/index_row1.png"  alt="上海鲜花港 - 郁金香" />
+								 </div>
+						<!--		 <div class="col-md-4 subwrap">
+									 <div class="content">
+										<p class="info_title">做有<strong>温度</strong>的活动</p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+								 </div>-->
+	
+									 <div class="col-md-5" style="padding-top:90px">
+										<p class="info_title">做有<strong>温度</strong>的活动</p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+	
+							</div>
+							<div class="gray"  id="part2">
+								 <div class="col-md-4  col-md-offset-2">
+									<img src="/fanstatic/mba/img/index_row2.png"  alt="上海鲜花港 - 郁金香" />
+								 </div>
+						<!--		 <div class="col-md-4 subwrap">
+									 <div class="content">
+										<p class="info_title">做有<strong>温度</strong>的活动</p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+								 </div>-->
+	
+									 <div class="col-md-5" style="padding-top:90px">
+										<p class="info_title">与<strong>精英</strong>结伴成长</p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+	
+							</div>
+							<div class="white" id="part3">
+								 <div class="col-md-4  col-md-offset-2">
+									<img src="/fanstatic/mba/img/index_row3.png"  alt="上海鲜花港 - 郁金香" />
+								 </div>
+						<!--		 <div class="col-md-4 subwrap">
+									 <div class="content">
+										<p class="info_title">与<strong>精英</strong>的活动</p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+								 </div>-->
+	
+									 <div class="col-md-5" style="padding-top:90px">
+										<p class="info_title">让社会生产<strong>价值</strong></p>
+										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+									 </div>  
+	
+							</div>
                         {% endfor %}
 
-                    </div>
+
                 </div>
 
 
