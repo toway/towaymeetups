@@ -582,6 +582,24 @@
               });
 
 
+
+                $("#modify-avatar").click(function(){
+                    var openurl , openstr, left, top;
+                    openurl = "/fanstatic/mba/avatarUploader/index.html";
+{#                    openurl = "/add_image";#}
+
+
+                    var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
+                    var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
+
+                    left = leftPos + $(window).width()/2 - 400;
+                    top = topPos + $(window).height()/2 - 300;
+
+                    openstr = "toolbar=no, left="+left+", top="+top+", location=0, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600"
+                    window.open(openurl, "_blank", openstr);
+                    return false;
+                });
+
                 
 
 

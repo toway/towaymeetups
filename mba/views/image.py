@@ -1,3 +1,7 @@
+#!/usr/bin/python
+# coding: utf-8
+
+
 """
 Views for image content objects.
 """
@@ -12,6 +16,7 @@ from js.jquery import jquery
 
 from kotti.interfaces import IImage
 from kotti.util import extract_from_settings
+from kotti.security import get_user
 
 PIL.ImageFile.MAXBLOCK = 33554432
 
@@ -121,8 +126,48 @@ def _load_image_scales(settings):
     for k in image_scale_strings.keys():
         image_scales[k] = [int(x) for x in image_scale_strings[k].split("x")]
 
+from cStringIO import StringIO
+from PIL import Image
+from datetime import datetime
+
+@view_config(route_name="avatarUpload", renderer='json')
+def avatar_upload(context, request):
+
+    user = get_user(request)
+    if not user:
+        return {"code":401, "msg": u"请先登陆", "pid": 0}
+
+
+    # print(img)
+    # img.save("abc.png")
+    # img.save("abc.jpg")
+    # img.save("abc80.jpg", quality=80)
+
+    try:
+
+        # learn from :http://stackoverflow.com/questions/19816033/converting-binary-file-into-pil-image-datatype-in-google-app-engine
+        imgfile = StringIO(request.body)
+        img = Image.open(imgfile)
+
+        now = datetime.now()
+        img_name = "avatar%d_%s.jpg" % ( user.id, now.strftime("%Y%m%d%H%M%S") )
+        img.save('mba/static/img/avatars/%s' % img_name, quality=85)
+
+        user.avatar = '/fanstatic/mba/img/avatars/%s' % img_name
+
+        return {"code":200, "msg": user.avatar, "pid": 0}
+
+    except Exception, ex:
+
+        errmsg = "%s" % ex
+        return {"code":500, "msg": errmsg, "pid": 0}
+
+
+
 
 def includeme(config):
     _load_image_scales(config.registry.settings)
+
+    config.add_route('avatarUpload', "/avatarUpload")
 
     config.scan(__name__)
