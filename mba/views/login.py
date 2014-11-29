@@ -143,6 +143,11 @@ def login(context, request):
 def view_prelogin(context, request):
     return {'aaa':'bbb'}
 
+@view_config(name='forbidden', renderer='col_test.jinja2')
+@wrap_user
+def forbidden_view_html(request):
+    return {'form':'Forbidden'}
+
 def includeme(config):
     #print 'hear 2'
     settings = config.get_settings()

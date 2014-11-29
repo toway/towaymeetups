@@ -142,7 +142,7 @@ def admin_position_list(request):
 
 def includeme(config):
     config.add_route('admin_position_add',  '/admin/position/add/{cid:\d}')
-    config.add_view(PositionAddForm, route_name='admin_position_add', renderer="admin/position_admin.jinja2", permission='view')
+    config.add_view(PositionAddForm, route_name='admin_position_add', renderer="admin/position_admin.jinja2", permission='manage')
 
     config.add_view(
         PositionAddForm,
