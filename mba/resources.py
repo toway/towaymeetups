@@ -844,6 +844,7 @@ class Position(Document):
     company = relationship('CompanyInfo', backref='postitions')
     company_name = association_proxy('company', 'name')
     industry = association_proxy('company', 'industry')
+    create_date = Column(DateTime(), default=datetime.now(tz=None))
 
     type_info = Document.type_info.copy(
         name=u'Position',

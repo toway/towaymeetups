@@ -167,59 +167,36 @@
                                              {% for a in ["all","bj","sh","gz","sz","others"] %}
                                              <div class="tab-pane {% if loop.first %}active{% endif %}" id="{{ a }}">
                                                   <ul class="5 ">
+
+{% for pos in all_pos[a] %}
+
                                                         <li >
                                                             <div class="row">
                                                                 <div class="col-md-2 job-type larger">
-                                                                    【猎头】
+                                                                    【{{pos.hunting_type|kind_name}}】
                                                                 </div>
                                                                 <div class="col-md-8 job-detail">
                                                                     <div class="row">
-                                                                        <span class="col-md-5 job-company gray ">中华英才网广州猎头部</span>
-                                                                        <a class="col-md-7" href="#"><span class="job-title  ">投资管理人(北京)</span></a>
+                                                                        <span class="col-md-5 job-company gray ">{{pos.company_name}}</span>
+                                                                        <a class="col-md-7" href="/job-detail/{{pos.id}}"><span class="job-title  ">{{pos.title}}</span></a>
                                                                     </div>
 
-                                                                    <span class="gray sm">公司规模：500-999人</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <span class="gray sm">薪资：面议</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <span class="gray sm">学历：硕士及以上</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">公司规模：{{pos.company.scope}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">薪资：{{pos.salary}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <span class="gray sm">学历：{{pos.degree}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 </div>
                                                                 <div class="col-md-2 job-apply">
-                                                                    <button name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
-                                                                    <i class="glyphicon glyphicon-star collect-job sm">收藏职位</i>
+                                                                    <button onclick="applyit('{{pos.id}}')" name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
+                                                                    <i class="glyphicon glyphicon-star collect-job sm">
+<a href="javascript:collectit('{{pos.id}}')">收藏职位</a>
+</i>
                                                                 </div>
                                                             </div>
                                                             <hr class="gray" style="border-top: dotted 1px;"/>
 
                                                         </li>
 
-
-
-
-                                                   <li >
-                                                            <div class="row">
-                                                                <div class="col-md-2 job-type larger">
-                                                                    【公司】
-                                                                </div>
-                                                                <div class="col-md-8 job-detail">
-                                                                    <div class="row">
-                                                                        <span class="col-md-5 job-company gray ">深圳市腾讯计算机有限公司</span>
-                                                                        <a class="col-md-7" href="#"><span class="job-title  ">视觉设计师(深圳)</span></a>
-                                                                    </div>
-
-                                                                    <span class="gray sm">公司规模：5000-9999人</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <span class="gray sm">薪资：面议</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                    <span class="gray sm">学历：硕士及以上</span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                </div>
-                                                                <div class="col-md-2 job-apply">
-                                                                    <button name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
-                                                                    <i class="glyphicon glyphicon-star collect-job sm">收藏职位</i>
-                                                                </div>
-                                                            </div>
-                                                            <hr class="gray" style="border-top: dotted 1px;"/>
-
-                                                        </li>
-
-
-
+{% endfor %}
 
                                                   </ul>
                                               </div>
@@ -538,9 +515,29 @@
                  });
 
 
-
-
             });
+
+	    function collectit(id) {
+		  $.get("/job-collect/"+id, function(result){
+			if('ok' == result) {
+				alert("收藏成功");
+			} else {
+				alert("收藏失败");
+			}
+		  });
+	    }
+
+	function applyit(id) {
+	  $.get("/job-postit/"+id, function(result){
+		if('ok' == result) {
+			 alert('申请成功');
+		} else if('dup' == result) {
+			alert('职位已经申请过了');
+		} else {
+			alert('申请失败');
+		}
+	  });
+	}
 
         </script>
 

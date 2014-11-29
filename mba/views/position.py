@@ -70,8 +70,8 @@ def job_view(context, request):
     if not user:
         raise UserNotFount()
 
-    pos_normals = DBSession.query(Position).filter_by(hunting_type=0).order_by(Position.salary.desc())[0:5]
-    pos_huntings = DBSession.query(Position).filter_by(hunting_type=1).order_by(Position.salary.desc())[0:5]
+    pos_normals = DBSession.query(Position).order_by(Position.salary.desc())[0:5]
+    pos_huntings = DBSession.query(Position).order_by(Position.create_date.desc())[0:5]
 
     interest = ""
     if user.interest:
@@ -260,6 +260,21 @@ def job_search(context, request):
             'keyword': keyword,
             'results':results
             , 'result_len':len(results)}
+
+def query_by_cities():
+    cities = [(u"深圳","sz"), (u"广州","gz"), (u"上海","sh") , (u"北京","bj") ]
+    other_filter = None
+    cities_set = {}
+    cnt = 5
+    for c in cities:
+        cities_set[c[1]] = DBSession.query(Position).filter(Position.city_name == c[0]).order_by(Position.create_date.desc())[0:cnt]
+        if other_filter is None:
+            other_filter = (Position.city_name != c[0])
+        else:
+            other_filter = and_(other_filter, (Position.city_name != c[0]))
+    cities_set['others'] = DBSession.query(Position).filter(other_filter).order_by(Position.create_date.desc())[0:cnt]
+    cities_set['all'] = DBSession.query(Position).order_by(Position.create_date.desc()).all()[0:cnt]
+    return cities_set
 
 def includeme(config):
     config.add_route('job_view','/job')
