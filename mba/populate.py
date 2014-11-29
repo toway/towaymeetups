@@ -189,23 +189,24 @@ def test_resume2():
     DBSession.flush()
 
 def test_position():
-    p = Position(
-            degree=u'本科文凭',
-            experience=u'三年以上',
-            salary=10000,
-            city_name=u"北京",
-            location=u"北京三环路",
-            company_id = 1,
-            parent_id = get_root().id,
-            title=u"pppppppppppp",
-            name=u"ooooooooooooo",
-            description=u'Our company is the leading manufacturer',
-            body=u"<p>Hello</p>",
-            status=ActStatus.DRAFT,
-            )
-    DBSession.add(p)
-    DBSession.flush()
-    print p.id
+    if DBSession.query(Position).count() == 0:
+        p = Position(
+                degree=u'本科文凭',
+                experience=u'三年以上',
+                salary=10000,
+                city_name=u"北京",
+                location=u"北京三环路",
+                company_id = 1,
+                parent_id = get_root().id,
+                title=u"高级销售经理",
+                name=u"高级销售经理",
+                description=u'我们公司很需要这方面的人才',
+                body=u"<p>我们公司很需要这方面的人才</p>",
+                status=ActStatus.DRAFT,
+                )
+        DBSession.add(p)
+        DBSession.flush()
+        print p.id
 
     #stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
     #stu.interests = ['haha','oooo','ddd']
@@ -334,12 +335,12 @@ def create_mba_root():
 
 def populate():
     if DBSession.query(CompanyInfo).count() == 0:
-        c = CompanyInfo(name=u"test company"
+        c = CompanyInfo(name=u"深圳市芭田生态工程股份有限公司"
             , scope=u"1000-2000人"
             , industry=u"农林"
             , type_info=u"民营"
             , location=u"南山区前海路"
-            , description=u"深圳市芭田生态工程股份有限公司")
+            , description=u"深圳市芭田生态工程股份有限公司是一家非常好的公司啊")
         DBSession.add(c)
         DBSession.flush()
 
@@ -355,4 +356,4 @@ def populate():
     #test_user()
     #test_add_stu()
     #test_resume2()
-    #test_position()
+    test_position()
