@@ -75,6 +75,7 @@ class MbaPrincipals(Principals):
     factory = MbaUser
 
 
+# TODO http://docs.pylonsproject.org/projects/pyramid/en/1.3-branch/narr/security.html
 def principals_factory():
     return MbaPrincipals()
 

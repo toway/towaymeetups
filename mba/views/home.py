@@ -16,6 +16,9 @@ from pyramid.security import remember
 from pyramid.encode import urlencode
 from formencode.validators import Email
 
+from js.jquery import jquery
+from js.jqueryui import jqueryui
+
 from kotti import get_settings
 from kotti.security import get_principals
 from kotti import DBSession
@@ -49,13 +52,18 @@ def query_banners(request):
 @view_config(route_name='home', renderer='home.jinja2')
 @wrap_user
 def view_home(context, request):
+
     user = get_user(request)
     if not user:
         return HTTPFound("/login")
+
+    jqueryui.need()
+
     d = query_meetups(request)
     d.update(query_info(request))
     d.update(query_banners(request))
     d.update(persons_maybe_know(user))
+    d.update({'application_url': request.application_url})
     return d
 
 

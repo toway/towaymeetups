@@ -1,0 +1,30 @@
+.mba-dialog {
+  position: absolute;
+  display: none;
+  border: 5px solid rgba(159, 166, 231, 0.5);
+  border-radius: 5px;
+  background-color: white;
+  z-index: 1000;
+  width: 550px;
+}
+.mba-dialog table {
+  width: 100%;
+}
+.mba-dialog .mba-dialog-title {
+  font-weight: bolder;
+  line-height: 30px;
+  background-color: #d3d2ec;
+}
+.mba-dialog .mba-dialog-content {
+  font-size: 10px;
+  line-height: 14px;
+  padding: 10px ;
+}
+.mba-dialog .mba-dialog-content label {
+  margin-bottom: 0;
+  font-weight: normal;
+}
+.mba-dialog .mba-dialog-footer {
+  text-align: center;
+  padding-bottom: 10px;
+}

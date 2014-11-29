@@ -127,7 +127,7 @@ function do_search() {
 				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
-					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
+					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}</span>
 					<span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
@@ -156,7 +156,7 @@ function do_search() {
 				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.title}}</p>
-					<p><span class="inline-block">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
+					<p><span class="inline-block company-scale">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
 					<p class="job_link">{{pos.title}}</p>
@@ -177,11 +177,11 @@ function do_search() {
                   
             <div class="col-md-3 no_padding">
               <div id="person_info">
-                <img src="/fanstatic/mba/img/touxiang.png">
+                <img src="{{ user.avatar }}" width="80px" height="80px">
                 <div class="person_info_absolute">
-			<p><span>{{user.name}}</span></br></p>   
-			<p><span>{{user.location if user.location != None}}</span></br></p>  
-                  <p><span>(志友号-000008)</span></p>
+			<p><span>{{user.real_name or user.name}}</span><br/></p>
+			<p><span>{{user.city_name }}</span><br/></p>
+                  <p><span>(志友号-{{ '%08d' % user.id}})</span></p>
                 </div>
                 
                     <!-- <p style="text-align:center">(志友号-000008)</p> -->
@@ -232,8 +232,9 @@ function do_search() {
             });
 
             $(document).ready(function() {
-               // $("li#li_job").parent().find("li").removeClass("active");
-               // $("li#li_job").find(a).addClass("active");
+               $("li#li_job").parent().find("li").removeClass("active");
+               //$("li#li_job").find("a").addClass("active");
+			   $("li#li_job").addClass("active");
             });
 
 	    function refresh_manager() {

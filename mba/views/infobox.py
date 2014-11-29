@@ -16,7 +16,7 @@ from sqlalchemy import or_, and_
 
 from mba.utils.decorators import wrap_user
 from mba.utils import RetDict
-from mba.resources import Message, MbaUser
+from mba.resources import Message, MbaUser, Act
 
 
 
@@ -47,6 +47,8 @@ def get_messages(type, context, request):
     elif type == 'view_invitation_person':
         messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id, type=11).all()
 
+    elif type == 'view_invitation_meetup':
+        messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id, type=12).all()
 
     return {'type': type, 'messages': messages}
 
@@ -73,14 +75,65 @@ def view_infobox_ms(context, request):
 
 @view_config(route_name="infobox_ip", renderer='infobox.jinja2')
 @wrap_user
-def view_infobox_ms(context, request):
+def view_infobox_ip(context, request):
     return get_messages('view_invitation_person', context, request)
 
+@view_config(route_name="infobox_im", renderer='infobox.jinja2')
+@wrap_user
+def view_infobox_im(context, request):
+    return get_messages('view_invitation_meetup', context, request)
 
 
 
 
 
+
+
+def prompt_meetup(cur_user, context, request):
+    try:
+        invitee_list = [ int(i) for i in request.POST.getall('invitee_list[]')  ]
+    except ValueError,ve:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+    if not invitee_list or len(invitee_list) ==  0:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+
+    try:
+        prompted_meetupid = int(request.POST.get('prompted_meetupid',None) )
+    except ValueError,ve:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+    if prompted_meetupid is None:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
+
+
+    meetup = DBSession.query(Act).filter_by(id=prompted_meetupid).first() # call one will raise an exception if no result
+    if meetup is None:
+        return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM, errmsg=u"不存在的活动")
+
+
+    content = u" <a href='/person/%d'>%s</a> 向你推荐了活动 <a href='/meetup/%d'>%s</a>, " \
+              u"<a href='/meetup/%s'>去看看</a>?" \
+                % (cur_user.id,
+                   cur_user.real_name or cur_user.name,
+                   prompted_meetupid,
+                   meetup.title,
+                   meetup.name)
+
+    for invitee in invitee_list:
+        invitation = Message(sender_id=cur_user.id,
+                             reciever_id=invitee,
+                             type=12,
+                             content=content)
+        DBSession.add(invitation)
+
+
+    DBSession.add(invitation)
+
+
+    DBSession.flush()
+
+    msg = u"已向朋友推荐"
+    return RetDict(retval=msg)
 
 def prompt_friend(cur_user, context, request):
     try:
@@ -99,7 +152,7 @@ def prompt_friend(cur_user, context, request):
         return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
 
-    prompted_user = DBSession.query(MbaUser).filter_by(id=prompted_userid).one()
+    prompted_user = DBSession.query(MbaUser).filter_by(id=prompted_userid).first()
 
     if not prompted_user:
         return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
@@ -163,6 +216,7 @@ def mark_msg_read(cur_user, context, request):
 def api_infobox(context, request):
 
     PROMPT_FRIEND = 'prompt_friend' #推荐好友给好友
+    PROMPT_MEETUP = 'prompt_meetup' #推荐活动给好友
     MARK_AS_READ = 'mark_as_read'
 
 
@@ -177,13 +231,15 @@ def api_infobox(context, request):
 
     method = request.POST.get('method',None)
 
-    if method not in [PROMPT_FRIEND, MARK_AS_READ]:
+    if method not in [PROMPT_FRIEND, MARK_AS_READ, PROMPT_MEETUP]:
         return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
 
     if method == PROMPT_FRIEND:
         return prompt_friend(cur_user, context, request)
     elif method == MARK_AS_READ:
         return mark_msg_read(cur_user, context, request)
+    elif method == PROMPT_MEETUP:
+        return prompt_meetup(cur_user, context, request)
 
 
 
@@ -200,7 +256,7 @@ def includeme(config):
     config.add_route('infobox_m', '/infobox/messages')
     config.add_route('infobox_ms', '/infobox/messages/system')
     config.add_route('infobox_mf', '/infobox/messages/friend')
-    # config.add_route('infobox_im', '/infobox/invitations/meetup')
+    config.add_route('infobox_im', '/infobox/invitations/meetup')
     config.add_route('infobox_ip', '/infobox/invitations/person')
 
     config.add_route('api_infobox','/api/infobox')

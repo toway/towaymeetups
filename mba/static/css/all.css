@@ -70,6 +70,38 @@ ul { list-style-type: none; }
 #user-links {
    /* margin-top: 14px;*/
 }
+
+#user-links li{
+    height: 32px;
+
+    /* virtical-align */
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+
+#user-links li *{
+    margin: 0;
+    padding: 0;
+}
+
+
 .navbar-iforgot{
     font-size: 12px;
     margin-left: 10px;
@@ -86,7 +118,6 @@ ul { list-style-type: none; }
 #user-links .sign-out-button {
     background: none;
     border: 0;
-    color:white;
 }
 
 /* global nav style end */
@@ -673,10 +704,11 @@ table.mba-resume-tbl{
 
   .basic_info .info_auth,.activity_auth,.friend_auth
   {
-      width:74px;
-      height: 21px;
+      width:28px;
+      height: 28px;
       display:inline-block; 
-      margin-right: 5px;
+      margin-right: 2px;
+      background-repeat: no-repeat;
   }
 
   .basic_info .info_auth{
@@ -937,7 +969,21 @@ a.jiaohuan_see{
 
 
 /** merged from new_style.css end */
+.job_detail_cnt  div.container{
+  padding:10px; 
+}
 
+.job_detail_cnt div.padding-15{
+  padding-left: 25px;
+}
+
+p.first{
+    padding-bottom: 5px;
+    padding-left: 5px;
+	margin-top:5px;
+   }
+   
+   
 
 .shoucang_job{
   padding-left: 15px;
@@ -1004,18 +1050,21 @@ div.jianli_manage span{
 
 #person_info{
   border:1px solid RGB(199,199,199);
+      display:inline-block;
+      background-repeat: no-repeat;
 }
 
   #person_info .info_auth,.activity_auth,.friend_auth
   {
-      width:74px;
-      height: 21px;
-      display:inline-block; 
-      margin-right: 2px;
+      /*width:74px;*/
+      /*height: 21px;*/
+      display:inline-block;
+      background-repeat: no-repeat;
+      /*margin-right: 2px;*/
   }
 .person_info_absolute{
   position: absolute;
-  left: 115px;
+  left: 100px;
   top: 20px;
 }
 
@@ -1042,7 +1091,9 @@ div.jianli_manage span{
   height: 40px;
 }
 
-/* below should be commented because it defined before */
+/* below should be commented because it defined before
+ TODO: All this images should be placed in one big spirit image to reduce bandwidth overload
+*/
 /*#person_info .info_auth{*/
     /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
   /*}*/
@@ -1225,8 +1276,10 @@ div.job_relative span{
   /*float: right;*/
   position: relative;
   right:0px;
-  padding-right: 15px;
+ padding-right: 15px;
   cursor: pointer;
+  padding-left: 10px;
+  margin-bottom: 10px;
   background: url("/fanstatic/mba/img/go.png") no-repeat right;
 }
 
@@ -1297,6 +1350,7 @@ h4.job_company{
   background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -90px rgba(0, 0, 0, 0);
     height: 40px;
     width: 150px;
+	border: 0px none;
 }
 
 .btn_job_shenqing2{
@@ -1304,12 +1358,23 @@ h4.job_company{
     height: 40px;
     width: 148px;
     margin-right: 20px;
+	border: 0px none;
 }
 
 .btn_job_shoucang{
-    background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
-    height: 40px;
-    width: 148px;
+    background: url("/fanstatic/mba/img/shoucang_job_btn.png") no-repeat scroll rgba(0, 0, 0, 0);
+    height: 44px;
+	width: 164px;
+	border: 0px none;
+}
+
+.btn_job_shoucang:hover{
+    background: url("/fanstatic/mba/img/shoucang_job_btn_hover.png") no-repeat scroll rgba(0, 0, 0, 0);
+}
+
+.job_detail_btn_container{
+margin-bottom:15px;
+margin-left:15px;
 }
 
 h2.company_name{
@@ -1365,6 +1430,12 @@ div.job_relative span{
   background-color: #D0E9F3;
   border: 1px solid RGB(72,190,234);
   height: 134px;
+  line-height:134px;
+  padding-left:15px;
+}
+
+.no_padding{
+  padding: 0px;
 }
 
 #btn-search{
@@ -1499,11 +1570,48 @@ ul.nav-tabs > li.active > a, ul.nav-tabs > li.active > a:hover, ul.nav-tabs > li
   margin-right: 10px;
 }
 
+.job-manage-create-resume-btn{
+  background: url(/fanstatic/mba/img/create_resume_btn_bg.png);
+  padding-left: 30px;
+  width:109px; 
+  height: 30px;
+  margin-right: 10px;
+}
+
 
 .job-manage-resume-cnt{
   border: 1px solid #D4D1CC;
   background-color: white;
   margin-top: 15px;
   padding-top: 10px;
+}
+
+.job-manage-resume-cnt{
+  border: 1px solid #D4D1CC;
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+.job_detail_cnt  div.container{
+  padding:10px; 
+}
+.job-manage-create-resume-btn{
+  background: url(/fanstatic/mba/img/create_resume_btn_bg.png);
+  padding-left: 30px;
+  width:109px; 
+  height: 30px;
+  margin-right: 10px;
+}
+
+
+.job-manage-resume-cnt{
+  border: 1px solid #D4D1CC;
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+
+.company-scale{
+	margin-right:10px;
 }
 /** merged from laoyang css end **/

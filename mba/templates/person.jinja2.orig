@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+
+        <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <style type="text/css">
+
+    </style>
+    <body id="minpian_body">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+
+
+        {% include "header.jinja2" %}
+<<<<<<< HEAD
+=======
+        <link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/mba_widgets.css">
+>>>>>>> jannson
+
+
+ <div class="container mba-margin-top">
+   <div class="col-md-12 col-md-offset-0">
+        <br/>
+        {% include "messages.jinja2" %}
+        <div id="info_cnt" class="inline-block">
+        
+		{{person_info_form|safe}}	
+
+        </div>  <!--end of info_cnt-->
+
+        <div class="info_right">
+{#            friendship:{% print(user.friendship) %}<br/>#}
+{#                all friends:{% print(user.all_friends) %}<br/>#}
+{#                my requests:{% print(user.my_requests) %}<br/>#}
+{#                others requests:{% print(user.others_requests) %}<br/>#}
+{#                {{  person_info.visitors }}#}
+            <div class="div_set">
+
+
+
+            {% if person_info.id == user.id %}
+<<<<<<< HEAD
+                <button class="btn btn-default btn-sm" id="info_edit_set">资料编辑</button>
+                <button class="btn btn-default btn-sm" id="info_auth_set">隐私设置</button>
+=======
+                <button class="btn btn-default btn-sm to-edit-mode" id="info_edit_set">资料编辑</button>
+                <button class="btn btn-default btn-sm to-edit-mode" id="info_auth_set">隐私设置</button>
+
+                <button class="btn btn-default btn-sm editing-mode hidden" id="edit-save">保存</button>
+                <button class="btn btn-default btn-sm editing-mode hidden" id="edit-cancel">取消</button>
+
+>>>>>>> jannson
+            {% else %}
+                {# 我已经发送了加为好友的请求 #}
+                <span id="rsqted-msg" class=" {% if not person_info in user.my_requests %} hidden {% endif %}">已经申请加为好友，等待对方同意</span>
+
+                {% if person_info in user.others_requests %}
+                    对方申请向你加为好友
+                    <button class="btn btn-sm btn-default op-friend" id="agree_friend"  value="{{ person_info.id }}">同意</button>
+                    <!--<button class="btn btn-sm btn-default op-friend" id="agree_friend" >同意</button>,-->
+                {% elif person_info in user.all_friends %}
+<<<<<<< HEAD
+=======
+                    <button class="btn btn-default btn-sm " id="send_private_msg" value="{{ person_info.id }}">发送私信</button>
+>>>>>>> jannson
+                    <button class="btn btn-default btn-sm op-friend" id="cancel_friend" value="{{ person_info.id }}">取消好友</button>
+                {% else %}
+                    <button class="btn btn-default btn-sm op-friend"  id="add_friend" value="{{ person_info.id }}">加为好友</button>
+                {% endif %}
+
+
+                <button class="btn btn-default btn-sm" id="invite-friend">推荐给好友</button>
+
+            {% endif %}
+
+            </div>
+            <div id="renmai" class="right_head little_pad">我的人脉<span class="visited_count">({{ person_info.all_friends | length }})</span>
+              <button class="switch add"></button></div>
+            <div class="hidden"  id="renmai_info">
+              <ul>
+		        {% for friend in user.all_friends %}
+                 <li class="renmai_item  clearfix">
+		                <a href="/person/{{friend.id}}" alt="{{friend.real_name}}">
+                            <img style="float:left" src="{{ friend.avatar }}"  height="40px" width="40px">
+                        </a>
+
+                      <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
+                      </div>
+                  </li>
+		        {% endfor %}
+              </ul>
+              <div class="nav_down">
+                <a class="nav_down" href=""><img src="/fanstatic/mba/img/nav_down.gif"></a>
+              </div>
+              
+              <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->
+            </div>
+
+	    <div id="visitors" class="right_head little_pad">来访纪录:<span class="visited_count">{{visit_count}}</span><button class="switch add"></button>
+
+        </div>
+            <div class="hidden"  id="visitors_info">
+              <ul>
+		        {% for friend in person_info.visitors %}
+                 <li class="renmai_item  clearfix">
+		                <a href="/person/{{friend.id}}" alt="{{friend.real_name}}">
+                            <img style="float:left" src="{{ friend.avatar }}"  height="40px" width="40px">
+                        </a>
+
+                      <div class="renmai_detail_cnt">
+                          <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
+                      </div>
+                  </li>
+		        {% endfor %}
+              </ul>
+              <div class="nav_down">
+                <a class="nav_down" href=""><img src="/fanstatic/mba/img/nav_down.gif"></a>
+              </div>
+           </div>
+
+        <div id="friend" class="right_head">可能认识的人<button class="switch sub"></button></div>
+            <div id="friend_info" class="friend_list">
+                <ul>
+			{% for friend in toknown_list %}
+                  <li class="friend_item  clearfix">
+                    <a href="/person/{{friend.id}}" alt="{{friend.real_name}}"><img style="float:left" src="{{ friend.avatar  }}" height="40px" width="40px">
+		            </a>
+                      <div class="friend_detail_cnt">
+			      <p class="friend_detail_info"><b>&nbsp;&nbsp;{{friend.real_name}}</b>&nbsp;&nbsp;{{friend.company}}-{{friend.school }}</p>
+			      <a class="friend_detail_info renshi" href="/person/{{friend.id}}">&nbsp;&nbsp;认识她</a>
+                      </div>
+                  </li>
+		  {% endfor %}
+                </ul>
+               
+            </div>
+<<<<<<< HEAD
+            <div  class="right_head yaoqing">
+              邀请站外好友
+            </div>
+            <div>
+                <input type="text" id="name" placeholder="姓名" width="35px"/><input type="text" id="email" placeholder="邮箱"  width="35px"/>
+                <p><a class="add_yaoqing" src="">新增一位邀请者</a></p>
+                <button>邀请</button>
+            </div>
+=======
+{#            <div  class="right_head yaoqing">#}
+{#              邀请站外好友#}
+{#            </div>#}
+{#            <div>#}
+{#                <input type="text" id="name" placeholder="姓名" width="35px"/><input type="text" id="email" placeholder="邮箱"  width="35px"/>#}
+{#                <p><a class="add_yaoqing" src="">新增一位邀请者</a></p>#}
+{#                <button>邀请</button>#}
+{#            </div>#}
+>>>>>>> jannson
+          
+        </div> <!--end of info_right-->
+        
+         <div class="info_right   hidden">
+          <div class="div_set">
+             <a class="info_set" id="exchange_mingpian">交换名片</a>
+             <a class="info_set" id="sixin">站内私信</a>
+          </div>
+          <div id="renmai" class="right_head little_pad">最近来访<a class="all" href="">全部</a></div>
+            <div id="renmai_info">
+
+		    {% for v in visitors %}                
+                    <img class="visited" src="/fanstatic/mba/img/renmai.png" height="60px" width="60px">
+        		{% endfor %} 
+             
+              
+              <!-- <span class="nav_down">&nbsp;&nbsp;</span> -->
+            </div>
+        
+            
+          </div>
+       
+      </div>
+
+<<<<<<< HEAD
+      <div id="send_sixin" style="clear:both">
+          <h4 class="sixin_title">发私信<img src="/fanstatic/mba/img/sixin_colse.png"  class="sixin_close" style="float:right"></h4>
+          <div style="padding-left:10px;padding-top:10px">
+            <label>内&nbsp;&nbsp;容</label>
+            <textarea maxlength="250" cols="36" style="border:1px solid RGB(255,159,10)">
+              
+            </textarea>
+            <p id="sixin_tool_cnt">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_biaoqing.png">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_image.png">
+              <img class="sixin_image" src="/fanstatic/mba/img/sixin_facebook.png">
+              <button class="btn btn-default btn-sm btn_sixin_send">发送</button> 
+            </p>
+            
+          </div>
+          
+      </div>
+=======
+>>>>>>> jannson
+
+
+ </div>
+
+
+<!--- invite friend --->
+
+<div class="panel panel-default  friend-invite-friend-box" aria-hidden="true">
+  <div class="panel-heading">
+    <h3 class="panel-title">选择要邀请的好友</h3>
+  </div>
+  <div class="panel-body">
+        <div class="friend-invite-friend-body">
+
+        </div>
+        <div class="">
+            <textarea  class="extra-msg form-control" rows="2" placeholder="附加消息"/></textarea>
+        </div>
+  </div>
+
+  <div class="panel-footer">
+      <button class="btn btn-xs btn-primary " id="do-invite-friend" >确定</button>
+      <button class="btn btn-xs btn-default" id="cancel-invite-friend" >取消</button>
+  </div>
+</div>
+
+
+
+        {% include "footer.jinja2" %}
+
+
+
+
+
+
+
+
+        
+        {% include "inc/js.jinja2" %}
+<<<<<<< HEAD
+        <script src="../static/js/bootstrap-tooltip.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+
+	 var options = {
+	   iframe: true,
+	   success:function (rText, statusText, xhr, $form) {
+	   	if(rText != 'ERROR') {
+			$('#info_cnt').html(rText);
+		}
+		else {
+			alert('更新出错');
+		}
+	   }
+	 };
+
+
+
+     $(function() {
+=======
+        <script src="/fanstatic/mba/js/bootstrap-tooltip.js"></script>
+        <script src="/fanstatic/mba/js/mba_widgets.js"></script>
+
+
+        <script>
+
+
+
+
+
+
+    $(function() {
+
+               $("li#li_card").parent().find("li").removeClass("active");
+               $("li#li_card").addClass("active");
+
+>>>>>>> jannson
+         $('#invite-friend').click(function (e) {
+             // show invite-box  nearby the button
+             var pos = $(this).offset(),
+                     width = $(this).width();
+
+             var box = $('.friend-invite-friend-box');
+             if (box.is(":visible")) {
+                 box.hide();
+             } else {
+                 box.show().offset({
+                     top: pos.top,
+                     left: pos.left + width + 30
+                 });
+
+
+                 $.get('/my_friends', function (ret) {
+                     if (ret.errcode == ret.SUCCESS) {
+                         var val = ret.retval;
+                         var buildhtml = '';
+                         $.each(val, function (i, item) {
+                             buildhtml += '<input type="checkbox" value="' + item.id + '"/>';
+                             buildhtml += '<img src="' + item.avatar + '" width="14px" height="14px"/>' + (item.real_name || item.name);
+                             buildhtml += '<br/>';
+
+                         });
+                         $('.friend-invite-friend-body').html(buildhtml);
+                     }
+                 })
+
+
+             }
+
+
+         });
+
+
+<<<<<<< HEAD
+         $('#do-invite-friend').click(function () {
+=======
+        $('#do-invite-friend').click(function () {
+>>>>>>> jannson
+             var invite_list = $('.friend-invite-friend-body input:checked');
+             if(invite_list.length == 0){alert("至少选择一名好友"); return;}
+
+             var invite_id_list = [];
+             invite_list.each(function (i, item) {
+                 invite_id_list.push($(item).val());
+             });
+<<<<<<< HEAD
+             var extramsg = $()
+=======
+>>>>>>> jannson
+             $.post('/api/infobox', {
+                 method: 'prompt_friend',
+                 invitee_list: invite_id_list,
+                 prompted_userid: {{ person_info.id }},
+                 extramsg: $('.extra-msg').val()
+
+             }, function (ret) {
+
+                 if (ret.errcode == ret.SUCCESS) {
+                     alert(ret.retval);
+
+                 } else {
+                     alert(ret.errmsg);
+                 }
+                 $('.friend-invite-friend-box').hide();
+
+             });
+
+         });
+
+         $("#cancel-invite-friend").click(function(){
+             $('.friend-invite-friend-box').hide();
+         })
+
+<<<<<<< HEAD
+     });
+
+         $(document).ready(function() {
+
+
+
+               $("li#li_card").parent().find("li").removeClass("active");
+               $("li#li_card").addClass("active");
+=======
+    });
+
+        $(function() {
+
+
+            var init_widget =  function() {
+                var industry = [ "互联网/电子商务", "计算机软件", "IT服务(系统/数据/维护)", "电子技术/半导体/集成电路", "计算机硬件",
+                 "通信/电信/网络设备", "通信/电信运营、增值服务", "网络游戏", "基金/证券/期货/投资", "保险",
+                 "银行", "信托/担保/拍卖/典当", "房地产/建筑/建材/工程", "家居/室内设计/装饰装潢", "物业管理/商业中心",
+                 "专业服务/咨询(财会/法律/人力资源等)", "广告/会展/公关", "中介服务", "检验/检测/认证", "外包服务",
+                 "快速消费品（食品/饮料/烟酒/日化）", "耐用消费品（服饰/纺织/皮革/家具/家电）", "贸易/进出口", "零售/批发",
+                 "租赁服务", "教育/培训/院校", "礼品/玩具/工艺美术/收藏品/奢侈品", "汽车/摩托车", "大型设备/机电设备/重工业",
+                 "加工制造（原料加工/模具）", "仪器仪表及工业自动化", "印刷/包装/造纸", "办公用品及设备", "医药/生物工程",
+                 "医疗设备/器械", "航空/航天研究与制造", "交通/运输", "物流/仓储", "医疗/护理/美容/保健/卫生服务", "酒店/餐饮",
+                 "旅游/度假", "媒体/出版/影视/文化传播", "娱乐/体育/休闲", "能源/矿产/采掘/冶炼", "石油/石化/化工", "电气/电力/水利",
+                 "环保", "政府/公共事业/非盈利机构", "学术/科研", "农/林/牧/渔", "跨领域经营", "其他"];
+                $("#info_industry_input").radiocheck({ title: "选择行业类别:", items: industry});
+
+                $("#info_location_input").radiotree({
+                 title: "选择居住地:",
+                 remoteContent: {
+                     type: 'script',
+                     url: '/fanstatic/mba/js/cityArray.js',
+                     rootVar: 'cityArray'
+                 }});
+
+                $("#info_interest_input").multicheck({
+                 title: "选择兴趣:",
+                 desc: "最多选三个",
+                 remoteContent: {
+                     type: 'json',
+                     url: '/api/interests.json'
+                 }});
+                $("#info_skills_input").multicheck({
+                 title: "选择特长:",
+                 desc: "最多选三个",
+                 remoteContent: {
+                     type: 'json',
+                     url: '/api/interests.json'
+                 }});
+
+                $("#info_between_input").multichecktree({
+                 title: "选择往来地:",
+                 desc: "最多选三个",
+
+                 remoteContent: {
+                     type: 'script',
+                     url: '/fanstatic/mba/js/cityArray.js',
+                     rootVar: 'cityArray'
+                 }});
+            }
+
+
+
+
+            init_widget();
+            $("#send_private_msg").textareadialog({
+                title:"发送私信",
+                buttons:[ {
+                    name:'ok',
+                    value:"发&nbsp&nbsp&nbsp送"
+                }],
+                submit: {
+                    url: '/api/private_msg',
+                    params: {
+                        method: 'send_private_msg',
+                        target_person_id: {{ person_info.id }}
+                    }
+                }
+
+            });
+
+
+
+>>>>>>> jannson
+               // $('.activity_auth').tooltip("show");
+                $('.info_auth').tooltip({"placement":"bottom"});
+                $('.activity_auth').tooltip({"placement":"bottom"});
+                $('.friend_auth').tooltip({"placement":"bottom"});
+               // $(".switch").addClass("sub");
+                $(".sixin_close").bind("click",function(){
+                  $("#minpian_body").removeClass("mask");
+                  $("#send_sixin").hide();
+               })
+
+
+                function do_job(method, opts, callback){
+                    $.extend(opts, {method:method});
+                    $.post("/friends", opts, function(ret){
+                        if(ret.errcode == ret.SUCCESS){
+                            callback(ret);
+                            window.location.reload();
+                        }else{
+                            alert('错误：'+ret.errmsg);
+                        }
+                    })
+                }
+
+
+                $(".op-friend").click(function(){
+                    var method = $(this).attr("id");
+                    var to_add = $(this).val();
+                    var self = this;
+                    do_job(method, {'target-person':to_add},function(ret){
+
+{#                        if(method=='add_friend'){#}
+                            // $(".rsqted-msg").show();
+                           // $(self).before(ret.retval);
+{#                        }#}
+                    })
+
+
+                });
+<<<<<<< HEAD
+		
+	       {% if user_status == 1 %}
+               $("#info_edit_set").bind("click",function(){
+                  el = $(this);
+                  if('保存' == el.html()) {
+                        $('#person_info').ajaxSubmit(options);
+                    el.html('资料编辑');
+                  }
+                  else {
+                      $(".info_show").addClass("hidden");
+                      $(".jiaohuan_see").addClass("hidden");
+                      $(".auth_set").addClass("hidden");
+                      $(".info_edit").removeClass("hidden");
+                      el.html('保存');
+                  }
+               });
+	       {% else %} 
+               $("#info_friend_set").bind("click", function(){
+=======
+
+
+
+                $("#info_edit_set").click(function(){
+
+
+                   $(".editing-mode").removeClass("hidden");
+                   $(".to-edit-mode").addClass("hidden");
+
+                   $(".info_edit").removeClass("hidden");
+                   $(".info_show").addClass("hidden");
+
+                   $("#edit-save").attr("data-save-type", "info");
+
+               });
+
+
+
+
+                $("#info_friend_set").bind("click", function(){
+>>>>>>> jannson
+                  el = $(this);
+
+                    var on_result = function(result) {
+                        if( result != 0) {
+                            alert("设置错误！");
+                            return;
+                        }
+                        if(el.html() == "加为好友"){
+                            el.html("取消好友");
+                        }
+                        else {
+                            el.html("加为好友");
+                        }
+                    };
+
+                  if(el.html() == "加为好友") {
+                    $.get("/friend_set/{{curr_id}}/{{person_info.id}}/1", on_result);
+                  }
+                  else {
+                    $.get("/friend_set/{{curr_id}}/{{person_info.id}}/0", on_result);
+                   }
+                });
+
+<<<<<<< HEAD
+	       {% endif %}
+
+                $("#info_auth_set").bind("click",function(){
+                  $(".info_show").removeClass("hidden");
+                  $(".auth_set").removeClass("hidden");
+                  $(".info_edit").addClass("hidden");
+                  $(".jiaohuan_see").addClass("hidden");
+               });
+
+              $(".auth_set").bind("click",function(){
+                  $(".auth_hidden").addClass("hidden");
+                  $(".info_edit").addClass("hidden");
+                 
+                  $(this).parents().find("a.jiaohuan_see").removeClass("hidden");
+              });
+
+=======
+                $("#info_auth_set").click(function(){
+
+
+                    $(".auth_hidden").addClass("hidden");
+                    $(".info_edit").addClass("hidden");
+
+                    $(".privacy-setting").removeClass("hidden");
+
+                    console.log("set privacy");
+
+
+                    var privacy = $(".privacy-setting");
+                    privacy.each(function(index, item){
+
+                        var pl = $(item).attr("data-privacy-level");
+                        var plcls = "privacy-level-" + pl;
+                        $(this).parent().children("."+plcls).removeClass("hidden");
+
+                    });
+
+
+
+                    $(".to-edit-mode").addClass("hidden");
+
+                    $(".editing-mode").removeClass("hidden");
+                    $("#edit-save").attr("data-save-type", "privacy");
+
+
+
+               });
+
+
+                $("#edit-save").click(function(){
+
+                    if( $(this).attr("data-save-type") === "info"){
+                        $('#person_info').ajaxSubmit({
+
+                           success:function (rText, statusText, xhr, $form) {
+                            if(rText != 'ERROR') {
+                                window.location.reload();
+                            }
+                            else {
+                                alert('更新出错');
+                            }
+                           }
+                        });
+                    }else{ // =privacy
+
+
+                        var  params = {method: "update_privacy_level"}
+                        $(".privacy-setting").each(function(index, item){
+
+                            var pname = $(item).attr("data-privacy-name");
+                            var plevel = $(item).attr("data-privacy-level");
+
+                            console.log(pname);
+                            console.log(plevel);
+                            params[pname] =  plevel;
+
+                        });
+
+                        $.post("/api/person", params, function(ret){
+                            if( ret.errcode == ret.SUCCESS){
+                                alert("更新成功");
+                                $("#edit-cancel").trigger("click");
+                            }else{
+                                alert("更新出错:"+ret.errmsg);
+                            }
+                        })
+
+
+                    }
+
+
+
+                });
+
+
+                $("#edit-cancel").click(function(){
+
+                    $(".to-edit-mode").removeClass("hidden");
+                    $(".editing-mode").addClass("hidden");
+
+                    $(".auth_hidden").addClass("hidden");
+                    $(".info_edit").addClass("hidden");
+
+                    $(".privacy-setting").addClass("hidden");
+                    $(".privacy-level").addClass("hidden");
+
+                    $(".info_show").removeClass("hidden");
+
+
+                });
+
+
+              $(".privacy-setting").bind("click",function(){
+
+
+                  console.log("privacy setting");
+
+                  var pl = $(this).attr("data-privacy-level");
+                  var nextPl = '5';
+
+                  switch(pl){
+                      case '1':
+                          nextPl = '5';
+                          break;
+                      case '5':
+                          nextPl = '9';
+                          break;
+                      case '9':
+                          nextPl = '1';
+
+                  }
+
+                  var nextPlcls = "privacy-level-" + nextPl;
+                  var plcls = "privacy-level-" + pl;
+                  var parent = $(this).parent();
+
+                  parent.children("."+plcls).addClass("hidden");
+                  parent.children("."+nextPlcls).removeClass("hidden");
+
+
+                  $(this).attr("data-privacy-level", nextPl);
+
+              });
+
+
+>>>>>>> jannson
+                
+
+
+               $("#sixin").bind("click",function(){
+                // console.log(22);
+                  $("#minpian_body").addClass("mask");
+                  // console.log($(window).height());
+                  // console.log($("#send_sixin").height());
+                  $("#send_sixin").show();
+                  var height = ($(window).height()-$("#send_sixin").height())/2;
+                  // console.log(height);
+                  var width = ($(window).width()-$("#send_sixin").width())/2;
+                  $("#send_sixin").css({"top":height,"left":width});
+               });
+
+               $(".switch").bind("click",function(){
+                  var id = "#" + $(this).parent().attr("id") + "_info";
+                  if($(this).hasClass("add"))
+                  {
+                    $(id).removeClass("hidden");
+                    $(this).removeClass("add").addClass("sub");
+                  }
+                  else
+                  {
+                    $(id).addClass("hidden");
+                    $(this).removeClass("sub").addClass("add");
+                  }
+               });
+            });
+        </script>
+    </body>
+</html>

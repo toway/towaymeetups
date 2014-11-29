@@ -226,7 +226,24 @@ def test_visitors():
     stu2.add_visit(stu3)
     print stu2.visitors
 
+def populate_interests():
+    if DBSession.query(Interest).count() == 0:
+        inter = [u"唱歌/K歌",u"听音乐",u"看电影",u"看韩剧/综艺娱乐节目",u"看书/小说/杂志",u"逛街/购物",u"跳舞",u"演奏乐器",
+                 u"去健身房健身/减肥/塑形/瑜伽",u"打篮球",u"踢足球",u"打排球",u"跑步",u"打羽毛球",u"打乒乓球",u"保龄球",
+                 u"高尔夫",u"远足",u"爬山/登山",u"X运动",u"游泳",u"划船/水上娱乐",u"钓鱼/养鱼",u"饲养宠物",u"玩网络游戏/单机游戏",
+                 u"上网聊天/论坛/贴吧",u"看新闻",u"摄影/摄像",u"旅游",u"吃美食/做饭",u"十字绣/织毛衣/做服装服饰",u"打扑克/麻将",
+                 u"写字/练字/书法",u"下棋/各种棋",u"睡觉",u"美容/保养/化妆/打扮"]
+        for int in inter:
+            io = Interest(name=int)
+            DBSession.add(io)
+
+
+        DBSession.flush()
+
+
+
 def create_mba_root():
+    populate_interests()
     if DBSession.query(Node).filter_by(name="meetup").count() == 0:
         meet_attrs = dict(
             title=u'meetup',
@@ -295,10 +312,11 @@ def create_mba_root():
 
 
     if DBSession.query(Student).count() == 0:
-        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学'))
+        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学', groups=[u'role:owner', u'role:editor', u'role:viewer']))
+        testmba2 = Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学', groups=[u'role:owner', u'role:editor', u'role:viewer'])
+        DBSession.add(testmba2)
+        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学', groups=[u'role:viewer']))
+        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学', groups=[u'role:editor', u'role:viewer']))
 
 
     if DBSession.query(Node).filter_by(name="infomation").count() == 0:

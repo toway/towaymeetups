@@ -39,11 +39,22 @@
                                     </a>
                                   </li>
                                   <li>
-                                      <form class="logout-form" action="/logout" method="post">
-                                        <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出" alt="退出">
+                                      <a href="/infobox/messages" class="tooltipped tooltipped-s" aria-label="消息" alt="消息">
+                                          <span class="glyphicon glyphicon-bell" {% if user.newmessages %}style="color:blueviolet"{% endif %}></span>
+
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a href="/logout" class="tooltipped tooltipped-s" aria-label="退出" alt="退出">
                                           <span class="glyphicon glyphicon-log-out"></span>
-                                        </button>
-                                      </form>
+
+                                      </a>
+
+{#                                      <form class="logout-form" action="/logout" method="post">#}
+{#                                        <button class="sign-out-button tooltipped tooltipped-s" aria-label="退出" alt="退出">#}
+{#                                          <span class="glyphicon glyphicon-log-out"></span>#}
+{#                                        </button>#}
+{#                                      </form>#}
                                   </li>
                               </ul>
 

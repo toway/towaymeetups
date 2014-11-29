@@ -92,8 +92,15 @@ class MeetupInvitation(Base):
 class UserInterest(Base):
     interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
     user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
-    interest = relationship('Interest', backref='interest_items')
-    name = association_proxy('interest', 'name')
+    # interest = relationship('Interest', backref='interest_items')
+    # name = association_proxy('interest', 'name')
+
+    user = relationship("MbaUser",
+                        backref=backref("user_interests",
+                                        cascade="all, delete-orphan")
+                        )
+    interest = relationship("Interest")
+    interest_name = association_proxy("interest", "name")
 
     @classmethod
     def _interest_find_or_create(cls, name):
@@ -103,14 +110,42 @@ class UserInterest(Base):
             interest = Interest(name=name)
         return cls(interest=interest)
 
+class UserSkill(Base):
+    interest_id = Column(Integer, ForeignKey('interests.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+
+
+    user = relationship("MbaUser",
+                        backref=backref("user_skills",
+                                        cascade="all, delete-orphan")
+                        )
+    skill = relationship("Interest")
+    skill_name = association_proxy("skill", "name")
+
+    @classmethod
+    def _interest_find_or_create(cls, name):
+        with DBSession.no_autoflush:
+            interest = DBSession.query(Interest).filter_by(name=name).first()
+        if interest is None:
+            interest = Interest(name=name)
+        return cls(skill=interest)
+
+
 
 class Interest(Base):
     __table_args__ = (
         UniqueConstraint('name'),
         )
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(250), nullable=False)
     description = Column(UnicodeText())
+
+    def __init__(self, name, **kw):
+        self.name = name
+        Base.__init__(self,**kw)
+
+    # def __repr__(self):
+    #     return (self.name)
 
     @property
     def users(self):
@@ -144,7 +179,7 @@ class City(Base):
         UniqueConstraint('name'),
         )
     id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False)
+    name = Column(Unicode(50), nullable=False)
     acts = relationship("Act", backref='city', order_by='desc(Act.creation_date)')
     usercity = relationship("MbaUser", backref='city', order_by='desc(MbaUser.creation_date)')
 
@@ -156,6 +191,23 @@ class City(Base):
             obj = City(name=name)
         #return cls(city=obj)
         return obj
+
+class UserBetween(Base):
+    city_id = Column(Integer, ForeignKey('city.id'), primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+
+
+    user = relationship("MbaUser",
+                        backref=backref("user_between",
+                                        cascade="all, delete-orphan")
+                        )
+    city = relationship("City")
+    city_name = association_proxy("city", "name")
+
+    @classmethod
+    def _city_find_or_create(cls, name):
+        city = City._find_or_create(name=name)
+        return cls(city=city)
 
 class Message(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -217,19 +269,43 @@ class MbaUser(Base):
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
     title = Column(Unicode(100), nullable=False)
+    title_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     email = Column(Unicode(100), unique=True)
+    email_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     groups = Column(JsonType(), nullable=False)
     creation_date = Column(DateTime(), nullable=False)
     last_login_date = Column(DateTime())
     sex = Column(Integer())
     type = Column(String(50), nullable=False)
+
+    invitation_code = Column(String(50))
+    invited_code = Column(String(50))
     
-    _interests = relationship("UserInterest", backref='user')
+    # _interests = relationship("UserInterest", backref='user')
     interests = association_proxy(
-        '_interests',
-        'name',
+        'user_interests',
+        'interest_name',
         creator=UserInterest._interest_find_or_create,
         )
+    special_skills = association_proxy(
+        'user_skills',
+        'skill_name',
+        creator=UserSkill._interest_find_or_create,
+        )
+    between = association_proxy(
+        'user_between',
+        'city_name',
+        creator=UserBetween._city_find_or_create,
+        )
+
+    #为名片增加的字段,暂时放这里，可能放到MbaUser里
+    company = Column(String(255), default=u"")
+    company_privacy_level =  Column(Integer, default=1) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
+    industry = Column(String(255), default=u"")
+    # special_skill = Column(String(255), default=u"")
+    interest = Column(String(255), default=u"") # job interest
+    # between = Column(String(255), default=u"")
+    introduction = Column(String(255), default=u"")
 
     _positions = relationship("PositionCollect", backref='user')
     positions = association_proxy("_positions","position", creator=PositionCollect._create)
@@ -263,7 +339,7 @@ class MbaUser(Base):
 
 
 
-    city_id = Column(Integer, ForeignKey('city.id'))
+    city_id = Column(Integer, ForeignKey('city.id')) # backref is defined in class City
     city_name = association_proxy('city'
             , 'name'
             , creator=City._find_or_create)
@@ -441,7 +517,7 @@ class Act(Document):
     #     # return  "/images/%s/image/" % (self.poster.name)
     #     return self.poster_img_url
 
-    poster_img = Column(String(50))
+    poster_img = Column(String(200)) # change 50 to 200 , 2014.10.29 by sunset
 
 
     
@@ -570,8 +646,9 @@ class Student(MbaUser):
     identify_type = Column(Integer())
     identify = Column(String(30))
     phone = Column(Integer())
+    phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     home_number = Column(String(20))
-    location = Column(String(20))
+    # location = Column(String(20)) # location is duplicated with city_name in MbaUser
     salary = Column(Integer())
     work_years = Column(Integer())
     company_phone = Column(String(30))
@@ -583,13 +660,7 @@ class Student(MbaUser):
     auth_meetup =  Column(Integer,default=0)
     auth_friend =  Column(Integer,default=0) #
 
-    #为名片增加的字段,暂时放这里，可能放到MbaUser里
-    company = Column(String(255), default=u"")
-    industry = Column(String(255), default=u"")
-    special_skill = Column(String(255), default=u"")
-    interest = Column(String(255), default=u"")
-    between = Column(String(255), default=u"")
-    introduction = Column(String(255), default=u"")
+
 
 
 
@@ -804,4 +875,11 @@ class Banner(Base):
     status = Column(Integer,default=1)  # 1: 生效， 0:失效
 
 
+class RegisterSms(Base):
+    '''注册时发送短信的表'''
+    __tablename__ = "register_sms"
+    id = Column(Integer, primary_key=True)
+    phonenum = Column(String(20))
+    validate_code  = Column(String(20)) # 注册时发送的验证码
+    send_datetime = Column(DateTime(), default=datetime.now(tz=None) )
 

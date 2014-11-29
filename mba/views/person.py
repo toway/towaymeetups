@@ -37,7 +37,7 @@ from kotti.security import get_user
 
 from mba import _
 from mba.utils import wrap_user, RetDict
-from mba.resources import Student, Position, MbaUser, friend, Message
+from mba.resources import Student, Position, MbaUser, friend, Message, City
 
 
 def integers(*segment_names):
@@ -55,18 +55,22 @@ person_id_predic = integers("id")
 
 class PersonInfoWidget(object):
     renderer = staticmethod(deform.Form.default_renderer)
-    def __init__(self, user):
+    def __init__(self, user, cur_user):
         self.user = user
+        self.cur_user = cur_user
+        self.is_self = self.user.id == self.cur_user.id
         self.template = 'person_form.jinja2'
 
     def render(self):
         #TODO do better
-        ss = [u'company', u'industry', u'special_skill', u'interest', u'between', u'introduction', u'location']
+
+        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'city']
         u = self.user
         for s in ss:
             if not getattr(u,s):
                 setattr(u, s, u"")
-        return self.renderer(self.template, person_info=self.user)
+        # setattr(u, "is_self", self.is_self)
+        return self.renderer(self.template, person_info=self.user, cur_user=self.cur_user, is_self=self.is_self)
 
 @view_config(route_name='person', renderer='person.jinja2', custom_predicates=(person_id_predic,),permission='view')
 def view_person(request):
@@ -90,22 +94,31 @@ def view_person(request):
             user.phone = post['phone']
             user.company = post['company']
             user.industry = post['industry']
-            user.location = post['location']
+
+            city = DBSession.query(City).filter_by(name=post['city_name']).first()
+            if city:
+                user.city_id = city.id
+            else:
+                user.city_name = post['city_name']
+
             user.school = post['school']
-            user.special_skill = post['special_skill']
-            user.interest = post['interest']
-            user.between = post['between']
+            user.special_skills = [i.strip() for i in post['special_skills'].split(",") ]
+            user.interests = [i.strip() for i in post['interests'].split(",") ]
+            user.between = [i.strip() for i in post['between'].split(",") ]
             user.introduction = post['introduction']
-            user.real_name = post['title']
-            person_info_widget = PersonInfoWidget(user)
+            user.real_name = post['real_name']
+            user.title = post['title']
+            person_info_widget = PersonInfoWidget(user, cur_user=curr_user)
             return Response(person_info_widget.render())
-        except:
+        except Exception,ex:
+            print "Error:%s" % ex
+            # raise ex
             return Response("ERROR")
     
     userid = int(request.matchdict['id'])
     user = DBSession.query(Student).get(userid)
     new_positions = DBSession.query(Position).all()[0:8]
-    person_info_widget = PersonInfoWidget(user)
+    person_info_widget = PersonInfoWidget(user, cur_user=curr_user)
     toknown_list = DBSession.query(Student).filter(Student.id != curr_user.id)[0:8]
     user_status = 0
     if curr_user.id == user.id:
@@ -307,13 +320,14 @@ def ajax_friends(request):
 
 
     elif method == 'cancel_friend':
+        # TODO: It seems it does not work
 
         if not target_person in cur_user.all_friends:
             return RetDict(errmsg=u"你们不是朋友，不能取消")
 
         # cur_user.friendship.remove(target_person)
         session = DBSession()
-        session.execute("""DELETE FROM  friends WHERE user_a_id =:a AND user_b_id=:b """,
+        session.execute("""DELETE FROM  friends WHERE (user_a_id =:a AND user_b_id=:b) or (user_a_id =:b AND user_b_id=:a) """,
                                  {'a':target_person_id, 'b': cur_user.id } )
         mark_changed(session)
         transaction.commit()
@@ -391,6 +405,7 @@ def includeme(config):
     config.add_route('person','/person/{id}')
     config.add_route('ajax_friends', '/friends')
     config.add_route('get_my_friends', '/my_friends')
+
     # config.add_route('persons_maybe_know', '/persons_maybe_know')
 
 

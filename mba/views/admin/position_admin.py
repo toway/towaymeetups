@@ -118,15 +118,35 @@ class PositionAddForm(AddFormView):
         location = self.success_url or self.request.resource_url(new_item)
         #session.refresh(f)
         DBSession.flush()
-        location = 'job-detail/'+new_item.id
+        idstr = str(new_item.id)
+        location = '/job-detail/' + idstr
         return HTTPFound(location=location)
+
+def view_position_list(request, page_index=1, num_per_page=10):
+    jquery.need()
+    start = (page_index-1) * num_per_page
+    count = DBSession.query(Position).count()
+    positions = DBSession.query(Position).slice(start, num_per_page).all()
+
+    return wrap_user2(request, {
+        'positions': positions,
+        'total_count': count,
+        'total_page': count/ num_per_page + 1,
+        'page_index': page_index
+    })
+
+@view_config(route_name='admin_position_list', renderer='admin/positions.jinja2')
+@view_config(route_name='admin_position_list', renderer='json', xhr=True)
+def admin_position_list(request):
+    return view_position_list(request)
 
 def includeme(config):
     config.add_route('admin_position_add',  '/admin/position/add/{cid:\d}')
-    config.add_view(PositionAddForm, route_name='admin_position_add', renderer="admin/position_admin.jinja2", permission='view')
+    config.add_view(PositionAddForm, route_name='admin_position_add', renderer="admin/position_admin.jinja2", permission='manage')
 
     config.add_view(
         PositionAddForm,
         name=Position.type_info.add_view,
         renderer='col_test.jinja2',
         )
+    config.add_route('admin_position_list','/admin/positions')

@@ -43,3 +43,6 @@ class ImageUploadWidget2(ImageUploadWidget):
 class GeoWidget(MappingWidget):
     template = "qqmap_input"
 
+
+class PhoneValidateCodeInputWidget(TextInputWidget):
+    template = "phonevalidatecode_input"

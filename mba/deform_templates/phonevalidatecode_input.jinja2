@@ -1,0 +1,68 @@
+<input type="text"  name="{{field.name}}" value="{{cstruct}}"
+{% if field.widget.size %}
+ size="{{field.widget.size}}"
+{% endif %}
+{% if field.widget.css_class %}
+    class="{{field.widget.css_class}} textInput"
+{% else %}
+    class="textInput"
+{% endif %}
+ id="{{field.oid}}"/>
+
+<button class="btn btn-sm btn-default" id="{{ field.oid }}-sms">发送短信</button>
+<span id="waittoresend" style="display: none">等待<span id="secwait">60</span>秒再发送...</span>
+
+
+{% if field.widget.mask %}
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.oid}}',
+     function (oid) {
+        $("#" + oid).mask("{{field.widget.mask}}",
+                          {placeholder:"{{field.widget.mask_placeholder}}"});
+     });
+</script>
+{% endif %}
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.oid}}',
+     function (oid) {
+
+
+         function timewaittoresend(){
+            var secleft = parseInt($("#secwait").text());
+             if( secleft == 0){
+                 secleft = 60;
+                 $("#waittoresend").hide();
+                 $("#" + oid  + "-sms").show();
+             }else{
+                 secleft  -= 1;
+             }
+             $("#secwait").text(secleft)
+         }
+        $("#" + oid  + "-sms").click(function(e){
+
+
+            var  phone = $("input[name='{{ field.widget.inputname }}']").val().trim();
+
+
+
+            if( phone.length != 11){
+                alert("手机格式不合法");
+                return false;
+            }
+            $.post("/api/sendsms", {type: "0", phone: phone}, function(ret){
+                if( ret.errcode == ret.SUCCESS ){
+                    $("#waittoresend").show();
+                    $("#"+oid + "-sms").hide();
+
+                    setTimeout(timewaittoresend, 1000);
+                }else{
+                    alert("发送失败:"+ ret.errmsg);
+                }
+            });
+            return false;
+        });
+     });
+</script>
+
