@@ -67,7 +67,8 @@ class PositionSchema(ContentSchema):
     city_name = colander.SchemaNode(
             colander.String(),
             title = u'城市',
-            widget = deform.widget.SelectWidget(values=[(0, u'北京'), (1,u'上海'), (2,u'广州'),(3,u'深圳'),(4,u'其它')])
+            widget = deform.widget.SelectWidget(values=[(u'北京', u'北京'), (u'上海',u'上海')
+                , (u'广州',u'广州'),(u'深圳',u'深圳'),(u'其它',u'其它')])
         )
 
     hunting_type = colander.SchemaNode(

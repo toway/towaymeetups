@@ -63,7 +63,7 @@ class PersonInfo(colander.Schema):
     work_years = colander.SchemaNode(
             colander.Integer(),
             )
-    location = colander.SchemaNode(
+    city_name = colander.SchemaNode(
             colander.String(),
             )
     salary = colander.SchemaNode(
@@ -142,7 +142,7 @@ def user2person(user):
         person['work_years'] = user.work_years or 0
         person['identify'] = user.identify or ""
         person['identify_type'] = user.identify_type or 0
-        person['location'] = user.location or ""
+        person['city_name'] = user.city_name or ""
         person['salary'] = user.salary or 1000
         person['email'] = user.email
         person['phone'] = user.phone or ""
@@ -156,7 +156,7 @@ def person2user(user, person):
     user.work_years = person['work_years']
     user.identify = person['identify']
     user.identify_type = person['identify_type']
-    user.location = person['location']
+    user.city_name = person['city_name']
     user.salary = person['salary']
     user.phone = person['phone']
     user.company_phone = person['company_phone']
@@ -324,12 +324,12 @@ def resume_edit2(context, request):
         return edit_job(request, user, resume_id)
 
     resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
-    return {
+    return wrap_user(request,{
             'resume_id':resume_id,
             'person_info':person_schema.serialize(user2person(user)),
             'edu':EducationsWidget(resume_id, resume.educations),
             'exp':JobsWidget(resume_id, resume.jobs),
-    }
+    })
 
 #TODO
 #@view_config(route_name='resume_view', renderer='job2.jinja2')
