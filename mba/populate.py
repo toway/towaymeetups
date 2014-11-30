@@ -189,23 +189,24 @@ def test_resume2():
     DBSession.flush()
 
 def test_position():
-    p = Position(
-            degree=u'本科文凭',
-            experience=u'三年以上',
-            salary=10000,
-            city_name=u"北京",
-            location=u"北京三环路",
-            company_id = 1,
-            parent_id = get_root().id,
-            title=u"pppppppppppp",
-            name=u"ooooooooooooo",
-            description=u'Our company is the leading manufacturer',
-            body=u"<p>Hello</p>",
-            status=ActStatus.DRAFT,
-            )
-    DBSession.add(p)
-    DBSession.flush()
-    print p.id
+    if DBSession.query(Position).count() == 0:
+        p = Position(
+                degree=u'本科文凭',
+                experience=u'三年以上',
+                salary=10000,
+                city_name=u"北京",
+                location=u"北京三环路",
+                company_id = 1,
+                parent_id = get_root().id,
+                title=u"高级销售经理",
+                name=u"高级销售经理",
+                description=u'我们公司很需要这方面的人才',
+                body=u"<p>我们公司很需要这方面的人才</p>",
+                status=ActStatus.DRAFT,
+                )
+        DBSession.add(p)
+        DBSession.flush()
+        print p.id
 
     #stu = DBSession.query(MbaUser).filter_by(email='a@gmail.com').first()
     #stu.interests = ['haha','oooo','ddd']
@@ -228,11 +229,11 @@ def test_visitors():
 
 def populate_interests():
     if DBSession.query(Interest).count() == 0:
-        inter = ["唱歌/K歌","听音乐","看电影","看韩剧/综艺娱乐节目","看书/小说/杂志","逛街/购物","跳舞","演奏乐器",
-                 "去健身房健身/减肥/塑形/瑜伽","打篮球","踢足球","打排球","跑步","打羽毛球","打乒乓球","保龄球",
-                 "高尔夫","远足","爬山/登山","X运动","游泳","划船/水上娱乐","钓鱼/养鱼","饲养宠物","玩网络游戏/单机游戏",
-                 "上网聊天/论坛/贴吧","看新闻","摄影/摄像","旅游","吃美食/做饭","十字绣/织毛衣/做服装服饰","打扑克/麻将",
-                 "写字/练字/书法","下棋/各种棋","睡觉","美容/保养/化妆/打扮"]
+        inter = [u"唱歌/K歌",u"听音乐",u"看电影",u"看韩剧/综艺娱乐节目",u"看书/小说/杂志",u"逛街/购物",u"跳舞",u"演奏乐器",
+                 u"去健身房健身/减肥/塑形/瑜伽",u"打篮球",u"踢足球",u"打排球",u"跑步",u"打羽毛球",u"打乒乓球",u"保龄球",
+                 u"高尔夫",u"远足",u"爬山/登山",u"X运动",u"游泳",u"划船/水上娱乐",u"钓鱼/养鱼",u"饲养宠物",u"玩网络游戏/单机游戏",
+                 u"上网聊天/论坛/贴吧",u"看新闻",u"摄影/摄像",u"旅游",u"吃美食/做饭",u"十字绣/织毛衣/做服装服饰",u"打扑克/麻将",
+                 u"写字/练字/书法",u"下棋/各种棋",u"睡觉",u"美容/保养/化妆/打扮"]
         for int in inter:
             io = Interest(name=int)
             DBSession.add(io)
@@ -312,10 +313,11 @@ def create_mba_root():
 
 
     if DBSession.query(Student).count() == 0:
-        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学'))
-        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学'))
+        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学', groups=[u'role:owner', u'role:editor', u'role:viewer']))
+        testmba2 = Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学', groups=[u'role:owner', u'role:editor', u'role:viewer'])
+        DBSession.add(testmba2)
+        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学', groups=[u'role:viewer']))
+        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学', groups=[u'role:editor', u'role:viewer']))
 
 
     if DBSession.query(Node).filter_by(name="infomation").count() == 0:
@@ -333,12 +335,12 @@ def create_mba_root():
 
 def populate():
     if DBSession.query(CompanyInfo).count() == 0:
-        c = CompanyInfo(name=u"test company"
+        c = CompanyInfo(name=u"深圳市芭田生态工程股份有限公司"
             , scope=u"1000-2000人"
             , industry=u"农林"
             , type_info=u"民营"
             , location=u"南山区前海路"
-            , description=u"深圳市芭田生态工程股份有限公司")
+            , description=u"深圳市芭田生态工程股份有限公司是一家非常好的公司啊")
         DBSession.add(c)
         DBSession.flush()
 
@@ -354,4 +356,4 @@ def populate():
     #test_user()
     #test_add_stu()
     #test_resume2()
-    #test_position()
+    test_position()

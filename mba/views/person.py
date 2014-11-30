@@ -58,6 +58,7 @@ class PersonInfoWidget(object):
     def __init__(self, user, cur_user):
         self.user = user
         self.cur_user = cur_user
+        print 'test personinfo widget', user, cur_user
         self.is_self = self.user.id == self.cur_user.id
         self.template = 'person_form.jinja2'
 

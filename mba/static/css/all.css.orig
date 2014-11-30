@@ -1,0 +1,1679 @@
+/* All custom css should be placed here */
+
+/* global style begin */
+
+body,
+body h1,
+body h2,
+body h3 {
+  font-family: "黑体", "微软雅黑", "宋体", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+body { font-size: 14px }
+
+
+ul,dl,dt,dd,h1,h2,h3,h4,h5,h6,p{padding:0; margin:0;}
+ul { list-style-type: none; }
+
+@media (min-width: 768px) {
+  .container {
+    width: 750px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 980px;
+  }
+}
+
+/* global style end */
+
+/* global nav style begin */
+.mba-nav {
+  border: 0;
+  text-shadow: 0 -1px 0 rgba(0,0,0,.15);
+  box-shadow: 0 1px 0 rgba(255,255,255,.1);
+
+}
+.mba-nav .navbar-header .navbar-brand {
+  margin: 0 ;
+  padding: 0 ;
+}
+.mba-nav .navbar-collapse {
+  margin: 12px 0;
+}
+.mba-nav .navbar-collapse .navbar-nav {
+
+  padding-left: 5px;
+}
+.mba-nav .navbar-collapse .navbar-nav > li > a {
+
+}
+.mba-nav .navbar-collapse .navbar-nav > li > a:hover,
+.mba-nav .navbar-collapse .navbar-nav > a:focus,
+.mba-nav .navbar-collapse .navbar-nav > .active >a{
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.navbar-right{
+    margin-top: 8px;
+}
+
+.navbar-right li{
+    margin: 0 5px;
+}
+
+#user-links {
+   /* margin-top: 14px;*/
+}
+<<<<<<< HEAD
+=======
+
+#user-links li{
+    height: 32px;
+
+    /* virtical-align */
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+
+#user-links li *{
+    margin: 0;
+    padding: 0;
+}
+
+
+>>>>>>> jannson
+.navbar-iforgot{
+    font-size: 12px;
+    margin-left: 10px;
+
+}
+
+#user-links .navbar-name{
+    font-weight: bold;
+    white-space: nowrap;
+    padding: 0;
+    /*font-family: 'Helvetica';*/
+}
+
+#user-links .sign-out-button {
+    background: none;
+    border: 0;
+<<<<<<< HEAD
+    color:white;
+=======
+>>>>>>> jannson
+}
+
+/* global nav style end */
+
+/* /index style begin */
+.mba-margin-top {
+  margin-top: 76px;
+}
+/*
+.mba-carousel .carousel-inner .item {
+  background-color: #2e70ba;
+}
+.mba-carousel .carousel-inner .item img {
+  margin: auto;
+}
+.mba-carousel .carousel-control {
+  display: none ;
+}
+
+.mba-login {
+  margin: 20px;
+}
+
+.mba-index-main ul li {
+  line-height: 30px;
+}
+.mba-banner{
+  background-color: RGB(41,103,178);
+}
+*/
+.mba-index{
+    min-height:100%;
+   background-color: #e7e7e7;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: -76px;
+}
+
+.mba-index .index-body{
+    padding: 0;
+    background-color: #e7e7e7;
+    padding-bottom:60px;   /* Height of the footer */
+}
+
+.mba-index .index-footer{
+    position: absolute;
+    bottom:  0;
+    width: 980px;
+    height: 60px;
+    background-color: #e7e7e7;
+}
+
+.jumbotron-index{
+    background: #ffffff url("/fanstatic/mba/img/indexbg.png") no-repeat top center;
+    background-size: 100% auto;
+    padding:  120px 60px 155px 60px;
+}
+
+.jumbotron-index h1{
+    font-size: 26px ;
+    color: white;
+
+}
+
+.jumbotron-index .reg{
+
+    display: inline-block;
+    border: 1px solid #ffffff;
+}
+
+.index-news{
+    margin-bottom: 50px;
+}
+
+.index-news h2{
+    padding: 20px 0;
+}
+
+.index-news-item{
+    display: inline-block;
+    border: 2px solid #dbdbdb;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.index-news-item:hover{
+    border: 2px solid #dbdbdb;
+
+}
+
+
+.index-partner .partner-list{
+    color: #444444;
+    line-height: 34px;
+    font-size: 12px;
+}
+
+/* /index style end */
+
+.mba-footer {
+  background-color: #cccccc;
+  border-top: solid 1px #ffffff;
+/*  padding-bottom: 40px;
+  padding-top:31px;*/
+}
+.mba-footer{
+  margin-top: 20px;
+}
+
+.mba-resume-total-grid{
+  border-top: 0px;
+  border-left: 1px solid RGB(232,232,232);
+  border-right: 1px solid RGB(232,232,232);
+  border-bottom: 1px solid RGB(232,232,232);
+  
+  background:url("../images/my_resume_head_bg.jpg") repeat-x;
+  border-top: 1px;
+}
+
+.mba-my-resume-cnt{
+  border-top: 0px;
+  border-left: 1px solid RGB(243,243,243);
+  border-right: 1px solid RGB(243,243,243);
+  border-bottom: 1px solid RGB(243,243,243);
+}
+
+.mba-footer .mba-weixin {
+  margin-top: 20px;
+}
+
+.mba-right-nav{
+	background-color:RGB(234,243,238);
+	min-height: 120px;
+}
+
+.mba-right-nav-cnt{
+	margin:20px;
+	padding:20px;
+	background-color:white;
+}
+
+.mba-resume-edit
+{
+  /*background:url("img/resume_edit.jpg") center;*/
+}
+
+.mba-resume-refresh
+{
+  background:url("img/resume_refresh.jpg") center;
+}
+
+.mba-resume-preview
+{
+  /*background:url("img/resume_preview.jpg") center;*/
+}
+
+/*头部的搜索框*/
+.search_box{border:1px solid #e2e9e1; width:278px; height:28px; background-color:#fff; float:left;}
+.search_box .search_input{padding-left:12px; width:250px; color:#bbb; border:none;}
+.search_box .search_btn{background:url(../images/ico-search.jpg) right 0 no-repeat; width:16px; height:16px; border:none;}
+
+
+
+/* /home style begin */
+
+
+/*
+.home-menu-wrapper{
+    margin-top : 120px;
+}
+
+.home-menu a.selected {
+    background: #fff;
+    border-left: 2px solid #d26911;
+    font-weight: bold;
+    color: #222;
+    cursor: default;
+}
+
+.home-menu a {
+    display: block;
+    padding: 8px 10px 8px 8px;
+    text-shadow: 0 1px 0 #fff;
+    border-left: 2px solid #fafafb;
+}
+
+.home-menu {
+    background: #fafafb;
+    border-radius: 3px;
+    border: 1px solid #d8d8d8;
+    list-style: none;
+    overflow: hidden;
+}
+
+.home-menu li:first-child {
+    border-top: none;
+}
+
+.home-menu li {
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #fff;
+}
+ banished 20140607*/
+
+.mba-home .panel{
+   border-radius: 0;
+}
+
+.home-tabs{
+    display: inline;
+    float:right;
+}
+
+.mba-home .nav > li > a{
+    padding: 3px 5px;
+}
+
+.meetuplist li>a{
+    font-size: 14px;
+}
+
+.meetuplist .meetup-type{
+    color: #0066CC;
+    margin-right: 10px;
+    font-weight: bold;
+
+}
+
+.meetuplist .post-date{
+    color: #999999;
+    float: right;
+    font-size: 12px;
+}
+
+.joblist{
+    line-height: 26px;
+}
+
+.joblist .job-detail{
+    margin-left: -50px;
+    margin-right: 50px;
+}
+
+.joblist .gray{
+    color: #999999;
+}
+
+
+.joblist .job-title{
+    margin-left: 60px;
+    color: #0066CC;
+    font-weight: bold;
+}
+
+.joblist .collect-job{
+    color: #0066CC;
+}
+
+.joblist .sm{
+    font-size: 12px;
+}
+
+
+
+.infolist .post-time{
+    color: #999999;
+    float: right;
+    font-size: 12px;
+}
+
+.infolist .info-title{
+        color: #0066CC;
+    font-weight: bold;
+}
+
+
+.myinfo-header .header-right{
+
+    padding: 20px 0 0 0;
+
+}
+
+
+.myinfo-header .zyno{
+    font-size: 10px;
+    color: #999999;
+    padding-top: 10px;
+}
+
+.home-myinfo .basic_info {
+    padding-left: 0;
+    padding-top: 5px;
+}
+
+
+.action-buttons button{
+    width: 48%;
+    border-radius: 0;
+    background-color:  #CCCCCC;
+    border: 1px solid #ffffff;
+    color: #000000;
+}
+
+.action-buttons button sup{
+    background-color:  #CC0000;
+    color: #CCFFFF;
+    padding: 0 3px;
+
+}
+
+.home-trends .more{
+    float: right;;
+}
+
+.home-trends .trends-sector{
+    margin-top: 10px;
+
+}
+/* /home style end */
+
+
+
+/* /home again start */
+.mba-headers .carousel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+.mba-headers .carousel  .carousel-control {
+    width: 50px;
+}
+
+.mba-headers .carousel  .carousel-control.left {
+    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to right, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+.mba-headers .carousel  .carousel-control.right {
+    background-image: -webkit-linear-gradient(right, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to left, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+
+.mba-headers .carousel  .carousel-control .glyphicon-chevron-left {
+    left: 10px;
+}
+.mba-headers .carousel  .carousel-control .glyphicon-chevron-right {
+    right: 10px;
+}
+
+/* /home again end */
+
+
+/* /meetups style begin */
+.meetups-header .carousel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.meetups ul.meetuplist li {
+    line-height: 26px;
+}
+
+
+.meetups .nav > li > a{
+    padding: 3px 5px;
+}
+
+.meetups-header .carousel  .carousel-control {
+    width: 50px;
+}
+
+.meetups-header .carousel  .carousel-control.left {
+    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to right, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+.meetups-header .carousel  .carousel-control.right {
+    background-image: -webkit-linear-gradient(right, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
+    background-image: linear-gradient(to left, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
+}
+
+
+.meetups-header .carousel  .carousel-control .glyphicon-chevron-left {
+    left: 10px;
+}
+.meetups-header .carousel  .carousel-control .glyphicon-chevron-right {
+    right: 10px;
+}
+
+/* /meetups style end */
+
+/* /meetup/id style start */
+.meetup-details{
+    margin-left: 30px;
+    margin-top: 20px;
+}
+
+
+.meetup-invite-friend-box {
+    width: 200px;
+    display: none;
+    position: fixed;
+}
+.meetup-invite-friend-body{
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.meetup-comment-prompt{
+    color:#808080;
+}
+
+.meetup-comment-timeline{
+    color: #808080;
+    font-size: 80%;
+}
+
+#meetup-map{
+    height: 200px;
+}
+/* /meetup/id style end */
+
+/** Merged from new_style.css
+    refactor may be needed to resolve css conflicts
+**/
+body {  font-family:'微软雅黑'; line-height:1.5; color:#000;}
+body,ul,dl,dt,dd,h1,h2,h3,h4,h5,h6,form,p { padding:0; margin:0;}
+ul { list-style:none;}
+img { border:none;}
+a {  text-decoration:none; color:#000;}
+a:hover { text-decoration:none;}
+.clearfix:after{content:"."; display:block; height:0;visibility:hidden; clear:both;}
+.clearfix{zoom:1;}
+.fl{ float:left;}
+.fr{ float:right;}
+.con_nav .no_margin,.no_margin{ margin-right:0;}
+
+/*header*/
+#header{ width:100%; height:116px; background:#0e355e url(/fanstatic/mba/images/head_bg.gif) center center no-repeat;}
+#headbox{ width:891px; height:116px; margin:0 auto;}
+#headbox ul{ float:left; padding-left:286px; margin-top:-10px; }
+#headbox ul li{float:left; color:#fff;  line-height:116px; margin-right:22px; font-size:14px;}
+#headbox a{ color:#fff; font-weight:bold;}
+.search_box{border:1px solid #e2e9e1; width:248px; height:28px; background-color:#fff; float:right;margin-top:40px;}
+.search_box .search_input{width:220px; height:14px; padding:7px 0 7px 12px; color:#bbb; border:none; float:left;}
+.search_box .search_btn{background:url(/fanstatic/mba/images/ico-search.jpg) center 0 no-repeat; width:16px; height:16px; border:none; float:left;}
+
+#bar{ width:100%; background:url(/fanstatic/mba/images/bar_bg.gif) 0 0 repeat-x; height:4px;}
+
+/*main*/
+#main{ width:869px; margin:0 auto; margin-top:80px;}
+#content{ width:603px; float:left; padding-top:10px;}
+#content dl{ margin-bottom:38px; font-size:13px;}
+#content dt{ width:180px;}
+#content dd p{ line-height:25px; margin-bottom:33px; margin-top:-6px;}
+#content a{ color:#00f; font-size:14px;}
+.con_title{ text-align:right; margin:0 0 12px 0;}
+
+
+/*side*/
+#side{ width:243px; float:right;}
+#side .side_box{ width:243px; height:106px; border-radius:3px; background-color:#eaf3ee;}
+.side_box .address{ padding:15px;}
+.side_box .address dt{ height:30px;}
+.active_tag{border-radius:3px; background-color:#eaf3ee; width:243px; height:198px; margin-top:25px; list-style-type:disc; line-height:28px; font-size:13px;}
+.active_tag dt,.active_tag dd{padding-left:15px;}
+.active_tag .active{ background-color:#0f62b0;}
+.active_tag .over{ background-color:#fff;}
+
+/*footer*/
+#footer{ width:100%; height:156px; background:#efefef url(/fanstatic/mba/images/footer_bg.gif) 0 0 repeat-x;}
+
+/*登录页面*/
+#login_header{ width:100%; background:#348FDB url(/fanstatic/mba/images/bg1.gif) center center no-repeat; height:690px;}
+#login_header #headbox{ width:557px; margin:0 auto; height:400px; position:relative;}
+#login_header ul{padding-left:100px; margin-top:5px;}
+#login_header .login{ left:0; bottom:0; position:absolute;}
+#login_content{ width:600px; margin:0 auto; margin-top:60px;}
+.con_nav dl{ float:left; width:175px; height:90px; margin-right:35px;}
+.con_nav dt{ text-align:center;}
+.con_nav h2{ float:left; margin:0 23px;}
+.con_nav dd{ margin-left:-10px; text-align:left;}
+.con_nav .line{ width:31px; height:2px; background-color:#d3d3d3; overflow:hidden; float:left; position:relative; top:10px;}
+.con_nav ul{ float:left; width:175px; margin-right:35px; line-height:22px;}
+
+.news{ margin-top:101px;}
+.news_con ul{ line-height:22px; width:318px; margin-bottom:5px;}
+.news_con h2{ height:43px;}
+
+.partner{ margin-top:119px;}
+.partner h2{ height:44px;}
+.partner p{margin-bottom:29px;}
+
+#login_footer{ width:100%; height:70px; background-color:#257bde; line-height:70px; text-align:center; color:#fff; font-size:13px; margin-top:60px;}
+#login_footer span{margin-left:195px;}
+
+table.mba-resume-tbl{
+    text-align: center;
+}
+
+.table > thead > tr > th
+{
+    text-align: center;
+}
+
+.mba-nav .navbar-collapse .navbar-nav > li > a.active{
+  background-color: #6c94be;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  z-index:999;
+}
+
+
+/*******名片*************/
+
+.friend-invite-friend-box {
+    width: 200px;
+    display: none;
+    position: fixed;
+}
+.friend-invite-friend-body{
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#info_cnt{
+    /*display:inline-block;*/
+    float: left;
+    width:600px;
+    background-color: RGB(250,250,250);
+    border: 1px solid RGB(232,232,232);
+    height:800px;
+  }
+
+  .info_right{
+    /*display:inline-block;*/
+    float: left;
+    width:300px;
+    background-color: RGB(255,255,255);
+    /*height:800px;*/
+    border: 1px solid RGB(232,232,232);
+   /* padding-top:50px;*/
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .info-setting{
+    display: block;
+    height:30px;
+  }
+
+  .info-setting button{
+    float: right;
+    margin-right: 10px;
+
+  }
+
+  .info_view{
+    padding:10px 30px;
+  }
+
+  .info_view .avstar{
+    width:150px;
+  }
+
+  .basic_info{
+    padding-left:20px;
+    vertical-align: top;
+  }
+
+  .basic_info .name{
+    font-size: 24px;
+    font-weight: bolder;
+    margin-right: 30px;
+  }
+
+  .basic_info .info_auth,.activity_auth,.friend_auth
+  {
+<<<<<<< HEAD
+      width:74px;
+      height: 21px;
+      display:inline-block; 
+      margin-right: 5px;
+=======
+      width:28px;
+      height: 28px;
+      display:inline-block; 
+      margin-right: 2px;
+      background-repeat: no-repeat;
+>>>>>>> jannson
+  }
+
+  .basic_info .info_auth{
+    background-image: url("/fanstatic/mba/img/info_auth.png");
+  }
+
+  .basic_info .activity_auth{
+    background-image: url("/fanstatic/mba/img/activity_auth.png");
+  }
+
+  .basic_info .friend_auth{
+    background-image: url("/fanstatic/mba/img/friend_auth.png");
+  }
+
+    .basic_info .info_auth_disable{
+    background-image: url("/fanstatic/mba/img/info_auth_disable.png");
+  }
+
+  .basic_info .activity_auth_disable{
+    background-image: url("/fanstatic/mba/img/activity_auth_disable.png");
+  }
+
+  .basic_info .friend_auth_disable{
+    background-image: url("/fanstatic/mba/img/friend_auth_disable.png");
+  }
+
+   .basic_info p.first{
+    padding-bottom: 10px;
+   }
+
+   .basic_info p.basic{
+      line-height: 24px;
+   }
+
+   #info_cnt hr{
+    
+   }
+
+   #part2,#part3{
+    padding-left:20px;
+   }
+
+   #part3 .intro{
+    width:400px;
+   }
+
+   p.hobby{
+    background: url("/fanstatic/mba/img/li.jpg") left center no-repeat;
+    /*background-repeat:no-repeat;*/
+   }
+
+   .lbl_hobby{
+      padding-left: 14px;
+      /*background-image: url("/fanstatic/mba/img/li.jpg") left top  no-repeat;*/
+   }
+
+   .right_head{
+    width:100%;
+    height:56px;
+    border: 1px solid RGB(232,232,232);
+    font-size: 20px;
+    /*color:  RGB(232,232,232); */
+    padding-left: 20px;
+    background-color: RGB(232,232,232);
+   /* display: inline-block;
+    vertical-align: middle;*/
+    padding-top: 12px;
+   }
+   .little_pad{
+    margin-bottom: 5px;
+   }
+
+   .friend_list{
+      padding: 10px 10px 10px 20px;
+   }
+
+   .lbl_info{
+    width:80px;
+   }
+
+   .div_set{
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-top: 20px;
+    height:70px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    background-color: white;
+    /*background-color: rgb(250, 250, 250);*/
+    border: 1px solid rgb(232, 232, 232);
+    
+   }
+   .visited_count{
+    color: RGB(224,13,119);
+   }
+
+   .div_set  button{
+    color: RGB(33,140,255);
+   }
+
+   button.switch{
+      float: right;
+      width:56px;
+      height: 56px;
+      padding:0px;
+      margin: 0px;
+      margin-top: -12px;
+      border: 0px;
+      top:12px;
+   }
+
+   button.add{
+      background: url("/fanstatic/mba/img/add2.png") no-repeat center RGB(224,224,224);
+      /*background: url("/fanstatic/mba/img/li.jpg") no-repeat scroll left center rgba(0, 0, 0, 0);*/
+   }
+
+   button.sub{
+      background: url("/fanstatic/mba/img/sub.png") no-repeat center RGB(13,99,176);
+   }
+
+   .renmai_detail_cnt{
+    padding-top: 0px;
+   }
+
+   .friend_detail_cnt{
+    /*vertical-align: middle; */
+    /*padding-top: 15px;*/
+   }
+
+   .friend_detail_info{
+      /*padding-left: 10px;*/
+   }
+
+   .clearfix{
+      clear:both;
+   }
+
+   .renshi{
+    color: RGB(27,110,180);
+    padding-right: 18px;
+    cursor: pointer;
+    background: url("/fanstatic/mba/img/go.png") no-repeat right;
+   }
+
+   .add_yaoqing{
+    color: RGB(27,110,180);
+    padding-left: 10px;
+    cursor: pointer;
+    background: url("/fanstatic/mba/img/add_yaoqing.png") no-repeat left;
+   }
+
+  .renmai_item,.friend_item{
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid RGB(234,234,234);
+  }
+
+  .renmai_item{
+    margin-left: 10px;
+  }
+
+  .nav_down{
+   /* width: 32px;
+    height: 32px;
+    background: url("/fanstatic/mba/img/nav_down.gif") no-repeat;*/
+    text-align: center;
+    margin: 0px auto;
+  }
+
+  .fixed_width{
+    display: inline-block;
+    width:180px;
+  }
+
+  .hidden{
+    display: none;
+  }
+
+  img.visited{
+    margin: 5px;
+  }
+
+  a.all{
+    font-size: 14px;
+     color: RGB(27,110,180);
+     float: right;
+     padding-right: 8px;
+  }
+
+  #exchange_mingpian,#sixin{
+    color: RGB(27,110,180);
+    padding-left: 18px;
+    cursor: pointer;
+  }
+
+#exchange_mingpian{
+  background: url("/fanstatic/mba/img/exchange.png") no-repeat left;
+}
+
+#sixin{
+  background: url("/fanstatic/mba/img/sixin.png") no-repeat left;
+}
+
+.mask{
+ /* position: relative;
+  z-index: 20;
+  opacity: 0.5;*/
+}
+
+#send_sixin{
+  z-index: 9999;
+  height: 145px;
+  width: 380px;
+  border: 2px solid RGB(200,200,200);
+  position: absolute;
+  top:-9999px;
+  left:-9999px;
+  background-color:White
+}
+
+.sixin_title{
+  background-color: rgb(230, 230, 230);
+  height: 28px;
+  line-height: 28px;
+  vertical-align: middle;
+  /*background-image: url("/fanstatic/mba/img/sixin_colse.png");*/
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+
+
+
+.sixin_image{
+  margin-right: 10px;
+}
+
+#sixin_tool_cnt{
+  padding-left: 35px;
+  padding-top: 5px;
+}
+
+.btn_sixin_send{
+  margin-left: 120px;
+  background-color: RGB(255,159,10);
+  border:1px solid RGB(255,159,10);
+}
+
+a.jiaohuan_see{
+ text-decoration: underline;
+ font-size: 12px;
+ color: RGB(27,110,180);
+}
+
+
+
+
+
+
+
+/** merged from new_style.css end */
+<<<<<<< HEAD
+
+=======
+.job_detail_cnt  div.container{
+  padding:10px; 
+}
+
+.job_detail_cnt div.padding-15{
+  padding-left: 25px;
+}
+
+p.first{
+    padding-bottom: 5px;
+    padding-left: 5px;
+	margin-top:5px;
+   }
+   
+   
+>>>>>>> jannson
+
+.shoucang_job{
+  padding-left: 15px;
+  background: url("/fanstatic/mba/img/shoucang_job.png") no-repeat scroll 0 5px rgba(0, 0, 0, 0);
+}
+
+
+
+div.jianli_manage{
+  background-color: #F7F7F6;
+  border: 1px solid #CDC9C4;
+
+  height: 38px;
+  height: 42px;
+  font-size: 20px;
+} 
+
+
+div.jianli_manage span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+.right_list_cnt{
+  border-left: 1px solid #CDC9C4;
+  border-right: 1px solid #CDC9C4;
+  border-bottom: 1px solid #CDC9C4;
+}
+
+.job_link{
+  color: #2C60C7;
+}
+
+.right_list_item{
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  margin-left: 10px;
+}
+
+
+
+
+
+#gaoxin_job > thead > tr > th {
+  text-align: left;
+}
+
+
+#gaoxin_job > tbody > tr{
+  border-bottom:  1px dashed rgb(240,238,239);
+}
+
+#gaoxin_job{
+  margin-top: 20px;
+  background-color: rgb(240,238,239);
+  border: 2px solid rgb(240,238,239);
+}
+
+
+#person_info{
+  border:1px solid RGB(199,199,199);
+<<<<<<< HEAD
+=======
+      display:inline-block;
+      background-repeat: no-repeat;
+>>>>>>> jannson
+}
+
+  #person_info .info_auth,.activity_auth,.friend_auth
+  {
+<<<<<<< HEAD
+      width:74px;
+      height: 21px;
+      display:inline-block; 
+      margin-right: 2px;
+  }
+.person_info_absolute{
+  position: absolute;
+  left: 115px;
+=======
+      /*width:74px;*/
+      /*height: 21px;*/
+      display:inline-block;
+      background-repeat: no-repeat;
+      /*margin-right: 2px;*/
+  }
+.person_info_absolute{
+  position: absolute;
+  left: 100px;
+>>>>>>> jannson
+  top: 20px;
+}
+
+#job_manange{
+  background-color: rgb(243,160,2);
+  height: 50px;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  font-size: 26px;
+  margin: 10px 0;
+}
+
+.search_cnt_normal{
+  background-color: #2283D7;
+  padding-left: 20px;
+  height: 80px;
+  padding-top: 20px;
+}
+
+.btn-search-normal{
+  background: url('/fanstatic/mba/img/botton_sprites.png') no-repeat -300px 0px;
+  width: 200px;
+  height: 40px;
+}
+
+<<<<<<< HEAD
+/* below should be commented because it defined before */
+=======
+/* below should be commented because it defined before
+ TODO: All this images should be placed in one big spirit image to reduce bandwidth overload
+*/
+>>>>>>> jannson
+/*#person_info .info_auth{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
+/*#person_info .activity_auth{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
+
+ /*#person_info .friend_auth{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
+
+  /*#person_info.info_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/info_auth.png");*/
+  /*}*/
+
+  /*#person_info .activity_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/activity_auth.png");*/
+  /*}*/
+
+  /*#person_info .friend_auth_disable{*/
+    /*background-image: url("/fanstatic/mba/img/friend_auth.png");*/
+  /*}*/
+
+.shoucang_job{
+  padding-left: 15px;
+  background: url("/fanstatic/mba/img/shoucang_job.png") no-repeat scroll 0 5px rgba(0, 0, 0, 0);
+}
+
+div.jianli_manage{
+  background-color: #F7F7F6;
+  border: 1px solid #CDC9C4;
+  height: 38px;
+  height: 42px;
+  font-size: 20px;
+} 
+
+
+div.jianli_manage span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.right_list_cnt{
+  border-left: 1px solid #CDC9C4;
+  border-right: 1px solid #CDC9C4;
+  border-bottom: 1px solid #CDC9C4;
+}
+
+.job_link{
+  color: #2C60C7;
+}
+
+.right_list_item{
+  margin-bottom: 5px;
+  padding-bottom: 4px;
+  margin-left: 10px;
+}
+
+#gaoxin_job > thead > tr > th {
+  text-align: left;
+}
+
+#gaoxin_job > tbody > tr{
+  border-bottom:  1px dashed rgb(240,238,239);
+}
+
+.inline-block{
+  display: inline-block;
+}
+
+.job_manage{
+  background-color: rgb(247,247,247);
+}
+
+.mt50{
+  margin-top: 78px;
+
+}
+
+.pt25{
+  padding-top: 25px;
+}
+
+.job_title_cnt{
+  background-color: #D0EFFF;
+  height:80px;
+  vertical-align: middle;
+  /*line-height: 80px;*/
+  padding:18px 15px;
+}
+
+.job_detail_cnt{
+  background-color: white;
+}
+
+.company_detail_cnt{
+  background-color: white;
+  padding: 10px 10px 10px 15px;
+}
+
+p.company_detail_info{
+ line-height: 28px;
+letter-spacing: 1px;
+}
+
+.job_detail_part_cnt{
+  padding:20px 10px;
+}
+
+div.left{
+  float: left;
+}
+
+div.right{
+  float: right;
+}
+
+h4.job_company{
+
+}
+
+.btn_job_shenqing{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -90px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 150px;
+}
+
+.btn_job_shenqing2{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+    margin-right: 20px;
+}
+
+.btn_job_shoucang{
+    background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+}
+
+h2.company_name{
+  margin-bottom: 15px;
+}
+
+.company_part_title
+{
+  background-color: #ECF6FF;
+  height: 30px;
+  line-height: 30px;
+  margin: 15px 0px;
+  padding-left:5px; 
+}
+
+
+div.job_relative{
+  background-color: #F7F7F6;
+  background-color: #E2E0DB;
+  border: 1px solid #CDC9C4;
+  height: 38px;
+  height: 42px;
+  font-size: 18px;
+} 
+
+
+div.job_relative span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.more_job{
+  color: RGB(27,110,180);
+  /*float: right;*/
+  position: relative;
+  right:0px;
+<<<<<<< HEAD
+  padding-right: 15px;
+  cursor: pointer;
+=======
+ padding-right: 15px;
+  cursor: pointer;
+  padding-left: 10px;
+  margin-bottom: 10px;
+>>>>>>> jannson
+  background: url("/fanstatic/mba/img/go.png") no-repeat right;
+}
+
+
+
+
+
+/** merged from laoyang css begin **/
+
+.inline-block{
+  display: inline-block;
+}
+
+
+
+.job_manage{
+  background-color: rgb(247,247,247);
+}
+
+.mt50{
+  margin-top: 78px;
+
+}
+
+.pt25{
+  padding-top: 25px;
+}
+
+.job_title_cnt{
+  background-color: #D0EFFF;
+  height:80px;
+  vertical-align: middle;
+  /*line-height: 80px;*/
+  padding:18px 15px;
+}
+
+.job_detail_cnt{
+  background-color: white;
+}
+
+.company_detail_cnt{
+  background-color: white;
+  padding: 10px 10px 10px 15px;
+}
+
+p.company_detail_info{
+ line-height: 28px;
+letter-spacing: 1px;
+}
+
+.job_detail_part_cnt{
+  padding:20px 10px;
+}
+
+div.left{
+  float: left;
+}
+
+div.right{
+  float: right;
+}
+
+h4.job_company{
+
+}
+
+.btn_job_shenqing{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -90px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 150px;
+<<<<<<< HEAD
+=======
+	border: 0px none;
+>>>>>>> jannson
+}
+
+.btn_job_shenqing2{
+  background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+    margin-right: 20px;
+<<<<<<< HEAD
+}
+
+.btn_job_shoucang{
+    background: url("/fanstatic/mba/img/tpage-bg.png") no-repeat scroll -5px -135px rgba(0, 0, 0, 0);
+    height: 40px;
+    width: 148px;
+=======
+	border: 0px none;
+}
+
+.btn_job_shoucang{
+    background: url("/fanstatic/mba/img/shoucang_job_btn.png") no-repeat scroll rgba(0, 0, 0, 0);
+    height: 44px;
+	width: 164px;
+	border: 0px none;
+}
+
+.btn_job_shoucang:hover{
+    background: url("/fanstatic/mba/img/shoucang_job_btn_hover.png") no-repeat scroll rgba(0, 0, 0, 0);
+}
+
+.job_detail_btn_container{
+margin-bottom:15px;
+margin-left:15px;
+>>>>>>> jannson
+}
+
+h2.company_name{
+  margin-bottom: 15px;
+}
+
+.company_part_title
+{
+  background-color: #ECF6FF;
+  height: 30px;
+  line-height: 30px;
+  margin: 15px 0px;
+  padding-left:5px; 
+}
+
+
+div.job_relative{
+  background-color: #F7F7F6;
+  background-color: #E2E0DB;
+  border: 1px solid #CDC9C4;
+  height: 38px;
+  height: 42px;
+  font-size: 18px;
+} 
+
+
+div.job_relative span{
+  background-color: #E2E0DB;
+  height: 42px;
+  line-height: 42px;
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.more_job{
+  color: RGB(27,110,180);
+  /*float: right;*/
+  position: relative;
+  right:0px;
+  padding-right: 15px;
+  cursor: pointer;
+  background: url("/fanstatic/mba/img/go.png") no-repeat right;
+}
+
+.job-detail-grid-cnt{
+  padding-bottom: 20px;
+}
+
+.search_cnt2{
+ /* background-color: RGB(72,190,234);*/
+ /* background: url('/fanstatic/mba/img/search_bg.png') repeat-x;*/
+  background-color: #D0E9F3;
+  border: 1px solid RGB(72,190,234);
+  height: 134px;
+<<<<<<< HEAD
+=======
+  line-height:134px;
+  padding-left:15px;
+}
+
+.no_padding{
+  padding: 0px;
+>>>>>>> jannson
+}
+
+#btn-search{
+  background: url('/fanstatic/mba/img/btn_search.png') no-repeat;
+  width: 82px;
+  height:82px;
+}
+
+/***************分页******************/
+.jPaginate {
+  height:34px;
+  position:relative;
+  color:#a5a5a5;
+  font-size:small;
+  /*width:100%;*/
+  width: 380px;
+}
+.jPaginate a {
+  line-height:15px;
+  height:18px;
+  cursor:pointer;
+  padding:2px 5px;
+  margin:2px;
+  float:left;
+}
+.jPag-control-back {
+  position:absolute;
+  left:0px;
+}
+.jPag-control-front {
+  position:absolute;
+  top:0px;
+}
+.jPaginate span {
+  cursor:pointer;
+}
+ul.jPag-pages {
+  float:left;
+  list-style-type:none;
+  margin:0px 0px 0px 0px;
+  padding:0px;
+}
+ul.jPag-pages li {
+  display:inline;
+  float:left;
+  padding:0px;
+  margin:0px;
+}
+ul.jPag-pages li a {
+  float:left;
+  padding:2px 5px;
+}
+span.jPag-current {
+  cursor:default;
+  font-weight:normal;
+  line-height:15px;
+  height:18px;
+  padding:2px 5px;
+  margin:2px;
+  float:left;
+}
+ul.jPag-pages li span.jPag-previous, ul.jPag-pages li span.jPag-next, span.jPag-sprevious, span.jPag-snext, ul.jPag-pages li span.jPag-previous-img, ul.jPag-pages li span.jPag-next-img, span.jPag-sprevious-img, span.jPag-snext-img {
+  height:22px;
+  margin:2px;
+  float:left;
+  line-height:18px;
+}
+ul.jPag-pages li span.jPag-previous, ul.jPag-pages li span.jPag-previous-img {
+  margin:2px 0px 2px 2px;
+  font-size:12px;
+  font-weight:bold;
+  width:10px;
+}
+ul.jPag-pages li span.jPag-next, ul.jPag-pages li span.jPag-next-img {
+  margin:2px 2px 2px 0px;
+  font-size:12px;
+  font-weight:bold;
+  width:10px;
+}
+span.jPag-sprevious, span.jPag-sprevious-img {
+  margin:2px 0px 2px 2px;
+  font-size:18px;
+  width:15px;
+  text-align:right;
+}
+span.jPag-snext, span.jPag-snext-img {
+  margin:2px 2px 2px 0px;
+  font-size:18px;
+  width:15px;
+  text-align:right;
+}
+ul.jPag-pages li span.jPag-previous-img {
+  background:transparent url(/fanstatic/mba/img/previous.png) no-repeat center right;
+}
+ul.jPag-pages li span.jPag-next-img {
+  background:transparent url(/fanstatic/mba/img/next.png) no-repeat center left;
+}
+span.jPag-sprevious-img {
+  background:transparent url(/fanstatic/mba/img/sprevious.png) no-repeat center right;
+}
+span.jPag-snext-img {
+  background:transparent url(/fanstatic/mba/img/snext.png) no-repeat center left;
+}
+/*************************************/
+
+
+
+
+
+.job_resume_nav_cnt{
+  margin-top:77px;
+  background-color: #0066AC;
+  height:45px;
+  width:100%;
+}
+
+.no-border{
+  border: 0px;
+}
+
+
+ul.nav-tabs > li.active > a, ul.nav-tabs > li.active > a:hover, ul.nav-tabs > li.active > a:focus{
+  background-color: #00C1F3;
+  color: white;
+}
+
+.job-manage-create-resume-btn{
+  background: url(/fanstatic/mba/img/create_resume_btn_bg.png);
+  padding-left: 30px;
+  width:109px; 
+  height: 30px;
+  margin-right: 10px;
+}
+
+<<<<<<< HEAD
+=======
+.job-manage-create-resume-btn{
+  background: url(/fanstatic/mba/img/create_resume_btn_bg.png);
+  padding-left: 30px;
+  width:109px; 
+  height: 30px;
+  margin-right: 10px;
+}
+
+
+.job-manage-resume-cnt{
+  border: 1px solid #D4D1CC;
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+
+.job-manage-resume-cnt{
+  border: 1px solid #D4D1CC;
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+.job_detail_cnt  div.container{
+  padding:10px; 
+}
+.job-manage-create-resume-btn{
+  background: url(/fanstatic/mba/img/create_resume_btn_bg.png);
+  padding-left: 30px;
+  width:109px; 
+  height: 30px;
+  margin-right: 10px;
+}
+
+>>>>>>> jannson
+
+.job-manage-resume-cnt{
+  border: 1px solid #D4D1CC;
+  background-color: white;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+<<<<<<< HEAD
+=======
+
+.company-scale{
+	margin-right:10px;
+}
+>>>>>>> jannson
+/** merged from laoyang css end **/

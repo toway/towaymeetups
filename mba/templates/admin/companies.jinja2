@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
+
+        <script src="fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <br/>
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        {%  include "/admin/menu.jinja2" %}
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                         {% include "messages.jinja2" %}
+
+                        <h2>所有用户</h2>
+
+                        {% include "/admin/pagination.jinja2" %}
+
+                        <form name="companies_mgmt"  method="POST" >
+
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th>ID</th>
+                                <th>公司名字</th>
+                                <th>公司性质</th>
+                                <th>公司规模</th>
+                                <th>公司行业</th>
+                                <th>操作</th>
+                            </tr>
+                            {% for company in companies %}
+                                <tr>
+                                    <td>
+<a style="text-decoration: underline;color: #0000ff" target="_blank" href="/job-company?id={{ company.id }}">{{ company.id }}</a></td>
+                                    <td>{{ company.name }}</td>
+                                    <td>{{ company.type_info }}</td>
+                                    <td>{{ company.scope }}</td>
+                                    <td>{{ company.industry }}</td>
+                                    <td><a style="text-decoration: underline;color: #0000ff" target="_blank" href="/admin/position/add/{{company.id}}">添加职位</a></td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </table>
+
+
+
+
+                        </form>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+
+        {% include "inc/js.jinja2" %}
+
+
+    </body>
+</html>

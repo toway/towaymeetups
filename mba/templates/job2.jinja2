@@ -103,7 +103,7 @@ function do_search() {
                                 </thead>    
 				{% for pos in pos_normals %}
                               <tr> 
-				      <td class="job_link">{{pos.title}}</td>  
+				      <td class="job_link"><a href="/job-detail/{{pos.id}}">{{pos.title}}</a></td>  
 				      <td>{{pos.city}}</td>
 				      <td>{{pos.end_date}}</td>
 				      <td>{{pos.salary}}</td>
@@ -124,9 +124,9 @@ function do_search() {
                                 </thead>
 				{% for pos in pos_huntings %}
                               <tr> 
-				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
+				      <td class="job_link"><a href="job-detail/{{pos.id}}">【{{pos.hunting_type|kind_name}}】</a></td>  
                                 <td>
-					<p>{{pos.company_name}}</p>
+					<p>{{pos.company.name}}</p>
 					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}</span>
 					<span>薪资:{{pos.salary}}</span></p>
                                 </td>
@@ -155,7 +155,7 @@ function do_search() {
                               <tr> 
 				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
-					<p>{{pos.title}}</p>
+					<p>{{pos.company_name}}</p>
 					<p><span class="inline-block company-scale">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>

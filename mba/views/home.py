@@ -29,6 +29,7 @@ from mba import _
 from mba.utils.decorators import wrap_user
 from mba.views.meetups import query_meetups
 from mba.views.person import persons_maybe_know
+from mba.views.position import query_by_cities
 
 __author__ = 'sunset'
 __date__ = '20140525'
@@ -64,6 +65,7 @@ def view_home(context, request):
     d.update(query_banners(request))
     d.update(persons_maybe_know(user))
     d.update({'application_url': request.application_url})
+    d.update({'all_pos': query_by_cities()})
     return d
 
 
