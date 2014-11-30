@@ -665,6 +665,7 @@ class Student(MbaUser):
 
 
     resume = relationship('Resume', backref='user', uselist=False)
+    #resumes = relationship('Resume', backref='user')
 
     def __init__(self, name, real_name='', birth_date=None, school=u"", school_year=0
             , company=u"", industry=u"", special_skill=u"", interest=u"", between=u"", introduction=u"", **kwargs):
@@ -766,7 +767,10 @@ class Skill(Base):
         return [rel.resume for rel in self.resume_items]
 
 class Resume(Base):
+    #id = Column(Integer, primary_key=True)
+    #user_id = Column(Integer, ForeignKey('mba_users.id'))
     id = Column(Integer, ForeignKey('mba_users.id'), primary_key=True)
+    title = Column(String(250))
     create_date = Column(DateTime(), default=datetime.utcnow)
     modify_date = Column(DateTime(), default=datetime.utcnow, onupdate=datetime.utcnow)
     _skills = relationship('ResumeSkill', backref='resume')
@@ -853,7 +857,7 @@ class Position(Document):
         addable_to=[u'Position'],
         )
 
-# row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
+row2dict = lambda r: {c.name: getattr(r, c.name) for c in r.__table__.columns}
 
 
 class Banner(Base):
