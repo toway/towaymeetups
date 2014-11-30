@@ -1661,4 +1661,9 @@ div.index_part_info {
   _position:relative;
   _top:-50%;
  }
+ 
+ .bottom_page_link{
+ color:#A7B2BA;
+ margin-right:30px;
+ }
 /** merged from laoyang css end **/

@@ -24,7 +24,7 @@
 
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
-    <body>
+    <body style="overflow-x:hidden">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
@@ -34,8 +34,8 @@
 
         {% include "header.jinja2" %}
 
-        <div class="mba-margin-top mba-index">
-            <div class=" index-body">
+        <div class="mba-margin-top mba-index" style="background-color:white;">
+            <div class=" index-body" style="padding-bottom:0px;">
 
                 <div class="jumbotron-index">
                     <center>
@@ -46,7 +46,7 @@
                 </div>
 
 
-                <div class="index-news">
+                <div class="index-news" style="margin-bottom:0px;">
  
                        
                         {% for meetup in meetups %}
@@ -84,7 +84,7 @@
 	
 									 <div class="col-md-5" style="padding-top:90px">
 										<p class="info_title">与<strong>精英</strong>结伴成长</p>
-										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+										<p class="info_detail">我们实施严格的邀约审批机制，保证会员真实、优秀，相比会员数量，我们更关注和谁结伴成长</p>
 									 </div>  
 	
 							</div>
@@ -101,7 +101,7 @@
 	
 									 <div class="col-md-5" style="padding-top:90px">
 										<p class="info_title">让社会生产<strong>价值</strong></p>
-										<p class="info_detail">我们用心打造多维度的品质生活，助力事业，丰富生活，已有6000余人次亲情相会</p>
+										<p class="info_detail">我们主推社交生产价值，已撮合志友间人才匹配、生意合作、互相帮忙等多个成果，这是我们致力于强化发展的平台力量</p>
 									 </div>  
 	
 							</div>
@@ -114,14 +114,16 @@
 
             </div>
 
-            <div class="index-footer">
+            <div class="index-footer" style="background-color:#052754;color:#A7B2BA;height:auto">
                 <hr/>
                 <div class="row index-partner">
 
-                    <div class="col-md-8 col-md-offset-2">
-                        <span><b>合作伙伴：</b></span>
-                        <span class="partner-list">腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技 腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技 腾讯科技 雷锋网 站长之家 天使汇 人人都是产品经理 极客公园 雷科技</span>
-                    </div>
+                    <div class="" style="margin:0px auto;text-align:center">
+                        <span style=""font-size="14px"><b>合作伙伴：</b></span>
+                        <span class="partner-list" style="color:#A7B2BA;">腾讯科技     雷锋网    站长之家    天使汇    人人都是产品经理    极客公园    雷科技    腾讯科技    雷锋网 </span>
+						<p><span class="bottom_page_link">关于志友网</span><span class="bottom_page_link">志友网动态</span><span class="bottom_page_link">联系方式</span><span class="bottom_page_link">对外合作</span><span class="bottom_page_link">招贤纳士</span></p>
+						<p><span class="bottom_page_link">copyright@2013-2014  深圳智友汇科技有限公司</span>
+					</div>
                 </div>
             </div>
 
