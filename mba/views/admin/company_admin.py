@@ -90,7 +90,7 @@ def admin_company_add(context, request):
             company = CompanyInfo(**appstruct)
             DBSession.add(company)
             DBSession.flush()
-            url = '/job-company/%d' % company.id
+            url = '/job-company?id=%d' % company.id
             return HTTPFound(location=url)
 
     if rendered_form is None:

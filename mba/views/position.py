@@ -70,6 +70,11 @@ def job_view(context, request):
     if not user:
         raise UserNotFount()
 
+    #TODO one user one resume
+    if not user.resume:
+        user.resume = Resume(title=u'默认简历')
+        DBSession.flush()
+
     pos_normals = DBSession.query(Position).order_by(Position.salary.desc())[0:5]
     pos_huntings = DBSession.query(Position).order_by(Position.create_date.desc())[0:5]
 
@@ -94,7 +99,8 @@ def job_view(context, request):
             'pos_normals':pos_normals,
             'pos_huntings':pos_huntings,
             'pos_like': pos_like,
-            'manager_info':manager_info
+            'manager_info':manager_info,
+            'resume_id': user.resume.id
             }
 
 @view_config(route_name='job_manager', renderer='manager_info.jinja2')
@@ -136,6 +142,7 @@ def job_detail_view(context, request):
             }
 
 @view_config(route_name='job_company_info', renderer='job2_company_info.jinja2')
+@wrap_user
 def job_companyinfo_view(context, request):
     jquery.need()
 
@@ -168,7 +175,7 @@ def job_postit_view(context, request):
     user = get_user(request)
 
     if not user.resume:
-        user.resume = Resume()
+        user.resume = Resume(title=u'默认简历')
         DBSession.flush()
 
     dup = False
