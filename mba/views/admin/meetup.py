@@ -348,7 +348,7 @@ def view_meetup_entry(page_index=1, num_per_page=10):
             'num_per_page':num_per_page,
             'page_index': 1}
 
-@view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='view')
+@view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='manage')
 @wrap_user
 def view_admin_home(request):
     return view_meetup_entry()

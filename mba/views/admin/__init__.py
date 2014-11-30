@@ -37,15 +37,13 @@ __date__ = '20140614'
 
 def includeme(config):
 
-
     config.include("mba.views.admin.infomation")
     config.include("mba.views.admin.meetup_types")
     config.include("mba.views.admin.persons")
     config.include("mba.views.admin.banners")
     config.include("mba.views.admin.meetup")
     config.include("mba.views.admin.review")
-
-
-
+    config.include("mba.views.admin.company_admin")
+    config.include("mba.views.admin.position_admin")
 
     config.scan(__name__)

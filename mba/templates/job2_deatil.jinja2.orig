@@ -246,6 +246,7 @@
 				});
 
 		$("#shengqing2").click(function() {
+       console.log(this_id);
 				applyit(this_id);
 				});
 

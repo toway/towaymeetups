@@ -61,115 +61,6 @@ def KindName(s):
     ss = [u'公司',u'猎头']
     return ss[s]
 
-default_date = datetime.strptime('1990-1-1','%Y-%m-%d').date()
-class PositionSchema(ContentSchema):
-    title = colander.SchemaNode(colander.String(), title=_(u"职位名字"))
-    degree = colander.SchemaNode(colander.String(), title=_(u"学位要求"))
-    experience = colander.SchemaNode(colander.String(), title=_(u"经验要求"))
-    salary = colander.SchemaNode(colander.Integer(), title=_(u"待遇"))
-    
-    city_name = colander.SchemaNode(
-            colander.String(),
-            title = u'城市',
-        )
-
-    hunting_type = colander.SchemaNode(
-        colander.Integer(),
-        title=_(u'职位类型'),
-        widget = deform.widget.SelectWidget(values=[ (0, _(u"公司")), (1, _(u"猎头")) ])
-    )    
-
-    public_date = colander.SchemaNode(
-            colander.Date(),
-            #'%Y-%m-%d %H:%M:%S'
-            default=default_date,
-            title=_(u"发布时间"),
-            )
-    end_date = colander.SchemaNode(
-            colander.Date(),
-            #'%Y-%m-%d %H:%M:%S'
-            default=default_date,
-            title=_(u"结束时间"),
-            )
-    body = colander.SchemaNode(
-            colander.String(),
-            title = u'内容',
-            widget=RichTextWidget(theme='modern'
-                , template = 'richtext.jinja2'
-                , width=790
-                , height=500),
-        )
-
-
-class PositionAddForm(AddFormView):
-    schema_factory = PositionSchema
-    add = Position
-    item_type = _(u"职位")
-    company_id = 1
-
-    def __init__(self, context, request, **kwargs):
-        context = DBSession.query(Node).filter_by(name="position").one()
-        AddFormView.__init__(self, context, request, **kwargs)
-        try:
-            self.company_id = request.params['cid']
-        except:
-            pass
-
-    def save_success(self, appstruct):
-        appstruct.pop('csrf_token', None)
-        name = self.find_name(appstruct)
-        print self.add
-        new_item = self.context[name] = self.add(company_id=self.company_id, **appstruct)
-        self.request.session.flash(self.success_message, 'success')
-        location = self.success_url or self.request.resource_url(new_item)
-        print new_item.id
-        return HTTPFound(location=location)
-
-class CompanySchema(colander.Schema):
-    name = colander.SchemaNode(colander.String(), title=_(u"公司名字"))
-    type_info = colander.SchemaNode(colander.String(), title=_(u"公司性质"))
-    scope = colander.SchemaNode(colander.String(), title=_(u"公司规模"))
-    industry = colander.SchemaNode(colander.String(), title=_(u"公司行业"))
-    location = colander.SchemaNode(colander.String(), title=_(u"公司地址"))
-    description = colander.SchemaNode(
-            colander.String(),
-            title = u'公司描述',
-            widget=RichTextWidget(theme='modern'
-                , template = 'richtext.jinja2'
-                , width=790
-                , height=500),
-        )
-
-@view_config(route_name='add_company', renderer='col_test.jinja2')
-@wrap_user
-def company_add(context, request):
-    schema = CompanySchema().bind(request=request)
-
-    form = deform.Form(schema, buttons=('Save', 'Cancel')) ;
-    rendered_form = None
-
-    if 'Save' in request.POST:
-        try:
-            appstruct = form.validate(request.POST.items())
-        except ValidationFailure, e:
-            request.session.flash(_(u"添加失败" ), 'error')
-            rendered_form = e.render()
-        else:
-            company = CompanyInfo(**appstruct)
-            DBSession.add(company)
-            DBSession.flush()
-            url = '/job-company/%d' % company.id
-            return HTTPFound(location=url)
-
-    if rendered_form is None:
-        rendered_form = form.render(request.params)
-
-    return  {'form': jinja2.Markup(rendered_form)}
-
-@view_config(route_name='edit_company', renderer='col_test.jinja2')
-def company_edit(context, request):
-    pass
-
 @view_config(route_name='job_view', renderer='job2.jinja2')
 @wrap_user
 def job_view(context, request):
@@ -179,8 +70,8 @@ def job_view(context, request):
     if not user:
         raise UserNotFount()
 
-    pos_normals = DBSession.query(Position).filter_by(hunting_type=0).order_by(Position.salary.desc())[0:5]
-    pos_huntings = DBSession.query(Position).filter_by(hunting_type=1).order_by(Position.salary.desc())[0:5]
+    pos_normals = DBSession.query(Position).order_by(Position.salary.desc())[0:5]
+    pos_huntings = DBSession.query(Position).order_by(Position.create_date.desc())[0:5]
 
     interest = ""
     if user.interest:
@@ -219,6 +110,7 @@ def job_manager_view(context, request):
 @view_config(route_name='job_detail', renderer='job2_deatil.jinja2')
 @wrap_user
 def job_detail_view(context, request):
+    jquery.need()
     pos_id = request.matchdict['id']
     pos_id = int(pos_id)
     
@@ -245,9 +137,11 @@ def job_detail_view(context, request):
 
 @view_config(route_name='job_company_info', renderer='job2_company_info.jinja2')
 def job_companyinfo_view(context, request):
-    id = request.matchdict['id']
-    id = int(id)
+    jquery.need()
+
     try:
+        id = request.params['id']
+        id = int(id)
         company = DBSession.query(CompanyInfo).get(id)
     except:
         pass
@@ -367,19 +261,27 @@ def job_search(context, request):
             'results':results
             , 'result_len':len(results)}
 
+def query_by_cities():
+    cities = [(u"深圳","sz"), (u"广州","gz"), (u"上海","sh") , (u"北京","bj") ]
+    other_filter = None
+    cities_set = {}
+    cnt = 5
+    for c in cities:
+        cities_set[c[1]] = DBSession.query(Position).filter(Position.city_name == c[0]).order_by(Position.create_date.desc())[0:cnt]
+        if other_filter is None:
+            other_filter = (Position.city_name != c[0])
+        else:
+            other_filter = and_(other_filter, (Position.city_name != c[0]))
+    cities_set['others'] = DBSession.query(Position).filter(other_filter).order_by(Position.create_date.desc())[0:cnt]
+    cities_set['all'] = DBSession.query(Position).order_by(Position.create_date.desc()).all()[0:cnt]
+    return cities_set
+
 def includeme(config):
-    config.add_view(
-        PositionAddForm,
-        name=Position.type_info.add_view,
-        renderer='col_test.jinja2',
-        )
-    config.add_route('add_company','/add-company')
-    config.add_route('edit_company','/edit-company')
     config.add_route('job_view','/job')
     config.add_route('job_detail','/job-detail/{id:\d+}')
     config.add_route('job_postit','/job-postit/{id:\d+}')
     config.add_route('job_collect','/job-collect/{id:\d+}')
-    config.add_route('job_company_info','/job-company/{id:\d+}')
+    config.add_route('job_company_info','/job-company')
     config.add_route('job_shenqing','/job-apply')
     config.add_route('job_combine','/job-combine')
     config.add_route('job_real','/job-real')

@@ -111,7 +111,7 @@
                                 </thead>
 				{% for pos in pos_huntings %}
                               <tr> 
-				      <td class="job_link">【{{pos.KindName}}】</td>  
+				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
 					<p><span class="inline-block">公司规模:{{pos.company.scope}}</span>
