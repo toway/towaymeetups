@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+        <link rel="stylesheet" href="static/css/default/zebra_dialog.css" type="text/css">
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+        
+    </head>
+    <style type="text/css">
+.mba-resume-refresh
+{
+  background:url("static/img/resume_refresh.jpg") no-repeat center;
+}
+
+.resume_operate{
+  cursor: pointer;
+}
+    </style>
+    <body class="job_manage">
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+
+
+        {% include "header.jinja2" %}
+        <div id="" class="job_resume_nav_cnt">
+            <div style="padding:0px;margin:0px auto;width:500px;height:45px;border:0px">
+                <ul class="nav nav-tabs no-border">
+                    <li class="active"><a  data-toggle="tab" data-target="" href="#resume_manage">简历管理</a></li>
+                    <li ><a data-toggle="tab" href="#resume_sended">投递的记录</a></li>
+                    <li ><a data-toggle="tab" href="#resume_fav">收藏的职位</a></li>
+                </ul>
+            </div>
+        </div>
+
+       
+
+    <div class="tab-content">   
+        <div class="tab-pane active container pt25" id="resume_manage">
+            <span style="padding-left:15px;">王大汉，您好</span>     
+            <div class="col-md-12 job-manage-resume-cnt">
+                <p style="background-color:#ECF6FF;height:30px;line-height:30px">
+                   <button type="button" class="btn btn-default job-manage-create-resume-btn">创建新求职信</button><span>共可创建6份，还可创建5份</span>
+                </p>
+                <hr>
+                <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
+                        <thead>  
+                            <tr style="background-color:#338EDF;color:white">  
+                              <th>修改日期</th>  
+                              <th>简历名称</th>  
+                              <th>刷新</th> 
+                              <th>修改</th> 
+                              <th>预览</th>
+                              <th>公开设置</th>
+                              <th>简历删除</th>  
+                            </tr>  
+                          </thead>  
+                          <tbody>  
+                            <tr> 
+                              <td>2014-7-7</td>  
+                              <td>王大汉简历</td>
+                              <td><a class="resume-manage-refersh"><img src="static/img/resume_manage_refresh.png"></a></td>
+                              <td><a><img src="static/img/resume_manage_edit.png"></a></td>
+                              <td><a><img src="static/img/resume_manage_preview.png"></a></td>
+                              <td>开放</td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                              
+                            </tr>  
+                            </tbody>
+                    </table>
+
+                  
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane  container pt25" id="resume_sended">
+            <span style="padding-left:15px;">王大汉2，您好</span>     
+            <div class="col-md-12 job-manage-resume-cnt">
+                <p style="background-color:#ECF6FF;height:30px;line-height:30px">
+                   <span>您在最近90天内申请了20个职位</span>
+                </p>
+                <hr>
+                <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
+                        <thead>  
+                            <tr style="background-color:#338EDF;color:white">  
+                              <th>投递时间</th>  
+                              <th>职位名称</th>  
+                              <th>公司名称</th> 
+                              <th>工作地点</th> 
+                              <th>相似职位</th>
+                            </tr>  
+                          </thead>  
+                          <tbody>  
+                            <tr> 
+                              <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr>
+                            <tr>
+                             <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr> 
+                            <tr>
+                             <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr>
+                            <tr> 
+                             <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr>
+                            <tr> 
+                             <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr>
+                            <tr> 
+                             <td>2014-7-7</td>  
+                              <td><p class="job_link">集团市场部经理</p></td>
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td><a class="job_link">相似职位</a></td>
+                            </tr>   
+                            </tbody>
+                  </table>
+                  <ul class="pagination">
+                    <li><a href="#">&laquo;</a></li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                  </ul>
+
+                  
+
+            </div>
+
+        </div>
+
+        <div class="tab-pane  container pt25" id="resume_fav">
+            <span style="padding-left:15px;">王大汉3，您好</span>     
+            <div class="col-md-12 job-manage-resume-cnt">
+                <p style="background-color:#ECF6FF;height:30px;line-height:30px">
+                   <span>您收藏的职位有效期为3个月</span>
+                </p>
+                <hr>
+                <table class="table table-hover table-striped table-bordered mba-resume-tbl">  
+                        <thead>  
+                            <tr style="background-color:#338EDF;color:white">  
+                              <th>职位名称</th>  
+                              <th>公司名称</th>  
+                              <th>工作地点</th> 
+                              <th>收藏时间</th> 
+                              <th>申请职位</th>
+                              <th>相似职位</th>
+                              <th>删除</th>  
+                            </tr>  
+                          </thead>  
+                          <tbody>  
+                            <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr> 
+                             <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr>
+                             <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr>
+                             <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr>
+                             <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr>
+                             <tr> 
+                             <td><input type="checkbox"/><span class="job_link">视觉设计师(深圳)</span></td>  
+                           
+                              <td><p class="job_link">深圳腾讯计算机有限公司</p></td>
+                              <td>深圳</td>
+                              <td>2014-7-7</td>
+                              <td><button class="btn btn-success">申请</button></td>
+                              <td><a class="job_link">相似职位</a></td>
+                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                            </tr>
+
+
+                            </tbody>
+                    </table>
+
+                   <div style="padding-left:10px;margin-bottom:10px;">
+                          
+                        <input id="slt_all" type="checkbox"/>全选 
+                      <button class="btn btn-warning" style="margin-left:20px;background-color:">申请选中职位</button><button class="btn btn-warning" style="margin-left:20px;background-color:">删除选中职位</button>
+                  </div>
+
+            </div>
+
+        </div>
+      </div>
+        
+      
+
+        {% include "footer.jinja2" %}
+
+
+
+
+
+
+
+
+       
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+
+        <!-- Bootstrap -->
+        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+
+        <script src="static/js/plugins.js"></script>
+
+        <script src="static/js/main.js"></script>
+        <script type="text/javascript" src="static/js/zebra_dialog.js"></script>
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+
+            $(".resume_operate").click(function(){
+              var url = $(this).attr("url");
+              console.log(url);
+              if(url)
+              {
+                location.href="./"+url;
+              } 
+            })
+
+            $(document).ready(function() {
+               $("li#li_job").parent().find("li").removeClass("active");
+               $("li#li_job").find("a").addClass("active");
+
+
+                $(".resume-manage-refersh").bind('click', function(e) {
+                    e.preventDefault();
+                    $.Zebra_Dialog('<p>简历刷新成功，您的简历将被企业优先搜索到</p><p>更新日期：2014-7-15</p>',{
+                      'type':     'information',
+                      'title':    '刷新简历'
+                    });
+                });
+
+                $(".resume-manage-delete").bind('click', function(e) {
+                    e.preventDefault();
+                    $.Zebra_Dialog('<p>简历删除后无法恢复，你确定要删除此简历吗?</p>',{
+                      'type':     'warning',
+                      'buttons':  [
+                            {caption: '确定', callback: function() { alert('"Yes" was clicked')}},
+                            {caption: '取消', callback: function() { alert('"No" was clicked')}}
+                        ],
+                      'title':    '删除简历'
+                    });
+                });
+
+
+                $("#slt_all").click(function() {
+               var checked = $(this).prop("checked");
+               if(checked)
+               {
+                  $("#resume_fav").find("input[type=checkbox]").prop("checked",true);
+               }
+               else
+               {
+                  $("#resume_fav").find("input[type=checkbox]").prop("checked",false);
+               }
+            })
+
+
+                 
+            })
+        </script>
+    </body>
+</html>
