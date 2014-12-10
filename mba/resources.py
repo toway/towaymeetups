@@ -787,6 +787,8 @@ class Resume(Base):
     trains = relationship('Train', cascade="save-update, merge, delete")
     langs = relationship('Language', cascade="save-update, merge, delete")
 
+    publicity = Column(Boolean, default=True)
+
     def order_jobs(self):
         jobs = self.jobs
         ids = dict([(obj.id,obj) for obj in jobs])

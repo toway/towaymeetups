@@ -71,20 +71,26 @@
                               <th>修改</th> 
                               <th>预览</th>
                               <th>公开设置</th>
-                              <th>简历删除</th>  
                             </tr>  
                           </thead>  
                           <tbody>  
+			  {% for resume in resumes %}
                             <tr> 
-                              <td>2014-7-7</td>  
-                              <td>王大汉简历</td>
-                              <td><a class="resume-manage-refersh"><img src="static/img/resume_manage_refresh.png"></a></td>
-                              <td><a><img src="static/img/resume_manage_edit.png"></a></td>
+                              <td>{{resume.modify_date.strftime("%Y-%m-%d")}}</td>  
+			      <td>{{resume.title}}</td>
+                              <td><a class="resume-manage-refersh" href="/resume-manager"><img src="static/img/resume_manage_refresh.png"></a></td>
+                              <td><a href="/resume_edit2/{{resume.id}}"><img src="static/img/resume_manage_edit.png"></a></td>
                               <td><a><img src="static/img/resume_manage_preview.png"></a></td>
-                              <td>开放</td>
-                              <td><a class="resume-manage-delete"><img src="static/img/resume_manage_delete.png"></a></td>
+                              <td>
+				      {% if resume.publicity %}
+				      开放
+				      {% else %}
+				      未开放
+				      {% endif %}
+			      </td>
                               
                             </tr>  
+			    {% endfor %}
                             </tbody>
                     </table>
 
