@@ -234,6 +234,7 @@ class ActSchema(colander.MappingSchema):
         )
 
 class ActAddForm(AddFormView):
+
     schema_factory = ActSchema
     add = Act
     
@@ -263,6 +264,7 @@ class ActAddForm(AddFormView):
         name = self.find_name(appstruct)
         #parent_id=get_act_root().id
         parent = get_act_root()
+        appstruct['__acl__'] = SITE_ACL
         new_item = parent[name] = self.add(default_view='test_view', **appstruct)
         self.request.session.flash(self.success_message, 'success')
         location = self.success_url or self.request.resource_url(new_item)
@@ -367,10 +369,10 @@ def includeme(config):
     config.add_route('admin_reviews','/admin/reviews')
 
     config.add_route('admin_meetup_add',  '/admin/meetup/add')
-    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2", permission='view')
+    config.add_view(ActAddForm, route_name='admin_meetup_add', renderer="admin/meetup_add.jinja2", permission='add')
 
     config.add_route('admin_meetup_edit',  '/admin/meetup/edit/{id}')
-    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2", permission='view')
+    config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2", permission='edit')
 
 
     config.add_view(

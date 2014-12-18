@@ -16,10 +16,49 @@ from sqlalchemy import or_, and_
 
 from mba.utils.decorators import wrap_user
 from mba.utils import RetDict
-from mba.resources import Message, MbaUser, Act
+from mba.resources import Message, MbaUser, Act, InvitationCode
+
+
+def view_or_generate_inviation_code(user):
+    generated = DBSession.query(InvitationCode).filter_by(sender_id=user.id).all()
+    if not generated:
+
+
+        # TODO: 根据用户组的权限生成相应数量的注册码，暂时为10个
+
+        print user.groups
+        count = 10
+        toadd = []
+
+        import hashlib
+        import datetime
+        def generate_invitation_code(ii):
+            # TODO: Fuck! I don't care about the code collision right now!
+            code = str(user.id * 100 + ii)
+            strcode = hashlib.md5(code).hexdigest()
+
+            return strcode[:6].upper()
+
+
+        now = datetime.datetime.now(tz=None)
+        for i in range(count):
+            code = generate_invitation_code(i)
+
+            expiration = now + datetime.timedelta(days = 7*(i+1))
+            toadd.append( InvitationCode(code=code,
+                                         sender_id=user.id,
+                                         receiver_id=None,
+                                         expiration=expiration
+                                         ) )
+
+        DBSession.add_all(toadd)
+        DBSession.flush()
 
 
 
+        generated = DBSession.query(InvitationCode).filter_by(sender_id=user.id).all()
+
+    return generated
 
 def get_messages(type, context, request):
     jquery.need()
@@ -49,6 +88,9 @@ def get_messages(type, context, request):
 
     elif type == 'view_invitation_meetup':
         messages = DBSession.query(Message).filter_by(reciever_id=cur_user.id, type=12).all()
+
+    elif type == 'view_invitation_code':
+        messages = view_or_generate_inviation_code(user)
 
     return {'type': type, 'messages': messages}
 
