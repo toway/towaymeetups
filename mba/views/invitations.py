@@ -12,9 +12,9 @@ from kotti.security import get_user
 
 from mba.utils.decorators import wrap_user
 from mba.utils import RetDict
-from mba.resources import MeetupInvitation
+from mba.resources import MeetupInvitation, InvitationCode
 
-
+## This file is abandoned now@@@!!!! by sunset 2014.12.18
 
 @view_config(route_name="invitations", renderer='invitations.jinja2')
 @wrap_user
@@ -22,11 +22,66 @@ def view_invatation(context, request):
     jquery.need()
     ret = {}
     if request.matchdict['type'] == 'meetup':
+        # 活动邀请
         ret['type']  = 'meetup'
 
 
     elif request.matchdict['type'] == 'person':
+        # 人脉邀请
         ret['type']  = 'person'
+
+    elif request.matchdict['type'] == 'code':
+        # 注册邀请码
+        user = get_user(request)
+
+        generated = DBSession.query(InvitationCode).filter_by(sender_id=user.id).all()
+        if not generated:
+
+
+            # TODO: 根据用户组的权限生成相应数量的注册码，暂时为10个
+
+            print user.groups
+            count = 10
+            toadd = []
+
+            import hashlib
+            import datetime
+            def generate_invitation_code(ii):
+                # TODO: Fuck! I don't care about the code collision right now!
+                code = str(user.id * 100 + ii)
+                strcode = hashlib.md5(code).hexdigest()
+
+                return strcode[:6].upper()
+
+
+            now = datetime.datetime.now(tz=None)
+            for i in range(count):
+                code = generate_invitation_code(i)
+
+                expiration = now + datetime.timedelta(days = 7*(i+1))
+                toadd.append( InvitationCode(code=code,
+                                             sender_id=user.id,
+                                             receiver_id=None,
+                                             expiration=expiration
+                                             ) )
+
+            DBSession.add_all(toadd)
+            DBSession.flush()
+
+
+
+            generated = DBSession.query(InvitationCode).filter_by(sender_id=user.id).all()
+
+
+        ret['invitation_code'] = generated
+
+
+
+
+
+
+        ret['type'] = 'code'
+
 
 
     return ret

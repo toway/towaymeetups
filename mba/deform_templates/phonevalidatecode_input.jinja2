@@ -11,6 +11,7 @@
 
 <button class="btn btn-sm btn-default" id="{{ field.oid }}-sms">发送短信</button>
 <span id="waittoresend" style="display: none">等待<span id="secwait">60</span>秒再发送...</span>
+<span id="testhint" style="display: none"></span>
 
 
 {% if field.widget.mask %}
@@ -52,11 +53,21 @@
                 return false;
             }
             $.post("/api/sendsms", {type: "0", phone: phone}, function(ret){
-                if( ret.errcode == ret.SUCCESS ){
-                    $("#waittoresend").show();
-                    $("#"+oid + "-sms").hide();
 
-                    setTimeout(timewaittoresend, 1000);
+
+
+                if( ret.errcode == ret.SUCCESS ){
+
+                    if( typeof(ret.retval) == 'object' && ret.retval.istest != 'undefined' ){
+                        $("#testhint").html("测试阶段，请填入验证码:"+ret.retval.code).show();
+
+                    }else {
+
+                        $("#waittoresend").show();
+                        $("#" + oid + "-sms").hide();
+                        setTimeout(timewaittoresend, 1000);
+                    }
+
                 }else{
                     alert("发送失败:"+ ret.errmsg);
                 }

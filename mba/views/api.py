@@ -36,27 +36,43 @@ def ajax_sms(request):
 
 
 
+
     if type == "0":
 
         def generate_random_code():
             return random.randint(1000,9999)
 
         # TO protect the server from SMS attack,
+        now = datetime.datetime.now(tz=None)
+
+        # 如果该IP在过去30min内尝试10次以上发送SMS， 封禁此IP
+        ip =  request.remote_addr
+        ips = DBSession.query(RegisterSms).filter_by(ip=ip).order_by(RegisterSms.id).all()
+
+        if len(ips) >= 10 and ( now - ips[9].send_datetime).seconds < 30 * 60:
+            return RetDict(errmsg=u"请务非法操作!")
+
+
+
         smss = DBSession.query(RegisterSms).filter_by(phonenum=phone).order_by(RegisterSms.id).all()
+
+
 
 
         if len(smss) != 0:
             if len(smss) >= 20:
                 return RetDict(errmsg=u"该手机号尝试注册超过20次,永远封禁!")
 
-            now = datetime.datetime.now(tz=None)
+
             last_send_time = smss[0].send_datetime
-            if now - last_send_time < 60 : # 距上次发送间隔小于60秒
+
+
+            if (now - last_send_time).seconds < 60 : # 距上次发送间隔小于60秒
                 return RetDict(errmsg=u"这样灌水也是挺累的,请歇息一会儿吧")
 
             sended_in_24hour = 0
             for sms in smss:
-                if now - sms.send_datetime <= 24*60*60: # less then One day
+                if (now - sms.send_datetime).seconds <= 24*60*60: # less then One day
                     sended_in_24hour += 1
                 else:
                     break
@@ -68,11 +84,17 @@ def ajax_sms(request):
 
         # No record: send sms
         code = generate_random_code()
-        result = sendsms(phonenum=phone, code=code)
+
+        # To deploy
+        # result = sendsms(phonenum=phone, code=code)
+
+        # for test purpose only below
+        result = RetDict(retval={'istest':True,'code':code})
+
 
         if result['errcode'] == result['SUCCESS']:
             # Send ok, write to the DB
-            rsms = RegisterSms(phonenum=phone, validate_code=code)
+            rsms = RegisterSms(phonenum=phone, validate_code=code, ip=ip)
             DBSession.add(rsms)
 
         return result

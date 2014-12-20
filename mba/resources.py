@@ -49,7 +49,7 @@ from kotti.interfaces import IDefaultWorkflow
 from kotti.migrate import stamp_heads
 from kotti.security import PersistentACLMixin
 from kotti.security import has_permission
-from kotti.security import view_permitted
+from kotti.security import view_permitted, SITE_ACL
 from kotti.security import Principals, get_principals
 from kotti.sqla import ACLType
 from kotti.sqla import JsonType
@@ -268,6 +268,8 @@ class MbaUser(Base):
     
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
+    phone = Column(Integer())
+    phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     title = Column(Unicode(100), nullable=False)
     title_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     email = Column(Unicode(100), unique=True)
@@ -278,8 +280,6 @@ class MbaUser(Base):
     sex = Column(Integer())
     type = Column(String(50), nullable=False)
 
-    invitation_code = Column(String(50))
-    invited_code = Column(String(50))
     
     # _interests = relationship("UserInterest", backref='user')
     interests = association_proxy(
@@ -498,6 +498,7 @@ from kotti.views.edit.content import Image
 # Act means activity
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+    __acl__ = SITE_ACL
     status = Column(Integer(), nullable=False, default=ActStatus.PUBLIC)
 
     headline = Column(Integer, nullable=False, default=HeadLine.NOT_TOP)
@@ -645,8 +646,7 @@ class Student(MbaUser):
     birth_date = Column(Date())
     identify_type = Column(Integer())
     identify = Column(String(30))
-    phone = Column(Integer())
-    phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
+
     home_number = Column(String(20))
     # location = Column(String(20)) # location is duplicated with city_name in MbaUser
     salary = Column(Integer())
@@ -889,4 +889,25 @@ class RegisterSms(Base):
     phonenum = Column(String(20))
     validate_code  = Column(String(20)) # 注册时发送的验证码
     send_datetime = Column(DateTime(), default=datetime.now(tz=None) )
+    ip = Column(String(50))
+
+
+
+
+class InvitationCode(Base):
+    '''注册邀请码表'''
+
+    [AVAILABLE, USED, EXPIRED ] = [0, 1, -1] # # 0, unused, 1: used. -1: unvailable
+
+    id = Column(Integer, primary_key=True)
+    code = Column(String(10))
+
+    sender_id = Column('sender_id', Integer, ForeignKey('mba_users.id'))
+    sender = relationship("MbaUser", foreign_keys="[InvitationCode.sender_id]")
+    receiver_id = Column('receiver_id', Integer, ForeignKey('mba_users.id'))
+    receiver = relationship("MbaUser", foreign_keys="[InvitationCode.receiver_id]",
+                                                backref=backref("invitation_code",
+                                                        cascade="all, delete-orphan"))
+    expiration = Column(DateTime() )
+    status = Column(Integer, default=AVAILABLE)
 

@@ -18,10 +18,13 @@
                             {% if user %}
                               <ul class="nav navbar-nav">
                                 <li id="li_index" class="active"><a href="/">首页</a></li>
-                                <li  id="li_card"><a href="/person/{{ user.id }}">我的名片</a></li>
+                                <li  id="li_card"><a href="/person/{{ user.id }}">名片</a></li>
+                                  <li  id="li_card"><a href="/infomations">信息</a></li>
                                 <li  id="li_meetups"><a href="/meetups">活动</a></li>
                                 <li  id="li_job"><a href="/job">求职</a></li>
-                                <li  id="li_admin"><a href="/admin">管理</a></li>
+{#                                  {% if 'role:admin' in user.groups %}#}
+                                      <li  id="li_admin"><a href="/admin">管理</a></li>
+{#                                  {% endif %}#}
 
                               </ul>
 

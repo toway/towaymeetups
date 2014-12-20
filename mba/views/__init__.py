@@ -10,6 +10,9 @@ def includeme(config):
 
     config.include('mba.views.meetups')
     config.include('mba.views.meetup')
+
+    config.include('mba.views.i_invitationcode')
+
     config.include('mba.views.review')
 
     config.include('mba.views.login')

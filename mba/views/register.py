@@ -36,7 +36,7 @@ from mba import _
 from mba.views.form import FormCustom
 from mba.security import get_student
 from mba.views.widget import PhoneValidateCodeInputWidget
-from mba.resources import MbaUser,Student
+from mba.resources import MbaUser,Student,InvitationCode
 
 # TODO groups for mba
 def _massage_groups_in(appstruct):
@@ -59,9 +59,9 @@ def name_new_validator(node, value):
 
 def invitation_code_validator(node, value):
     if value and \
-            DBSession.query(MbaUser).filter_by(invitation_code=value).first() is None:
+            DBSession.query(InvitationCode).filter_by(code=value, status=InvitationCode.AVAILABLE).first() is None:
         raise  colander.Invalid(
-            node, _(u"邀请码不存在"))
+            node, _(u"邀请码不存在或已经失效"))
 
 def confirm_password_validator(node, value):
     print node

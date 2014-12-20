@@ -233,7 +233,7 @@ ul { list-style-type: none; }
   border-right: 1px solid RGB(232,232,232);
   border-bottom: 1px solid RGB(232,232,232);
   
-  background:url("../images/my_resume_head_bg.jpg") repeat-x;
+ /*  background:url("/fanstatic/mba/images/my_resume_head_bg.jpg") repeat-x;*/
   border-top: 1px;
 }
 
@@ -251,6 +251,9 @@ ul { list-style-type: none; }
 .mba-right-nav{
 	background-color:RGB(234,243,238);
 	min-height: 120px;
+	border-right:2px solid #1264B0;
+	height:100%;
+	
 }
 
 .mba-right-nav-cnt{
