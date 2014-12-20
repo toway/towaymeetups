@@ -1,0 +1,158 @@
+{% for item in projects %}
+<div id="prj_div_{{item.id}}" class="resume-display-cnt">
+	<table class="table mba-resume-edit-tbl table-bordered">  
+			<tbody>  
+			<tr>
+				<th class="mba-resume-lbl required col-md-2">时间 :</th>
+				<td class="cols-left col-md-3" >
+					  {{item.start_date}}到{{item.finish_date}}
+				</td>
+				 <th></th> 
+				<td>
+				  <div class="mba-resume-setting-cnt" style="float:right">
+						  <a href="javascript:void(0)" alt="{{item.id}}" class="project-edit">修改</a>
+						  <a href="javascript:void(0)" alt="{{item.id}}" class="project-delete">删除</a>
+					   </div>
+				</td>			   
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required">项目名称 :</th>
+				<td class="cols-left">
+					{{item.name}}
+				</td>
+				<th  class="mba-resume-lbl">开发工具 :</th>
+				<td>
+					{{item.tool}}
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required">硬件环境 :</th>
+				<td class="cols-left">
+					{{item.hardware}}
+				</td>
+				<th  class="mba-resume-lbl">软件环境 :</th>
+				<td>
+					{{item.software}}
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required">项目描述 :</th>
+				<td class="cols-left">
+					{{item.description}}
+				</td>
+				<th  class="mba-resume-lbl">责任描述 :</th>
+				<td>
+					{{item.duty}}
+				</td>
+			  </tr>
+		  </tbody>
+	  </table> 
+  </div>
+<form id="prj_form_{{item.id}}" class="resume-edit-cnt hidden" method="POST" action="">
+	<input type="hidden" name="project" value="modify"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+	<input type="hidden" name="id" value="{{item.id}}"/>
+	  <table class="table mba-resume-edit-tbl table-bordered">  
+			<tbody>  
+			<tr>
+				<th class="mba-resume-lbl required col-md-2">时间 :</th>
+				<td class="cols-left" colspan="3">
+					<input type='text' data-type='date' class="mba-datepicker in_prj" name='start_date' value='{{item.start_date}}'/>- <input type='text' data-type='date'  class="mba-datepicker in_prj" name='finish_date' value='{{item.finish_date}}'/>
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required col-md-2">项目名称 :</th>
+				<td class="cols-left col-md-3">
+				  <input type="text" class="form-control input-sm" value="{{item.name}}" name="name" size="20">
+				</td>
+				<th  class="mba-resume-lbl">开发工具 :</th>
+				<td>
+				  <input type="text" class="form-control input-sm" value="{{item.tool}}" name="tool" size="20">
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required col-md-2">硬件环境 :</th>
+				<td class="cols-left col-md-3">
+				  <input type="text" class="form-control input-sm" value="{{item.hardware}}" name="hardware" size="20">
+				</td>
+				<th  class="mba-resume-lbl">软件环境 :</th>
+				<td>
+				  <input type="text" class="form-control input-sm" value="{{item.software}}" name="software" size="20">
+				</td>
+			  </tr>
+
+		<tr>
+			<th class="mba-resume-lbl">项目描述:</th>
+				<td>
+			<textarea class="form-control input-sm" name="description" cols="80" rows="18">{{item.description}}</textarea>
+				</td>
+			<th class="mba-resume-lbl">责任描述:</th>
+				<td>
+			<textarea class="form-control input-sm" name="duty" cols="80" rows="18">{{item.duty}}</textarea>
+				</td>
+		</tr>
+
+			  </tbody>
+	  </table>
+  </form>
+{% endfor %}
+
+{% if projects|length > 0 %}
+	<form id="prj_form_0" method="POST" class="hidden" action="">
+{% else %}
+	<form id="prj_form_0" method="POST" action="">
+{% endif %}
+	<input type="hidden" name="project" value="new"/>
+	<input type="hidden" id="prj_length" name="prj_length" value="{{projects|length}}"/>
+	<input type="hidden" name="resume_id" value="{{resume_id}}"/>
+	<input type="hidden" name="id" value="0"/>
+	  <table class="table mba-resume-edit-tbl table-bordered">  
+			<tbody>  
+			<tr>
+				<th class="mba-resume-lbl required col-md-2">时间 :</th>
+				<td class="cols-left" colspan="3">
+					<input type='text' data-type='date' class="mba-datepicker in_prj" name='start_date' value=''/>- <input type='text' data-type='date'  class="mba-datepicker in_prj" name='finish_date' value=''/>
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required col-md-2">项目名称 :</th>
+				<td class="cols-left col-md-3">
+				  <input type="text" class="form-control input-sm" value="" name="name" size="20">
+				</td>
+				<th  class="mba-resume-lbl">开发工具 :</th>
+				<td>
+				  <input type="text" class="form-control input-sm" value="" name="tool" size="20">
+				</td>
+			  </tr>
+
+			   <tr>
+				<th class="mba-resume-lbl required col-md-2">硬件环境 :</th>
+				<td class="cols-left col-md-3">
+				  <input type="text" class="form-control input-sm" value="" name="hardware" size="20">
+				</td>
+				<th  class="mba-resume-lbl">软件环境 :</th>
+				<td>
+				  <input type="text" class="form-control input-sm" value="" name="software" size="20">
+				</td>
+			  </tr>
+
+		<tr>
+			<th class="mba-resume-lbl">项目描述:</th>
+				<td>
+			<textarea class="form-control input-sm" name="description" cols="80" rows="18"></textarea>
+				</td>
+			<th class="mba-resume-lbl">责任描述:</th>
+				<td>
+			<textarea class="form-control input-sm" name="duty" cols="80" rows="18"></textarea>
+				</td>
+		</tr>
+
+			  </tbody>
+	  </table>
+  </form>
