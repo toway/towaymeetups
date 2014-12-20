@@ -304,10 +304,12 @@ function mgr_init(mgr) {
 //global object
 eduMgr = mgr_create('edu','education');
 expMgr = mgr_create('exp','experience');
+prjMgr = mgr_create('prj','project');
 (function () {
 	$(document).ready(function(){
 		mgr_init(eduMgr);
 		mgr_init(expMgr);
+		mgr_init(prjMgr);
 	});
 
 })();

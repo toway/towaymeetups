@@ -732,6 +732,18 @@ class Train(Base):
     certificate = Column(String(50))
     summary = Column(UnicodeText())
 
+class ProjectInfo(Base):
+    id = Column(Integer, primary_key=True)
+    resume_id = Column(Integer, ForeignKey('resumes.id'))
+    start_date = Column(DateTime())
+    finish_date = Column(DateTime())
+    name = Column(String(200))
+    tool = Column(String(200))
+    hardware = Column(String(200))
+    software = Column(String(200))
+    description = Column(UnicodeText())
+    duty = Column(UnicodeText)
+
 class Language(Base):
     id = Column(Integer, primary_key=True)
     resume_id = Column(Integer, ForeignKey('resumes.id'))
@@ -783,6 +795,7 @@ class Resume(Base):
     # String like jobid1,jobid2,jobid3 5,6,3,1 
     job_order = Column(String(100), nullable=True)
     jobs = relationship('Job', cascade="save-update, merge, delete")
+    projects = relationship('ProjectInfo', cascade="save-update, merge, delete")
     educations = relationship('Education', cascade="save-update, merge, delete")
     trains = relationship('Train', cascade="save-update, merge, delete")
     langs = relationship('Language', cascade="save-update, merge, delete")

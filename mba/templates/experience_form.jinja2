@@ -5,11 +5,9 @@
 			<tr>
 				<th class="mba-resume-lbl required col-md-2">时间 :</th>
 				<td class="cols-left col-md-3" >
-					  {{item.start_date}}-{{item.finish_date}}
+					  {{item.start_date}}到{{item.finish_date}}
 				</td>
-				<td>
-				  
-				</td>
+				 <th></th> 
 				<td>
 				  <div class="mba-resume-setting-cnt" style="float:right">
 						  <a href="javascript:void(0)" alt="{{item.id}}" class="experience-edit">修改</a>
@@ -42,6 +40,15 @@
 				  {{item.duty}}
 				</td>
 			  </tr>
+
+			  <tr>
+				<th class="mba-resume-lbl">详细描述 :</th>
+				<td class="cols-left">
+					{{item.description}}
+				</td>
+<th></th><td></td>
+			  </tr>
+
 		  </tbody>
 	  </table> 
   </div>
@@ -94,6 +101,15 @@
 				  <input type="text" class="form-control  input-sm" value="{{item.duty}}" name="duty" size="20">
 				</td>
 			  </tr>
+
+		<tr>
+			<th class="mba-resume-lbl">详细描述 :</th>
+				<td>
+			<textarea class="form-control input-sm" name="description" cols="80" rows="18">{{item.description}}</textarea>
+				</td>
+<th></th><td></td>
+		</tr>
+
 			  </tbody>
 	  </table>
   </form>
@@ -155,6 +171,14 @@
 				<input type="text" name='duty' class="form-control  input-sm" value="" size="20">
 			  </td>
 			</tr>
+
+		<tr>
+			<th class="mba-resume-lbl">详细描述 :</th>
+				<td>
+	<textarea class="form-control input-sm" name="description" cols="80" rows="8"></textarea>
+				</td>
+<th></th><td></td>
+		</tr>
 
 			</tbody>
 		</table>

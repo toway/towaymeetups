@@ -414,6 +414,23 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
 		</div>
 
+		<div  class="col-md-9  tab-pane  mba-resume-part">
+			<div class="mba-resume-edit-title">
+				<span>项目经历</span>
+			</div>
+
+				<div id='project_container'>
+					{{prj.render()|safe}}
+				</div>
+
+			<form name="prj_operator" method="POST" action="">
+				<button id='btn_prj_add' type='button' class="btn btn-primary mba-btn-position">继续添加</button>
+				<button id='btn_prj_save' type='button' class="btn btn-primary mba-btn-position hidden">保存</button>
+				<button id='btn_prj_cancel' type='button' class="btn btn-primary mba-btn-position hidden">取消</button>
+			</form>
+
+		</div>
+
 
                              <div  class="col-md-9  tab-pane  mba-resume-part" id="language">
                                 <div class="mba-resume-edit-title">

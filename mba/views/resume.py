@@ -55,19 +55,24 @@ class PersonInfo(colander.Schema):
             )
     identify_type = colander.SchemaNode(
             colander.Integer(),
-            validator=colander.Range(0,10)
+            validator=colander.Range(0,10),
+            default=0,
             )
     identify = colander.SchemaNode(
             colander.String(),
+            default="",
             )
     work_years = colander.SchemaNode(
             colander.Integer(),
+            default=0,
             )
     city_name = colander.SchemaNode(
             colander.String(),
+            default="",
             )
     salary = colander.SchemaNode(
             colander.Integer(),
+            default=0,
             )
     email = colander.SchemaNode(
         colander.String(),
@@ -75,9 +80,11 @@ class PersonInfo(colander.Schema):
     )
     phone = colander.SchemaNode(
             colander.String(),
+            default="",
             )
     company_phone = colander.SchemaNode(
             colander.String(),
+            default="",
             )
 
 
@@ -130,6 +137,41 @@ class JobSchema(colander.Schema):
             )
     finish_date = colander.SchemaNode(
             colander.Date(),
+            )
+    description = colander.SchemaNode(
+            colander.String(), default="",
+            )
+
+class ProjectSchema(colander.Schema):
+    id = colander.SchemaNode(
+            colander.Integer(),
+            )
+    resume_id = colander.SchemaNode(
+            colander.Integer(),
+            )
+    start_date = colander.SchemaNode(
+            colander.Date(),
+            )
+    finish_date = colander.SchemaNode(
+            colander.Date(),
+            )
+    name = colander.SchemaNode(
+            colander.String(),
+            )
+    tool = colander.SchemaNode(
+            colander.String(), default=u"",
+            )
+    hardware = colander.SchemaNode(
+            colander.String(), default=u"",
+            )
+    software = colander.SchemaNode(
+            colander.String(), default=u"",
+            )
+    description = colander.SchemaNode(
+            colander.String(), default=u"",
+            )
+    duty = colander.SchemaNode(
+            colander.String, default=u"",
             )
 
 def user2person(user):
@@ -205,6 +247,24 @@ class JobsWidget(object):
             schema = JobSchema()
             jobs.append(schema.serialize(resources.row2dict(job)))
         return self.renderer(self.template, resume_id=self.resume_id, experience=jobs)
+
+class ProjectWidget(object):
+    renderer = staticmethod(deform.Form.default_renderer)
+    def __init__(self, resume_id, projects):
+        self.resume_id = resume_id
+        self.projects = projects
+        self.template = 'project_form.jinja2'
+    def render(self):
+        objs = []
+        for obj in self.projects:
+            schema = ProjectSchema()
+            o = resources.row2dict(obj)
+            o['start_date'] = obj.start_date.strftime('%Y-%m-%d')
+            o['finish_date'] = obj.finish_date.strftime('%Y-%m-%d')
+            objs.append(o)
+
+        return self.renderer(self.template, resume_id=self.resume_id
+                , projects = objs)
 
 def cstruct2edu(cstruct, edu):
     edu.start_date = cstruct['start_date']
@@ -289,6 +349,48 @@ def edit_job(request, user, resume_id):
         return Response(json.dumps({'__result':0,'id':oid}))
     return Response(json.dumps({'__result':1}))
 
+def cstruct2project(cstruct, obj):
+    obj.resume_id = cstruct['id']
+    obj.start_date = datetime.datetime.strptime(cstruct['start_date'], '%Y-%m-%d')
+    obj.finish_date = datetime.datetime.strptime(cstruct['finish_date'], '%Y-%m-%d')
+    obj.name = cstruct['name']
+    obj.tool = cstruct['tool']
+    obj.hardware = cstruct['hardware']
+    obj.software = cstruct['software']
+    obj.description = cstruct['description']
+    obj.duty = cstruct['duty']
+
+def edit_project(request, user, resume_id):
+    t = request.POST["project"]
+    if resume_id != int(request.POST['resume_id']):
+        return Response(json.dumps({'__result':1}))
+    #TODO use try/except
+    if t == "new":
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        obj = resources.ProjectInfo()
+        cstruct2project(request.POST, obj)
+        resume.projects.append(obj)
+        #flush to get the new id
+        DBSession.flush()
+        widget = ProjectWidget(resume_id, resume.projects)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == "modify":
+        cstruct = {}
+        cstruct2project(request.POST, cstruct)
+        DBSession.query(resources.ProjectInfo).filter_by(resume_id=resume_id, id=int(request.POST['id'])).\
+            update(cstruct, synchronize_session=False)
+        resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
+        widget = ProjectWidget(resume_id, resume.projects)
+        json_string = json.dumps({'__result':0})
+        return Response(json_string+"$"+widget.render())
+    elif t == "delete":
+        project = DBSession.query(resources.ProjectInfo).filter_by(resume_id=resume_id, id=int(request.POST['id'])).first()
+        oid = project.id
+        DBSession.delete(project)
+        return Response(json.dumps({'__result':0,'id':oid}))
+    return Response(json.dumps({'__result':1}))
+
 @view_config(route_name='resume_edit2', renderer='resume_edit3.jinja2')
 def resume_edit2(context, request):
     jquery.need()
@@ -322,6 +424,8 @@ def resume_edit2(context, request):
         return edit_education(request, user, resume_id)
     elif "experience" in request.POST:
         return edit_job(request, user, resume_id)
+    elif "project" in request.POST:
+        return edit_project(request, user, resume_id)
 
     resume = DBSession.query(resources.Resume).filter_by(user=user, id=resume_id).first()
     return wrap_user(request,{
@@ -329,6 +433,7 @@ def resume_edit2(context, request):
             'person_info':person_schema.serialize(user2person(user)),
             'edu':EducationsWidget(resume_id, resume.educations),
             'exp':JobsWidget(resume_id, resume.jobs),
+            'prj': ProjectWidget(resume_id, resume.projects),
     })
 
 #TODO
