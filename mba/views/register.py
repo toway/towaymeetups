@@ -57,28 +57,45 @@ def name_new_validator(node, value):
         raise colander.Invalid(
             node, _(u"A user with that name already exists."))
 
+@colander.deferred
+def deferred_phonecode_validator(node, kw):
+    def phonecode_validator(node, value):
+        if not value or value != kw['request'].session.get('sms_validate_code',None):
+            raise colander.Invalid(node,
+                                   _(u'验证码不对哟！'))
+    return phonecode_validator
+
 def invitation_code_validator(node, value):
-    if value and \
-            DBSession.query(InvitationCode).filter_by(code=value, status=InvitationCode.AVAILABLE).first() is None:
+    # print 'invitation_code_validator:', value
+    if not value or \
+            DBSession.query(InvitationCode)\
+                    .filter_by(code=value, status=InvitationCode.AVAILABLE).first() is None:
         raise  colander.Invalid(
             node, _(u"邀请码不存在或已经失效"))
 
 def confirm_password_validator(node, value):
     print node
 
-def deffered_phone_validator(kw, val):
-    pass
+
+def phone_validator(node, value):
+    if DBSession.query(MbaUser)\
+            .filter_by(phone=value).first() is not None:
+        raise  colander.Invalid(
+            node, _(u"该手机号码已经被注册"))
+
+
 
 
 
 class RegisterSchema(colander.Schema):
 
-    invitation_code = colander.SchemaNode(
+
+    invitationcode = colander.SchemaNode(
         colander.String(),
         title=_(u"邀请码"),
         description=_(u"邀请码"),
         validator=invitation_code_validator,
-        missing = u"",
+        #missing = None, #u"",
         widget=TextInputWidget(proportion=(2,7))
     )
 
@@ -107,17 +124,17 @@ class RegisterSchema(colander.Schema):
         )
 
 
-
     phone = colander.SchemaNode(
         colander.String(),
         title=_(u'手机'),
+        validator = phone_validator,
         widget=TextInputWidget(proportion=(2,7))
     )
 
-    validate_code = colander.SchemaNode(
+    sms_validate_code = colander.SchemaNode(
         colander.String(10),
         title=_(u"验证码"),
-        validator=deffered_phone_validator,
+        validator=deferred_phonecode_validator,
         widget=PhoneValidateCodeInputWidget(inputname='phone', proportion=(2,7))
     )
 
@@ -127,11 +144,24 @@ def add_user_success(request, appstruct):
     name = appstruct['name'] = appstruct['name'].lower()
     appstruct['email'] = appstruct['email'] and appstruct['email'].lower()
     appstruct['last_login_date'] = datetime.now()
+
     #get_principals()[name] = appstruct
+    appstruct.pop('sms_validate_code', None)
+    # request.session.delete('sms_validate_code')
+    request.session['sms_validate_code'] = None
+
+    invitationcode = appstruct.pop('invitationcode', None)
+    code = DBSession.query(InvitationCode).filter_by(code=invitationcode, status=InvitationCode.AVAILABLE).first()
+
+
     stu = MbaUser(**appstruct)
     DBSession.add(stu)
     user = get_principals()[name]
     user.password = get_principals().hash_password(appstruct['password'])
+
+    code.receiver_id = user.id
+
+
     DBSession.flush()
     headers = remember(request, user.name)
     success_msg = _(
@@ -242,11 +272,7 @@ class RegisterDetailsSchema(colander.Schema):
                             css_class='form-control')
 
     )
-    phone = colander.SchemaNode(
-        colander.String(),
-        title=_(u'联系电话'),
 
-    )
 
 
 
