@@ -298,7 +298,6 @@ class MbaUser(Base):
         creator=UserBetween._city_find_or_create,
         )
 
-    #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")
     company_privacy_level =  Column(Integer, default=1) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     industry = Column(String(255), default=u"")
@@ -321,9 +320,9 @@ class MbaUser(Base):
 
 
     #
-    # friendship = relationship("MbaUser", secondary=friend,
-    #             primaryjoin=id==friend.c.user_a_id,
-    #             secondaryjoin=id==friend.c.user_b_id)
+    friendship = relationship("MbaUser", secondary=friend,
+                primaryjoin=id==friend.c.user_a_id,
+                secondaryjoin=id==friend.c.user_b_id)
 
 
 
@@ -360,6 +359,9 @@ class MbaUser(Base):
 
         if city_name:
             self.city_name = city_name
+        else:
+            # default city_name
+            self.city_name = u'深圳'
 
         super(MbaUser, self).__init__(**kwargs)
 
@@ -403,7 +405,8 @@ MbaUser.all_friends = relationship('MbaUser',
                         secondary=friend_union,
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
-                        viewonly=True)
+                        viewonly=True
+)
 
 
 my_requests = select([

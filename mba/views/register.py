@@ -76,12 +76,18 @@ def invitation_code_validator(node, value):
 def confirm_password_validator(node, value):
     print node
 
+@colander.deferred
+def deferred_phone_validator(node, kw):
+    def phone_validator(node, value):
+        if DBSession.query(MbaUser)\
+                .filter_by(phone=value).first() is not None:
+            session =  kw['request'].session
+            if session.get('sms_validate_code',None) is not None:
+                session['sms_validate_code'] = None
 
-def phone_validator(node, value):
-    if DBSession.query(MbaUser)\
-            .filter_by(phone=value).first() is not None:
-        raise  colander.Invalid(
-            node, _(u"该手机号码已经被注册"))
+            raise  colander.Invalid(
+                node, _(u"该手机号码已经被注册"))
+    return phone_validator
 
 
 
@@ -127,7 +133,7 @@ class RegisterSchema(colander.Schema):
     phone = colander.SchemaNode(
         colander.String(),
         title=_(u'手机'),
-        validator = phone_validator,
+        validator = deferred_phone_validator,
         widget=TextInputWidget(proportion=(2,7))
     )
 
@@ -156,19 +162,31 @@ def add_user_success(request, appstruct):
 
     stu = MbaUser(**appstruct)
     DBSession.add(stu)
+    DBSession.flush()
     user = get_principals()[name]
     user.password = get_principals().hash_password(appstruct['password'])
 
+    # mark this code as used
     code.receiver_id = user.id
+    code.status = code.USED
 
 
-    DBSession.flush()
+    code.sender.friendship.append( user ) # Add user to the sender's friends, status=0, should make it to 1
+    # TODO: make status=1, any better way?
+    # session = DBSession()
+    # session.execute("""UPDATE friends SET status=1 WHERE user_a_id =:a AND user_b_id=:b """,
+    #                      {'a':code.sender.id, 'b': user.id } )
+    #
+    # mark_changed(session)
+    # transaction.commit()
+
+
     headers = remember(request, user.name)
-    success_msg = _(
-        'Congratulations! You are successfully registered. '
-        'You should be receiving an email with a link to set your '
-        'password. Doing so will activate your account.'
-        )
+    # success_msg = _(
+    #     'Congratulations! You are successfully registered. '
+    #     'You should be receiving an email with a link to set your '
+    #     'password. Doing so will activate your account.'
+    #     )
     request.session.flash(success_msg, 'success')
     return HTTPFound(location=request.application_url + '/register_details', headers=headers)
 
