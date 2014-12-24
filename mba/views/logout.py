@@ -30,7 +30,14 @@ from mba.utils import wrap_user
 @view_config(route_name='logout' )
 def view_logout(request):
     headers = forget(request)
-    request.session.flash("Log out successfully","success")
+    # request.session.flash(u"成功退出登陆","success")
+
     return HTTPFound(location="/", headers=headers)
 
 
+def includeme(config):
+    #print 'hear 2'
+    settings = config.get_settings()
+    config.add_route('logout', '/logout')
+
+    config.scan(__name__)

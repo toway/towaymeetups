@@ -19,7 +19,7 @@
                               <ul class="nav navbar-nav">
                                 <li id="li_index" class="active"><a href="/">首页</a></li>
                                 <li  id="li_card"><a href="/person/{{ user.id }}">名片</a></li>
-                                  <li  id="li_card"><a href="/infomations">信息</a></li>
+                                  <li  id="li_infomations"><a href="/infomations">信息</a></li>
                                 <li  id="li_meetups"><a href="/meetups">活动</a></li>
                                 <li  id="li_job"><a href="/job">求职</a></li>
 {#                                  {% if 'role:admin' in user.groups %}#}
@@ -36,7 +36,7 @@
                              <ul class="nav navbar-nav navbar-right" id="user-links">
                                 <li><input type="text" class="form-control" placeholder="找找看"/></li>
                                   <li>
-                                    <a href="{{ user.name }}" class="navbar-name">
+                                    <a href="/person/{{ user.id }}" class="navbar-name">
                                         <img alt="{{ user.real_name or user.name }}"class="navbar-avatar" src="{{ user.avatar }}"
                                                 width="20px" height="20px"/>
                                         {{ user.real_name or user.name }}

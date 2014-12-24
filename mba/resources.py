@@ -602,6 +602,8 @@ class Review(Document):
 class Infomation(Document):
     '''This Class stores the infomatino recommended by admins '''
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+
+
     type_info = Document.type_info.copy(
         name=u'Infomation',
         title=_(u'推荐信息'),
@@ -609,6 +611,7 @@ class Infomation(Document):
         addable_to=[u'Infomation'],
         )
 
+    comments = relationship('Comment', backref='infomation')
 
 class Comment(Base):
     __tablename__ = 'comments'
@@ -616,8 +619,9 @@ class Comment(Base):
     
     TYPE_MEETUP = 0
     TYPE_MEETUP_REVIEW = 1
+    TYPE_INFOMATION = 2
     
-    # 评论类型，0=活动评论，1=活动回顾评论
+    # 评论类型，0=活动评论，1=活动回顾评论, 2=推荐信息评论
     type = Column(Integer, default=TYPE_MEETUP)
     # 评论关联的活动、活动回顾的ID
     document_id = Column(Integer, ForeignKey('documents.id'))

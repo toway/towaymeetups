@@ -45,6 +45,8 @@
 
                     <br/>
 
+                    {% include "messages.jinja2" %}
+
 
                     <div class="col-md-9 meetup-main">
                          <div class="panel panel-default meetup-subject">
@@ -62,7 +64,7 @@
                          </div>
 
 
-                        <div class="panel panel-default meetup-comments">
+                        <div class="panel panel-default infomation-comments">
                             <div class="panel-body">
                             
                                 
@@ -71,7 +73,7 @@
                                     {% if user %}
                                         <div class="row">
                                             <div class="col-md-3 col-md-offset-9">
-                                                <div class="meetup-comment-prompt">
+                                                <div class="infomation-comment-prompt">
                                                     还可以输入<span id="left-comments-num">140</span>字
                                                 </div>
                                             </div>
@@ -81,8 +83,8 @@
                                                 <img src="{{ user.avatar_prefix}}{{user.avatar}}" width="40px" height="40px"/>
                                             </div>
                                             <div class="col-md-11">
-                                                <textarea name='review-comment-input'
-                                                    id='review-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
+                                                <textarea name='infomation-comment-input'
+                                                    id='infomation-comment-input' class="form-control" rows="3" placeholder="顺便说点什么吧.."></textarea>
                                             </div>
                                         </div>
                                         
@@ -114,8 +116,8 @@
                                         <img src="{{ comment.user.avatar_prefix}}{{comment.user.avatar}}" width="40px" height="40px"/>
                                     </div>
                                     <div class="col-md-11">
-                                        <span>{{ comment.user.name }}:</span>
-                                        <span class="meetup-comment-timeline">
+                                        <span>{{ comment.user.real_name or comment.user.name}}:</span>
+                                        <span class="infomation-comment-timeline">
                                             {{comment.post_date}}
                                         </span>
                                         <div>{{ comment.content }}</div>
@@ -151,11 +153,11 @@
         <script type="text/javascript">
             $(function(){
 
-               $("li#li_meetups").parent().find("li").removeClass("active");
-               $("li#li_meetups").addClass("active");
+               $("li#li_infomations").parent().find("li").removeClass("active");
+               $("li#li_infomations").addClass("active");
 
 
-               $('#meetup-comment-input').keyup(function(){
+               $('#infomation-comment-input').keyup(function(){
 
                    var len = $(this).val().trim().length;
                    if(len>0 ){
