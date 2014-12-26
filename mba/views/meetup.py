@@ -113,5 +113,6 @@ def view_meetup(context, request):
 
 def includeme(config):
     config.add_route('meetup','/meetup')
+    config.add_route('meetup_signup','/meetup/{name}/signup')
 
     config.scan(__name__)

@@ -131,13 +131,13 @@ class ActSchema(colander.MappingSchema):
         title=_(u'标题'),
         )
 
-    name = colander.SchemaNode(
-        colander.String(),
-        title=_(u"活动URL"),
-        description=_(u"以a-b-c形式"),
-        widget=deferred_urlinput_widget,
-        validator=deferred_duplicated_meetupname_validator
-    )
+    # name = colander.SchemaNode(
+    #     colander.String(),
+    #     title=_(u"活动URL"),
+    #     description=_(u"以a-b-c形式"),
+    #     widget=deferred_urlinput_widget,
+    #     validator=deferred_duplicated_meetupname_validator
+    # )
 
 
     # poster_id = colander.SchemaNode(
@@ -193,7 +193,7 @@ class ActSchema(colander.MappingSchema):
         )
     geo = GeoSchema(
         widget= GeoWidget(),
-        missing=u"",
+        # missing=u"",
     )
 
     def preparer(self, appstruct):
@@ -237,7 +237,8 @@ class ActAddForm(AddFormView):
 
     schema_factory = ActSchema
     add = Act
-    
+
+    # use_csrf_token = False
     
     item_type = _(u"活动")
 
@@ -261,13 +262,18 @@ class ActAddForm(AddFormView):
             
     def save_success(self, appstruct):
         appstruct.pop('csrf_token', None)
-        name = self.find_name(appstruct)
+        # name = self.find_name(appstruct)
         #parent_id=get_act_root().id
         parent = get_act_root()
         appstruct['__acl__'] = SITE_ACL
-        new_item = parent[name] = self.add(default_view='test_view', **appstruct)
+        new_item = self.add(default_view='test_view', **appstruct)
+        parent['tempname'] = new_item
+        new_item.name = new_item.position+1
         self.request.session.flash(self.success_message, 'success')
+        print 'success url:', self.request.resource_url(new_item)
         location = self.success_url or self.request.resource_url(new_item)
+        if location.endswith('/'):
+            location = location[:-1]
         return HTTPFound(location=location)
         
 class ActEditForm(EditFormView):    
