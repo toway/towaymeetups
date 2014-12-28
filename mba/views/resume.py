@@ -466,7 +466,20 @@ def resume_view(context, request):
             'pcs':user.position_items,
             })
 
+
+@view_config(route_name='resume_preview',renderer='resume_preview.jinja2')
+def resume_preview(context, request):
+    user = get_user(request)
+    resume = user.resume
+
+    return wrap_user(request,{
+            'user': user, 
+            'resume':user.resume,
+            })
+    
+
 def includeme(config):
     settings = config.get_settings()
     config.add_route('resume_edit2','/resume_edit2/{id:\d+}')
+    config.add_route('resume_preview', 'resume-preview')
     config.scan(__name__)

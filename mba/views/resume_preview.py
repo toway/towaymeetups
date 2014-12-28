@@ -32,7 +32,7 @@ from mba import _
 
 
 
-@view_config(route_name='resume_preview',renderer='resume_preview.jinja2')
+#@view_config(route_name='resume_preview2',renderer='resume_preview.jinja2')
 def view_job(request):
     return {
     			"test":"test",
@@ -42,5 +42,4 @@ def view_job(request):
 
 def includeme(config):
     settings = config.get_settings()
-    config.add_route('resume_preview','/resume_preview')
     config.scan(__name__)
