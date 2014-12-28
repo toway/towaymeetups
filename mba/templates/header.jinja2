@@ -34,7 +34,14 @@
 
                           {% if user %}
                              <ul class="nav navbar-nav navbar-right" id="user-links">
-                                <li><input type="text" class="form-control" placeholder="找找看"/></li>
+                                <li>
+                                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
+                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">信息</a></li>
+                                      <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">伙伴</a></li>
+                                     
+                                    </ul>
+                                </li>
+                                <li><form action='/search-info'><input type="text" name="q" class="form-control" placeholder="找找看"/></form></li>
                                   <li>
                                     <a href="/person/{{ user.id }}" class="navbar-name">
                                         <img alt="{{ user.real_name or user.name }}"class="navbar-avatar" src="{{ user.avatar }}"

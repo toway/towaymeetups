@@ -33,9 +33,9 @@
 
       .search_list{
         background-color: #FAFAF9;
-        height: 300px;
+        height: 500px;
         border:1px solid #DADCDF;
-        margin-top: 20px;
+        margin-top: 10px;
       }
 
       input[type="radio"], input[type="checkbox"].search-option {
@@ -48,6 +48,10 @@
         font-size: 10px;
         margin-left:5px;
       }
+
+      div.search_list  p.type{
+        background-color: #F6F3F3;
+      }
     </style>
     <body class="job_manage">  
 
@@ -56,37 +60,71 @@
      
         <div class="container mt50  pt25">
             <div class="row search_result" style="">
-		    <span>搜索结果（有<span class="search_number">{{count}}</span>条信息符合搜索结果）</span>
+               <span>搜索结果（有<span class="search_number">231</span>条信息符合搜索结果）</span>
 
             </div>
 
             <div class="row search_list" style="">
                <div class="col-md-3  pt25" style="height:100%;border-right:1px solid #D9DEE0;padding-left:20px">
+                  <p style="font-size:16px;">从结果中筛选</p>
+                  <p  class="type">地区</p>
                   <ul>
                     <li>
-		    <input type="checkbox" class="search-option" name="option" data-val="0" />信息<span class="option-number">({{count1}})</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="0" />北京<span class="option-number">(178)</span>
                     </li>
                      <li>
-		     <input type="checkbox" class="search-option" name="option" data-val="1" />活动<span class="option-number">({{count2}})</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="1" />深圳<span class="option-number">(56)</span>
                     </li>
                      <li>
-		     <input type="checkbox" class="search-option" name="option" data-val="2" />职位<span class="option-number">({{count3}})</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="2" />上海<span class="option-number">(23)</span>
+                    </li>
+                    <li class="more">
+                      更多
+                    </li>
+                  </ul>
+                   <p class="type">行业</p>
+                  <ul>
+                    <li>
+                      <input type="checkbox" class="search-option" name="option" data-val="0" />互联网<span class="option-number">(178)</span>
+                    </li>
+                     <li>
+                      <input type="checkbox" class="search-option" name="option" data-val="1" />管理咨询<span class="option-number">(56)</span>
+                    </li>
+                     <li>
+                      <input type="checkbox" class="search-option" name="option" data-val="2" />计算机软件<span class="option-number">(23)</span>
+                    </li>
+                    <li class="more">
+                      更多
                     </li>
                   </ul>
                </div>
                <div class="col-md-9 pt25">
                   <table class="table table-hover">  
-                          <tbody>
-			  {% for info in infos %}
-                            <tr> 
-			      <td>{{info.title}}</td>  
-			      <td>{{info.creation_date.strftime('%Y-%m-%d')}}</td>
+                          <tbody>  
+                            <tr class=""> 
+                              <td>第55期活动：传统行业如何与互联网结合</td>  
+                              <td>2014-12-13</td>
                             </tr>
-			    {% endfor %}
+                            <tr> 
+                               <td>互联网项目需要风投</td>  
+                              <td>2014-12-13</td>
+                            </tr>
+                             <tr> 
+                               <td>中国互联网大会分享</td>  
+                              <td>2014-12-13</td>
+                            </tr>       
                             </tbody>
                     </table>
                     <nav style="float:right">
-                        {% include "/admin/pagination.jinja2" %}
+                      <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                      </ul>
                     </nav>
                </div>
 

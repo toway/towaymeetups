@@ -43,3 +43,4 @@ def includeme(config):
     config.include('mba.views.captcha')
 
     config.include('mba.views.admin')
+    config.include('mba.views.search')
