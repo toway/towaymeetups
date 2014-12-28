@@ -283,6 +283,11 @@ def query_by_cities():
     cities_set['all'] = DBSession.query(Position).order_by(Position.create_date.desc()).all()[0:cnt]
     return cities_set
 
+@view_config(route_name='person_search', renderer='search_xinxi.jinja2')
+@wrap_user
+def show_search(context, request):
+    return {}
+
 def includeme(config):
     config.add_route('job_view','/job')
     config.add_route('job_detail','/job-detail/{id:\d+}')
@@ -294,4 +299,5 @@ def includeme(config):
     config.add_route('job_real','/job-real')
     config.add_route('job_search','/job-search')
     config.add_route('job_manager','/job-manager-info')
+    config.add_route('person_search', '/person-search')
     config.scan(__name__)
