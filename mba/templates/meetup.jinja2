@@ -45,6 +45,8 @@
 
                     <br/>
 
+                    {% include "messages.jinja2" %}
+
 
                     <div class="col-md-9 meetup-main">
                          <div class="panel panel-default meetup-subject">
@@ -454,6 +456,20 @@
                  $("#cancel-invite-friend").click(function(){
                      $('.meetup-invite-friend-box').hide();
                  })
+
+
+
+                $("#formEnroll button").click(function(e){
+                    if( isMobile() ){
+                        var url = window.location + "/signup";
+                        window.open(url);
+
+                        return false;
+                    }
+
+                });
+
+
 
                 /*
                 $(document).pjax('.home-menu a', '#pjax-content');

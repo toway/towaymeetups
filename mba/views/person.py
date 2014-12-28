@@ -58,18 +58,20 @@ class PersonInfoWidget(object):
     def __init__(self, user, cur_user):
         self.user = user
         self.cur_user = cur_user
-        print 'test personinfo widget', user, cur_user
+        # print 'test personinfo widget', user, cur_user
         self.is_self = self.user.id == self.cur_user.id
         self.template = 'person_form.jinja2'
 
     def render(self):
         #TODO do better
 
-        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'city']
+        ss = [u'company', u'industry', u'special_skills', u'interests', u'between', u'introduction', u'city_name']
         u = self.user
         for s in ss:
             if not getattr(u,s):
+                # print s
                 setattr(u, s, u"")
+                # print s,' end'
         # setattr(u, "is_self", self.is_self)
         return self.renderer(self.template, person_info=self.user, cur_user=self.cur_user, is_self=self.is_self)
 

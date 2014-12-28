@@ -124,9 +124,13 @@ def login(context, request):
             if (user is not None and user.active and
                     principals.validate_password(appstruct['password'], user.password)):
                 headers = remember(request, user.name)
+
+                # TODO: i18n does not work
+                # request.session.flash(
+                #     _(u"欢迎登陆, ${user}!",
+                #       mapping={'user': 'sb' }), 'success')
                 request.session.flash(
-                    _(u"Welcome, ${user}!",
-                      mapping=dict(user=user.title or user.name)), 'success')
+                    _(u"欢迎登陆, %s!" % (user.real_name or user.name ) ), 'success')
                 user.last_login_date = datetime.now()
                 if came_from == 'login':
                     came_from = '/'

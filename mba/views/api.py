@@ -40,7 +40,7 @@ def ajax_sms(request):
     if type == "0":
 
         def generate_random_code():
-            return random.randint(1000,9999)
+            return str(random.randint(1000,9999) )
 
         # TO protect the server from SMS attack,
         now = datetime.datetime.now(tz=None)
@@ -60,6 +60,7 @@ def ajax_sms(request):
 
 
         if len(smss) != 0:
+            # TODO: this should be configurable
             if len(smss) >= 20:
                 return RetDict(errmsg=u"该手机号尝试注册超过20次,永远封禁!")
 
@@ -96,6 +97,9 @@ def ajax_sms(request):
             # Send ok, write to the DB
             rsms = RegisterSms(phonenum=phone, validate_code=code, ip=ip)
             DBSession.add(rsms)
+
+            request.session['sms_validate_code'] = code
+            # TODO: setup pyramid-beaker to expire the validate_code in 5 miniutes(more or less)
 
         return result
 

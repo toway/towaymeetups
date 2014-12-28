@@ -101,6 +101,28 @@ def view_review(context, request):
 
     user = get_user(request)
 
+    if request.POST :
+
+        if user is None:
+            request.session.flash(u"请先登陆..","info")
+            came_from = request.url
+            return HTTPFound("/login?came_from=%s" % came_from)
+
+        if 'submit' in request.POST:
+
+
+            comment_content = request.params.get("infomation-comment-input")
+
+            comment = Comment()
+            comment.type = comment.TYPE_INFOMATION
+            comment.user_id = user.id
+            comment.document_id = context.id
+
+            # ACTION!!!: There is a SQL injection risk here! should be prevented
+            comment.content =  comment_content
+            DBSession.add( comment)
+            DBSession.flush()
+
     return  wrap_user2(request, 
                 {'context':context, 
                 'contextbody': contextbody,

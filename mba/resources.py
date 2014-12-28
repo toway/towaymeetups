@@ -268,7 +268,7 @@ class MbaUser(Base):
     
     active = Column(Boolean)
     confirm_token = Column(Unicode(100))
-    phone = Column(Integer())
+    phone = Column(String(20))
     phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     title = Column(Unicode(100), nullable=False)
     title_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
@@ -298,7 +298,6 @@ class MbaUser(Base):
         creator=UserBetween._city_find_or_create,
         )
 
-    #为名片增加的字段,暂时放这里，可能放到MbaUser里
     company = Column(String(255), default=u"")
     company_privacy_level =  Column(Integer, default=1) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     industry = Column(String(255), default=u"")
@@ -321,9 +320,9 @@ class MbaUser(Base):
 
 
     #
-    # friendship = relationship("MbaUser", secondary=friend,
-    #             primaryjoin=id==friend.c.user_a_id,
-    #             secondaryjoin=id==friend.c.user_b_id)
+    friendship = relationship("MbaUser", secondary=friend,
+                primaryjoin=id==friend.c.user_a_id,
+                secondaryjoin=id==friend.c.user_b_id)
 
 
 
@@ -360,6 +359,9 @@ class MbaUser(Base):
 
         if city_name:
             self.city_name = city_name
+        else:
+            # default city_name
+            self.city_name = u'深圳'
 
         super(MbaUser, self).__init__(**kwargs)
 
@@ -403,7 +405,8 @@ MbaUser.all_friends = relationship('MbaUser',
                         secondary=friend_union,
                         primaryjoin=MbaUser.id==friend_union.c.user_a_id,
                         secondaryjoin=MbaUser.id==friend_union.c.user_b_id,
-                        viewonly=True)
+                        viewonly=True
+)
 
 
 my_requests = select([
@@ -599,6 +602,8 @@ class Review(Document):
 class Infomation(Document):
     '''This Class stores the infomatino recommended by admins '''
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
+
+
     type_info = Document.type_info.copy(
         name=u'Infomation',
         title=_(u'推荐信息'),
@@ -606,6 +611,7 @@ class Infomation(Document):
         addable_to=[u'Infomation'],
         )
 
+    comments = relationship('Comment', backref='infomation')
 
 class Comment(Base):
     __tablename__ = 'comments'
@@ -613,8 +619,9 @@ class Comment(Base):
     
     TYPE_MEETUP = 0
     TYPE_MEETUP_REVIEW = 1
+    TYPE_INFOMATION = 2
     
-    # 评论类型，0=活动评论，1=活动回顾评论
+    # 评论类型，0=活动评论，1=活动回顾评论, 2=推荐信息评论
     type = Column(Integer, default=TYPE_MEETUP)
     # 评论关联的活动、活动回顾的ID
     document_id = Column(Integer, ForeignKey('documents.id'))
@@ -924,3 +931,9 @@ class InvitationCode(Base):
     expiration = Column(DateTime() )
     status = Column(Integer, default=AVAILABLE)
 
+class GlobalSiteSetting(Base):
+
+    [TRUE, FALSE] = [1, 0]
+
+    id = Column(Integer, primary_key=True)
+    need_invitationcode = Column(Integer, default=TRUE)

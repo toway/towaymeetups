@@ -1,3 +1,9 @@
 <input type="hidden" name="{{ field.name }}" value="{{ cstruct }}"
        id="{{ field.formid }}"/>
 
+    {% if field.errormsg %}
+    <li class="errorLi">
+      <h3 class="errorMsgLbl">{{_("There was a problem with this section")}}</h3>
+      <p class="errorMsg">{{_(field.errormsg)}}</p>
+    </li>
+    {% endif %}
