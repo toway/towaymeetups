@@ -58,21 +58,20 @@
                                         <img src="{{  context.poster_img }}" width="190px" height="240px" />
 
                                     </div>
-                                    <div class="col-md-8">
+                                    <div class="col-md-8  main-info">
                                         <h2>{{ context.title }}</h2>
-                                        <br/>
+
                                         <div>
                                             分享嘉宾：
                                             {% for teacher in context.teachers %}
                                                 {{ teacher }} &nbsp;
                                             {% endfor %}
                                         </div>
+                                        <div>时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
                                         <div>地点：{{ context.location }}</div>
-                                        <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
                                         
                                         <div>费用：{{ context.pay_count }}元/人</div>
                                         <div>人数限制：{{ context.limit_num }}人 ({{ total_enrolled_count }}人已报名)</div>
-                                        <br/>
                                         <div>报名时间：{{ context.enroll_start_time }} - {{ context.enroll_finish_time }}</div>
                                         
                                         {% if time_now < context.enroll_start_time %}
@@ -196,55 +195,51 @@
 
 
                     <div class="col-md-3 meetup-rightbar">
+                        <h3>活动地图</h3>
+
                         <div id="meetup-map" width="100%">
                         </div>
 
                        <br/>
 
-                        <div class="applicants panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    已报名
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                    <div class="applicants">
-                                        {% for part in context.parts %}
-                                            <img title="{{ part.real_name or part.name }}" alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
-                                            width="30px" height="30px"/>
-                                        {% else %}
-                                            暂无报名
-                                        {% endfor %}
+                        <div class="applicants">
 
-                                    </div>
+                            <h3>已报名成员({{context.parts|length}}人)</h3>
+                            <hr/>
 
-                            </div>
+                            {% for part in context.parts %}
+                                <img title="{{ part.real_name or part.name }}" alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
+                                width="30px" height="30px"/>
+                            {% else %}
+                                 <br/>暂无报名
+                            {% endfor %}
+                            <br/>
 
                         </div>
 
 
-                        <div class="applicants panel panel-default">
-                            <div class="panel-heading">
-                                <div class="panel-title">
-                                    你可能感兴趣的活动
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                <ul>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
-                                    <li>
-                                        跨界*合作-盛夏互联网BD交流会
-                                    </li>
+{#                        <div class="applicants panel panel-default">#}
+{#                            <div class="panel-heading">#}
+{#                                <div class="panel-title">#}
+{#                                    你可能感兴趣的活动#}
+{#                                </div>#}
+{#                            </div>#}
+{#                            <div class="panel-body">#}
+{#                                <ul>#}
+{#                                    <li>#}
+{#                                        跨界*合作-盛夏互联网BD交流会#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        跨界*合作-盛夏互联网BD交流会#}
+{#                                    </li>#}
+{#                                    <li>#}
+{#                                        跨界*合作-盛夏互联网BD交流会#}
+{#                                    </li>#}
+{##}
+{#                                </ul>#}
+{#                            </div>#}
 
-                                </ul>
-                            </div>
-
-                        </div>
+{#                        </div>#}
 
 
 
@@ -481,14 +476,21 @@
         <script>
             $(function(){
 
-
-                map = new qq.maps.Map(
+                var center = new qq.maps.LatLng({{ context.latitude }}, {{ context.longitude }});
+                var map = new qq.maps.Map(
                     $("#meetup-map")[0],
                         {
-                        center: new qq.maps.LatLng({{ context.latitude }}, {{ context.longitude }}),
+                        center: center,
                         zoom:{{ context.zoomlevel }}
                         }
                 );
+
+
+                var marker = new qq.maps.Marker({
+                    position: center,
+                    map: map,
+                    title: "{{ context.location }}"
+                });
 
                 var scaleControl = new qq.maps.ScaleControl({
                     align: qq.maps.ALIGN.BOTTOM_LEFT,
