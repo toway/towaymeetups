@@ -87,10 +87,10 @@ def ajax_sms(request):
         code = generate_random_code()
 
         # To deploy
-        # result = sendsms(phonenum=phone, code=code)
+        result = sendsms(phonenum=phone, code=code)
 
         # for test purpose only below
-        result = RetDict(retval={'istest':True,'code':code})
+        # result = RetDict(retval={'istest':True,'code':code})
 
 
         if result['errcode'] == result['SUCCESS']:

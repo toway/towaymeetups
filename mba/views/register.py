@@ -187,7 +187,7 @@ def add_user_success(request, appstruct):
     #     'You should be receiving an email with a link to set your '
     #     'password. Doing so will activate your account.'
     #     )
-    request.session.flash(success_msg, 'success')
+    # request.session.flash(success_msg, 'success')
     return HTTPFound(location=request.application_url + '/register_details', headers=headers)
 
 # Not other good implements

@@ -106,6 +106,8 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 
                                 {% endfor %}
 
+{#                             TODO: Add headlines to this carousel#}
+
 {#                             #}
 {#                                {% for context in headlines %}#}
 {#                                    <li class="ccc">#}
@@ -280,12 +282,15 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                         <div class="home-myinfo">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <div class="myinfo-header">
-                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                                    width="30px" height="30px"/>
-                                            {{ user.name }}
-                                        <hr/>
-                                    </div>
+                                    {% include "/inc/personal_info_header.jinja2" %}
+
+                                    <hr />
+{#                                    <div class="myinfo-header">#}
+{#                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"#}
+{#                                                    width="30px" height="30px"/>#}
+{#                                            {{ user.name }}#}
+{#                                        <hr/>#}
+{#                                    </div>#}
 
 
                                     <div class="panel-group" id="accordion">
