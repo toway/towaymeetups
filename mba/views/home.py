@@ -45,9 +45,9 @@ def query_info(request):
 
 
 def query_banners(request):
-    result = DBSession.query(Banner).limit(20)
+    result = DBSession.query(Banner).filter_by(status=Banner.VALID, type=Banner.TYPE_HOME).limit(5)
 
-    return {'banners': result}
+    return {'home_banners': result}
 
 
 @view_config(route_name='home', renderer='home.jinja2')

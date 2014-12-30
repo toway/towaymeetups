@@ -1,0 +1,33 @@
+                                <div class="myinfo-header row">
+
+                                    <div class="col-md-6">
+                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                                    width="80px" height="80px"/>
+                                       <div class="zyno">志友会员号: {{ '%08d' % user.id}}</div>
+                                    </div>
+
+                                    <div class="col-md-6 header-right">
+                                        <h2>{{ user.real_name or user.name }}</h2>
+                                        <div>常住地：{{ user.city_name or '未填写'  }}</div>
+
+                                        {% set auth_i = user.auth_info %}
+                                        {% set auth_m = user.auth_meetup %}
+                                        {% set auth_f = user.auth_friend %}
+
+                                        <div class="basic_info">
+
+                                            <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
+                                                  title="资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
+                                            <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
+                                                  title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
+                                            <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
+                                                  title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+
+                                            {% if not auth_honesty  %}
+                                                诚
+                                            {% endif %}
+
+                                        </div>
+
+                                    </div>
+                                </div>

@@ -57,6 +57,13 @@ class BannerSchema(colander.MappingSchema):
         )
 
 
+    type = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u"BANNER类型"),
+        widget=deform.widget.SelectWidget(values=[ (Banner.TYPE_HOME, u"首页BANNER"), (Banner.TYPE_MEETUP,u"活动BANNER") ],
+                                          css_class='form-control')
+    )
+
     img_url = colander.SchemaNode(
         colander.String(),
         title=_(u'BANNER'),

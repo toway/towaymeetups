@@ -129,8 +129,8 @@ def login(context, request):
                 # request.session.flash(
                 #     _(u"欢迎登陆, ${user}!",
                 #       mapping={'user': 'sb' }), 'success')
-                request.session.flash(
-                    _(u"欢迎登陆, %s!" % (user.real_name or user.name ) ), 'success')
+                # request.session.flash(
+                #     _(u"欢迎登陆, %s!" % (user.real_name or user.name ) ), 'success')
                 user.last_login_date = datetime.now()
                 if came_from == 'login':
                     came_from = '/'

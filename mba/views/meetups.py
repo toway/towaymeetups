@@ -18,6 +18,7 @@ from formencode.validators import Email
 from pyramid.request import Response
 
 from js.jquery import jquery
+from js.jqueryui import jqueryui
 
 from kotti import get_settings
 from kotti.security import get_principals
@@ -29,7 +30,7 @@ from kotti.security import get_user
 from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
-from mba.resources import Act, Review, Participate
+from mba.resources import Act, Review, Participate ,Banner
 
 __author__ = 'sunset'
 __date__ = '20140527'
@@ -50,6 +51,7 @@ def view_meetups_pjax(request):
 
 def query_meetups(request):
     jquery.need()
+    jqueryui.need()
 
     user = get_user(request)
 
@@ -89,6 +91,9 @@ def query_meetups(request):
     if user:
         my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)
 
+
+    meetup_banners = DBSession.query(Banner).filter_by(status=Banner.VALID, type=Banner.TYPE_MEETUP).limit(5)
+
     return { 'meetups':
                 {'all': all,
                  'first_five': all[:5],
@@ -106,6 +111,7 @@ def query_meetups(request):
                 'sz': sz2,
                 'others':others2},
              'headlines': headline,
+             'meetup_banners': meetup_banners,
              'my_meetups': my_participate
 
             }
