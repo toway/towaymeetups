@@ -19,6 +19,42 @@
             #pjax-content {
                 /*border: solid 1px #dcdcdc;*/
             }
+
+
+{# Header Carousel  taken from http://www.mba.sjtu.edu.cn #}
+{# TODO: browser compatible #}
+.meetups-header{
+	/*float: left;*/
+	position:relative;
+{#	width:100%;#}
+    height:276px;
+{#	margin-bottom: 155px;#}
+    margin-top:-30px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#picturn{width: 100%;}
+ #picturn li{background:#fff;border:1px solid #a2a2a2;box-shadow: 0px 15px 30px 0px rgba(125,125,125,0.75);}
+ #picturn .front{margin-top:0}
+ #picturn .front img{margin:3px}
+ #picturn .behind {margin-top:40px;width:600px;}
+ #picturn .behind img{margin:0px}
+ #picturn .back {margin-top:40px}
+ #picturn img {margin:0px}
+ #picturn{ /*float:left;*/ height:376px;margin:0 auto;padding:0;position:relative;z-index:1;display: inline;}
+ #picturn li{margin:0;padding:0;list-style:none;position:absolute;z-index:1;display:none;border-width:0px}
+ #picturn img{border:0;vertical-align:bottom;width:280px;height:400px}
+ #picturn a{cursor:default;text-decoration:none}
+  #picturn a span,#picturn strong,#picturn em,#picturn p{
+  	display: none;
+  }
+/*#picturn .ccc img{background:rgba(0, 0, 0, 0.7) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明
+filter:Alpha(opacity=70); background:#000; border:1px solid red;}*/
+#picturn .ccc b{background:rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明*/
+filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline-block;position:absolute; left:0; top:0; width:100%; height:100%;}
+
+
         </style>
 
 
@@ -45,58 +81,84 @@
 
                     <div class="col-md-12">
                     <div class="meetups-header" id="meetup-recommend">
-                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
-                            <div class="carousel-inner">
-                                {% for context in headlines %}
-                                <div class="item {% if context == headlines[0] %}active{% endif %}">
-                                    <div class="row">
-                                        <div class="col-md-3 col-md-offset-1">
-                                            <img src="{{  context.poster_img }}" width="190px" height="240px" />
+                             <ul id="picturn">
 
-                                        </div>
-                                        <div class="col-md-6">
-                                            <h1>{{ context.title }}</h1><br/>
-                                            <div>
-                                                分享嘉宾：
-                                                {% for teacher in context.teachers %}
-                                                    {{ teacher }} &nbsp;
-                                                {% endfor %}
-                                            </div>
-                                            <div>地点：{{ context.location }}</div>
-                                            <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
-
-                                            <div>费用：{{ context.pay_count }}元/人</div>
-                                            <div>人数限制：{{ context.limit_num }}人</div>
-                                            <br/>
+                                {% for banner in meetup_banners %}
 
 
-                                            <a  href="/meetup/{{ context.name }}" class="btn btn-primary" >去报名</a>
+                                    <li class="ccc">
+                                        <a  href="{{ banner.link_url }}" target="_blank">
+                                            <b></b><img alt="{{ banner.title }}" src="{{ banner.img_url }}" >
+                                        </a>
+                                        <span></span>
 
+                                    </li>
 
-
-
-                                    </div>
-
-                                    </div>
-                                </div>
 
                                 {% else %}
-                                    <center><br/><h1>无头条推荐</h1><br/></center>
+                                    <li class="ccc">
+                                        <a  href="/meetups" target="_blank">
+                                            <b></b><img alt="上传首页banner后本条自动消失" src="/fanstatic/mba/img/dummy_banner.png" >
+                                        </a>
+                                        <span></span>
+                                    </li>
+
                                 {% endfor %}
-                            </div>
-                            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                <span class="glyphicon glyphicon-chevron-left"></span>
-                            </a>
-                            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                <span class="glyphicon glyphicon-chevron-right"></span>
-                            </a>
+
+{#                             #}
+{#                                {% for context in headlines %}#}
+{#                                    <li class="ccc">#}
+{#                                        <a  href="/meetup/{{ context.name }}" target="_blank">#}
+{#                                            <b></b>#}
+{#                                            <div class="img-replacer" style="width: 600px;height: 200px;background-color: green">#}
+{#                                                #}
+{#                                            </div>#}
+{#                                            <div class="container-fluid" style="width: 600px;height: 200px;" >#}
+{#                                                <div class="row">#}
+{#                                                    <div class="col-md-4" style="background-image: url('{{  context.poster_img }}') ;width:100%; height:100%;">#}
+{#                                                        <img src="{{  context.poster_img }}" style="width:100%;height:100%"/>#}
+{#                                                        <div></div>#}
+{#                                                    </div>#}
+{#                                                    <div class="col-md-8">#}
+{#                                                        <h1>{{ context.title }}</h1><br/>#}
+{#                                                        <div>#}
+{#                                                            分享嘉宾：#}
+{#                                                            {% for teacher in context.teachers %}#}
+{#                                                                {{ teacher }} &nbsp;#}
+{#                                                            {% endfor %}#}
+{#                                                        </div>#}
+{#                                                        <div>地点：{{ context.location }}</div>#}
+{#                                                        <div>活动时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>#}
+{##}
+{#                                                        <br/>#}
+{#                                                    </div>#}
+{##}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </a>#}
+{#                                        <span></span>#}
+{##}
+{##}
+{#                                    </li>#}
+{#                                {% else %}#}
+{#                                    <li class="ccc">#}
+{#                                        <a  href="/meetups" target="_blank">#}
+{#                                            <b></b><img alt="设置活动首页显示后本条自动消失" src="/fanstatic/mba/img/dummy_banner.png" >#}
+{#                                        </a>#}
+{#                                        <span></span>#}
+{#                                    </li>#}
+{##}
+{#                                {% endfor %}#}
+
+                            </ul>
+
                       </div>
                     </div>
 
-                    </div>
-
                 </div>
+
+
 
                 <div class="row">
                     <div class="col-md-9 meetups" >
@@ -296,7 +358,7 @@
         {% include "footer.jinja2" %}
 
         {% include "inc/js.jinja2" %}
-
+       <script src="/fanstatic/mba/js/jquery.boutique.min.js"></script>
 
         <script type="text/javascript">
             $(function(){
@@ -305,7 +367,28 @@
                $("li#li_meetups").addClass("active");
 
 
+                $('#picturn').boutique({
+{#                    container_width:              860,#}
+                    starter:			1,
+                    speed:				800,
+                    hoverspeed:			300,
+                    hovergrowth:		0.01,
+                    front_img_width:	500,
+                    front_img_height:	200,
+                    behind_opac:		1,
+                    back_opac:			0.2,
+                    behind_size:		1.0,
+                    back_size:			0,
+                    autoplay:			true,
+                    autointerval:		4000,
+                    freescroll:			true,
+                    easing:				'easeOutQuart',
+                    move_twice_easein:	'easeInQuart',
+                    move_twice_easeout:	'easeOutQuart',
+                    text_front_only:	true
 
+
+                });
 
                 /*
                 $(document).pjax('.home-menu a', '#pjax-content');

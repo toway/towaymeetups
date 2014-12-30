@@ -667,7 +667,9 @@ class Student(MbaUser):
     auth_meetup =  Column(Integer,default=0)
     auth_friend =  Column(Integer,default=0) #
 
-
+    @property
+    def auth_honesty(self):
+        return [auth_info, auth_meetup, auth_friend].count(True) >= 2
 
 
 
@@ -887,7 +889,10 @@ class Banner(Base):
 
     banner_position = Column(Integer, default=0) # 0：home banner, 1:meetup 2： Job， Currently, home banner is the only selection
 
-    type = Column(Integer, default=0)  # 0: pic Banner, 1:Meetup Banner, 2: Job Banner
+
+    [TYPE_HOME, TYPE_MEETUP, TYPE_JOB ] = [0, 1 , 2]
+
+    type = Column(Integer, default=TYPE_HOME)  # 0: home Banner, 1:Meetup Banner, 2: Job Banner
 
     title = Column(String(100))
 
@@ -899,7 +904,8 @@ class Banner(Base):
 
     last_edit_date =  Column(Date(), default=datetime.now(tz=None).date())
 
-    status = Column(Integer,default=1)  # 1: 生效， 0:失效
+    [VALID, INVALID ] = [1, 0]
+    status = Column(Integer, default=VALID)  # 1: 生效， 0:失效
 
 
 class RegisterSms(Base):

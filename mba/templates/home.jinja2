@@ -16,6 +16,44 @@
 
         <link rel="stylesheet" type="text/css" href="/fanstatic/mba/css/mba_widgets.css">
 
+        <style type="text/css">
+
+{# Header Carousel: taken from http://www.mba.sjtu.edu.cn #}
+{# TODO: browser compatible #}
+.mba-headers{
+	/*float: left;*/
+	position:relative;
+{#	width:100%;#}
+    height:276px;
+{#	margin-bottom: 155px;#}
+    margin-top:-30px;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+#picturn{width: 100%;}
+ #picturn li{background:#fff;border:1px solid #a2a2a2;box-shadow: 0px 15px 30px 0px rgba(125,125,125,0.75);}
+ #picturn .front{margin-top:0}
+ #picturn .front img{margin:3px}
+ #picturn .behind {margin-top:40px;width:600px;}
+ #picturn .behind img{margin:0px}
+ #picturn .back {margin-top:40px}
+ #picturn img {margin:0px}
+ #picturn{ /*float:left;*/ height:376px;margin:0 auto;padding:0;position:relative;z-index:1;display: inline;}
+ #picturn li{margin:0;padding:0;list-style:none;position:absolute;z-index:1;display:none;border-width:0px}
+ #picturn img{border:0;vertical-align:bottom;width:280px;height:400px}
+ #picturn a{cursor:default;text-decoration:none}
+  #picturn a span,#picturn strong,#picturn em,#picturn p{
+  	display: none;
+  }
+/*#picturn .ccc img{background:rgba(0, 0, 0, 0.7) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明
+filter:Alpha(opacity=70); background:#000; border:1px solid red;}*/
+#picturn .ccc b{background:rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;/*实现FF背景透明，文字不透明*/
+filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline-block;position:absolute; left:0; top:0; width:100%; height:100%;}
+
+
+        </style>
+
         <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
@@ -39,38 +77,67 @@
 
                         {% include "messages.jinja2" %}
 
+
+
                         <div class="mba-headers">
-                            <div  id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
-                                <div class="carousel-inner">
-                                    {% for banner in banners %}
-                                    <div class="item {% if banner == banners[0] %}active{% endif %}">
-                                        <div class="row">
-                                           {% if banner.type == 0 %}
-                                               <a href="{{ banner.link_url }}">
-                                                    <img src="{{ banner.img_url }}" width="100%" />
-                                               </a>
-                                           {% else %}
-                                               no
-                                           {% endif %}
+                            <ul id="picturn">
 
-                                        </div>
 
-                                    </div>
+                                {% for banner in home_banners %}
 
-                                    {% else %}
-                                        <center><br/><h1>无头条推荐</h1><br/></center>
-                                    {% endfor %}
-                                </div>
-                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                </a>
-                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                </a>
-                            </div>
+                                    <li class="ccc">
+                                        <a  href="{{ banner.link_url }}" target="_blank">
+                                            <b></b><img alt="{{ banner.title }}" src="{{ banner.img_url }}" >
+                                        </a>
+                                        <span></span>
+
+                                    </li>
+
+
+                                {% else %}
+                                    <li class="ccc">
+                                        <a  href="/meetups" target="_blank">
+                                            <b></b><img alt="上传首页banner后本条自动消失" src="/fanstatic/mba/img/dummy_banner.png" >
+                                        </a>
+                                        <span></span>
+                                    </li>
+
+
+
+                                {% endfor %}
+
+{#                                <li class="ccc"><a  href="http://mba.sjtu.edu.cn/zt/gat/" target="_blank">#}
+{#                                    <b></b><img alt="港澳台招生" src="http://www.mba.sjtu.edu.cn//mba_web/static/201411/spe_201411181538287港澳台-首页大图.jpg" ></a>#}
+{#                                    <span></span>#}
+{#                                </li>#}
+{#                                <li class="ccc"><a  href="/recruit/references.html" target="_blank">#}
+{#                                    <b></b><img alt="备战联考" src="http://www.mba.sjtu.edu.cn//mba_web/static/20145/spe_2014599531833备战联考.png" ></a>#}
+{#                                    <span></span>#}
+{#                                </li>#}
+{#                                <li class="ccc"><a  href="/news/projectnews/9897.html" target="_blank">#}
+{#                                    <b></b><img alt="毕业典礼" src="http://www.mba.sjtu.edu.cn//mba_web/static/20147/spe_20147281722572220140518-IMG_0077aa.jpg" ></a>#}
+{#                                    <span></span>#}
+{#                                </li>#}
+
+                            </ul>
+{#                            <div id="externalcontrols">#}
+{#                                <button id='btnLeft' onClick="picturn_ext_prev()"></button>#}
+{#                                <button id='btnRight' onClick="picturn_ext_next()"></button>#}
+{#                            </div>#}
+{#                            <div id='fucdot'>#}
+{#                                <a href="javascript:void(0);"  class="se"></a>#}
+{#                                <a href="javascript:void(0);"  ></a>#}
+{#                                <a href="javascript:void(0);"  ></a>#}
+{#                                <a href="javascript:void(0);"  ></a>#}
+{#                            </div>#}
+
+
+
 
                         </div>
+
+
                     </div>
 
                 </div>
@@ -150,7 +217,7 @@
                               <div class="panel-heading">
                                   <span class="title">最新招聘</span>
                                       <ul class="nav nav-tabs home-tabs" id="jobTab">
-                                          <li{% if user.city_name not in ['北京','上海','广州','深圳'] %}class="active"{% endif %}><a href="#job-all" data-toggle="tab">全部</a></li>
+                                          <li{% if user.city_name not in ['北京','上海','广州','深圳'] %} class="active"{% endif %}><a href="#job-all" data-toggle="tab">全部</a></li>
                                           <li {% if user.city_name == '北京' %}class="active"{% endif %}><a href="#job-bj" data-toggle="tab">北京</a></li>
                                           <li {% if user.city_name == '上海' %}class="active"{% endif %}><a href="#job-sh" data-toggle="tab">上海</a></li>
                                           <li {% if user.city_name == '广州' %}class="active"{% endif %}><a href="#job-gz" data-toggle="tab">广州</a></li>
@@ -256,34 +323,7 @@
                         <div class="home-myinfo">
                             <div class="panel panel-default">
                             <div class="panel-body">
-                                <div class="myinfo-header row">
-
-                                    <div class="col-md-6">
-                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
-                                                    width="80px" height="80px"/>
-                                       <div class="zyno">志友号: {{ '%08d' % user.id}}</div>
-                                    </div>
-
-                                    <div class="col-md-6 header-right">
-                                        <h2>{{ user.real_name or user.name }}</h2>
-                                        <div>常住地：{{ user.city_name or '未填写'  }}</div>
-
-                                        {% set auth_i = user.auth_info %}
-                                        {% set auth_m = user.auth_meetup %}
-                                        {% set auth_f = user.auth_friend %}
-                                        <div class="basic_info">
-
-                                            <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
-                                                  title="资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
-                                            <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
-                                                  title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
-                                            <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
-                                                  title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
-
-                                        </div>
-
-                                    </div>
-                                </div>
+                                {% include "/inc/personal_info_header.jinja2" %}
 
                                 <hr />
 
@@ -342,11 +382,11 @@
                                         <span class="glyphicon glyphicon-info-sign"></span>
                                         可能认识的人 <span  class="more"><a id="pmk-change-group" href="#">换一组</a></span>
 
-                                        {% for i in range( (persons_maybe_know | length -1) // 4 +1) %}
+                                        {% for i in range( (persons_maybe_know | length - 1) // 4 + 1) %}
                                             <ul class="persons-maybe-know" data-group="{{ loop.index0 }}"
                                                 {% if loop.index0 != 0 %}style="display: none"{% endif %}
                                                 >
-                                                {% for person in persons_maybe_know[i*4:i*4+4] %}
+                                                {% for person in persons_maybe_know[i*4:i*4+ 4] %}
 
                                                     <li>
                                                         <a href="/person/{{ person.id }}">
@@ -387,8 +427,8 @@
                     </div>
             </div>
 
+            </div>
         </div>
-
 
 <div id="invite-friend-reg" style="display: none">
 <h3>将下列URL分享给好友:</h3>
@@ -405,6 +445,9 @@
 
         {% include "inc/js.jinja2" %}
         <script src="/fanstatic/mba/js/mba_widgets.js"></script>
+        <script src="/fanstatic/mba/js/jquery.boutique.min.js"></script>
+{#        <script src="http://friquemag.net/demos/boutique/js/jquery.boutique.min.js"></script>#}
+
 
         <script type="text/javascript">
             /*
@@ -516,6 +559,33 @@
                         }
                     ]
                  });
+
+
+
+
+                $('#picturn').boutique({
+{#                    container_width:              860,#}
+                    starter:			1,
+                    speed:				800,
+                    hoverspeed:			300,
+                    hovergrowth:		0.01,
+                    front_img_width:	500,
+                    front_img_height:	200,
+                    behind_opac:		1,
+                    back_opac:			0.2,
+                    behind_size:		1.0,
+                    back_size:			0,
+                    autoplay:			true,
+                    autointerval:		4000,
+                    freescroll:			true,
+                    easing:				'easeOutQuart',
+                    move_twice_easein:	'easeInQuart',
+                    move_twice_easeout:	'easeOutQuart',
+                    text_front_only:	true
+
+
+                });
+
 
 
             });
