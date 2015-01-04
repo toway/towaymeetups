@@ -492,27 +492,7 @@ ul { list-style-type: none; }
     padding: 3px 5px;
 }
 
-.meetups-header .carousel  .carousel-control {
-    width: 50px;
-}
 
-.meetups-header .carousel  .carousel-control.left {
-    background-image: -webkit-linear-gradient(left, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
-    background-image: linear-gradient(to right, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
-}
-
-.meetups-header .carousel  .carousel-control.right {
-    background-image: -webkit-linear-gradient(right, color-stop(rgba(0, 0, 0, 0.5) 0), color-stop(rgba(0, 0, 0, 0.0001) 100%));
-    background-image: linear-gradient(to left, rgba(204, 212, 223, 0.5) 0, rgba(1, 1, 1, 0.0001) 100%);
-}
-
-
-.meetups-header .carousel  .carousel-control .glyphicon-chevron-left {
-    left: 10px;
-}
-.meetups-header .carousel  .carousel-control .glyphicon-chevron-right {
-    right: 10px;
-}
 
 /* /meetups style end */
 
@@ -545,6 +525,22 @@ ul { list-style-type: none; }
 
 #meetup-map{
     height: 200px;
+}
+
+.meetup-rightbar hr{
+    margin-bottom: 0;
+    border-top: 2px solid #000000;
+}
+
+.meetup-main .main-info{
+    font-family: 黑体;
+    line-height: 28px;
+    font-weight: bold;
+    color: #999;
+}
+
+.meetup-main .main-info h2{
+    color: #C00
 }
 /* /meetup/id style end */
 

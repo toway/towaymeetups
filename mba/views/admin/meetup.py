@@ -270,7 +270,7 @@ class ActAddForm(AddFormView):
         parent['tempname'] = new_item
         new_item.name = new_item.position+1
         self.request.session.flash(self.success_message, 'success')
-        print 'success url:', self.request.resource_url(new_item)
+        # print 'success url:', self.request.resource_url(new_item)
         location = self.success_url or self.request.resource_url(new_item)
         if location.endswith('/'):
             location = location[:-1]

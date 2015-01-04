@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from datetime import datetime
+import re
 
 import deform
 import colander
@@ -24,18 +25,160 @@ from kotti.security import get_principals
 from kotti import DBSession
 from kotti.security import get_user
 from kotti.interfaces import IContent
+from kotti.util import title_to_name
 
 from mba.resources import MbaUser, TZ_HK, Participate, Comment, MeetupInvitation
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
+from mba.resources import Act
 
 
 __author__ = 'sunset'
 __date__ = '20140614'
 
 
+phone_re = re.compile('^\d{11}$')
+def phone_pattern_validator(node, value):
+    if len(value) != 11 or not phone_re.match(value):
+        raise colander.Invalid(node, u"不合法的手机号")
 
+
+class MeetupSignupSchema(colander.Schema):
+
+    phone = colander.SchemaNode(
+        colander.String(),
+        title=_(u'手机'),
+        validator= phone_pattern_validator
+    )
+
+    real_name = colander.SchemaNode(
+        colander.String(),
+        title=_(u'姓名'),
+    )
+
+    company = colander.SchemaNode(
+        colander.String(),
+        title=_(u'公司'),
+    )
+
+    title = colander.SchemaNode(
+        colander.String(),
+        title=_(u'职务')
+    )
+
+
+def signup_validator(form, value):
+    pass
+
+
+
+
+@view_config(route_name='meetup_signup',  renderer='mobile/meetup_signup.jinja2')
+def mobile_view_meetup_signup(context, request):
+
+    meetupname = request.matchdict['name']
+    meetup = DBSession.query(Act).filter_by(name=meetupname).first()
+
+    if  meetup is None:
+        return Response(u"不存在的活动")
+
+    schema = MeetupSignupSchema(validator=signup_validator).bind(request=request)
+
+    form = deform.Form(schema,
+                       buttons=[deform.form.Button(u'submit', title=u'确认报名') ],
+                        )
+    rendered_form = None
+
+
+    if 'submit' in request.POST:
+        try:
+            appstruct = form.validate(request.POST.items())
+
+
+            phone = appstruct['phone']
+
+            user =  DBSession.query(MbaUser).filter_by(phone=phone).first()
+
+            def participate_meetup(meetup, user):
+                part = Participate()
+                part.act_id = meetup.id
+                part.user_id = user.id
+                DBSession.add( part )
+                DBSession.flush()
+
+            def generate_random_password(length):
+                import random
+                out = ''
+                for i in range(length):
+                    r1 = random.randint(ord('0'),ord('9'))
+                    r2 = random.randint(ord('A'),ord('Z'))
+                    r3  = random.randint(ord('a'),ord('z'))
+                    idx = random.randint(0,2)
+                    val = [r1,r2,r3][idx]
+
+                    out += chr(val)
+
+
+                return out
+
+
+
+
+            if user is not None:
+                # 该手机已注册
+                # this phone has already registered,  and so so will ignored.
+                # Just register it
+
+                if user in meetup.parts:
+
+                    form.error = colander.Invalid(schema, u"您已经报过名了, 不能重复报名")
+                    rendered_form = form.render(appstruct)
+                    # raise ValidationFailure(form, appstruct, '')
+
+                else:
+
+                    #报名
+                    participate_meetup(meetup, user)
+
+                    return  Response(u"报名成功！")
+
+            else:
+                # 该手机没有注册，生成用户，并发短信通知其密码。
+                real_name = appstruct['real_name']
+                name =  title_to_name(real_name)
+                company = appstruct['company']
+                title = appstruct['title']
+                new_user = MbaUser(name=name, real_name=real_name,company=company, title=title)
+
+                DBSession.add(new_user)
+                DBSession.flush()
+
+                random_password = generate_random_password(10)
+
+                new_user.password = get_principals().hash_password(random_password)
+
+                participate_meetup(meetup, new_user)
+
+                return Response(u"报名成功，您以后可以用手机号和密码 %s 登陆本站!" % random_password)
+
+
+
+        except ValidationFailure, e:
+            rendered_form = e.render()
+
+
+
+
+
+    principals = get_principals()
+
+
+
+    if rendered_form is None:
+        rendered_form = form.render(request.params)
+
+    return { 'form': rendered_form}
 
 
 
@@ -50,6 +193,7 @@ def view_meetup(context, request):
     # context.enroll_finish_time =  context.enroll_finish_time.replace(tzinfo = TZ_HK )
     # context.meetup_start_time = context.meetup_start_time.replace(tzinfo = TZ_HK )
     # context.meetup_finish_time= context.meetup_finish_time.replace(tzinfo = TZ_HK )
+    # print 'view_meetup'
     
     self_enrolled = False
     

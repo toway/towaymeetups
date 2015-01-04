@@ -28,6 +28,16 @@ accept-charset="utf-8"
         </div>
     {% endfor %}
 
+{#    {{ field.error }}#}
+    {% if field.error and not field.widget.hidden %}
+        {% for msg in field.error.messages() %}
+            {% set errstr = 'error-%s' % field.oid %}
+            {% set pid = (loop.index0==0 and errstr) or ('%s-%s' % (errstr, loop.index0)) %}
+
+            <span id="{{pid}}" class="help-inline {{field.widget.error_class}}">{{_(msg)}}</span>
+        {% endfor %}
+    {% endif %}
+
 
     {% for button in field.buttons %}
         <button

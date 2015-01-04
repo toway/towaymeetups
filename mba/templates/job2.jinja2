@@ -176,20 +176,26 @@ function do_search() {
 
                   
             <div class="col-md-3 no_padding">
-              <div id="person_info">
-                <img src="{{ user.avatar }}" width="80px" height="80px">
-                <div class="person_info_absolute">
-			<p><span>{{user.real_name or user.name}}</span><br/></p>
-			<p><span>{{user.city_name }}</span><br/></p>
-                  <p><span>(志友号-{{ '%08d' % user.id}})</span></p>
-                </div>
-                
-                    <!-- <p style="text-align:center">(志友号-000008)</p> -->
-                
-                  <p class="first">
-                    <span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>
-                  </p>
-              </div>
+                 <div class="panel panel-default">
+                     <div class="panel-body">
+                        {% include "/inc/personal_info_header.jinja2" %}<hr />
+                     </div>
+                 </div>
+
+{#              <div id="person_info">#}
+{#                <img src="{{ user.avatar }}" width="80px" height="80px">#}
+{#                <div class="person_info_absolute">#}
+{#			<p><span>{{user.real_name or user.name}}</span><br/></p>#}
+{#			<p><span>{{user.city_name }}</span><br/></p>#}
+{#                  <p><span>(志友号-{{ '%08d' % user.id}})</span></p>#}
+{#                </div>#}
+{#                #}
+{#                    <!-- <p style="text-align:center">(志友号-000008)</p> -->#}
+{#                #}
+{#                  <p class="first">#}
+{#                    <span class="info_auth"></span><span class="activity_auth" title="成功参加一次志友汇活动即可完成认证"></span><span class="friend_auth" title="与10名校友成功交换名片即可完成认证"></span>#}
+{#                  </p>#}
+{#              </div>#}
               <div id="job_manange">
 		      <a href="/resume_edit2/{{resume_id}}">简历管理</a>
               </div>

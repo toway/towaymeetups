@@ -45,36 +45,29 @@
                 <div class="row">
                     <div class="col-md-9 meetups" >
 
-                        {% include "/admin/pagination.jinja2" %}
+                        <br/>
 
                         <div class="newest">
 
+                            <ul class="container-fluid">
                             {% for info in infomations %}
+                                <a href="/infomation/{{ info.name }}"
+                                <li class="row">
+                                    <span class="col-md-9">
+                                        {{ info.title }}
+                                    </span>
+                                    <span class="col-md-3">
+                                        {{ info.creation_date }}
+                                    </span>
 
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <span class="title">{{ info.title }}</span>
-
-                                    </div>
-                                    <div class="panel-body">
-
-
-                                        <div class="row home-sector-sub" >
-
-                                            <div class="col-md-10">
-                                                <a href="/infomation/{{ info.name }}">{{ info.body[:100] | safe}}</a>
-                                            </div>
-
-                                        </div>
-
-
-                                    </div>
-
-                                </div>
-
+                                </li>
+                                </a>
                             {% endfor %}
+                            </ul>
 
                         </div>
+
+                        {% include "/admin/pagination.jinja2" %}
 
 
                     </div>
