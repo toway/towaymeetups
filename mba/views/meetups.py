@@ -57,7 +57,7 @@ def query_meetups(request):
 
 
 
-    result = DBSession.query(Act).limit(20)
+    result = DBSession.query(Act).filter(Act.status==Act.STATUS_PUBLIC).limit(20)
     all = [ {'name': it.name,
              'title': it.title,
              'meetup_type' : it.meetup_type_title,
