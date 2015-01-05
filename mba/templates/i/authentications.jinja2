@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+
+        <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+        <div class="mba-margin-top">
+
+            <div class="container ">
+                <br/>
+                <div class="row">
+
+                    <div class="col-md-3">
+
+                        {%  include "/inc/infobox_menu.jinja2" %}
+
+                    </div>
+
+                    <div class="col-md-9">
+
+                        <h2>认证</h2>
+                        <table class="table table-bordered">
+                        <tr>
+                            <th>种类</th>
+                            <th>状态</th>
+                            <th>描述</th>
+                            <th>操作</th>
+
+                        </tr>
+                        {% for auth in authentications %}
+                            <form name="authentication" method="POST" >
+                            <tr>
+                                <td>{{ auth[1] }}</td>
+                                <td>
+                                    {% if auth[3] == user.AUTH_STATUS_UNAUTH %}
+                                        未获得认证
+                                    {% elif auth[3] == user.AUTH_STATUS_AUTHED %}
+                                        已成功认证
+                                    {% elif auth[3] == user.AUTH_STATUS_FAIL %}
+                                        认证失败，请完善资料
+                                    {% elif auth[3] == user.AUTH_STATUS_REQ_FOR_AUTH %}
+                                        已申请认证，请耐心等待管理员通过
+                                    {% endif %}
+                                </td>
+                                <td>{{ auth[2] }}</td>
+                                <td>
+
+                                    {% if auth[0] == 'auth_info' or auth[0] == 'auth_expert' and auth[3] != user.AUTH_STATUS_AUTHED%}
+                                        <input type="hidden" name="auth_type" value="{{ auth[0] }}"/>
+                                        <input class="btn btn-sm btn-default" type="submit" name="apply-auth" value="申请认证"/>
+                                    {% endif %}
+                                </td>
+
+                            </tr>
+                            </form>
+
+                        {% endfor %}
+                        </table>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+
+        {% include "inc/js.jinja2" %}
+
+
+        <script type="text/javascript">
+
+
+            $(function(){
+
+
+            });
+
+        </script>
+
+    </body>
+</html>

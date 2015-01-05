@@ -1,23 +1,28 @@
                         <ul class="pagination">
+
+                            {{ page_index }}
+                            {{ total_page }}
+
+                            {{ total_count }}
                             
                             <li {% if page_index == 1 %} class="disabled" {% endif %}><a href="#">&laquo;</a></li>
                             
                             {% if page_index >= 3 %}
-                                <li><a href="#">{{page_index-2}}</a></li>
+                                <li><a href="{{ url_prefix }}/{{ page_index-2 }}">{{page_index-2}}</a></li>
                             {% endif %}
                             {% if page_index >= 2 %}
-                                <li><a href="#">{{page_index-1}}</a></li>
+                                <li><a href="{{ url_prefix }}/{{ page_index-1 }}">{{page_index-1}}</a></li>
                             {% endif %}       
                             
                             <li class="active"><a href="#">{{page_index}}</a></li>
                             
                             
-                            {% if page_index <= total_page-2 %}                            
-                            <li><a href="#">{{total_page-2}}</a></li>
+                            {% if page_index <= total_page-1 %}
+                            <li><a href="{{ url_prefix }}/{{ page_index + 1 }}">{{page_index+1}}</a></li>
                             {% endif %}
                             
-                            {% if page_index <= total_page-1 %}                            
-                            <li><a href="#">{{total_page-1}}</a></li>
+                            {% if page_index <= total_page-2 %}
+                            <li><a href="{{ url_prefix }}/{{ page_index + 2 }}">{{page_index+2}}</a></li>
                             {% endif %}
                             
                             <li {% if page_index == total_page %} class="disabled" {% endif %}><a href="#">&raquo;</a></li>

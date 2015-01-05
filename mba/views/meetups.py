@@ -132,7 +132,7 @@ def view_meetups(request):
 def view_my_meetups(context, request):
     user = get_user(request)
     my_participate = None
-    if user:
+    if user is not None:
         my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)
 
     return {'my_meetups': my_participate}

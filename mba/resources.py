@@ -667,13 +667,15 @@ class Student(MbaUser):
     job_status = Column(String(100))
 
 
-    auth_info =  Column(Integer,default=0) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
-    auth_meetup =  Column(Integer,default=0)
-    auth_friend =  Column(Integer,default=0) #
+    [AUTH_STATUS_UNAUTH, AUTH_STATUS_AUTHED, AUTH_STATUS_FAIL, AUTH_STATUS_REQ_FOR_AUTH ] = range(4)
+    auth_info =  Column(Integer,default=AUTH_STATUS_UNAUTH) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
+    auth_meetup =  Column(Integer,default=AUTH_STATUS_UNAUTH)
+    auth_friend =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
+    auth_expert =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
 
     @property
     def auth_honesty(self):
-        return [auth_info, auth_meetup, auth_friend].count(True) >= 2
+        return [self.auth_info, self.auth_meetup, self.auth_friend].count(self.AUTH_STATUS_AUTHED) >= 2
 
 
 
