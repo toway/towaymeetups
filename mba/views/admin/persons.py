@@ -170,26 +170,30 @@ def view_persons_authed(request):
 @view_config(route_name='admin_persons_unauth_page', renderer='admin/persons.jinja2',permission='view')
 @wrap_user2
 def view_persons_unauth(request):
-    return view_persons_by_auth(request, 1, 10, Student.AUTH_STATUS_UNAUTH)
+    page = int(request.matchdict.get('page',1) )
+    return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_UNAUTH)
 
 @view_config(route_name='admin_persons_authfail', renderer='admin/persons.jinja2',permission='view')
 @view_config(route_name='admin_persons_authfail_page', renderer='admin/persons.jinja2',permission='view')
 @wrap_user2
 def view_persons_authfail(request):
-    return view_persons_by_auth(request, 1, 10, Student.AUTH_STATUS_FAIL)
+    page = int(request.matchdict.get('page',1) )
+    return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_FAIL)
 
 
 @view_config(route_name='admin_persons_reqauth', renderer='admin/persons.jinja2',permission='view')
 @view_config(route_name='admin_persons_reqauth_page', renderer='admin/persons.jinja2',permission='view')
 @wrap_user2
 def view_persons_reqauth(request):
-    return view_persons_by_auth(request, 1, 10, Student.AUTH_STATUS_REQ_FOR_AUTH)
+    page = int(request.matchdict.get('page',1) )
+    return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_REQ_FOR_AUTH)
 
 @view_config(route_name='admin_persons_reqexpertauth', renderer='admin/persons.jinja2',permission='view')
 @view_config(route_name='admin_persons_reqexpertauth_page', renderer='admin/persons.jinja2',permission='view')
 @wrap_user2
 def view_persons_reqexpertauth(request):
-    return view_persons_by_expert_auth(request, 1, 10, Student.AUTH_STATUS_REQ_FOR_AUTH)
+    page = int(request.matchdict.get('page',1) )
+    return view_persons_by_expert_auth(request, page, 10, Student.AUTH_STATUS_REQ_FOR_AUTH)
 
 
 def includeme(config):
