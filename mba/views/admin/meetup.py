@@ -159,7 +159,7 @@ class ActSchema(colander.MappingSchema):
         colander.Integer(),
         title=_(u'是否在头条推荐：'),
         widget=CheckboxWidget(true_val="1",false_val="0"),
-        default=HeadLine.NOT_TOP
+        default=Act.PUTONBANNER_NO
     )
 
     meetup_type = colander.SchemaNode(
@@ -333,10 +333,10 @@ def view_find(context, request):
 
 def view_meetup_entry(page_index=1, num_per_page=10):
     jquery.need()
-    queried = DBSession.query(Act)
-    count = queried.count()
+    count = DBSession.query(Act).filter(Act.status!=Act.STATUS_DELETED).count()
+
     start = (page_index-1) * num_per_page
-    result = DBSession.query(Act).slice(start,num_per_page)
+    result = DBSession.query(Act).filter(Act.status!=Act.STATUS_DELETED).slice(start,num_per_page)
     part = [ { 'id': it.id,
               'name': it.name,
               'title': it.title,
@@ -356,14 +356,40 @@ def view_meetup_entry(page_index=1, num_per_page=10):
             'num_per_page':num_per_page,
             'page_index': 1}
 
-@view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='manage')
-@wrap_user
-def view_admin_home(request):
-    return view_meetup_entry()
+# @view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='manage')
+# @wrap_user
+# def view_admin_home(request):
+#     return view_meetup_entry()
 
 @view_config(route_name='admin_meetups', renderer='admin/meetups.jinja2',permission='view')
+@view_config(route_name='admin', renderer='admin/meetups.jinja2', permission='manage')
 @wrap_user
 def view_meetups(request):
+
+    if 'delete' in request.POST:
+        todel = request.POST.getall('meetupcheck')
+
+        for mid in todel:
+
+            print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+            meetup = DBSession.query(Act).filter_by(id=int(mid)).first()
+            if meetup is not None :
+                print meetup
+                if len(meetup.parts) != 0:
+                    request.session.flash(u"活动'%s..'由于已经有人报名不能删除!" % meetup.title[:10], 'danger')
+
+                else:
+                    meetup.status = Act.STATUS_DELETED
+                    request.session.flash(u"活动'%s..'已成功删除!" % meetup.title[:10], 'success')
+
+
+
+            DBSession.flush()
+        # DBSession.commit()
+
+
+
+
     return view_meetup_entry()
 
 

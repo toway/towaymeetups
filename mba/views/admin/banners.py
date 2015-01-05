@@ -198,7 +198,7 @@ def admin_home_banners(context, request):
 
         except Exception,ex:
             err_msg = "错误：%s" % ex
-            request.session.flash(err_msg, 'error')
+            request.session.flash(err_msg, 'danger')
 
             return RetDict(errmsg=err_msg)
 

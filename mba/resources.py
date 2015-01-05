@@ -477,16 +477,17 @@ class TeacherTagToActs(Base):
             tag = TeacherTag(title=title)
         return cls(teacher_tag=tag)
 
-class ActStatus:
-    PUBLIC, DRAFT, PRIVATE, CANCEL = 0, 1, 2, 3
-    # public :  seen by anyone
-    # priveate: seen by admins
-    # draft: seen by self
-    # cancel: meetup is canceled
+# class ActStatus:
+#     PUBLIC, DRAFT, PRIVATE, CANCEL, DELETED = 0, 1, 2, 3, 4
+#     # public :  seen by anyone
+#     # priveate: seen by admins
+#     # draft: seen by self.
+#     # cancel: meetup is canceled . 由于某些原因 管理员人为的取消活动
+#     # deleted: meetup is deleted . 如果活动已经有人报名，将不能删除
 
-# 是否是活动首页推荐、全站首页推荐,全站首页推荐待考虑
-class HeadLine:
-    NOT_TOP, MEETUPS_TOP, SITE_TOP = 0, 1, 2
+# # 是否是活动首页推荐、全站首页推荐,全站首页推荐待考虑
+# class HeadLine:
+#     NOT_TOP, MEETUPS_TOP, SITE_TOP = 0, 1, 2
 
 # 活动的类别        
 class MeetupType(Base):
@@ -502,9 +503,12 @@ from kotti.views.edit.content import Image
 class Act(Document):
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
     __acl__ = SITE_ACL
-    status = Column(Integer(), nullable=False, default=ActStatus.PUBLIC)
 
-    headline = Column(Integer, nullable=False, default=HeadLine.NOT_TOP)
+    [STATUS_PUBLIC, STATUS_DRAFT, STATUS_PRIVATE, STATUS_CANCEL, STATUS_DELETED] = range(5)
+    status = Column(Integer(), nullable=False, default=STATUS_PUBLIC)
+
+    [PUTONBANNER_NO, PUTONBANNER_MEETUP, PUTONBANNER_HOME] = range(3)
+    headline = Column(Integer, nullable=False, default=PUTONBANNER_NO)
     
     meetup_type = Column(Integer, ForeignKey('meetup_types.id'))    
     meetup_type_title = association_proxy('meetup_types', 'title' )
@@ -865,7 +869,9 @@ class Position(Document):
     location = Column(UnicodeText())
     #猎头/公司
     hunting_type = Column(Integer(), default=0)
-    status = Column(Integer(), nullable=False, default=ActStatus.DRAFT)
+
+    [STATUS_PUBLIC, STATUS_DRAFT] = range(2)
+    status = Column(Integer(), nullable=False, default=STATUS_DRAFT)
 
     resumes = relationship('PositionResume', backref='position')
     users = association_proxy('resumes', 'user')

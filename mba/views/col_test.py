@@ -71,7 +71,7 @@ def view_col(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
         else:
             print appstruct
@@ -195,7 +195,7 @@ def view_col2(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
         else:
             print appstruct
@@ -262,7 +262,7 @@ def retail_view(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
         else:
             print appstruct

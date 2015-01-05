@@ -84,7 +84,7 @@ def view_meetup_types(context, request):
 
         except Exception,ex:
             err_msg = "%s" % ex
-            request.session.flash(_(u"错误：'%s'" % err_msg), 'error')
+            request.session.flash(_(u"错误：'%s'" % err_msg), 'danger')
 
 
         finally:

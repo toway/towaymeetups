@@ -68,7 +68,7 @@ def view_persons(request, page_index=1, num_per_page=10):
 
         except Exception,ex:
             err_msg = "%s" % ex
-            request.session.flash(_(u"错误：'%s'" % err_msg), 'error')
+            request.session.flash(_(u"错误：'%s'" % err_msg), 'danger')
 
         finally:
             return {}

@@ -1,0 +1,102 @@
+{#author: sunset#}
+{#date: 20141231#}
+{#desc: This a common template, every backend view can use it#}
+
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        {% include "inc/css.jinja2" %}
+
+        <style type="text/css">
+            #pjax-content {
+                /*border: solid 1px #dcdcdc;*/
+            }
+        </style>
+
+
+        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <!-- Add your site or application content here -->
+
+
+
+        {% include "header.jinja2" %}
+
+
+
+         <div class="mba-margin-top">
+
+            <div class="container ">
+
+
+                <div class="row">
+                    <div class="col-md-9 meetups" >
+
+                        <br/>
+
+                        <div class="newest">
+
+                            <ul class="container-fluid">
+                            {% for info in infomations %}
+                                <a href="/infomation/{{ info.name }}"
+                                <li class="row">
+                                    <span class="col-md-9">
+                                        {{ info.title }}
+                                    </span>
+                                    <span class="col-md-3">
+                                        {{ info.creation_date }}
+                                    </span>
+
+                                </li>
+                                </a>
+                            {% endfor %}
+                            </ul>
+
+                        </div>
+
+                        {% include "/admin/pagination.jinja2" %}
+
+
+                    </div>
+
+
+                    <div class="col-md-3" ic="infomations-right-bar">
+
+                    </div>
+
+                </div>
+         </div>
+        </div>
+
+
+        {% include "footer.jinja2" %}
+
+        {% include "inc/js.jinja2" %}
+
+
+        <script type="text/javascript">
+            $(function(){
+
+            });
+        </script>
+
+    </body>
+</html>

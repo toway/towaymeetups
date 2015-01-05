@@ -1,5 +1,5 @@
 <div id="messages" class="{{request.is_xhr and 'ajax-replace' or ''}}">
-    {% for msg in ('info','success','error','') %}
+    {% for msg in ('info','success','error', 'danger', '') %}
         {% for messages in request.session.pop_flash(msg) %}
             {% if messages %}
             
