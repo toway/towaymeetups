@@ -110,6 +110,11 @@ def search_information(request, page_index=1, num_per_page=10):
             , 'page_index': page_index
             })
 
+@view_config(route_name='search_huoban', renderer='search_huoban.jinja2')
+def search_huoban(request, page_index=1, num_per_page=10):
+    return wrap_user2(request, {})
+
 def includeme(config):
     config.add_route('search_information', '/search-info')
+    config.add_route('search_huoban', '/search-huoban')
     config.scan(__name__)
