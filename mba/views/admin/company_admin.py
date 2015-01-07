@@ -84,7 +84,7 @@ def admin_company_add(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"添加失败" ), 'error')
+            request.session.flash(_(u"添加失败" ), 'danger')
             rendered_form = e.render()
         else:
             company = CompanyInfo(**appstruct)

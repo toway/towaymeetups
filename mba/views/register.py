@@ -233,7 +233,7 @@ def view_register(context, request):
         try:
             appstruct = form.validate(request.POST.items())
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
         else:
             settings = get_settings()
@@ -335,7 +335,7 @@ def view_register_details(context, request):
 
 
         except ValidationFailure, e:
-            request.session.flash(_(u"There was an error."), 'error')
+            request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
 
     if 'skip' in request.POST:

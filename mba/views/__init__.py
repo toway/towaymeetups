@@ -44,3 +44,5 @@ def includeme(config):
 
     config.include('mba.views.admin')
     config.include('mba.views.search')
+
+    config.include('mba.views.i')

@@ -115,7 +115,7 @@ def login(context, request):
         except ValidationFailure, e:
             # msg = [ _(u"%s is %s")  for (k,v) in  e.error.items() ]    
             # msg = u",".join( [m for m in e.error.messages] )
-            request.session.flash(_(u"登陆失败" ), 'error')
+            request.session.flash(_(u"登陆失败" ), 'danger')
             #request.session.flash(_(u"登陆失败：%s" % e.error), 'error')
             # showing 登陆失败 {'password': u'shorting than miminum length 6'}
             rendered_form = e.render()
@@ -135,7 +135,7 @@ def login(context, request):
                 if came_from == 'login':
                     came_from = '/'
                 return HTTPFound(location=came_from, headers=headers)
-            request.session.flash(_(u"登陆失败，用户名或密码错误."), 'error')
+            request.session.flash(_(u"登陆失败，用户名或密码错误."), 'danger')
 
     if rendered_form is None:
         rendered_form = form.render(request.params)

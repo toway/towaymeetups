@@ -19,7 +19,7 @@ _TEST_ATTRS = dict(
     name=u'Just Test',
     description=u'Our company is the leading manufacturer of foo widgets used in a wide variety of aviation and and industrial products.',
     body=u"<p>Hello</p>",
-    status=ActStatus.DRAFT,
+    status=Act.STATUS_DRAFT,
     )
 
 def test_document():
@@ -202,7 +202,7 @@ def test_position():
                 name=u"高级销售经理",
                 description=u'我们公司很需要这方面的人才',
                 body=u"<p>我们公司很需要这方面的人才</p>",
-                status=ActStatus.DRAFT,
+                status=Position.STATUS_DRAFT,
                 )
         DBSession.add(p)
         DBSession.flush()

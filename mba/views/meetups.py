@@ -57,7 +57,7 @@ def query_meetups(request):
 
 
 
-    result = DBSession.query(Act).limit(20)
+    result = DBSession.query(Act).filter(Act.status==Act.STATUS_PUBLIC).limit(20)
     all = [ {'name': it.name,
              'title': it.title,
              'meetup_type' : it.meetup_type_title,
@@ -132,7 +132,7 @@ def view_meetups(request):
 def view_my_meetups(context, request):
     user = get_user(request)
     my_participate = None
-    if user:
+    if user is not None:
         my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)
 
     return {'my_meetups': my_participate}
