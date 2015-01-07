@@ -13,7 +13,6 @@ def includeme(config):
     config.include('mba.views.infomation')
     config.include('mba.views.infomations')
 
-    config.include('mba.views.i_invitationcode')
 
     config.include('mba.views.review')
 
@@ -36,7 +35,7 @@ def includeme(config):
 
 
     config.include('mba.views.invitations')
-    config.include('mba.views.infobox')
+
 
     config.include('mba.views.api')
 

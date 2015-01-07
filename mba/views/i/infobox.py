@@ -95,32 +95,32 @@ def get_messages(type, context, request):
     return {'type': type, 'messages': messages}
 
 
-@view_config(route_name="infobox_m", renderer='infobox.jinja2')
+@view_config(route_name="infobox_m", renderer='i/infobox.jinja2')
 @wrap_user
 def view_infobox_m(context, request):
     return get_messages('all_messages', context, request)
 
 
 
-@view_config(route_name="infobox_mf", renderer='infobox.jinja2')
+@view_config(route_name="infobox_mf", renderer='i/infobox.jinja2')
 @wrap_user
 def view_infobox_mf(context, request):
     return get_messages('friend_messages', context, request)
 
 
-@view_config(route_name="infobox_ms", renderer='infobox.jinja2')
+@view_config(route_name="infobox_ms", renderer='i/infobox.jinja2')
 @wrap_user
 def view_infobox_ms(context, request):
     return get_messages('system_messages', context, request)
 
 
 
-@view_config(route_name="infobox_ip", renderer='infobox.jinja2')
+@view_config(route_name="infobox_ip", renderer='i/infobox.jinja2')
 @wrap_user
 def view_infobox_ip(context, request):
     return get_messages('view_invitation_person', context, request)
 
-@view_config(route_name="infobox_im", renderer='infobox.jinja2')
+@view_config(route_name="infobox_im", renderer='i/infobox.jinja2')
 @wrap_user
 def view_infobox_im(context, request):
     return get_messages('view_invitation_meetup', context, request)
@@ -295,11 +295,11 @@ def api_infobox(context, request):
 def includeme(config):
 
     #config.add_route('infobox', '/infobox')
-    config.add_route('infobox_m', '/infobox/messages')
-    config.add_route('infobox_ms', '/infobox/messages/system')
-    config.add_route('infobox_mf', '/infobox/messages/friend')
-    config.add_route('infobox_im', '/infobox/invitations/meetup')
-    config.add_route('infobox_ip', '/infobox/invitations/person')
+    config.add_route('infobox_m', '/i/messages')
+    config.add_route('infobox_ms', '/i/messages/system')
+    config.add_route('infobox_mf', '/i/messages/friend')
+    config.add_route('infobox_im', '/i/invitations/meetup')
+    config.add_route('infobox_ip', '/i/invitations/person')
 
     config.add_route('api_infobox','/api/infobox')
 

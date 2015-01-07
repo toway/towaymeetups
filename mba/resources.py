@@ -337,6 +337,11 @@ class MbaUser(Base):
                            primaryjoin="and_(MbaUser.id==Message.reciever_id, Message.status==0)")
 
 
+    available_invitation_codes = relationship('InvitationCode',
+                                             primaryjoin="and_(MbaUser.id==InvitationCode.sender_id,"\
+                                                         "InvitationCode.status==0)")
+
+
 
     city_id = Column(Integer, ForeignKey('city.id')) # backref is defined in class City
     city_name = association_proxy('city'

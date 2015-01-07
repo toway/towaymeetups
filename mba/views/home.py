@@ -60,12 +60,17 @@ def view_home(context, request):
 
     jqueryui.need()
 
+    first_available_invitation_code = None
+    if len(user.available_invitation_codes)>0:
+        first_available_invitation_code = user.available_invitation_codes[0].code
+
     d = query_meetups(request)
     d.update(query_info(request))
     d.update(query_banners(request))
     d.update(persons_maybe_know(user))
     d.update({'application_url': request.application_url})
     d.update({'all_pos': query_by_cities()})
+    d.update({'first_available_invitation_code': first_available_invitation_code})
     return d
 
 

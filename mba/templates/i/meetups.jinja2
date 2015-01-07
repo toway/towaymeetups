@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -37,62 +38,32 @@
 
                     <div class="col-md-3">
 
-                        {%  include "/inc/infobox_menu.jinja2" %}
+                        {%  include "/i/menu.jinja2" %}
 
                     </div>
 
                     <div class="col-md-9">
 
-                        邀请我注册的人：
-                        {% if user.invitation_code | length > 0 %}
-                            {% set inviter = user.invitation_code[0].sender %}
-                            <a href="/person/{{ inviter.id }}">{{ inviter.real_name }}</a>
-                        {% else %}
-                            无
-                        {% endif %}
-
-
-
-
                         <table class="table table-bordered">
                         <tr>
-                            <th>我的注册邀请码</th>
-                            <th>状态</th>
-                            <th>我邀请的人</th>
-                            <th>过期日</th>
+                            <th>ID</th>
+                            <th>活动标题</th>
+                            <th>城市</th>
 
                         </tr>
-                        {% for code in invitationcode %}
+                        {% for meetup in my_meetups %}
                             <tr>
-                                <td>{{ code.code }}</td>
+                                <td>{{ meetup.id }}</td>
                                 <td>
-                                    {% if code.status == code.AVAILABLE %}
-                                        可用
-                                    {% elif code.status == code.USED  %}
-                                        已使用
-                                    {% else %}
-                                        已过期
-                                    {% endif %}
-
-                                <td>
-                                    {%  set reciever = code.reciever %}
-
-                                    {% if reciever %}
-                                        <a href="/person/{{ reciever.id }}">{{reciever.name or reciever.real_name }}</a>
-                                    {% else %}
-                                        无
-                                    {% endif %}
-
+                                    <a href="/meetup/{{ meetup.name }}">{{ meetup.title }}</a>
                                 </td>
-                                <td>{{ code.expiration }}</td>
+                                <td>{{ meetup.city_name }}</td>
                             </tr>
 
                         {% else %}
                             <tr ><td colspan="3">暂未参加任何活动, 去<a href="/meetups">活动首页</a>看看?</td></tr>
                         {% endfor %}
                         </table>
-
-
 
                     </div>
 

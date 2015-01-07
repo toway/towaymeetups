@@ -223,6 +223,11 @@ def view_register(context, request):
             css_class="form-horizontal",
             title=u'').bind(request=request)
 
+
+    schema.children[0].default = request.GET.get('invite','')
+
+
+
     form = deform.Form(schema, buttons=[
                 deform.form.Button(u'register',
                                    css_class='btn-primary',

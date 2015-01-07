@@ -127,7 +127,7 @@ def view_meetups(request):
 
 # TODO: pagnation is needed
 
-@view_config(route_name='my_meetups', renderer='i_meetups.jinja2')
+@view_config(route_name='my_meetups', renderer='i/meetups.jinja2')
 @wrap_user
 def view_my_meetups(context, request):
     user = get_user(request)

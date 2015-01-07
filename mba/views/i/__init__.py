@@ -38,6 +38,8 @@ __desc__ = u'个人中心'
 def includeme(config):
 
     config.include("mba.views.i.authentication")
+    config.include("mba.views.i.invitationcode")
+    config.include("mba.views.i.infobox")
 
     config.scan(__name__)
 

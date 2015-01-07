@@ -36,7 +36,7 @@ __date__ = '20141218'
 
 
 
-@view_config(route_name='my_invitationcode', renderer='i_invitationcode.jinja2')
+@view_config(route_name='my_invitationcode', renderer='invitationcode.jinja2')
 @wrap_user
 def view_my_meetups(context, request):
     user = get_user(request)

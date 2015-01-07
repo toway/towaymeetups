@@ -333,7 +333,7 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                 <div class="action-buttons">
 
                                 <div>
-                                    <a href="/infobox/messages">
+                                    <a href="/i/messages">
                                         <button class="btn btn-info ">站 内 信
                                             {% if user.newmessages | count >0 %}
                                             <sup>{{ user.newmessages | count }}</sup>
@@ -372,8 +372,8 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                         <span class="glyphicon glyphicon-star"></span>
                                         收到的邀请 <span class="more"><a href="#">更多</a></span>
                                         <div>
-                                            <div><a href="/infobox/invitations/meetup">活动邀请</a></div>
-                                            <div><a href="/infobox/invitations/person">人脉邀请</a></div>
+                                            <div><a href="/i/invitations/meetup">活动邀请</a></div>
+                                            <div><a href="/i/invitations/person">人脉邀请</a></div>
                                         </div>
                                     </div>
 
@@ -432,9 +432,20 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 
 <div id="invite-friend-reg" style="display: none">
 <h3>将下列URL分享给好友:</h3>
-<input class="form-control" type="text" onClick="this.select();"  readonly="readonly" value="{{ application_url }}/register?invite={{ user.id }}"/>
+<input class="form-control" type="text" onClick="this.select();"  readonly="readonly"
+       value="
+            {%- if first_available_invitation_code -%}
+               {{ application_url }}/register?invite={{ first_available_invitation_code }}
+            {%- else -%}
+                您的邀请码已经用完
+            {%- endif -%}
+               "
+        />
     <span id="copy-status"></span>
 </div>
+
+        {{ user.available_invitation_codes }}
+        {{ first_available_invitation_code }}
 
 <!-- JiaThis Button END -->
 
@@ -536,12 +547,14 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                             );
                             client.on( "load", function(client) {
                                 // alert( "movie is loaded" );
-                                client.setText( $("#invite-friend-reg input").val() );
+                                var invite = $("#invite-friend-reg input").val().trim();
+
+                                client.setText( invite );
 
                                 client.on( "complete", function(client, args) {
                                     // `this` is the element that was clicked
 {#                                    this.style.display = "none";#}
-                                    client.setText( $("#invite-friend-reg input").val() );
+{#                                    client.setText( invite );#}
 {#                                    alert("Copied text to clipboard: " + args.text );#}
                                     self.dialog.find("#copy-status").text("复制成功!");
                                 } );
