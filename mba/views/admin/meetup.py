@@ -10,7 +10,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget, CheckboxWidget
+from deform.widget import CheckedPasswordWidget, TextInputWidget, HiddenWidget, CheckboxWidget, DateInputWidget, DateTimeInputWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -45,7 +45,7 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
-from mba.views.widget import URLInputWidget,ImageUploadWidget,ImageUploadWidget2, GeoWidget
+from mba.views.widget import URLInputWidget,ImageUploadWidget,ImageUploadWidget2, GeoWidget, DateTimeRangeInputWidget, DateTimeRange
 from mba.views.view import MbaTemplateAPI
 
 
@@ -197,23 +197,61 @@ class ActSchema(colander.MappingSchema):
     )
 
     def preparer(self, appstruct):
-        popped = appstruct.pop('geo')
+        # print 'preparer:  ',appstruct
+        # popped = appstruct.pop('geo')
+        #
+        # appstruct.update({'latitude': popped.get('latitude',0),
+        #                   'longitude':popped.get('longitude',0),
+        #                   'zoomlevel':popped.get('zoomlevel',0)})
+        #
 
-        appstruct.update({'latitude': popped.get('latitude',0),
-                          'longitude':popped.get('longitude',0),
-                          'zoomlevel':popped.get('zoomlevel',0)})
+
+        appstruct.update( appstruct.pop('geo'))
+        # appstruct.update( appstruct.pop('meetup_time_range'))
+        # appstruct.update( appstruct.pop('enroll_time_range'))
+
+
+
+
+        popped = appstruct.pop('meetup_time_range')
+
+
+        appstruct.update({'meetup_start_time': popped[0],
+                          'meetup_finish_time':popped[1]
+                        })
+
+        popped = appstruct.pop('enroll_time_range')
+
+        appstruct.update({'enroll_start_time': popped[0],
+                          'enroll_finish_time':popped[1],
+                        })
 
         return appstruct
 
-    meetup_start_time = colander.SchemaNode(
-            colander.DateTime(default_tzinfo=None), title=u'活动开始时间')
-    meetup_finish_time = colander.SchemaNode(
-            colander.DateTime(default_tzinfo=None), title=u'活动结束时间')
 
-    enroll_start_time = colander.SchemaNode(
-            colander.DateTime(default_tzinfo=None), title=u'报名开始时间')
-    enroll_finish_time = colander.SchemaNode(
-            colander.DateTime(default_tzinfo=None), title=u'报名结束时间')
+
+    meetup_time_range = colander.SchemaNode(
+        DateTimeRange(default_tzinfo=None),
+        widget=DateTimeRangeInputWidget(control_names=('meetup_start_time', 'meetup_finish_time')),
+        title=u"活动起止时间"
+    )
+    enroll_time_range = colander.SchemaNode(
+        DateTimeRange(default_tzinfo=None),
+        widget=DateTimeRangeInputWidget(control_names=('enroll_start_time', 'enroll_finish_time')),
+        title=u"报名起止时间"
+    )
+
+    # meetup_start_time = colander.SchemaNode(
+    #         colander.DateTime(default_tzinfo=None),
+    #         widget=DateTimeInputWidget(options = datetimeoptions),
+    #         title=u'活动开始时间')
+    # meetup_finish_time = colander.SchemaNode(
+    #         colander.DateTime(default_tzinfo=None), title=u'活动结束时间')
+    #
+    # enroll_start_time = colander.SchemaNode(
+    #         colander.DateTime(default_tzinfo=None), title=u'报名开始时间')
+    # enroll_finish_time = colander.SchemaNode(
+    #         colander.DateTime(default_tzinfo=None), title=u'报名结束时间')
 
     limit_num = colander.SchemaNode(
             colander.Integer(), title=u'人数限制', default=500)
@@ -248,7 +286,7 @@ class ActAddForm(AddFormView):
     # )
 
     form_options = ({'css_class':'form-horizontal'})
-    
+
     
     
     def __call__(self):
@@ -312,6 +350,7 @@ class ActEditForm(EditFormView):
         # print self.context.latitude
         # print self.context.longitude
 
+
         appstruct = get_appstruct(self.context, self.schema)
         lat = getattr(self.context,'latitude', 0)
         lng = getattr(self.context, 'longitude', 0)
@@ -319,6 +358,16 @@ class ActEditForm(EditFormView):
         appstruct.update({'geo': {'latitude':lat,
                           'longitude':lng,
                           'zoomlevel':zoomlevel}})
+
+        mst = getattr(self.context, 'meetup_start_time', None)
+        mft = getattr(self.context, 'meetup_finish_time', None)
+        appstruct.update({'meetup_time_range': (mst, mft)})
+
+        est = getattr(self.context, 'enroll_start_time', None)
+        eft = getattr(self.context, 'enroll_finish_time', None)
+
+        appstruct.update({'enroll_time_range': (est, eft)})
+
 
         return appstruct
         # return ( {'title':'sb'})
@@ -371,10 +420,10 @@ def view_meetups(request):
 
         for mid in todel:
 
-            print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+            # print 'mid:%s, len mid:%d'% ( mid, len(mid) )
             meetup = DBSession.query(Act).filter_by(id=int(mid)).first()
             if meetup is not None :
-                print meetup
+                # print meetup
                 if len(meetup.parts) != 0:
                     request.session.flash(u"活动'%s..'由于已经有人报名不能删除!" % meetup.title[:10], 'danger')
 
