@@ -23,7 +23,6 @@ except ImportError:
 
 from sqlalchemy import and_
 from sqlalchemy import not_
-from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 from sqlalchemy import or_
 from pyramid.response import Response

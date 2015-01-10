@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
 
+import os
+import codecs
 from datetime import datetime
 from sqlalchemy.orm import class_mapper
 from kotti import DBSession
@@ -10,6 +12,8 @@ from kotti.security import get_principals
 from kotti.resources import get_root
 from kotti.resources import Node
 from kotti.security import SITE_ACL
+import json
+from xpinyin import Pinyin
 
 from mba.resources import *
 
@@ -332,6 +336,23 @@ def create_mba_root():
         root.__acl__ = SITE_ACL
         DBSession.add(root)
 
+def create_univs():
+    if DBSession.query(Univs).count() == 0:
+        p = Pinyin()
+        univs_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "univs.txt")
+        with codecs.open(univs_path, "r", "utf8") as unvis_file:
+            for line in unvis_file:
+                line = line[0:len(line)-1]
+                cc = '#'
+                py = p.get_pinyin(line, cc)
+                p1 = ""
+                p2 = ""
+                if cc in py:
+                    p2 = ''.join([c[0] for c in py.split(cc)])
+                    p1 = py.replace(cc,'')
+                u = Univs(name=line, pinyin=p1, pprev=p2)
+                DBSession.add(u)
+        DBSession.flush()
 
 def populate():
     if DBSession.query(CompanyInfo).count() == 0:
@@ -345,6 +366,7 @@ def populate():
         DBSession.flush()
 
     create_mba_root()
+    create_univs()
 
     print 'Just test in mba.resources: '
     #test_visitors()
