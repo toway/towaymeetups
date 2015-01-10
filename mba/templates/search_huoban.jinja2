@@ -60,7 +60,7 @@
      
         <div class="container mt50  pt25">
             <div class="row search_result" style="">
-               <span>搜索结果（有<span class="search_number">231</span>条信息符合搜索结果）</span>
+		    <span>搜索结果（有<span class="search_number">{{count}}</span>条信息符合搜索结果）</span>
 
             </div>
 
@@ -70,13 +70,13 @@
                   <p  class="type">地区</p>
                   <ul>
                     <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="0" />北京<span class="option-number">(178)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="c北京" />北京<span class="option-number">(0)</span>
                     </li>
                      <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="1" />深圳<span class="option-number">(56)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="c深圳" />深圳<span class="option-number">(0)</span>
                     </li>
                      <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="2" />上海<span class="option-number">(23)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="c上海" />上海<span class="option-number">(0)</span>
                     </li>
                     <li class="more">
                       更多
@@ -85,13 +85,13 @@
                    <p class="type">行业</p>
                   <ul>
                     <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="0" />互联网<span class="option-number">(178)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="h互联网" />互联网<span class="option-number">(0)</span>
                     </li>
                      <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="1" />管理咨询<span class="option-number">(56)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="h管理咨询" />管理咨询<span class="option-number">(0)</span>
                     </li>
                      <li>
-                      <input type="checkbox" class="search-option" name="option" data-val="2" />计算机软件<span class="option-number">(23)</span>
+                      <input type="checkbox" class="search-option" name="option" data-val="h计算机软件" />计算机软件<span class="option-number">(0)</span>
                     </li>
                     <li class="more">
                       更多
@@ -101,18 +101,12 @@
                <div class="col-md-9 pt25">
                   <table class="table table-hover">  
                           <tbody>  
+			  {% for stu in students %}
                             <tr class=""> 
-                              <td>第55期活动：传统行业如何与互联网结合</td>  
-                              <td>2014-12-13</td>
+				    <td>{{stu.real_name}}</td>  
+				    <td>{{stu.city_name}}</td>
                             </tr>
-                            <tr> 
-                               <td>互联网项目需要风投</td>  
-                              <td>2014-12-13</td>
-                            </tr>
-                             <tr> 
-                               <td>中国互联网大会分享</td>  
-                              <td>2014-12-13</td>
-                            </tr>       
+			    {% endfor %}
                             </tbody>
                     </table>
                     <nav style="float:right">
@@ -151,6 +145,47 @@
        
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+$(document).ready(function () {
+	$(".search-option").click(function (){
+	});
+	var param = getUrlVars();
+	var q = "";
+	if( "q" in param) {
+		q = param["q"];
+	}
+	var cities = [];
+	if( "c" in param) {
+		cities = param["c"].split(",");
+	}
+	var hangs = [];
+	if( "h" in param) {
+		hangs = param["h"].split(",")
+	}
+
+	var arr = $(".option-number");
+	var i = 0;
+	$(".search-option").each(function (){
+		var v = $(this).attr("data-val");
+		var t = v[0];
+		v = v.slice(1);
+		$.get( "/huoban-count/" + t + "/" + v + "?q=" + q, function( data ) {
+			$(arr[i++]).text('('+data+')');
+		});
+	});
+
+});
             // $(".search-option").click = function select_option() {
             //   var arr  = $(".search-option");
             //   var len = arr.length;
@@ -162,7 +197,7 @@
               /* $("li#li_job").parent().find("li").removeClass("active");
                //$("li#li_job").find('a').addClass("active");
                $("li#li_job").addClass("active")*/
-            })
+            //})
         </script>
     </body>
 </html>

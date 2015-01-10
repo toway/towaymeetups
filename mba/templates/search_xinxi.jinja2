@@ -64,13 +64,13 @@
                <div class="col-md-3  pt25" style="height:100%;border-right:1px solid #D9DEE0;padding-left:20px">
                   <ul>
                     <li>
-		    <input type="checkbox" class="search-option" name="option" data-val="0" />信息<span class="option-number">({{count1}})</span>
+		    <input type="checkbox" class="search-option" name="option" data-val="1" />信息<span class="option-number">({{count1}})</span>
                     </li>
                      <li>
-		     <input type="checkbox" class="search-option" name="option" data-val="1" />活动<span class="option-number">({{count2}})</span>
+		     <input type="checkbox" class="search-option" name="option" data-val="2" />活动<span class="option-number">({{count2}})</span>
                     </li>
                      <li>
-		     <input type="checkbox" class="search-option" name="option" data-val="2" />职位<span class="option-number">({{count3}})</span>
+		     <input type="checkbox" class="search-option" name="option" data-val="3" />职位<span class="option-number">({{count3}})</span>
                     </li>
                   </ul>
                </div>
@@ -113,18 +113,55 @@
        
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            // $(".search-option").click = function select_option() {
-            //   var arr  = $(".search-option");
-            //   var len = arr.length;
-            //   for (var i = len; i >= 0; i--) {
-                
-            //   };
-            // }
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+$(document).ready(function (){
+            $(".search-option").click(function select_option() {
+		 var param = getUrlVars();
+		 var vs = "";
+		 $(".search-option").each(function () {
+		    if($(this).prop('checked')) {
+			     var v = $(this).attr("data-val");
+			     vs += v + ","
+	             }
+	         });
+		 window.location.href = "search-info?q="+param["q"]+"&v="+vs;
+             });
+
+	    var pa = getUrlVars();
+	    var v = [0,0,0]
+	    if("v" in pa) {
+	        var vs = pa["v"].split(",")
+		for(var j = 0; j < vs.length; j++) {
+		        if(vs[j] != "") {
+			v[j] = vs[j]
+			}
+		}
+	    }
+
+	 $(".search-option").each(function () {
+	     var d = $(this).attr("data-val")
+	     if(jQuery.inArray(d, v) != -1) {
+	    	$(this).prop('checked', true);
+	     }
+	 });
+});
+
 
               /* $("li#li_job").parent().find("li").removeClass("active");
                //$("li#li_job").find('a').addClass("active");
                $("li#li_job").addClass("active")*/
-            })
         </script>
     </body>
 </html>
