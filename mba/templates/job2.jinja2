@@ -43,11 +43,11 @@
        <!--  <div class="container-fluid mba-margin-top mba-banner" >
             <center><img src="static/img/banner.jpg"></center>
         </div> -->
-        <div class="container mt50">
-            <div class="col-md-9 mba-my-resume-cnt">
-                <div class="mba-resume-total-grid">
+        <div class="container mt50" >
+            <div class="col-md-9 mba-my-resume-cnt" style="border:0px">
+                <div class="mba-resume-total-grid" style="border:0px">
                    <!--  <img src="static/img/my_resume_title.jpg"> -->
-                    <div class="search_cnt_normal">
+                    <div class="search_cnt_normal" style="margin-bottom:20px;border:0px ">
                         <form class="form-inline" action="" role="form">
                           <div class="form-group">
                             <select id="search_region" name="search_region" class="form-control selectpicker">  
@@ -95,19 +95,20 @@ function do_search() {
                     </div>
 
                     <div>
-                      <table id="gaoxin_job" class="table table-hover">
+                      <table id="gaoxin_job" class="table table-hover" style="margin:0px; padding-left:10px;background-color:#EFEFEF">
+					  
                                <thead>  
                                   <tr>  
-                                    <th>高薪职位</th>  
+                                    <th style="border-bottom:0px;">高薪职位</th>  
                                   </tr>  
                                 </thead>    
 				{% for pos in pos_normals %}
-                              <tr> 
-				      <td class="job_link"><a href="/job-detail/{{pos.id}}">{{pos.title}}</a></td>  
-				      <td>{{pos.city}}</td>
-				      <td>{{pos.end_date}}</td>
-				      <td>{{pos.salary}}</td>
-				      <td><button  class="btn btn-primary view_job" onclick="document.location.href='/job-detail/{{pos.id}}'">查看</button></td>
+                              <tr style="border-top:1.5px dashed #CFCFCF;vertical-align:middle" > 
+				      <td class="job_link" style="vertical-align:middle"><a href="/job-detail/{{pos.id}}">{{pos.title}}</a></td>  
+				      <td style="vertical-align:middle">{{pos.city}}</td>
+				      <td style="vertical-align:middle">{{pos.end_date}}</td>
+				      <td style="vertical-align:middle">{{pos.salary}}</td>
+				      <td style="vertical-align:middle"><button  class="btn btn-primary view_job" onclick="document.location.href='/job-detail/{{pos.id}}'">查看</button></td>
                               </tr>
 			      {% endfor %}
                         </table>
@@ -115,16 +116,16 @@ function do_search() {
                     </div>
 
 
-                    <div>
-                      <table id="lastest_job" class="table table-hover">
+                    <div style="border:1px solid #E1E1E1;margin-top:20px;">
+                      <table id="lastest_job" class="table table-hover" style="margin-bottom:0px;">
                                <thead>  
-                                  <tr>  
-                                    <th>最新招聘</th>  
+                                  <tr style="border:0px solid #CECECE; border-bottom:1px solid #CECECE;background-color:#F7F7F7">  
+                                    <th style="background-color:#DEDEDE">最新招聘</th>  
                                   </tr>  
                                 </thead>
 				{% for pos in pos_huntings %}
-                              <tr> 
-				      <td class="job_link"><a href="job-detail/{{pos.id}}">【{{pos.hunting_type|kind_name}}】</a></td>  
+                              <tr style="border-top:1px dashed #CFCFCF;vertical-align:middle;background-color:#FFF"> 
+				      <td class="job_link"><a href="job-detail/{{pos.id}}" style="color:#2c60c7;">【{{pos.hunting_type|kind_name}}】</a></td>  
                                 <td>
 					<p>{{pos.company.name}}</p>
 					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}</span>
@@ -144,16 +145,13 @@ function do_search() {
                     </div>
 
 
-                     <div>
-                      <table id="lastest_job" class="table table-hover">
-                               <thead>  
-                                  <tr>  
-                                    <th>您可能感兴趣的职位</th>  
-                                  </tr>  
-                                </thead>    
+                     <div style="border:1px solid #E1E1E1;margin-top:20px;">
+                      <table id="interst_job" class="table table-hover"  style="margin-bottom:0px;">
+					  <caption align="top"  style="text-align:left;border-bottom:0px;height:36px;line-height:36px;"><span style="margin:0px;font-weight:bolder;padding:9px 15px;margin-bottom:0px; z-index: 999;height:20px;line-height:20px;background: none repeat scroll 0 0 #DEDEDE;">您可能感兴趣的职位</span></caption>  
+                               
 				      {% for pos in pos_like %}
-                              <tr> 
-				      <td class="job_link">【{{pos.hunting_type|kind_name}}】</td>  
+                              <tr style="border-top:1px dashed #CFCFCF;vertical-align:middle;background-color:#FFF"> 
+				      <td class="job_link"><a href="job-detail/{{pos.id}}" style="color:#2c60c7;">【{{pos.hunting_type|kind_name}}】</a></td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
 					<p><span class="inline-block company-scale">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
