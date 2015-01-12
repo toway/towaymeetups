@@ -122,6 +122,30 @@ ul { list-style-type: none; }
 
 /* global nav style end */
 
+
+/* include style begin */
+.myinfo-header .header-right{
+
+    padding: 20px 0 0 0;
+
+}
+
+
+.myinfo-header .zyno{
+    font-size: 10px;
+    color: #999999;
+    padding-top: 10px;
+}
+
+.myinfo-header .basic_info {
+    padding-left: 0;
+    padding-top: 5px;
+}
+
+/* include style end */
+
+
+
 /* /index style begin */
 .mba-margin-top {
   margin-top: 76px;
@@ -398,23 +422,7 @@ ul { list-style-type: none; }
 }
 
 
-.myinfo-header .header-right{
 
-    padding: 20px 0 0 0;
-
-}
-
-
-.myinfo-header .zyno{
-    font-size: 10px;
-    color: #999999;
-    padding-top: 10px;
-}
-
-.home-myinfo .basic_info {
-    padding-left: 0;
-    padding-top: 5px;
-}
 
 
 .action-buttons button{
