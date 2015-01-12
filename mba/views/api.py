@@ -4,15 +4,19 @@
 __author__ = 'sunset'
 __date__ = '20141111'
 
+import json
 import random
 import datetime
 
 from pyramid.view import view_config
+from pyramid.response import Response
+from sqlalchemy import or_
 
 from kotti import  DBSession
 from kotti.security import get_user
 
 from mba.resources import Interest, RegisterSms,  MbaUser, Message
+from mba.resources import Univs
 from mba.utils import RetDict
 from mba.utils.sms import sendsms
 
@@ -191,6 +195,12 @@ def ajax_person(request):
 
 
 
+@view_config(route_name='search_univs')
+def search_univs(context, request):
+    n = '%'+request.matchdict['n']+'%'
+    uns = DBSession.query(Univs).filter(or_(Univs.pinyin.like(n), Univs.name.like(n), Univs.pprev.like(n))).all()
+    return Response(json.dumps([u.name for u in uns]))
+
 
 
 def includeme(config):
@@ -198,4 +208,5 @@ def includeme(config):
     config.add_route('ajax_sms','/api/sendsms')
     config.add_route('ajax_private_msg','/api/private_msg')
     config.add_route("ajax_person",'/api/person')
+    config.add_route('search_univs','/api/xuexiao/{n}')
     config.scan(__name__)
