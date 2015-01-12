@@ -390,12 +390,6 @@ def univs_print(context, request):
     f.flush()
     return Response('o')
 
-@view_config(route_name='search_univs')
-def search_univs(context, request):
-    n = '%'+request.matchdict['n']+'%'
-    uns = DBSession.query(Univs).filter(or_(Univs.pinyin.like(n), Univs.name.like(n), Univs.pprev.like(n))).all()
-    return Response(json.dumps([u.name for u in uns]))
-
 def includeme(config):
     settings = config.get_settings()
     config.add_route('col','/col')
@@ -409,5 +403,4 @@ def includeme(config):
     config.add_route('friend','/friend')
     config.add_route('active_detail', '/active-detail')
     config.add_route('univs_print','/univs/{n}')
-    config.add_route('search_univs','/xuexiao/{n}')
     config.scan(__name__)
