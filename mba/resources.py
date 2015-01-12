@@ -956,3 +956,10 @@ class GlobalSiteSetting(Base):
 
     id = Column(Integer, primary_key=True)
     need_invitationcode = Column(Integer, default=TRUE)
+
+class Univs(Base):
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    pinyin = Column(String(250), nullable=False)
+    pprev = Column(String(250), nullable=False)
+

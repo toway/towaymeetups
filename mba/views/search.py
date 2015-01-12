@@ -23,7 +23,6 @@ except ImportError:
 
 from sqlalchemy import and_
 from sqlalchemy import not_
-from sqlalchemy import or_
 from sqlalchemy.sql.expression import func
 from sqlalchemy import or_
 from pyramid.response import Response
@@ -73,14 +72,14 @@ def search_information(request, page_index=1, num_per_page=10):
         q = request.POST['q']
 
     qs = ['%'+qq+'%' for qq in q.split()]
-    vs = [vdict[int(vv)] for vv in v.split(',')]
+    vs = [vdict[int(vv)] for vv in v.split(',') if vv != ""]
 
     f = DBSession.query(Document).filter(or_(*[Document.type == vv for vv in vs]))
     if q:
         f = f.filter(
             or_(*[Document.title.like(term) for term in qs]))
 
-    print 'f', f
+    #print 'f', f
     count = f.count()
     results = f.slice(start, num_per_page).all()
 
@@ -112,9 +111,66 @@ def search_information(request, page_index=1, num_per_page=10):
 
 @view_config(route_name='search_huoban', renderer='search_huoban.jinja2')
 def search_huoban(request, page_index=1, num_per_page=10):
-    return wrap_user2(request, {})
+    jquery.need()
+    start = (page_index-1) * num_per_page
+
+    q = request.GET.get('q', '')
+    if 'q' in request.POST:
+        q = request.POST['q']
+
+    city = request.GET.get('c','')
+    if 'c' in request.POST:
+        city = request.POST['c']
+
+    hangye = request.GET.get('h','')
+    if 'h' in request.POST:
+        hangye = request.POST['h']
+
+    qs = ['%'+qq+'%' for qq in q.split() if qq != ""]
+    cities = ['%'+cc+'%' for cc in city.split(',') if cc != ""]
+    hangs = ['%'+hh+'%' for hh in hangye.split(',') if hh != ""]
+
+    f = DBSession.query(Student).join(City)
+    if len(qs) > 0:
+        qf = [Student.real_name.like(term) for term in qs] + [Student.name.like(term) for term in qs]
+        f = f.filter(or_(*qf))
+
+    if len(hangs) > 0:
+        f = f.filter(or_(*[Student.industry.like(term) for term in hangs]))
+
+    if len(cities) > 0:
+        f = f.filter(or_(*[City.name.like(term) for term in cities]))
+
+    #print 'f', f
+    count = f.count()
+    results = f.slice(start, num_per_page).all()
+    return wrap_user2(request, {
+        'students': results, 
+        'count': count, 
+        })
+
+@view_config(route_name='huoban_count')
+def huoban_count(context, request):
+    t = request.matchdict['t']
+    n = request.matchdict['n']
+
+    q = request.GET.get('q', '')
+    qs = ['%'+qq+'%' for qq in q.split() if qq != ""]
+    f = DBSession.query(Student).join(City)
+
+    if len(qs) > 0:
+        qf = [Student.real_name.like(term) for term in qs] + [Student.name.like(term) for term in qs]
+        f = f.filter(or_(*qf))
+
+    term = "%"+n+"%"
+    if t == 'c':
+        f = f.filter(City.name.like(term))
+    elif t == 'h':
+        f = f.filter(Student.industry.like(term))
+    return Response('%d' % f.count())
 
 def includeme(config):
     config.add_route('search_information', '/search-info')
     config.add_route('search_huoban', '/search-huoban')
+    config.add_route('huoban_count', 'huoban-count/{t}/{n}')
     config.scan(__name__)

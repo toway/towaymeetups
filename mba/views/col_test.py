@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # coding: utf-8
 
+import json
+import codecs
 import sys
 import datetime
 import re
@@ -20,12 +22,16 @@ from js.jquery import jquery
 from js.jquery_form import jquery_form
 
 import fanstatic
+from sqlalchemy import or_
 
+from kotti import DBSession
 from kotti import get_settings
 from kotti.security import get_principals
 from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
+
+from mba.resources import Univs
 
 from form import FormCustom
 from mba import _
@@ -371,9 +377,24 @@ def formtest2_view(context, request):
             'form': jinja2.Markup(html)
             }
 
+#f = codecs.open('z', 'w', 'utf8')
+
 @view_config(route_name='active_detail', renderer='active_detail.jinja2')
 def active_detail(context, request):
     return {'a':'b'}
+
+
+@view_config(route_name='univs_print')
+def univs_print(context, request):
+    f.write(request.matchdict['n'] + "\n")
+    f.flush()
+    return Response('o')
+
+@view_config(route_name='search_univs')
+def search_univs(context, request):
+    n = '%'+request.matchdict['n']+'%'
+    uns = DBSession.query(Univs).filter(or_(Univs.pinyin.like(n), Univs.name.like(n), Univs.pprev.like(n))).all()
+    return Response(json.dumps([u.name for u in uns]))
 
 def includeme(config):
     settings = config.get_settings()
@@ -387,4 +408,6 @@ def includeme(config):
     config.add_route('formtest2','/formtest2')
     config.add_route('friend','/friend')
     config.add_route('active_detail', '/active-detail')
+    config.add_route('univs_print','/univs/{n}')
+    config.add_route('search_univs','/xuexiao/{n}')
     config.scan(__name__)
