@@ -921,14 +921,21 @@ class Banner(Base):
     status = Column(Integer, default=VALID)  # 1: 生效， 0:失效
 
 
-class RegisterSms(Base):
-    '''注册时发送短信的表'''
+class ValidationSms(Base):
+    '''注册、重置密码时发送的验证短信的表'''
     __tablename__ = "register_sms"
+
+    [TYPE_REGISTER, TYPE_RESET_PASSWORD] = [0,1]
+
+
     id = Column(Integer, primary_key=True)
     phonenum = Column(String(20))
+    # type = Column(Integer, default=TYPE_REGISTER) #类型，TYPE_REGISTER注册时，TYPE_RESET_PASSWORD:重置密码时
     validate_code  = Column(String(20)) # 注册时发送的验证码
     send_datetime = Column(DateTime(), default=datetime.now(tz=None) )
     ip = Column(String(50))
+
+
 
 
 
