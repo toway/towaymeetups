@@ -45,3 +45,5 @@ def includeme(config):
     config.include('mba.views.search')
 
     config.include('mba.views.i')
+
+    config.include('mba.views.iforgot')

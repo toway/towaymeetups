@@ -34,14 +34,44 @@
 
                           {% if user %}
                              <ul class="nav navbar-nav navbar-right" id="user-links">
+{#                                <li>#}
+{#                                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">#}
+{#                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">信息</a></li>#}
+{#                                      <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">伙伴</a></li>#}
+{#                                     #}
+{#                                    </ul>#}
+{#                                </li>#}
                                 <li>
-                                   <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu3">
-                                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#">信息</a></li>
-                                      <li role="presentation" class="disabled"><a role="menuitem" tabindex="-1" href="#">伙伴</a></li>
-                                     
-                                    </ul>
+                                    <form id="find-sth" class="navbar-form " action='/search-info'>
+                                        <div class="form-group input-group btn-group">
+                                            <input type="text" name="q" class="form-control" placeholder="找找看"/>
+
+                                              <button type="button" id="search-type" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                <span class="caret"></span>
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                              </button>
+                                                <ul class="dropdown-menu" role="menu">
+                                                <li><a href="#" data-search-type="/search-info">找信息</a></li>
+                                                <li><a href="#" data-search-type="/search-huoban">找伙伴</a></li>
+                                              </ul>
+{#                                                <button type="button" class="btn btn-default">找信息</button>#}
+
+
+{#                                        <div class="dropdown">#}
+{#                                          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu4" data-toggle="dropdown" aria-expanded="true">#}
+{#                                            找信息#}
+{#                                            <span class="caret"></span>#}
+{#                                          </button>#}
+{#                                          <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu4">#}
+{#                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">找信息</a></li>#}
+{#                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">找伙伴</a></li>#}
+{#                                          </ul>#}
+{#                                        </div>#}
+                                        </div>
+
+                                    </form>
+
                                 </li>
-                                <li><form action='/search-info'><input type="text" name="q" class="form-control" placeholder="找找看"/></form></li>
                                   <li>
                                     <a href="/person/{{ user.id }}" class="navbar-name">
                                         <img alt="{{ user.real_name or user.name }}"class="navbar-avatar" src="{{ user.avatar }}"
