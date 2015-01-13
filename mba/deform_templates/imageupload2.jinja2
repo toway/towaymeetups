@@ -3,10 +3,11 @@
 <input type="hidden" name="{{ field.name }}" value="{{ cstruct }}" />
 </div>
 <button name="{{ field.name }}-btn"
+        id="{{ field.oid }}-btn"
         data-toggle="modal"
-        data-target="#imgupload-{{ field.oid }}"
+{#        data-target="#imgupload-{{ field.oid }}"#}
         class="btn btn-default {{ field.css_class }}">
-    {{ field.title }}
+    {{ field.widget.title }}
 </button>
 
 
@@ -44,6 +45,16 @@
     deform.addCallback(
         '{{ field.oid }}',
         function (oid) {
+
+            $("#" + oid + "-btn").click(function(){
+                $('#imgupload-' + oid ).modal({
+                    keyboard: false
+                });
+
+                return false;
+            });
+
+
             $("#do-upload").click(function(){
 
                 var iframe = window.frames['upload-iframe'];

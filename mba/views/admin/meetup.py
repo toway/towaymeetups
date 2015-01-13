@@ -149,7 +149,7 @@ class ActSchema(colander.MappingSchema):
 
     poster_img = colander.SchemaNode(
         colander.String(),
-        title=_(u'海报'),
+        title=_(u'海报(190px宽 x 240px高 或相应比例)'),
         description=_(u'上传海报'),
         widget=ImageUploadWidget2(title=_(u"上传海报"))
 
