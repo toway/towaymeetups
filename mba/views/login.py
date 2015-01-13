@@ -61,7 +61,7 @@ class LoginSchema(colander.Schema):
     )
     password = colander.SchemaNode(
         colander.String(),
-        title=_(u'密码 <a href="sessions/forgot_password">(忘记了?)</a>'),
+        title=_(u'密码 <a href="/iforgot">(忘记了?)</a>'),
         validator=colander.Length(min=6),
         widget=deform.widget.PasswordWidget(css_class='form-control'),
         )

@@ -32,7 +32,7 @@ from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
 from mba.resources import Act
-
+from mba.fanstatic import bootstrap
 
 __author__ = 'sunset'
 __date__ = '20140614'
@@ -43,8 +43,13 @@ def phone_pattern_validator(node, value):
     if len(value) != 11 or not phone_re.match(value):
         raise colander.Invalid(node, u"不合法的手机号")
 
+from deform.widget import Widget
 
-class MeetupSignupSchema(colander.Schema):
+
+
+
+class MeetupSignupSchema(colander.MappingSchema):
+
 
     phone = colander.SchemaNode(
         colander.String(),
@@ -83,12 +88,18 @@ def mobile_view_meetup_signup(context, request):
     if  meetup is None:
         return Response(u"不存在的活动")
 
-    schema = MeetupSignupSchema(validator=signup_validator).bind(request=request)
+    formtitle = u"活动报名:%s.." % (meetup.title[:10],)
+    schema = MeetupSignupSchema(title=formtitle,
+                                validator=signup_validator).bind(request=request)
 
     form = deform.Form(schema,
-                       buttons=[deform.form.Button(u'submit', title=u'确认报名') ],
+                       buttons=[deform.form.Button(u'submit', title=u'确认报名')
+
+                       ],
                         )
     rendered_form = None
+
+    bootstrap.need()
 
 
     if 'submit' in request.POST:

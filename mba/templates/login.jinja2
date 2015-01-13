@@ -21,11 +21,15 @@
 
             }
 
-            .auth-form{
-                margin: 60px;
-                padding: 20px;
+            @media (min-width: 768px) {
+                .auth-form{
+                    margin: 60px;
+                    padding: 20px;
 
+                }
             }
+
+
 
             .auth-form-header{
                 position: relative;
@@ -81,9 +85,11 @@
 
         <div class="container mba-margin-top">
             <div class="row">
-                <div class="col-md-8 col-md-offset-2" id="login">
+                <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" id="login">
                 			
                     {% include('messages.jinja2') | safe %}
+
+
                             
                     <div class="auth-form">
                         <div class="auth-form-header">
@@ -96,6 +102,7 @@
                             {{ form }}
                         </div>
                     </div>
+                     <br/>
                 </div>
             </div>
 

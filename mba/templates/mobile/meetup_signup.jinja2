@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 {#author: sunset#}
 {#date: 20141231#}
 {#desc: This is for meetup signup from mobile browser, desktop browser will use another portal #}
 
 
 
-<!DOCTYPE html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,16 +15,22 @@
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
         <style type="text/css">
-            .form-control{
-                width: 65%;
-            }
+
         </style>
 
 
     </head>
     <body>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    {{ form | safe }}
+                </div>
+            </div>
 
-        {{ form | safe }}
+
+
+        </div>
 
         <script type="text/javascript">
             $(function(){

@@ -457,19 +457,23 @@
                 $("#formEnroll button").click(function(e){
                     if( isMobile() ){
 
-                        var url;
-                        var loc = window.location;
-                        if( loc.charAt( loc.length-1) == '/'){
-                            url = loc + "signup";
-                        }else{
-                            url = loc + "/signup";
+
+                        if(! confirm("已有帐号？点确定直接登陆报名，否则点取消输入信息报名") ){
+                            var url;
+                            var loc = window.location.origin + window.location.pathname;
+                            if( loc.charAt( loc.length-1) == '/'){
+                                url = loc + "signup";
+                            }else{
+                                url = loc + "/signup";
+                            }
+
+                            window.open(url);
+                            return false;
                         }
 
 
 
-                        window.open(url);
 
-                        return false;
                     }
 
                 });
