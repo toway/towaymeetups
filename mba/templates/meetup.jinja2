@@ -67,12 +67,12 @@
                                                 {{ teacher }} &nbsp;
                                             {% endfor %}
                                         </div>
-                                        <div>时间：{{ context.meetup_start_time }} - {{ context.meetup_finish_time }}</div>
+                                        <div>时间：{{ pprint_time_meetup }}</div>
                                         <div>地点：{{ context.location }}</div>
                                         
                                         <div>费用：{{ context.pay_count }}元/人</div>
                                         <div>人数限制：{{ context.limit_num }}人 ({{ total_enrolled_count }}人已报名)</div>
-                                        <div>报名时间：{{ context.enroll_start_time }} - {{ context.enroll_finish_time }}</div>
+                                        <div>报名时间：{{ pprint_time_enroll }}</div>
                                         
                                         {% if time_now < context.enroll_start_time %}
                                             <button class="btn btn-primary disabled">报名暂未开始</button>
@@ -207,12 +207,28 @@
                             <h3>已报名成员({{context.parts|length}}人)</h3>
                             <hr/>
 
-                            {% for part in context.parts %}
-                                <img title="{{ part.real_name or part.name }}" alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
-                                width="30px" height="30px"/>
-                            {% else %}
-                                 <br/>暂无报名
-                            {% endfor %}
+                            <ul class="users">
+
+                                    {% for part in context.parts %}
+                                        <li>
+                                            <a href="/person/{{ part.id }}" target="_blank">
+                                                <img title="{{ part.real_name or part.name }}" alt="{{ part.name }}"class="navbar-avatar" src="{{ part.avatar_prefix }}{{ part.avatar }}"
+                                            width="40px" height="40px"/>
+                                            </a>
+                                            <div>
+                                                 <a href="/person/{{ part.id }}" target="_blank">
+                                                    {{ part.real_name }}
+                                                 </a>
+                                            </div>
+
+                                        </li>
+
+                                    {% else %}
+                                         <br/>暂无报名
+                                    {% endfor %}
+
+                            </ul>
+
                             <br/>
 
                         </div>

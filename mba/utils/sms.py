@@ -112,10 +112,10 @@ def sendsms(request, phonenum):
     code = generate_random_code()
 
     # To deploy
-    # result = sendsmscore(phonenum=phonenum, code=code)
+    result = sendsmscore(phonenum=phonenum, code=code)
 
     # for test purpose only below
-    result = RetDict(retval={'istest':True,'code':code})
+    # result = RetDict(retval={'istest':True,'code':code})
 
 
     if result['errcode'] == result['SUCCESS']:

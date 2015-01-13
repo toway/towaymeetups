@@ -56,7 +56,7 @@ def login_pattern_validator(node, value):
 class LoginSchema(colander.Schema):
     email_or_username = colander.SchemaNode(
         colander.String(),
-        title=_(u'邮箱或用户名'),
+        title=_(u'邮箱、用户名或手机号'),
         validator=login_pattern_validator
     )
     password = colander.SchemaNode(

@@ -558,6 +558,22 @@ ul { list-style-type: none; }
 .meetup-main .main-info h2{
     color: #C00
 }
+
+.meetup-rightbar .applicants .users li{
+    float: left;
+    padding: 5px 6px;
+}
+
+.meetup-rightbar .applicants .users li div{
+    display: block;
+    font-size: 12px;
+    width: 40px;
+    line-height: 20px;
+    text-align: center;
+    overflow: hidden;
+}
+
+
 /* /meetup/id style end */
 
 /** Merged from new_style.css

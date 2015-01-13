@@ -1,19 +1,22 @@
+<div class="form-group input-group btn-group">
+
+
 <input type="text"  name="{{field.name}}" value="{{cstruct}}"
 {% if field.widget.size %}
  size="{{field.widget.size}}"
 {% endif %}
 {% if field.widget.css_class %}
-    class="{{field.widget.css_class}} textInput"
+    class="{{field.widget.css_class}} textInput form-control"
 {% else %}
-    class="textInput"
+    class="textInput form-control"
 {% endif %}
  id="{{field.oid}}"/>
 
-<button class="btn btn-sm btn-default" id="{{ field.oid }}-sms">发送短信</button>
+<button class="btn  btn-default" id="{{ field.oid }}-sms">发送短信</button>
 <span id="waittoresend" style="display: none">等待<span id="secwait">60</span>秒再发送...</span>
 <span id="testhint" style="display: none"></span>
 
-
+</div>
 {% if field.widget.mask %}
 <script type="text/javascript">
   deform.addCallback(

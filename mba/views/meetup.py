@@ -189,7 +189,11 @@ def mobile_view_meetup_signup(context, request):
 
                 participate_meetup(meetup, new_user)
 
-                request.session.flash(u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!" % (real_name, phone, name, random_password) ,'success')
+                message = u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!(请进站修改密码,以后一键报名)登录本站（%s）"\
+                    % (real_name, phone, name, random_password, request.application_url)
+
+
+                request.session.flash(message ,'success')
 
                 return {}
 
@@ -269,7 +273,28 @@ def view_meetup(context, request):
     if user in context.parts:
         self_enrolled = True
     total_enrolled_count = len(context.parts )
-        
+
+
+    def generate_pprint_time(t1, t2):
+
+        if t2.year != t1.year:
+            pprint_out = u"%s时 至 %s时" % (t1.strftime("%Y-%m-%d %H"),  t2.strftime("%Y-%m-%d %H"))
+        elif t2.month != t1.month or t2.day != t1.day:
+            pprint_out = u"%s 至 %s" % (t1.strftime("%Y-%m-%d %H:%M"),  t2.strftime("%m-%d %H:%M"))
+        # elif t2.day != t1.day:
+        #     pprint_out = u"%s 至 %s" % (t1.strftime("%Y-%m-%d %H:%M"),  t2.strftime("%d %H:%M"))
+        else:
+            pprint_out = u"%s %s - %s" % (t1.strftime("%Y-%m-%d"), t1.strftime("%H:%M"),  t2.strftime("%H:%M"))
+
+        return pprint_out
+
+
+
+    # meetup_delta = context.meetup_finish_time - context.meetup_start_time
+
+    pprint_time_meetup = generate_pprint_time(context.meetup_start_time, context.meetup_finish_time  )
+    pprint_time_enroll = generate_pprint_time(context.enroll_start_time, context.enroll_finish_time  )
+
     return  wrap_user2(request, 
                 {'context':context, 
                 'contextbody': contextbody,
@@ -278,6 +303,8 @@ def view_meetup(context, request):
                 'self_enrolled': self_enrolled,
                 'enroll_success': enroll_success,
                 'comments_count': len(context._comments),
+                'pprint_time_meetup': pprint_time_meetup,
+                'pprint_time_enroll': pprint_time_enroll,
                 'total_enrolled_count': total_enrolled_count                
                 })
 
