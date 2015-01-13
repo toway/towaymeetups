@@ -67,6 +67,7 @@
                                 <th>状态</th>
                                 <th>头条推荐</th>
                                 <th>操作</th>
+
                             </tr>
                             {% for meetup in meetups %}
                             <tr>
@@ -94,6 +95,7 @@
                                 <td>
                                     <a href="/admin/meetup/edit/{{ meetup.id }}">修改</a>
                                     <a href="/admin/review/add?meetup-id={{ meetup.id }}">写回顾</a>
+                                    <a href="/admin/meetup/particinpate/{{ meetup.id }}">报名详情</a>
                                 </td>
                             </tr>                            
                             {% endfor %}

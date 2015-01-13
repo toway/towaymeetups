@@ -36,6 +36,7 @@ from js.jquery import jquery
 
 
 from mba.utils import RetDict
+from mba.resources import Act
 
 __author__ = 'sunset'
 __date__ = '20150113'
@@ -43,10 +44,17 @@ __desc__ = u'活动参与者'
 
 
 
-@view_config(route_name="admin_meetup_particinpate", renderer='find.jinja2')
+@view_config(route_name="admin_meetup_particinpate", renderer='/admin/meetup_particinpates.jinja2')
 @wrap_user
 def admin_meetup_particinpate_view(context, request):
-    return {}
+    id = request.matchdict['id']
+    meetup = DBSession.query(Act).get(id)
+
+    if meetup is None:
+        return Response(u"不存在的活动")
+
+
+    return {'meetup': meetup}
 
 
 def includeme(config):
