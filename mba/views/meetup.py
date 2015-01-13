@@ -54,7 +54,8 @@ class MeetupSignupSchema(colander.MappingSchema):
     phone = colander.SchemaNode(
         colander.String(),
         title=_(u'手机'),
-        validator= phone_pattern_validator
+        validator= phone_pattern_validator,
+        widget=deform.widget.TextInputWidget(number=True)
     )
 
     real_name = colander.SchemaNode(
@@ -106,10 +107,13 @@ def mobile_view_meetup_signup(context, request):
         try:
             appstruct = form.validate(request.POST.items())
 
+            principals = get_principals()
 
             phone = appstruct['phone']
 
             user =  DBSession.query(MbaUser).filter_by(phone=phone).first()
+
+
 
             def participate_meetup(meetup, user):
                 part = Participate()
@@ -157,7 +161,19 @@ def mobile_view_meetup_signup(context, request):
             else:
                 # 该手机没有注册，生成用户，并发短信通知其密码。
                 real_name = appstruct['real_name']
-                name =  title_to_name(real_name)
+                name =  title_to_name(real_name).replace('-','')
+
+                principal = principals.get(name)
+                while principal is not None:
+                    postfix = name[-1]
+                    try:
+                        postfix = int(postfix)
+                        name = "%s%d" % ( name[:-1], (postfix+1) )
+                    except :
+                        name = name + "2"
+                    principal = principals.get(name)
+
+
                 company = appstruct['company']
                 title = appstruct['title']
                 new_user = MbaUser(name=name, real_name=real_name,company=company, title=title)
@@ -165,13 +181,17 @@ def mobile_view_meetup_signup(context, request):
                 DBSession.add(new_user)
                 DBSession.flush()
 
-                random_password = generate_random_password(10)
+                random_password = generate_random_password(6)
 
+                new_user.phone = phone
                 new_user.password = get_principals().hash_password(random_password)
+                DBSession.flush()
 
                 participate_meetup(meetup, new_user)
 
-                return Response(u"报名成功，您以后可以用手机号和密码 %s 登陆本站!" % random_password)
+                request.session.flash(u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!" % (real_name, phone, name, random_password) ,'success')
+
+                return {}
 
 
 
@@ -179,10 +199,6 @@ def mobile_view_meetup_signup(context, request):
             rendered_form = e.render()
 
 
-
-
-
-    principals = get_principals()
 
 
 

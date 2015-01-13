@@ -1,4 +1,10 @@
-<input type="text" class="form-control" name="{{field.name}}" value="{{cstruct}}"
+<input
+{% if field.widget.number %}
+type="number"
+{% else %}
+ type="text"
+{% endif %}
+        class="form-control" name="{{field.name}}" value="{{cstruct}}"
 {% if field.widget.size %}
  size="{{field.widget.size}}"
 {% endif %}
@@ -6,6 +12,9 @@
     class="{{field.widget.css_class}} textInput"
 {% else %}
     class="textInput"
+{% endif %}
+{% if field.widget.number %}
+ pattern="\d+"
 {% endif %}
  id="{{field.oid}}"/>
 

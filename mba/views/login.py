@@ -65,20 +65,34 @@ class LoginSchema(colander.Schema):
         validator=colander.Length(min=6),
         widget=deform.widget.PasswordWidget(css_class='form-control'),
         )
-
+import re
+phone_reg = re.compile('^\d{11}$')
 def _find_user(login):
+
+    print login
     principals = get_principals()
-    principal = principals.get(login)
-    if principal is not None:
-        return principal
+
+    if phone_reg.match(login):
+        print 'match'
+        for p in principals.search(phone=login):
+            return p
+
     else:
-        try:
-            Email().to_python(login)
-        except Exception:
-            pass
+
+
+
+
+        principal = principals.get(login)
+        if principal is not None:
+            return principal
         else:
-            for p in principals.search(email=login):
-                return p
+            try:
+                Email().to_python(login)
+            except Exception:
+                pass
+            else:
+                for p in principals.search(email=login):
+                    return p
 
 def user_password_match_validator(form, value):
     """ TODO: Doesn't take effect yet

@@ -456,6 +456,7 @@ def includeme(config):
     config.add_view(ActEditForm, route_name='admin_meetup_edit', renderer="admin/meetup_add.jinja2", permission='edit')
 
 
+
     config.add_view(
         ActAddForm,
         name=Act.type_info.add_view,
