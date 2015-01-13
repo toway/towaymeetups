@@ -456,7 +456,17 @@
 
                 $("#formEnroll button").click(function(e){
                     if( isMobile() ){
-                        var url = window.location + "/signup";
+
+                        var url;
+                        var loc = window.location;
+                        if( loc.charAt( loc.length-1) == '/'){
+                            url = loc + "signup";
+                        }else{
+                            url = loc + "/signup";
+                        }
+
+
+
                         window.open(url);
 
                         return false;
