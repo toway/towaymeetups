@@ -54,9 +54,11 @@
                         <h5>{{ meetup.title }}</h5>
 
 {#                        {% include "/admin/pagination.jinja2" %}#}
+                        <form name="meetups_parts"  method="POST" >
 
                         <table class="table table-bordered">
                             <tr>
+                                <th>选择</th>
                                 <th>姓名</th>
                                 <th>公司</th>
                                 <th>职务</th>
@@ -64,6 +66,7 @@
                             </tr>
                             {% for p in meetup.parts %}
                                 <tr>
+                                    <td><input type="checkbox" name="participate_check" value="{{ p.id }}"/></td>
                                     <td>
                                         <a href="/person/{{ p.id }}">{{ p.real_name }}</a>
                                     </td>
@@ -83,7 +86,12 @@
                         {% endfor %}
 
                         </table>
+                       <button class="btn btn-sm btn-default" id="select-all">全选</button>
+                            <button class="btn btn-sm btn-default" id="deselect-all">全不选</button>
 
+                            <input type="submit" class="btn btn-sm btn-default" name="delete" value="取消选中人参加活动" />
+
+                        </form>
 
 
 
@@ -108,6 +116,20 @@
 
                $("li#li_admin").parent().find("li").removeClass("active");
                $("li#li_admin").addClass("active");
+
+                var checks = $("form[name='meetups_parts'] input[type='checkbox']");
+                $("#select-all").click(function(e){
+                    $.each(checks,function(index, item){
+                       item.checked = true;
+                    });
+                    return false;
+                });
+                $("#deselect-all").click(function(e){
+                    $.each(checks,function(index, item){
+                       item.checked = false;
+                    });
+                    return false;
+                });
 
 
             });

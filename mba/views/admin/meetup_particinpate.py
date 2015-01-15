@@ -36,7 +36,7 @@ from js.jquery import jquery
 
 
 from mba.utils import RetDict
-from mba.resources import Act
+from mba.resources import Act, Participate
 
 __author__ = 'sunset'
 __date__ = '20150113'
@@ -53,6 +53,29 @@ def admin_meetup_particinpate_view(context, request):
     if meetup is None:
         return Response(u"不存在的活动")
 
+    if 'delete' in request.POST:
+        todel = request.POST.getall('participate_check')
+
+        principals = get_principals()
+        for mid in todel:
+
+            print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+
+            to_cancel_user = principals.get(int(mid))
+            # if to_cancel_user in meetup.parts:
+                # meetup.parts.remove(to_cancel_user)
+
+
+
+            enrolled_user = DBSession.query(Participate).filter_by(user_id=int(mid), act_id=meetup.id).first()
+            if enrolled_user is not None :
+                # print meetup
+
+                DBSession.delete(enrolled_user)
+                request.session.flash(u"已取消选中人报名活动!" , 'success')
+                DBSession.flush()
+
+    jquery.need()
 
     return {'meetup': meetup}
 
