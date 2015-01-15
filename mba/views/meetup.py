@@ -33,6 +33,7 @@ from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
 from mba.resources import Act
 from mba.fanstatic import bootstrap
+from mba.utils.sms import SMSSender
 
 __author__ = 'sunset'
 __date__ = '20140614'
@@ -153,13 +154,38 @@ def mobile_view_meetup_signup(context, request):
 
                 else:
 
-                    #报名
-                    participate_meetup(meetup, user)
 
-                    return  Response(u"报名成功！")
+
+
+
+                    sms = SMSSender(request)
+                    meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
+                    meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
+
+                    smsret = sms.send_enrolled_meetup_sms(user.phone, user.real_name, meetuptitle, meetuptime, meetup.location)
+
+                    message = u"恭喜您，%s，活动报名成功! 详细信息已经发您短信" % user.real_name
+                    if smsret['SUCCESS'] != smsret['errcode']:
+                        message = smsret['errmsg']
+                        request.session.flash(message, 'danger')
+                    else:
+                        #报名
+                        participate_meetup(meetup, user)
+
+                        request.session.flash(message ,'success')
+
+
+                    return {}
 
             else:
                 # 该手机没有注册，生成用户，并发短信通知其密码。
+
+
+
+
+
+
+
                 real_name = appstruct['real_name']
                 name =  title_to_name(real_name).replace('-','')
 
@@ -176,7 +202,7 @@ def mobile_view_meetup_signup(context, request):
 
                 company = appstruct['company']
                 title = appstruct['title']
-                new_user = MbaUser(name=name, real_name=real_name,company=company, title=title)
+                new_user = MbaUser(name=name, phone=phone, real_name=real_name,company=company, title=title)
 
                 DBSession.add(new_user)
                 DBSession.flush()
@@ -189,11 +215,32 @@ def mobile_view_meetup_signup(context, request):
 
                 participate_meetup(meetup, new_user)
 
+
+                sms = SMSSender(request)
+                meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
+                meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
+                smsret = sms.send_enrolled_meetup_and_reg_success_sms({
+                    'phonenum': new_user.phone,
+                    'user_realname': new_user.real_name,
+                    'meetup_title': meetuptitle,
+                    'meetup_time': meetuptime,
+                    'meetup_loc':  meetup.location,
+                    'username': new_user.name,
+                    'password': random_password
+
+                })
+
+
                 message = u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!(请进站修改密码,以后一键报名)登录本站（%s）"\
                     % (real_name, phone, name, random_password, request.application_url)
 
+                if smsret['SUCCESS'] != smsret['errcode']:
+                    message = smsret['errmsg']
+                    request.session.flash(message, 'danger')
+                else:
+                    request.session.flash(message ,'success')
 
-                request.session.flash(message ,'success')
+
 
                 return {}
 

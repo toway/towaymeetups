@@ -22,7 +22,7 @@ from mba.resources import Univs
 from mba.resources import Interest, ValidationSms,  MbaUser, Message
 
 from mba.utils import RetDict
-from mba.utils.sms import sendsms
+from mba.utils.sms import SMSSender
 
 @view_config(route_name='ajax_interests', renderer='json', xhr=True)
 def ajax_interests(request):
@@ -49,7 +49,8 @@ def ajax_sms(request):
 
 
     if type == ValidationSms.TYPE_REGISTER:
-        return sendsms(request, phonenum=phone)
+        sms = SMSSender(request)
+        return sms.send_validate_sms(phonenum=phone)
 
 
     return RetDict(errcode=RetDict.ERR_CODE_WRONG_PARAM)
