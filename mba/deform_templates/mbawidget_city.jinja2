@@ -1,0 +1,42 @@
+<input
+{% if field.widget.number %}
+type="number"
+{% else %}
+ type="text"
+{% endif %}
+        class="form-control" name="{{field.name}}" value="{{cstruct}}"
+{% if field.widget.size %}
+ size="{{field.widget.size}}"
+{% endif %}
+{% if field.widget.css_class %}
+    class="{{field.widget.css_class}} textInput"
+{% else %}
+    class="textInput"
+{% endif %}
+{% if field.widget.number %}
+ pattern="\d+"
+{% endif %}
+ id="{{field.oid}}"/>
+
+
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.oid}}',
+     function (oid) {
+         {% if field.widget.mask %}
+            $("#" + oid).mask("{{field.widget.mask}}",
+                          {placeholder:"{{field.widget.mask_placeholder}}"});
+         {% endif %}
+
+         $("#" + oid).radiotree({
+                 title: "常驻城市:",
+                 position: '{{ position }}',
+                 remoteContent: {
+                     type: 'script',
+                     url: '/fanstatic/mba/js/cityArray.js',
+                     rootVar: 'cityArray'
+                 }
+         });
+     });
+</script>
+

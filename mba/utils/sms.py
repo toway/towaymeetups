@@ -191,7 +191,7 @@ if test:
 
 class SMSSender(object):
 
-    def __init__(self, request, is_test = False):
+    def __init__(self, request, is_test = True):
         self.smsobj = FeiTuo()
         self.is_test = is_test
         self.request = request

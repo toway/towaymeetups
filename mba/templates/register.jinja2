@@ -95,13 +95,14 @@
 {#            }#}
 
 
-            .login-hint{
-                float: right;
-            }
+{#            .login-hint{#}
+{#                float: right;#}
+{#            }#}
+{##}
+{#            .setup-wrapper{#}
+{#                margin-top : 40px;#}
+{#            }#}
 
-            .setup-wrapper{
-                margin-top : 40px;
-            }
 
 
         </style>
@@ -124,50 +125,25 @@
 
 
 
-        <div class="container mba-margin-top">
-            <div class="row">
 
-                <p class="login-hint">已有帐户,<a href="/login">直接登陆</a></p>
+         <div class="mba-margin-top">
 
-                <div class="setup-wrapper col-md-offset-1 col-md-10">
-                    <div class="setup-header">
-                        <div class="container-fluid">
-                            <div class="col-md-9">
-                                <h1>帐户注册</h1>
-                            </div>
-                            <div class="col-md-3">
-                                <p class="">汇聚您的高端人脉.</p>
-                            </div>
-                        </div>
+            <div class="container ">
+                <div class="row">
 
-                        <hr/>
-                    </div>
 
-                    <div class="setup-main">
-                        <div class="setup-form-container">
-                            <noscript>
-                                <p class="error">请打开JavaScript支持 </p>
-                            </noscript>
 
-                            {{ form }}
+                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" id="xx">
 
-                        </div>
+
+                        {% include "messages.jinja2" %}
+                        {{ form | safe }}
+
+
 
                     </div>
-
-
-
-                </div>
-
-
-
-                <div class="col-md-4 col-md-offset-4">
-
-
-
                 </div>
             </div>
-
         </div>
 
 

@@ -76,6 +76,31 @@ class PhoneValidateCodeInputWidget(TextInputWidget):
     template = "phonevalidatecode_input"
 
 
+from js.jquery import jquery
+from js.jqueryui import  jqueryui
+from mba.fanstatic import mba_widget
+
+
+class CityWidget(TextInputWidget):
+    # requirements = (('mba_widget',None))
+    template = "mbawidget_city"
+    def __init__(self, position='element_bottom', **kw):
+        TextInputWidget.__init__(self, **kw)
+        self.position = position
+
+
+    def serialize(self, field, cstruct, **kw):
+        jquery.need()
+        jqueryui.need()
+        mba_widget.need()
+        kw['position'] = self.position
+        return TextInputWidget.serialize(self, field, cstruct, **kw)
+
+class SchoolWidget(TextInputWidget):
+    requirements = ( ('jquery', None), )
+    template = 'mbawidget_school'
+
+
 from colander import DateTime
 
 class DateTimeRange(DateTime):

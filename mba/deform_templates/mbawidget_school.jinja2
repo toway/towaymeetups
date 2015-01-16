@@ -1,0 +1,65 @@
+
+<input
+{% if field.widget.number %}
+type="number"
+{% else %}
+ type="text"
+{% endif %}
+        class="form-control" name="{{field.name}}" value="{{cstruct}}" placeholder="请输入学校名称或拼音下拉选择..."
+{% if field.widget.size %}
+ size="{{field.widget.size}}"
+{% endif %}
+{% if field.widget.css_class %}
+    class="{{field.widget.css_class}} textInput"
+{% else %}
+    class="textInput"
+{% endif %}
+{% if field.widget.number %}
+ pattern="\d+"
+{% endif %}
+ id="{{field.oid}}"/>
+<ul class="mbawidget-ajax-options" ></ul>
+
+<script type="text/javascript">
+  deform.addCallback(
+     '{{field.oid}}',
+     function (oid) {
+         $("#" + oid).keyup(function(){
+             var val = $(this).val();
+             var self = this;
+             if( val.length >= 2 ){
+                 $.get('/api/searchschool/'+val, function(ret){
+{#                     console.log(ret);#}
+
+                     var ul = $(self).parent().find('.mbawidget-ajax-options');
+                     ul.find('li').off('click');
+                     ul.html('');
+
+                     $.each(ret, function(index, item){
+                         var li = $("<li>" + item + "</li>");
+{#                         li.one('click', function(){#}
+{#                            $(self).val($(this).val());#}
+{#                         });#}
+
+                         ul.append(li);
+                     });
+
+                     ul.on('click', 'li', function(){
+                         $(self).val( $(this).text() );
+                         ul.hide();
+                     });
+
+                     var pos = $(self).offset() ;
+                     pos.top += $(self).innerHeight();
+                     var width = $(self).innerWidth()
+                     ul.show().width(width)
+                             .offset( pos );
+                 });
+
+             }
+
+         });
+
+     });
+</script>
+

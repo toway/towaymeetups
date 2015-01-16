@@ -36,6 +36,7 @@ from mba.fanstatic import bootstrap
 from mba.utils.sms import SMSSender
 from mba.views.widget import PhoneValidateCodeInputWidget
 from mba.utils.validators import deferred_phonecode_validator
+from mba.utils import generate_unique_name_from_realname
 
 __author__ = 'sunset'
 __date__ = '20140614'
@@ -201,18 +202,8 @@ def mobile_view_meetup_signup(context, request):
 
 
                 real_name = appstruct['real_name']
-                name =  title_to_name(real_name).replace('-','')
 
-                principal = principals.get(name)
-                while principal is not None:
-                    postfix = name[-1]
-                    try:
-                        postfix = int(postfix)
-                        name = "%s%d" % ( name[:-1], (postfix+1) )
-                    except :
-                        name = name + "2"
-                    principal = principals.get(name)
-
+                name = generate_unique_name_from_realname(real_name)
 
                 company = appstruct['company']
                 title = appstruct['title']

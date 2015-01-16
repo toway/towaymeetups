@@ -8,55 +8,67 @@ accept-charset="utf-8"
  class="{{field.css_class}}"
 {% endif %}
 >
-    <input type="hidden" name="_charset_" />
+    <INPUT TYPE="HIDDEN" NAME="_CHARSET_" />
     <input type="hidden" name="__formid__" value="{{field.formid}}"/>
-{#        {% if field.title %}#}
-{#            <legend>{{ _(field.title) }}</legend>#}
-{#        {% endif %}#}
-      {% if field.title %}
-        <li class="section first">
+
+
+    <div class="header">
+        {% if field.title %}
+        <li class="section title first">
             <h3>{{ _(field.title) }}</h3>
-            {% if field.description %}
-                <div>{{ _(field.description) }}</div>
-            {% endif %}
         </li>
+
+        {% endif %}
+    </div>
+
+
+
+    <div class="body">
+
+            {% if field.description %}
+                <li class="section desc">
+                {{ _(field.description) }}
+                </li>
+            {% endif %}
+
+
+        {% for f in field.children %}
+            <div class="form-group">
+                {{field.renderer(field.widget.item_template, field=f, cstruct=cstruct.get(f.name, null)) }}
+            </div>
+        {% endfor %}
+
+    {#    {{ field.error }}#}
+        {% if field.error and not field.widget.hidden %}
+            {% for msg in field.error.messages() %}
+                {% set errstr = 'error-%s' % field.oid %}
+                {% set pid = (loop.index0==0 and errstr) or ('%s-%s' % (errstr, loop.index0)) %}
+
+                <p id="{{pid}}" class="help-inline error {{field.widget.error_class}}">{{_(msg)}}</p>
+            {% endfor %}
         {% endif %}
 
-    {% for f in field.children %}
-        <div class="form-group">
-            {{field.renderer(field.widget.item_template, field=f, cstruct=cstruct.get(f.name, null)) }}
-        </div>
-    {% endfor %}
 
-{#    {{ field.error }}#}
-    {% if field.error and not field.widget.hidden %}
-        {% for msg in field.error.messages() %}
-            {% set errstr = 'error-%s' % field.oid %}
-            {% set pid = (loop.index0==0 and errstr) or ('%s-%s' % (errstr, loop.index0)) %}
-
-            <p id="{{pid}}" class="help-inline error {{field.widget.error_class}}">{{_(msg)}}</p>
-        {% endfor %}
-    {% endif %}
-
-
-    {% for button in field.buttons %}
-        <button
-            id="{{field.formid+button.name}}"
-            name="{{button.name}}"
-            type="{{button.type}}"
-            class="btn btn-default
-                {% if button.css_class %}
-                    {{ button.css_class }}
+        {% for button in field.buttons %}
+            <button
+                id="{{field.formid+button.name}}"
+                name="{{button.name}}"
+                type="{{button.type}}"
+                class="btn btn-default
+                    {% if button.css_class %}
+                        {{ button.css_class }}
+                    {% endif %}
+                "
+                value="{{ _(button.value) }}"
+                {% if button.disabled %}
+                disabled="disabled"
                 {% endif %}
-            "
-            value="{{ _(button.value) }}"
-            {% if button.disabled %}
-            disabled="disabled"
-            {% endif %}
-            >
-        <span>{{ _(button.title) }}</span>
-        </button>
-    {% endfor %}
+                >
+            <span>{{ _(button.title) }}</span>
+            </button>
+        {% endfor %}
+
+    </div>
 
 {% if field.use_ajax %}
 <script type="text/javascript">

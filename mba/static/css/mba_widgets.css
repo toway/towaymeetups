@@ -28,3 +28,14 @@
   text-align: center;
   padding-bottom: 10px;
 }
+ul.mbawidget-ajax-options {
+  position: absolute;
+  border: 1px solid #d8dee2;
+  background-color: #ffffff;
+}
+ul.mbawidget-ajax-options li {
+  cursor: pointer;
+}
+ul.mbawidget-ajax-options li:hover {
+  background-color: #3071a9;
+}

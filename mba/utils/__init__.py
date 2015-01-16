@@ -16,7 +16,10 @@ from deform.widget import CheckedPasswordWidget
 from pyramid.view import view_config
 import kotti
 from kotti import get_settings
-from kotti.security import get_user
+from kotti.security import get_user, get_principals
+from kotti.util import title_to_name
+
+
 
 from json import  JSONEncoder
 
@@ -41,6 +44,24 @@ def wrap_user(request, ret_dict_to_update):
     ret_dict_to_update.update({'user':user})
 
     return ret_dict_to_update
+
+def generate_unique_name_from_realname(real_name):
+
+    name =  title_to_name(real_name).replace('-','')
+
+    principals = get_principals()
+
+    principal = principals.get(name)
+    while principal is not None:
+        postfix = name[-1]
+        try:
+            postfix = int(postfix)
+            name = "%s%d" % ( name[:-1], (postfix+1) )
+        except :
+            name = name + "2"
+        principal = principals.get(name)
+
+    return name
 
 
 

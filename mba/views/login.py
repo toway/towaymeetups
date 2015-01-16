@@ -26,6 +26,7 @@ from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
 from mba.views.view import MbaTemplateAPI
+from mba.utils.validators import name_pattern_validator
 
 @view_config(route_name='home2', renderer='index2.jinja2')
 def view_home(request):
@@ -42,7 +43,7 @@ def view_permission(request):
     return {'project': 'lesson2'}
     
 
-from mba.views.register import name_pattern_validator       
+
 def login_pattern_validator(node, value):
     try:
         colander.Email()(node, value)
