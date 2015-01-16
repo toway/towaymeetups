@@ -270,15 +270,15 @@ class MbaUser(Base):
     confirm_token = Column(Unicode(100))
     phone = Column(String(20))
     phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
-    title = Column(Unicode(100), nullable=False)
+    title = Column(Unicode(100), nullable=True)
     title_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
     email = Column(Unicode(100), unique=True)
     email_privacy_level =  Column(Integer, default=5) # 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
-    groups = Column(JsonType(), nullable=False)
-    creation_date = Column(DateTime(), nullable=False)
+    groups = Column(JsonType(), nullable=True)
+    creation_date = Column(DateTime(), nullable=True)
     last_login_date = Column(DateTime())
     sex = Column(Integer())
-    type = Column(String(50), nullable=False)
+    type = Column(String(50), nullable=True)
 
     
     # _interests = relationship("UserInterest", backref='user')
@@ -349,7 +349,10 @@ class MbaUser(Base):
             , creator=City._find_or_create)
 
     def __init__(self, name, password=None, active=True, confirm_token=None,
-                 title=u"", email=None, groups=(), city_name='', **kwargs):
+                 title=u"", email=None, groups=(), city_name='',
+                 real_name='', birth_date=None, school=u"", school_year=0,
+                 company=u"", industry=u"", special_skill=u"", interest=u"",
+                 between=u"", introduction=u"", **kwargs):
         self.name = name
         if password is not None:
             password = get_principals().hash_password(password)
@@ -368,7 +371,19 @@ class MbaUser(Base):
             # default city_name
             self.city_name = u'深圳'
 
+        self.real_name = real_name
+        self.birth_date = birth_date
+        self.school = school
+        self.school_year = school_year
+        self.company = company
+        self.industry = industry
+        self.special_skill = special_skill
+        self.between = between
+        self.introduction = introduction
+
         super(MbaUser, self).__init__(**kwargs)
+
+
 
     @property
     def position_items(self):
@@ -395,6 +410,67 @@ class MbaUser(Base):
         v.visit_date = datetime.now(tz=None)
         if new_v:
             DBSession.add(v)
+
+
+
+    # @classproperty
+    # def __mapper_args__(cls):
+    #     return dict(
+    #             order_by='mba_users.name',
+    #             polymorphic_identity=camel_case_to_name(cls.__name__)
+    #         )
+
+    # id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
+    school = Column(String(100))
+    school_year = Column(Integer())
+
+    # real_name = Column(String(20))， real_name is put in superclass ,for global site, real name is needed
+    birth_date = Column(Date())
+    identify_type = Column(Integer())
+    identify = Column(String(30))
+
+    home_number = Column(String(20))
+    # location = Column(String(20)) # location is duplicated with city_name in MbaUser
+    salary = Column(Integer())
+    work_years = Column(Integer())
+    company_phone = Column(String(30))
+    keyword = Column(String(100))
+    job_status = Column(String(100))
+
+
+    [AUTH_STATUS_UNAUTH, AUTH_STATUS_AUTHED, AUTH_STATUS_FAIL, AUTH_STATUS_REQ_FOR_AUTH ] = range(4)
+    auth_info =  Column(Integer,default=AUTH_STATUS_UNAUTH) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
+    auth_meetup =  Column(Integer,default=AUTH_STATUS_UNAUTH)
+    auth_friend =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
+    auth_expert =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
+
+    @property
+    def auth_honesty(self):
+        return [self.auth_info, self.auth_meetup, self.auth_friend].count(self.AUTH_STATUS_AUTHED) >= 2
+
+
+
+    resume = relationship('Resume', backref='user', uselist=False)
+    #resumes = relationship('Resume', backref='user')
+
+
+
+    def __repr__(self):  # pragma: no cover
+        return '<Student %r>' % self.name
+
+    @property
+    def work_info(self):
+        arrs = [u"小于一年", u"一到三年", u"三到五年", u"五年以上"]
+        if self.work_years >= 0 and self.work_years < len(arrs):
+            return arrs[self.work_years]
+        return arrs[0]
+
+    @property
+    def birth_old(self):
+        return abs(date.today().year - self.birth_date.year)+1
+
+
+Student = MbaUser
 
 friend_union = select([
                 friend.c.user_a_id,
@@ -644,75 +720,7 @@ class Comment(Base):
     post_date = Column(DateTime(), nullable=False, default=datetime.now)
     
 
-# NOTE:　class Student contains not only students, should refactor the name to MainUser.
-class Student(MbaUser):
 
-    @classproperty
-    def __mapper_args__(cls):
-        return dict(
-                order_by='mba_users.name',
-                polymorphic_identity=camel_case_to_name(cls.__name__)
-            )
-
-    id = Column('id', Integer, ForeignKey('mba_users.id'), primary_key=True)
-    school = Column(String(100))
-    school_year = Column(Integer())
-
-    # real_name = Column(String(20))， real_name is put in superclass ,for global site, real name is needed
-    birth_date = Column(Date())
-    identify_type = Column(Integer())
-    identify = Column(String(30))
-
-    home_number = Column(String(20))
-    # location = Column(String(20)) # location is duplicated with city_name in MbaUser
-    salary = Column(Integer())
-    work_years = Column(Integer())
-    company_phone = Column(String(30))
-    keyword = Column(String(100))
-    job_status = Column(String(100))
-
-
-    [AUTH_STATUS_UNAUTH, AUTH_STATUS_AUTHED, AUTH_STATUS_FAIL, AUTH_STATUS_REQ_FOR_AUTH ] = range(4)
-    auth_info =  Column(Integer,default=AUTH_STATUS_UNAUTH) # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
-    auth_meetup =  Column(Integer,default=AUTH_STATUS_UNAUTH)
-    auth_friend =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
-    auth_expert =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
-
-    @property
-    def auth_honesty(self):
-        return [self.auth_info, self.auth_meetup, self.auth_friend].count(self.AUTH_STATUS_AUTHED) >= 2
-
-
-
-    resume = relationship('Resume', backref='user', uselist=False)
-    #resumes = relationship('Resume', backref='user')
-
-    def __init__(self, name, real_name='', birth_date=None, school=u"", school_year=0
-            , company=u"", industry=u"", special_skill=u"", interest=u"", between=u"", introduction=u"", **kwargs):
-        self.real_name = real_name
-        self.birth_date = birth_date
-        self.school = school
-        self.school_year = school_year
-        self.company = company
-        self.industry = industry
-        self.special_skill = special_skill
-        self.between = between
-        self.introduction = introduction
-        super(Student, self).__init__(name, **kwargs)
-
-    def __repr__(self):  # pragma: no cover
-        return '<Student %r>' % self.name
-
-    @property
-    def work_info(self):
-        arrs = [u"小于一年", u"一到三年", u"三到五年", u"五年以上"]
-        if self.work_years >= 0 and self.work_years < len(arrs):
-            return arrs[self.work_years]
-        return arrs[0]
-
-    @property
-    def birth_old(self):
-        return abs(date.today().year - self.birth_date.year)+1
 
 # Tables about resume
 # Education n -- 1 Resume 

@@ -185,18 +185,18 @@ def add_mbauser_to_student(u):
     #now get the student
     return DBSession.query(MbaUser).get(u.id)
 
-def add_user_details_success(request, appstruct):
-
-
-    student = add_mbauser_to_student(get_user(request) )
-    for (k,v) in appstruct.items():
-        setattr(student, k, v)
-
-    #already added
-    #DBSession.add(new_student)
-    DBSession.flush()
-
-    return student
+# def add_user_details_success(request, appstruct):
+#
+#
+#     # student = add_mbauser_to_student(get_user(request) )
+#     for (k,v) in appstruct.items():
+#         setattr(student, k, v)
+#
+#     #already added
+#     #DBSession.add(new_student)
+#     DBSession.flush()
+#
+#     return student
 
 
 @view_config(route_name='register',renderer='common.jinja2')
@@ -268,7 +268,7 @@ class RegisterDetailsSchema(colander.Schema):
                                           css_class='form-control')
     )
 
-    city = colander.SchemaNode(
+    city_name = colander.SchemaNode(
         colander.String(),
         title=_(u"常驻城市"),
         widget=CityWidget()
@@ -302,6 +302,11 @@ class RegisterDetailsSchema(colander.Schema):
 
 @view_config(route_name='register_details',renderer='common.jinja2')
 def view_register_details(context, request):
+
+    user = get_user(request)
+    if not user:
+        return HTTPFound("/register")
+
     schema = RegisterDetailsSchema(
             title=u'加入友汇网-完善信息').bind(request=request)
     '''
@@ -329,15 +334,22 @@ def view_register_details(context, request):
 
         try:
             appstruct = form.validate(request.POST.items())
-            student = add_user_details_success(request, appstruct)
-            headers = remember(request, student.name)
+
+            for (k,v) in appstruct.items():
+                print k,v
+                setattr(user,  k, v)
+
+            # student = add_user_details_success(request, appstruct)
+            # headers = remember(request, student.name)
 
             # Seems useless, anybody tell what's hell this two lines do?
             # success_msg = _('Congratulations! Successfully registed')
             # request.session.flash(success_msg, 'success')
 
-            return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+            # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
 
+
+            return HTTPFound(location=request.application_url + '/register_finish')
 
         except ValidationFailure, e:
             # request.session.flash(_(u"There was an error."), 'danger')
@@ -345,9 +357,10 @@ def view_register_details(context, request):
 
     if 'skip' in request.POST:
         # Just Add a record to table student
-        student = add_mbauser_to_student(get_user(request) )
-        headers = remember(request, student.name)
-        return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+        # student = add_mbauser_to_student(get_user(request) )
+        # headers = remember(request, student.name)
+        # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+        return HTTPFound(location=request.application_url + '/register_finish')
 
 
     if rendered_form is None:

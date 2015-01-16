@@ -84,7 +84,7 @@
                                     {% endif %}
 
                                 </td>
-                                <td>{{ code.expiration }}</td>
+                                <td>{{ code.expiration.strftime("%Y-%m-%d %H:%M") }}</td>
                             </tr>
 
                         {% else %}

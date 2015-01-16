@@ -316,7 +316,8 @@ def create_mba_root():
         DBSession.add(node2)        
 
 
-    if DBSession.query(Student).count() == 0:
+    if DBSession.query(Student).count() == 1:
+
         DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer']))
         testmba2 = Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer'])
         DBSession.add(testmba2)
