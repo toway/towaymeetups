@@ -74,7 +74,9 @@ ul { list-style-type: none; }
 
 }
 
-
+.mba-margin-top {
+  margin-top: 66px;
+}
 
 
 
@@ -111,6 +113,8 @@ ul { list-style-type: none; }
   -o-border-radius: 5px;
   border-radius: 5px;
 }
+
+
 
 /*.navbar-right{*/
     /*margin-top: 8px;*/
@@ -156,7 +160,8 @@ ul { list-style-type: none; }
 }
 
 #user-links form{
-    padding: 0;
+    padding: 0 15px;
+    border: 0;
 
 }
 
@@ -209,9 +214,7 @@ ul { list-style-type: none; }
 
 
 /* /index style begin */
-.mba-margin-top {
-  margin-top: 76px;
-}
+
 /*
 .mba-carousel .carousel-inner .item {
   background-color: #2e70ba;
