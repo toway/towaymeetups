@@ -98,6 +98,10 @@ class FeiTuo(SMSServiceProvider):
         options= self.DEFAULT_OPTIONS
         req = urllib2.Request(self.URL)
         print options
+
+        if options.get('mobile',None) is None or len(options['mobile'])!=11:
+            return RetDict(errmsg=u"不合法的手机号码")
+
         req.add_data(urllib.urlencode(encoded_dict(options)))
         res = urllib2.urlopen(req)
         response = res.read().strip()

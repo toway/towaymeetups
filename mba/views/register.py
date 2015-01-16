@@ -37,6 +37,7 @@ from mba.views.form import FormCustom
 from mba.security import get_student
 from mba.views.widget import PhoneValidateCodeInputWidget
 from mba.resources import MbaUser,Student,InvitationCode
+from mba.utils.validators import deferred_phonecode_validator
 
 # TODO groups for mba
 def _massage_groups_in(appstruct):
@@ -57,13 +58,6 @@ def name_new_validator(node, value):
         raise colander.Invalid(
             node, _(u"A user with that name already exists."))
 
-@colander.deferred
-def deferred_phonecode_validator(node, kw):
-    def phonecode_validator(node, value):
-        if not value or value != kw['request'].session.get('sms_validate_code',None):
-            raise colander.Invalid(node,
-                                   _(u'验证码不对哟！'))
-    return phonecode_validator
 
 def invitation_code_validator(node, value):
     # print 'invitation_code_validator:', value

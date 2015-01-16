@@ -26,6 +26,11 @@ ul { list-style-type: none; }
   }
 }
 
+/* Override defrom default style */
+.deform button.btn{
+    padding: 6px 12px;
+}
+
 /* global style end */
 
 /* global nav style begin */

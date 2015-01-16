@@ -1,4 +1,4 @@
-<div class="form-group input-group btn-group">
+<div class="input-group">
 
 
 <input type="text"  name="{{field.name}}" value="{{cstruct}}"
@@ -12,11 +12,14 @@
 {% endif %}
  id="{{field.oid}}"/>
 
-<button class="btn  btn-default" id="{{ field.oid }}-sms">发送短信</button>
-<span id="waittoresend" style="display: none">等待<span id="secwait">60</span>秒再发送...</span>
-<span id="testhint" style="display: none"></span>
+<span class="input-group-btn">
+    <button class="btn  btn-default" id="{{ field.oid }}-sms">发送验证码</button>
+</span>
 
 </div>
+    <span id="waittoresend" style="display: none">等待<span id="secwait">60</span>秒再发送...</span>
+    <span id="testhint" style="display: none"></span>
+
 {% if field.widget.mask %}
 <script type="text/javascript">
   deform.addCallback(
@@ -38,11 +41,12 @@
              if( secleft == 0){
                  secleft = 60;
                  $("#waittoresend").hide();
-                 $("#" + oid  + "-sms").show();
+                 $("#" + oid  + "-sms").removeAttr('disabled');
              }else{
                  secleft  -= 1;
              }
-             $("#secwait").text(secleft)
+             $("#secwait").text(secleft);
+             setTimeout(timewaittoresend, 1000);
          }
         $("#" + oid  + "-sms").click(function(e){
 
@@ -67,7 +71,7 @@
                     }else {
 
                         $("#waittoresend").show();
-                        $("#" + oid + "-sms").hide();
+                        $("#" + oid + "-sms").attr('disabled','disabled');
                         setTimeout(timewaittoresend, 1000);
                     }
 

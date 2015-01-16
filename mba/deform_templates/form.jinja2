@@ -34,7 +34,7 @@ accept-charset="utf-8"
             {% set errstr = 'error-%s' % field.oid %}
             {% set pid = (loop.index0==0 and errstr) or ('%s-%s' % (errstr, loop.index0)) %}
 
-            <span id="{{pid}}" class="help-inline {{field.widget.error_class}}">{{_(msg)}}</span>
+            <p id="{{pid}}" class="help-inline error {{field.widget.error_class}}">{{_(msg)}}</p>
         {% endfor %}
     {% endif %}
 

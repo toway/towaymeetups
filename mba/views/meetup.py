@@ -34,6 +34,8 @@ from mba.utils import wrap_user as wrap_user2
 from mba.resources import Act
 from mba.fanstatic import bootstrap
 from mba.utils.sms import SMSSender
+from mba.views.widget import PhoneValidateCodeInputWidget
+from mba.utils.validators import deferred_phonecode_validator
 
 __author__ = 'sunset'
 __date__ = '20140614'
@@ -57,6 +59,14 @@ class MeetupSignupSchema(colander.MappingSchema):
         title=_(u'手机'),
         validator= phone_pattern_validator,
         widget=deform.widget.TextInputWidget(number=True)
+        # widget=PhoneValidateCodeInputWidget()
+    )
+
+    sms_validate_code = colander.SchemaNode(
+        colander.String(),
+        title=_(u"验证码"),
+        validator=deferred_phonecode_validator,
+        widget=PhoneValidateCodeInputWidget(inputname='phone')
     )
 
     real_name = colander.SchemaNode(
@@ -79,7 +89,12 @@ def signup_validator(form, value):
     pass
 
 
-
+def participate_meetup(meetup, user):
+    part = Participate()
+    part.act_id = meetup.id
+    part.user_id = user.id
+    DBSession.add( part )
+    DBSession.flush()
 
 @view_config(route_name='meetup_signup',  renderer='mobile/meetup_signup.jinja2')
 def mobile_view_meetup_signup(context, request):
@@ -90,8 +105,11 @@ def mobile_view_meetup_signup(context, request):
     if  meetup is None:
         return Response(u"不存在的活动")
 
+
+
     formtitle = u"活动报名:%s.." % (meetup.title[:10],)
     schema = MeetupSignupSchema(title=formtitle,
+                                description=u"<a href='/login?came_from=/meetup/%s'>已有友汇网帐号？直接登陆报名</a>" % meetupname,
                                 validator=signup_validator).bind(request=request)
 
     form = deform.Form(schema,
@@ -116,12 +134,7 @@ def mobile_view_meetup_signup(context, request):
 
 
 
-            def participate_meetup(meetup, user):
-                part = Participate()
-                part.act_id = meetup.id
-                part.user_id = user.id
-                DBSession.add( part )
-                DBSession.flush()
+
 
             def generate_random_password(length):
                 import random
@@ -149,6 +162,7 @@ def mobile_view_meetup_signup(context, request):
                 if user in meetup.parts:
 
                     form.error = colander.Invalid(schema, u"您已经报过名了, 不能重复报名")
+                    print 'appstruct:', appstruct
                     rendered_form = form.render(appstruct)
                     # raise ValidationFailure(form, appstruct, '')
 
@@ -290,17 +304,26 @@ def view_meetup(context, request):
         if not self_enrolled and "enroll" in request.POST:
             # enroll this               
 
-                
-            
-            part = Participate()
-            part.act_id = context.id
-            part.user_id = user.id
-            DBSession.add( part )
-            DBSession.flush()
 
-            # context._parts.append(user)
-            self_enrolled = True
-            enroll_success = True
+            meetup = DBSession.query(Act).get(context.id)
+
+            sms = SMSSender(request)
+            meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
+            meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
+
+            smsret = sms.send_enrolled_meetup_sms(user.phone, user.real_name, meetuptitle, meetuptime, meetup.location)
+
+            # message = u"恭喜您，%s，活动报名成功! 详细信息已经发您短信" % user.real_name
+            if smsret['SUCCESS'] != smsret['errcode']:
+                message = smsret['errmsg']
+                request.session.flash(message, 'danger')
+            else:
+                #报名
+                participate_meetup(meetup, user)
+                self_enrolled = True
+                enroll_success = True
+
+
             
         elif 'submit' in request.POST:
 

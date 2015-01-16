@@ -31,3 +31,14 @@ class PhoneNum(Regex):
 def password_pattern_validator(node, value):
     if not value or len(value.strip()) < 8:
         raise colander.Invalid(node, _(u"密码至少8位") )
+
+
+
+
+@colander.deferred
+def deferred_phonecode_validator(node, kw):
+    def phonecode_validator(node, value):
+        if not value or value != kw['request'].session.get('sms_validate_code',None):
+            raise colander.Invalid(node,
+                                   _(u'验证码不对哟！'))
+    return phonecode_validator
