@@ -156,12 +156,13 @@ ul { list-style-type: none; }
 }
 
 #user-links form{
-    padding-right: 0;
+    padding: 0;
+
 }
 
-#user-links .input-group > .form-control {
-     width: auto;;
-}
+/*#user-links .input-group > .form-control {*/
+     /*width: auto;;*/
+/*}*/
 
 .navbar-iforgot{
     font-size: 12px;
