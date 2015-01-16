@@ -45,7 +45,7 @@ from mba import _
 from mba.resources import *
 from mba.fanstatic import city_css
 
-from mba.views.widget import URLInputWidget,ImageUploadWidget,ImageUploadWidget2, GeoWidget, DateTimeRangeInputWidget, DateTimeRange
+from mba.views.widget import URLInputWidget,ImageUploadWidget,ImageUploadWidget2, GeoWidget, DateTimeRangeInputWidget, DateTimeRange, CityWidget
 from mba.views.view import MbaTemplateAPI
 
 
@@ -183,7 +183,7 @@ class ActSchema(colander.MappingSchema):
         )
     city_name = colander.SchemaNode(colander.String()
             , title=_(u"城市")
-            , widget=deferred_city_widget
+            , widget=CityWidget()
             )
     location = colander.SchemaNode(
         colander.String(),
