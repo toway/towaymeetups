@@ -52,13 +52,18 @@
                     </div>
 
                     <div class="col-md-9">
-                        <h2>所有回础</h2>
+                        <h2>所有信息</h2>
+
+                    {% include "messages.jinja2" %}
 
                         {% include "/admin/pagination.jinja2" %}
 
+                     <form name="info_mgmt"  method="POST" >
+
                         <table class="table table-striped table-bordered">
                             <tr>
-                                <th>ID</th>
+                                <th>条目</th>
+                                <th>选择</th>
                                 <th>推荐信息</th>
                                 <th>状态</th>
                                 <th>操作</th>
@@ -66,8 +71,20 @@
                             {% for info in infomations %}
                             <tr>
                                 <td>{{ info.index }}</td>
+                                <td><input type="checkbox" name="infocheck" value="{{ info.id }}"/></td>
                                 <td>{{ info.title }}</td>
-                                <td>xx</td>
+                              <td>
+                                    {% if info.status == info.STATUS_PUBLIC %}
+                                        公开
+                                    {% elif  info.status == info.STATUS_DRAFT %}
+                                        草稿
+                                    {% elif info.status == info.STATUS_PRIVATE %}
+                                        私密
+                                    {% elif info.status == info.STATUS_CANCELED %}
+                                        已取消
+                                    {% endif %}
+                                </td>
+
                                 <td>
                                     <a href="/admin/infomation/edit/{{ info.id }}">修改</a>
                                 </td>
@@ -75,6 +92,13 @@
                             {% endfor %}
 
                         </table>
+
+                            <button class="btn btn-sm btn-default" id="select-all">全选</button>
+                            <button class="btn btn-sm btn-default" id="deselect-all">全不选</button>
+
+                        <input type="submit" class="btn btn-sm btn-default" name="delete" value="删除" />
+
+                     </form>
 
                     </div>
 
@@ -97,7 +121,19 @@
                $("li#li_admin").parent().find("li").removeClass("active");
                $("li#li_admin").addClass("active");
 
-
+               var checks = $("form[name='info_mgmt'] input[type='checkbox']");
+                $("#select-all").click(function(e){
+                    $.each(checks,function(index, item){
+                       item.checked = true;
+                    });
+                    return false;
+                });
+                $("#deselect-all").click(function(e){
+                    $.each(checks,function(index, item){
+                       item.checked = false;
+                    });
+                    return false;
+                });
                 /*
                 $(document).pjax('.home-menu a', '#pjax-content');
                  */

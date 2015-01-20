@@ -689,6 +689,10 @@ class Infomation(Document):
     '''This Class stores the infomatino recommended by admins '''
     id = Column('id', Integer, ForeignKey('documents.id'), primary_key=True)
 
+    [STATUS_PUBLIC, STATUS_DRAFT, STATUS_PRIVATE, STATUS_CANCEL, STATUS_DELETED] = range(5)
+    status = Column(Integer(), nullable=False, default=STATUS_PUBLIC)
+
+
 
     type_info = Document.type_info.copy(
         name=u'Infomation',

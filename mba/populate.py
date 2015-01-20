@@ -313,7 +313,22 @@ def create_mba_root():
         node2 = MeetupType(title=u"外部活动")
 
         DBSession.add(node1)        
-        DBSession.add(node2)        
+        DBSession.add(node2)
+
+
+    if DBSession.query(Act).count() == 0:
+
+        import datetime as dt2
+
+        meetup = Act(name='1', title=u'测试活动', meetup_type=DBSession.query(MeetupType).first().id,
+                     city_name=u'北京', body=u'这只是一场游戏', parent_id = get_act_root().id ,
+                     default_view='test_view',
+                        meetup_start_time = datetime.now(tz=None) ,
+                        meetup_finish_time = datetime.now(tz=None) + dt2.timedelta(days=10),
+                        enroll_start_time = datetime.now(tz=None),
+                        enroll_finish_time = datetime.now(tz=None)  +  dt2.timedelta(days=10) )
+
+        DBSession.add(meetup)
 
 
     if DBSession.query(Student).count() == 1:
@@ -379,4 +394,4 @@ def populate():
     #test_user()
     #test_add_stu()
     #test_resume2()
-    test_position()
+    # test_position()

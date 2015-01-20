@@ -15,11 +15,11 @@
                             
                             
                             {% if page_index <= total_page-1 %}
-                            <li><a href="{{ url_prefix }}/{{ page_index + 1 }}">{{page_index+1}}</a></li>
+                            <li><a href="{{ url_prefix }}/{{ page_index + 1 }}">{{page_index + 1}}</a></li>
                             {% endif %}
                             
                             {% if page_index <= total_page-2 %}
-                            <li><a href="{{ url_prefix }}/{{ page_index + 2 }}">{{page_index+2}}</a></li>
+                            <li><a href="{{ url_prefix }}/{{ page_index + 2 }}">{{page_index + 2}}</a></li>
                             {% endif %}
                             
                             <li {% if page_index == total_page %} class="disabled" {% endif %}><a href="#">&raquo;</a></li>

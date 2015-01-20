@@ -48,6 +48,7 @@ class InfoSchema(colander.MappingSchema):
             colander.String(), 
             title=u'标题')
 
+
     body = colander.SchemaNode(
             colander.String(),
             title = u'内容',

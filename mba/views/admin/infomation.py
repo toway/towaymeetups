@@ -36,12 +36,14 @@ __description__ = u'管理员的推荐信息'
 from js.jquery import jquery
 
 
+INFO_NUM_PER_PAGE = 20
+
 def view_info_entry(page_index=1, num_per_page=10):
     jquery.need()
-    queried = DBSession.query(Infomation)
+    queried = DBSession.query(Infomation).filter_by(status=Infomation.STATUS_PUBLIC)
     count = queried.count()
     start = (page_index-1) * num_per_page
-    result = DBSession.query(Infomation).slice(start,num_per_page)
+    result = DBSession.query(Infomation).filter_by(status=Infomation.STATUS_PUBLIC).slice(start,num_per_page)
     part = [ { 'id': it.id,
               'name': it.name,
               'title': it.title
@@ -60,10 +62,32 @@ def view_info_entry(page_index=1, num_per_page=10):
             'page_index': 1}
 
 
+@view_config(route_name='admin_infomations_id', renderer='admin/infomations.jinja2')
 @view_config(route_name='admin_infomations', renderer='admin/infomations.jinja2',permission='view')
 @wrap_user
 def view_reviews(request):
-    return view_info_entry()
+    if 'delete' in request.POST:
+        todel = request.POST.getall('infocheck')
+
+        for mid in todel:
+
+            # print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+            info = DBSession.query(Infomation).filter_by(id=int(mid)).first()
+            if info is not None :
+
+                info.status = Infomation.STATUS_DELETED
+                request.session.flash(u"信息'%s...'已成功删除!" % info.title[:10], 'success')
+
+
+
+            DBSession.flush()
+
+
+    pageid = int(request.matchdict.get('id',1) )
+    retobj =  view_info_entry(pageid, INFO_NUM_PER_PAGE)
+    retobj.update({'urlprifix': '/admin/infomations'})
+
+    return retobj
 
 
 def includeme(config):
@@ -71,6 +95,7 @@ def includeme(config):
 
 
     config.add_route('admin_infomations','/admin/infomations')
+    config.add_route('admin_infomations_id','/admin/infomations/{id}')
 
     config.add_route('admin_info_add',  '/admin/infomation/add')
     config.add_view(InfoAddForm, route_name='admin_info_add', renderer="admin/meetup_add.jinja2", permission='view')

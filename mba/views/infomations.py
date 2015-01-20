@@ -30,28 +30,29 @@ from mba.resources import MbaUser
 from mba import _
 from mba.utils.decorators import wrap_user
 from mba.resources import Act, Review, Participate, Infomation
+from mba.views.admin.infomation import view_info_entry, INFO_NUM_PER_PAGE
 
 __author__ = 'sunset'
 __date__ = '201401224'
 
-INFO_NUM_PER_PAGE = 20
+# INFO_NUM_PER_PAGE = 20
 
 
-def view_info(page_index=1):
-    jquery.need()
-
-    start = (page_index-1) * INFO_NUM_PER_PAGE
-
-    count = DBSession.query(Infomation).count()
-    infomations = DBSession.query(Infomation).slice(start, INFO_NUM_PER_PAGE).all()
-
-
-    return {
-        'infomations': infomations,
-        'total_count': count,
-        'total_page': count/ INFO_NUM_PER_PAGE + 1,
-        'page_index': page_index
-    }
+# def view_info(page_index=1):
+#     jquery.need()
+#
+#     start = (page_index-1) * INFO_NUM_PER_PAGE
+#
+#     count = DBSession.query(Infomation).count()
+#     infomations = DBSession.query(Infomation).slice(start, INFO_NUM_PER_PAGE).all()
+#
+#
+#     return {
+#         'infomations': infomations,
+#         'total_count': count,
+#         'total_page': count/ INFO_NUM_PER_PAGE + 1,
+#         'page_index': page_index
+#     }
 
 
 @view_config(route_name='infomations_id', renderer='infomations.jinja2')
@@ -62,9 +63,11 @@ def query_infomations(request):
 
     # user = get_user(request)
 
-    infoid = int(request.matchdict.get('id',1) )
+    pageid = int(request.matchdict.get('id',1) )
+    retobj =  view_info_entry(pageid, INFO_NUM_PER_PAGE)
+    retobj.update({'urlprifix': '/infomations'})
 
-    return view_info(infoid)
+    return retobj
 
 
 

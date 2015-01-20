@@ -19,6 +19,21 @@
             #pjax-content {
                 /*border: solid 1px #dcdcdc;*/
             }
+            .newest{
+                padding: 8px 16px;
+                margin-bottom: 20px;
+                background-color: #f1f6fb;
+                color: #244f79;
+                border: solid 1px #d0e5f8;
+                border-radius: 3px;
+                font-size: 14px;
+            }
+
+            .newest hr{
+                border-style: dotted;
+
+            }
+
         </style>
 
 
@@ -46,23 +61,27 @@
                     <div class="col-md-9 meetups" >
 
                         <br/>
+                        <h3>推荐信息</h3>
 
                         <div class="newest">
 
                             <ul class="container-fluid">
                             {% for info in infomations %}
-                                <a href="/infomation/{{ info.name }}"
+                                <hr/>
                                 <li class="row">
                                     <span class="col-md-9">
-                                        {{ info.title }}
+                                         <a href="/infomation/{{ info.name }}">{{ info.title }}</a>
                                     </span>
                                     <span class="col-md-3">
                                         {{ info.creation_date }}
                                     </span>
 
                                 </li>
-                                </a>
+                            {% else %}
+                                <li>暂无推荐信息</li>
+
                             {% endfor %}
+                            <hr/>
                             </ul>
 
                         </div>
