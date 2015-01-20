@@ -104,7 +104,11 @@
                                     </p>
 
                                     <div class="bdsharebuttonbox" data-tag="share_2" ><a class="bds_qzone" data-cmd="qzone" href="#"></a><a class="bds_tsina" data-cmd="tsina"></a><a class="bds_weixin" data-cmd="weixin"></a><a class="bds_more" data-cmd="more"></a><a class="bds_count" data-cmd="count"></a></div>
-                                    <script>window._bd_share_config = {common : {bdText : "MBA活动{{ context.title }}，好像挺不错的，小伙伴们一起来吧！",bdDesc : '',bdUrl : window.location.href,bdPic : window.location.protocol + "//" + window.location.host + "{{  context.poster_img }}"},share: {tag: 'share_2',bdSize: 16},viewList: ["tsina","weixin","qzone"],viewText: "分享到",viewSize: '24'};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>
+{#                                    <script>window._bd_share_config = {common : {bdText : "MBA活动{{ context.title }}，好像挺不错的，小伙伴们一起来吧！",bdDesc : '',bdUrl : window.location.href, bdPic :  "{{  context.poster_img or ''}}" ,share: {tag: 'share_2',bdSize: 16},viewList: ["tsina","weixin","qzone"],viewText: "分享到",viewSize: '24'};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];</script>#}
+
+{#                            <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone"></a><a href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a></div>#}
+{#                            <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"MBA活动{{ context.title }}，好像挺不错的，小伙伴们一起来吧！","bdMini":"2","bdPic":"{{  context.poster_img or ''}}","bdStyle":"0","bdSize":"16"},"share":{},"image":{"viewList":["qzone","tsina","tqq","renren","weixin"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["qzone","tsina","tqq","renren","weixin"]}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];</script>#}
+
 
                                 </div>
 
@@ -301,10 +305,10 @@
                     bdText : "我参加了活动{{ context.title }}，好像挺不错的，小伙伴们一起来吧！",
                     bdDesc : '',
                     bdUrl : window.location.href,
-                    bdPic : window.location.protocol + "//" + window.location.host + "{{  context.poster_img }}"
+                    bdPic : "{{  context.poster_img }}"
                 },
                 share: {
-                    tag: 'share_1',
+                    tag: 'share_2',
                     bdSize: 16
                 },
                 viewList: ["tsina","weixin","qzone"],
