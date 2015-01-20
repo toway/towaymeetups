@@ -33,7 +33,7 @@
           <p class="basic">
               <label class="lbl_info">公司：</label>
               <span class="info_show  auth_hidden fixed_width">
-                {% if is_self %}
+                {% if is_self or 'role:admin' in cur_user.groups %}
                     {{person_info.company or "暂未填写"}}
                 {% else %}
                     {% if person_info.company_privacy_level == 5 %}
@@ -63,7 +63,7 @@
         <p class="basic">
             <label class="lbl_info">职务：</label>
             <span class="info_show auth_hidden fixed_width">
-                {% if is_self %}
+                {% if is_self or 'role:admin' in cur_user.groups %}
                     {{person_info.title or "暂未填写"}}
                 {% else %}
                     {% if person_info.title_privacy_level == 5 %}
@@ -92,7 +92,7 @@
 		<p class="basic">
             <label class="lbl_info">手机：</label>
             <span class="info_show auth_hidden fixed_width">
-                {% if is_self %}
+               {% if is_self or 'role:admin' in cur_user.groups %}
                     {{person_info.phone or "暂未填写"}}
                 {% else %}
                     {% if person_info.phone_privacy_level == 5 %}
@@ -122,7 +122,7 @@
 		<p class="basic">
             <label class="lbl_info">邮箱：</label>
             <span class="info_show  auth_hidden fixed_width">
-                {% if is_self %}
+                {% if is_self or 'role:admin' in cur_user.groups %}
                     {{person_info.email}}
                 {% else %}
                     {% if person_info.email_privacy_level == 5 %}

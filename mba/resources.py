@@ -267,7 +267,7 @@ class MbaUser(Base):
 
 
     
-    active = Column(Boolean)
+    active = Column(Boolean, default=False)
     confirm_token = Column(Unicode(100))
     phone = Column(String(20))
     phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
@@ -349,7 +349,7 @@ class MbaUser(Base):
             , 'name'
             , creator=City._find_or_create)
 
-    def __init__(self, name, password=None, active=True, confirm_token=None,
+    def __init__(self, name, password=None, active=False, confirm_token=None,
                  title=u"", email=None, groups=(), city_name='',
                  real_name='', birth_date=None, school=u"", school_year=0,
                  company=u"", industry=u"", special_skill=u"", interest=u"",

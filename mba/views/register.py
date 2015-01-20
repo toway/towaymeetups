@@ -263,7 +263,7 @@ class RegisterDetailsSchema(colander.Schema):
     )
     school_year = colander.SchemaNode(
         colander.Integer(),
-        title=_(u'入学年份'),
+        title=_(u'毕业年份'),
         widget=deform.widget.SelectWidget(values=join_mba_years,
                                           css_class='form-control')
     )
@@ -324,7 +324,7 @@ def view_register_details(context, request):
                        css_class="deform mba-form",
                        buttons=[
                            deform.form.Button('submit', css_class='btn-primary',title=_(u'提交')),
-                           deform.form.Button('skip',title=_(u'跳过')),
+                           # deform.form.Button('skip',title=_(u'跳过')),
                        ])
     rendered_form = None
 
@@ -355,12 +355,12 @@ def view_register_details(context, request):
             # request.session.flash(_(u"There was an error."), 'danger')
             rendered_form = e.render()
 
-    if 'skip' in request.POST:
-        # Just Add a record to table student
-        # student = add_mbauser_to_student(get_user(request) )
-        # headers = remember(request, student.name)
-        # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
-        return HTTPFound(location=request.application_url + '/register_finish')
+    # if 'skip' in request.POST:
+    #     # Just Add a record to table student
+    #     # student = add_mbauser_to_student(get_user(request) )
+    #     # headers = remember(request, student.name)
+    #     # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+    #     return HTTPFound(location=request.application_url + '/register_finish')
 
 
     if rendered_form is None:
@@ -374,6 +374,9 @@ def view_register_details(context, request):
 
 @view_config(route_name='register_finish', renderer='register_finish.jinja2')
 def view_register_finish(context, request):
+
+    from mba.fanstatic import bootstrap_css
+    bootstrap_css.need()
     return {}
     #return pyramid.response.Response("OK")
 

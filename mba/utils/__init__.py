@@ -14,6 +14,7 @@ import jinja2
 from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
 from pyramid.view import view_config
+from pyramid.httpexceptions import HTTPFound
 import kotti
 from kotti import get_settings
 from kotti.security import get_user, get_principals
@@ -39,6 +40,9 @@ def assign_default_avatar(user):
 
 def wrap_user(request, ret_dict_to_update):
     user = get_user(request)
+
+    if user and not user.active:
+        return HTTPFound(location="/register_finish")
 
 
     ret_dict_to_update.update({'user':user})

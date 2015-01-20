@@ -26,8 +26,10 @@ from kotti.security import get_user
 from mba import _
 from mba.utils.decorators import wrap_user as wrap_user2
 from mba.utils import wrap_user
+from mba.utils.sms import SMSSender
 from mba.views.infomation import InfoAddForm, InfoEditForm
 from mba.resources import MbaUser, Student
+
 
 __author__ = 'sunset'
 __date__ = '20140909'
@@ -41,9 +43,9 @@ from js.jquery import jquery
 def view_persons(request, page_index=1, num_per_page=10):
     jquery.need()
 
-    print request.application_url
-    # print request.route_path()
-    print request.current_route_path()
+    # print request.application_url
+    # # print request.route_path()
+    # print request.current_route_path()
     #
     # for i in dir(request):
     #     print request[i]
@@ -62,7 +64,10 @@ def view_persons(request, page_index=1, num_per_page=10):
             # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
             if method == 'pass-auth-info':
                 person.auth_info = person.AUTH_STATUS_AUTHED
-                request.session.flash(u"用户'%s'通过资料认证成功" % (person.real_name or person.name) , 'success' )
+                person.active = True
+                sms = SMSSender(request)
+                sms.send_auth_pass_sms(person.phone)
+                request.session.flash(u"用户'%s'通过资料认证成功并激活" % (person.real_name or person.name) , 'success' )
 
             # elif method == 'cancel-iauth':
             #     person.auth_info = 0

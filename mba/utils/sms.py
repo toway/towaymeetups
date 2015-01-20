@@ -61,6 +61,7 @@ class FeiTuo(SMSServiceProvider):
     TEMPLATE_ID_ENROLL_MEETUP  = "MB-2015011413" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。
     TEMPLATE_ID_REG_SUCCESS = "MB-2015011458" #@1@您好，欢迎来到友汇网，您以后可以直接用手机号(或用户名@2@)和密码@3@登陆。
     TEMPLATE_ID_ENROLL_MEETUP_AND_REG = "MB-2015011447" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。您以后可以直接用手机号(或用户名@5@)和密码@6@登陆友汇网。
+    TEMPLATE_ID_AUTH_PASS = "MB-2015012050" #您好，您的资料已经通过友汇网认证，来友汇网结识专家、高管、更多MBAer吧！
     DEFAULT_OPTIONS = {
         'username':USERNAME,
         'scode':PASSWORD,
@@ -117,6 +118,15 @@ class FeiTuo(SMSServiceProvider):
                 # errmsg =  u'%s:%s' % (errmsg, resarr[1] )
 
             return RetDict(errmsg=errmsg)
+
+    def send_auth_pass_sms(self, phonenum):
+        options = {
+            'mobile':phonenum,
+            'tempid': self.TEMPLATE_ID_AUTH_PASS,
+            'content': ''
+        }
+        return self.__sendsms( options)
+
 
     def send_validate_sms(self, phonenum, code):
         options = {
@@ -191,12 +201,24 @@ if test:
 
 class SMSSender(object):
 
-    def __init__(self, request, is_test = True):
+    def __init__(self, request, is_test = False):
         self.smsobj = FeiTuo()
         self.is_test = is_test
         self.request = request
 
+    def send_auth_pass_sms(self, phonenum):
+        error =  self.protect( phonenum)
+        if error:
+            return error
 
+        result = self.smsobj.send_auth_pass_sms(phonenum)
+
+        if result['errcode'] == result['SUCCESS']:
+            # Send ok, write to the DB
+            rsms = ValidationSms(phonenum=phonenum, validate_code='auth_pass', ip=self.request.remote_addr)
+            DBSession.add(rsms)
+
+        return result
 
     def send_validate_sms(self, phonenum):
 

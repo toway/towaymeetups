@@ -19,6 +19,7 @@ from pyramid.request import Request,Response
 import kotti
 from kotti.security import get_user
 from kotti import get_settings
+from pyramid.httpexceptions import HTTPFound
 
 
 
@@ -39,6 +40,10 @@ def wrap_user(func):
 
         if isinstance(ret_dict, dict):
             ret_dict.update({'user': user})
+
+        if user and not user.active:
+            return HTTPFound(location="/register_finish")
+
         return ret_dict
 
     return _wrap_user

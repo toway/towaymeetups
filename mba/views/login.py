@@ -150,6 +150,10 @@ def login(context, request):
                 if came_from == 'login':
                     came_from = '/'
                 return HTTPFound(location=came_from, headers=headers)
+
+            elif not user.active:
+                return HTTPFound(location='/register_finish')
+
             request.session.flash(_(u"登陆失败，用户名或密码错误."), 'danger')
 
     if rendered_form is None:
