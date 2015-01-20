@@ -189,6 +189,7 @@ class City(Base):
             obj = DBSession.query(City).filter_by(name=name).first()
         if obj is None:
             obj = City(name=name)
+            # print 'cannt find city create one'
         #return cls(city=obj)
         return obj
 
@@ -343,7 +344,7 @@ class MbaUser(Base):
 
 
 
-    city_id = Column(Integer, ForeignKey('city.id')) # backref is defined in class City
+    city_id = Column(Integer, ForeignKey('city.id'), nullable=True) # backref is defined in class City
     city_name = association_proxy('city'
             , 'name'
             , creator=City._find_or_create)
@@ -367,9 +368,9 @@ class MbaUser(Base):
 
         if city_name:
             self.city_name = city_name
-        else:
-            # default city_name
-            self.city_name = u'深圳'
+        # else:
+        #     # default city_name
+        #     self.city_name = None
 
         self.real_name = real_name
         self.birth_date = birth_date
