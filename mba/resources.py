@@ -265,9 +265,10 @@ class MbaUser(Base):
 
 
 
-
+    [INACTIVE,  ACTIVE, BANNED] = range(3) #未激活、激活、禁封
     
-    active = Column(Boolean, default=False)
+    status = Column(Integer, default=INACTIVE)
+
     confirm_token = Column(Unicode(100))
     phone = Column(String(20))
     phone_privacy_level = Column(Integer, default=5) ## 1: 对所有会员公开 5: 成功交换名片可看,  9: 完全保密
@@ -349,7 +350,7 @@ class MbaUser(Base):
             , 'name'
             , creator=City._find_or_create)
 
-    def __init__(self, name, password=None, active=False, confirm_token=None,
+    def __init__(self, name, password=None,  confirm_token=None,
                  title=u"", email=None, groups=(), city_name='',
                  real_name='', birth_date=None, school=u"", school_year=0,
                  company=u"", industry=u"", special_skill=u"", interest=u"",
@@ -358,7 +359,7 @@ class MbaUser(Base):
         if password is not None:
             password = get_principals().hash_password(password)
         self.password = password
-        self.active = active
+
         self.confirm_token = confirm_token
         self.title = title
         self.email = email
@@ -524,7 +525,8 @@ class Participate(Base):
     creation_date = Column(DateTime(), nullable=False, default=datetime.now)
     #用户参加活动之后可进行评分
     rating = Column(Integer())
-    user = relationship("MbaUser", backref='partin')
+    user = relationship("MbaUser", backref=backref("partin",
+                                            cascade="all, delete-orphan") )
     meetup = relationship("Act")
 
 

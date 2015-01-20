@@ -64,7 +64,8 @@ def view_persons(request, page_index=1, num_per_page=10):
             # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
             if method == 'pass-auth-info':
                 person.auth_info = person.AUTH_STATUS_AUTHED
-                person.active = True
+                # person.active = True
+                person.status = person.ACTIVE
                 sms = SMSSender(request)
                 sms.send_auth_pass_sms(person.phone)
                 request.session.flash(u"用户'%s'通过资料认证成功并激活" % (person.real_name or person.name) , 'success' )
@@ -94,10 +95,25 @@ def view_persons(request, page_index=1, num_per_page=10):
             return {}
 
 
+    if 'delete-user' in request.POST:
+        todel = request.POST.getall('usercheck')
+
+        for mid in todel:
+
+            # print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+            userx = DBSession.query(MbaUser).filter_by(id=int(mid)).first()
+            if userx is not None :
+                # DBSession.delete(userx)
+                userx.status = userx.BANNED
+                request.session.flash(u"用户'%s..'已成功删除!" % userx.real_name, 'success')
+
+
+            DBSession.flush()
+
 
     start = (page_index-1) * num_per_page
-    count = DBSession.query(MbaUser).count()
-    persons = DBSession.query(MbaUser).slice(start, start+num_per_page).all()
+    count = DBSession.query(MbaUser).filter(MbaUser.status!=MbaUser.BANNED).count()
+    persons = DBSession.query(MbaUser).filter(MbaUser.status!=MbaUser.BANNED).slice(start, start+num_per_page).all()
 
 
     return wrap_user(request, {

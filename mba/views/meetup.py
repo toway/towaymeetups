@@ -207,7 +207,7 @@ def mobile_view_meetup_signup(context, request):
 
                 company = appstruct['company']
                 title = appstruct['title']
-                new_user = MbaUser(name=name, phone=phone, real_name=real_name,company=company, title=title)
+                new_user = MbaUser(name=name, phone=phone, real_name=real_name,company=company, title=title, groups=[u'role:viewer'])
 
                 DBSession.add(new_user)
                 DBSession.flush()

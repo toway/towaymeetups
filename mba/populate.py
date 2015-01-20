@@ -333,11 +333,11 @@ def create_mba_root():
 
     if DBSession.query(Student).count() == 1:
 
-        DBSession.add(Student(name="testmba",title=u"创始人", password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer']))
-        testmba2 = Student(name="testmba2",title=u"总监",password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer'])
+        DBSession.add(Student(name="testmba",title=u"创始人", status=1, password="123456",email="1@1.com",real_name=u'陈测试',city_name=u'深圳', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer']))
+        testmba2 = Student(name="testmba2",title=u"总监", status=1, password="123456",email="2@1.com",real_name=u'余软件',city_name=u'北京', school=u'斯坦福大学', groups=[u'role:admin', u'role:owner', u'role:editor', u'role:viewer'])
         DBSession.add(testmba2)
-        DBSession.add(Student(name="testmba3",title=u"副总裁",password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学', groups=[u'role:owner',u'role:editor',u'role:viewer']))
-        DBSession.add(Student(name="testmba4",title=u"财务官",password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学', groups=[u'role:viewer']))
+        DBSession.add(Student(name="testmba3",title=u"副总裁",status=1, password="123456",email="3@1.com",real_name=u'羊前端',city_name=u'上海', school=u'斯坦福大学', groups=[u'role:owner',u'role:editor',u'role:viewer']))
+        DBSession.add(Student(name="testmba4",title=u"财务官",status=1, password="123456",email="4@1.com",real_name=u'张平面',city_name=u'广州', school=u'斯坦福大学', groups=[u'role:viewer']))
 
 
     if DBSession.query(Node).filter_by(name="infomation").count() == 0:

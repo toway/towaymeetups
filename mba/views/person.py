@@ -383,6 +383,7 @@ def persons_maybe_know(cur_user):
     friends_idlist = [ f.id for f in cur_user.all_friends ]
     toknown_list = DBSession.query(Student).filter(
         and_(Student.id != cur_user.id,
+             Student.status ==Student.ACTIVE,
              Student.id not in friends_idlist  )
     )[0:30]
 
