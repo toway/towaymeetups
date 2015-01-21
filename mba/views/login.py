@@ -154,7 +154,8 @@ def login(context, request):
             elif user.status == user.INACTIVE:
                 return HTTPFound(location='/register_finish')
             elif user.status == user.TO_FULLFIL_DATA:
-                return HTTPFound(location='/register_details')
+                headers = remember(request, user.name)
+                return HTTPFound(location='/register_details', headers=headers)
 
             request.session.flash(_(u"登陆失败，用户名或密码错误."), 'danger')
 
