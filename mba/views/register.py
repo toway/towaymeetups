@@ -22,7 +22,7 @@ from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
 from pyramid.settings import asbool
-from pyramid.security import remember
+from pyramid.security import remember, forget
 
 from kotti import get_settings
 from kotti.security import get_user
@@ -350,8 +350,9 @@ def view_register_details(context, request):
             # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
             user.status = user.INACTIVE
 
+            headers = forget(request)
 
-            return HTTPFound(location=request.application_url + '/register_finish')
+            return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
 
         except ValidationFailure, e:
             # request.session.flash(_(u"There was an error."), 'danger')
@@ -389,6 +390,7 @@ def view_register_details(context, request):
 def view_register_finish(context, request):
 
     from mba.fanstatic import bootstrap_css
+
     bootstrap_css.need()
     return {}
     #return pyramid.response.Response("OK")
