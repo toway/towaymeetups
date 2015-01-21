@@ -41,8 +41,11 @@ def wrap_user(func):
         if isinstance(ret_dict, dict):
             ret_dict.update({'user': user})
 
-        if user and not user.active:
-            return HTTPFound(location="/register_finish")
+        if user :
+            if user.status == user.INACTIVE:
+                return HTTPFound(location="/register_finish")
+            elif user.status == user.BANNED:
+                return Response("USER BANNED")
 
         return ret_dict
 

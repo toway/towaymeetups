@@ -136,7 +136,7 @@ def login(context, request):
             rendered_form = e.render()
         else:
             user = _find_user(appstruct['email_or_username'])
-            if (user is not None and user.active and
+            if (user is not None and user.status == user.ACTIVE and
                     principals.validate_password(appstruct['password'], user.password)):
                 headers = remember(request, user.name)
 
@@ -151,7 +151,7 @@ def login(context, request):
                     came_from = '/'
                 return HTTPFound(location=came_from, headers=headers)
 
-            elif not user.active:
+            elif user.status == user.INACTIVE :
                 return HTTPFound(location='/register_finish')
 
             request.session.flash(_(u"登陆失败，用户名或密码错误."), 'danger')

@@ -21,7 +21,7 @@ from kotti.security import get_user, get_principals
 from kotti.util import title_to_name
 
 
-
+from pyramid.request import Response
 from json import  JSONEncoder
 
 
@@ -41,8 +41,11 @@ def assign_default_avatar(user):
 def wrap_user(request, ret_dict_to_update):
     user = get_user(request)
 
-    if user and not user.active:
-        return HTTPFound(location="/register_finish")
+    if user :
+        if user.status == user.INACTIVE:
+            return HTTPFound(location="/register_finish")
+        elif user.status == user.BANNED:
+            return Response("USER BANNED")
 
 
     ret_dict_to_update.update({'user':user})
