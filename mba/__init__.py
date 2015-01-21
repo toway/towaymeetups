@@ -56,7 +56,9 @@ default_settings = {
     'kotti.root_factory': 'kotti.resources.default_get_root',
     'kotti.site_title': 'MBA',
 
-    'mba.avatar_prefix': '/fanstatic/mba/img/avatars'
+    'mba.avatar_prefix': '/fanstatic/mba/img/avatars',
+    'mba.register.group': 'viewer', #TODO: format alright ?
+    'mba.register.role': '',
     }
 
 

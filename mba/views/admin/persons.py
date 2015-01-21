@@ -241,5 +241,8 @@ def includeme(config):
     config.add_route('admin_persons_reqexpertauth_page',  '/admin/persons/reqexpertauth/{page}')
 
 
+    # config.add_route('admin_persons_banned',  '/admin/persons/banned')
+    # config.add_route('admin_persons_banned_page',  '/admin/persons/banned/{page}')
+
 
     config.scan(__name__)

@@ -88,7 +88,18 @@
                                     <td>{{ person.name }}</td>
                                     <td>{{ person.email }}</td>
                                     <td>{{ person.real_name }}</td>
-                                    <td>{{ person.active }}</td>
+                                    <td>{% if person.status == person.INACTIVE %}
+                                            等待激活
+                                        {% elif person.status == person.ACTIVE %}
+                                            正常
+                                        {% elif person.status == person.TO_FULLFIL_DATA %}
+                                            待完善资料
+                                        {% elif person.status == person.BANNED %}
+                                            已禁封
+                                        {% else %}
+                                            其他
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         {% if person.auth_info == user.AUTH_STATUS_UNAUTH %}
                                             未认证

@@ -163,7 +163,7 @@ def mobile_view_meetup_signup(context, request):
                 if user in meetup.parts:
 
                     form.error = colander.Invalid(schema, u"您已经报过名了, 不能重复报名")
-                    print 'appstruct:', appstruct
+                    # print 'appstruct:', appstruct
                     rendered_form = form.render(appstruct)
                     # raise ValidationFailure(form, appstruct, '')
 
@@ -208,6 +208,9 @@ def mobile_view_meetup_signup(context, request):
                 company = appstruct['company']
                 title = appstruct['title']
                 new_user = MbaUser(name=name, phone=phone, real_name=real_name,company=company, title=title, groups=[u'role:viewer'])
+
+                new_user.status = MbaUser.TO_FULLFIL_DATA
+                # new_user.roles = get_settings()['kotti.register.role']
 
                 DBSession.add(new_user)
                 DBSession.flush()

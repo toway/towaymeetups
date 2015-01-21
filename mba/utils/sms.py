@@ -54,14 +54,14 @@ class GuanXin(SMSServiceProvider):
 
 class FeiTuo(SMSServiceProvider):
     URL = "http://222.185.228.25:8000/msm/sdk/http/sendsmsutf8.jsp" #?username=NTY000000&scode=123456&mobile=13805100000&content=你好101540"
-    USERNAME = "XFTB702041"
-    PASSWORD = "238233"
+    USERNAME = "XFTB702015"
+    PASSWORD = "zhiyouhui"
     # CONTENT_TEMPLATE = "您的验证码为:%s。【MBA友汇网】"
-    TEMPLATE_ID_VALIDATE  = "MB-2013102300" #你好，你的验证码为：@1@。
-    TEMPLATE_ID_ENROLL_MEETUP  = "MB-2015011413" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。
-    TEMPLATE_ID_REG_SUCCESS = "MB-2015011458" #@1@您好，欢迎来到友汇网，您以后可以直接用手机号(或用户名@2@)和密码@3@登陆。
-    TEMPLATE_ID_ENROLL_MEETUP_AND_REG = "MB-2015011447" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。您以后可以直接用手机号(或用户名@5@)和密码@6@登陆友汇网。
-    TEMPLATE_ID_AUTH_PASS = "MB-2015012050" #您好，您的资料已经通过友汇网认证，来友汇网结识专家、高管、更多MBAer吧！
+    TEMPLATE_ID_VALIDATE  = "MB-2015012117" #你好，你的验证码为：@1@。
+    TEMPLATE_ID_ENROLL_MEETUP  = "MB-2015012131" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。
+    TEMPLATE_ID_REG_SUCCESS = "MB-2015012143" #@1@您好，欢迎来到友汇网，您以后可以直接用手机号(或用户名@2@)和密码@3@登陆。
+    TEMPLATE_ID_ENROLL_MEETUP_AND_REG = "MB-2015012111" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。您以后可以直接用手机号(或用户名@5@)和密码@6@登陆友汇网。
+    TEMPLATE_ID_AUTH_PASS = "MB-2015012125" #您好，您的资料已经通过友汇网认证，来友汇网结识专家、高管、更多MBAer吧！
     DEFAULT_OPTIONS = {
         'username':USERNAME,
         'scode':PASSWORD,

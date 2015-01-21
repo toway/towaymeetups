@@ -265,7 +265,7 @@ class MbaUser(Base):
 
 
 
-    [INACTIVE,  ACTIVE, BANNED] = range(3) #未激活、激活、禁封
+    [INACTIVE,  ACTIVE, TO_FULLFIL_DATA, BANNED] = [0, 1, 2, 9999] #未激活、激活、待完善资料、禁封
     
     status = Column(Integer, default=INACTIVE)
 

@@ -135,6 +135,7 @@ def add_user_success(request, appstruct):
 
     #get_principals()[name] = appstruct
     appstruct.pop('sms_validate_code', None)
+    appstruct['status'] = MbaUser.TO_FULLFIL_DATA
     # request.session.delete('sms_validate_code')
     request.session['sms_validate_code'] = None
 
@@ -347,6 +348,7 @@ def view_register_details(context, request):
             # request.session.flash(success_msg, 'success')
 
             # return HTTPFound(location=request.application_url + '/register_finish', headers=headers)
+            user.status = user.INACTIVE
 
 
             return HTTPFound(location=request.application_url + '/register_finish')
@@ -364,7 +366,18 @@ def view_register_details(context, request):
 
 
     if rendered_form is None:
-        rendered_form = form.render(request.params)
+        if user.status == user.TO_FULLFIL_DATA:
+
+            tofullfildata = ['school', 'school_year', 'city_name', 'company', 'title']
+            appstruct2 = {}
+            for fullfil in tofullfildata:
+                tmp = getattr(user, fullfil)
+                if tmp:
+                    appstruct2[fullfil] =  tmp
+
+            rendered_form = form.render(appstruct2)
+        else:
+            rendered_form = form.render(request.params)
         #rendered_form = form.custom_render(request.params), #raise TypeError: unhashable type: 'NestedMultiDict'
 
 

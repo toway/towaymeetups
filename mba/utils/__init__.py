@@ -42,8 +42,10 @@ def wrap_user(request, ret_dict_to_update):
     user = get_user(request)
 
     if user :
-        if user.status == user.INACTIVE:
+        if user.status == user.INACTIVE :
             return HTTPFound(location="/register_finish")
+        elif user.status == user.TO_FULLFIL_DATA:
+            return HTTPFound(location="/register_details")
         elif user.status == user.BANNED:
             return Response("USER BANNED")
 
