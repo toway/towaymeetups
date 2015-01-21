@@ -389,12 +389,12 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 							</div>
 						</div>
 
-                        <div class="home-trends">
+                        <div class="home-trends"  style="background-color:#EA">
                             <div class="panel panel-default">
                                 <div class="panel-body">
-                                    <h4>联系人动态</h4>
+  <!--                                  <h4>联系人动态</h4>
 
-<!--                                    <div class="trends-sector">
+                                    <div class="trends-sector">
                                         <span class="glyphicon glyphicon-star"></span>
                                         收到的邀请 <span class="more"><a href="#">更多</a></span>
                                         <div>
@@ -405,8 +405,9 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 
 
                                     <div class="trends-sector">
-                                        <span class="glyphicon glyphicon-info-sign"></span>
-                                        可能认识的人 <span  class="more"><a id="pmk-change-group" href="#">换一组</a></span>
+                                     <!--   <span class="glyphicon glyphicon-info-sign" ></span>  -->
+                                         <span  style="height:40px;line-height:40px;font-size:16px;display:inline-block;background-color:#ddd">您可能感兴趣的人脉</span>
+										 <span  class="more" style="height:30px;margin-top:5px;color:#5680B2;line-height:30px;display:inline-block;background-color:#ddd"><a id="pmk-change-group" href="#">换一批</a></span>
 
                                         {% for i in range( (persons_maybe_know | length - 1) // 4 + 1) %}
                                             <ul class="persons-maybe-know" data-group="{{ loop.index0 }}"
@@ -414,12 +415,21 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                                 >
                                                 {% for person in persons_maybe_know[i*4:i*4+ 4] %}
 
-                                                    <li>
+                                                <!--    <li>
                                                         <a href="/person/{{ person.id }}">
                                                             <img src="{{ person.avatar }}" width="18px" height="18px"/>
                                                             {{ person.real_name or person.name }}
                                                         </a>
-                                                    </li>
+                                                    </li> -->
+													 <li class="friend_item  clearfix">
+														<a href="/person/{{person.id}}" alt="{{person.real_name or person.name }}"><img style="float:left" src="{{ person.avatar  }}" height="40px" width="40px">
+														</a>
+														  <div class="friend_detail_cnt" style="">
+															  <p class="friend_detail_info"><b style="color:#5680B2">&nbsp;&nbsp;{{person.real_name}}</b>&nbsp;&nbsp;{% if person.auth_honesty %}<img src="/fanstatic/mba/img/cheng.png">{% endif %}</p>
+															  <p class="friend_detail_info">{{person.company}}\{{person.school }}</p>
+													  <!-- <a class="friend_detail_info renshi" href="/person/{{person.id}}">&nbsp;&nbsp;认识她</a> -->
+														  </div>
+													  </li>
 
                                                 {% endfor %}
 
@@ -430,13 +440,13 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                     </div>
 
 
-                                    <div class="trends-sector">
+                    <!--                <div class="trends-sector">
                                          <span class="glyphicon glyphicon-user"></span>
                                         我的人脉 <span  class="more"><a href="#">更多</a></span>
                                         <ul id="my-friends">
 
                                         </ul>
-                                    </div>
+                                    </div>  
 
 
                                     <div class="trends-sector">
@@ -444,7 +454,7 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                             <span class="glyphicon glyphicon-plus"></span>
                                             邀请好友</button>
                                     </div>
-
+					-->
 
                                 </div>
                             </div>
