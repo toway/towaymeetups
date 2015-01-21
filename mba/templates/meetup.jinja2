@@ -475,7 +475,10 @@
 
 
                 $("#formEnroll button").click(function(e){
-                    if( isMobile() && {{ not user }}){
+
+                    if( isMobile() ){
+
+                        {% if not user %}
 
 
 {#                        if(! confirm("已有帐号？点“好”，新用户？点“取消”！") ){#}
@@ -491,6 +494,9 @@
                             return false;
 {#                        }#}
 
+                        
+
+                        {% endif %}
 
 
 
