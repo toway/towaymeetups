@@ -54,13 +54,13 @@ def _massage_groups_in(appstruct):
 
 
 def confirm_password_validator(node, value):
-    print node
+    pass
 
 @colander.deferred
 def deferred_phone_validator(node, kw):
     def phone_validator(node, value):
         if DBSession.query(MbaUser)\
-                .filter_by(phone=value).first() is not None:
+                .filter(MbaUser.phone==value, MbaUser.status!=MbaUser.BANNED).first() is not None:
             session =  kw['request'].session
             if session.get('sms_validate_code',None) is not None:
                 session['sms_validate_code'] = None
@@ -336,7 +336,7 @@ def view_register_details(context, request):
             appstruct = form.validate(request.POST.items())
 
             for (k,v) in appstruct.items():
-                print k,v
+                # print k,v
                 setattr(user,  k, v)
 
             # student = add_user_details_success(request, appstruct)
