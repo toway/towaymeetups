@@ -131,7 +131,7 @@ def mobile_view_meetup_signup(context, request):
 
             phone = appstruct['phone']
 
-            user =  DBSession.query(MbaUser).filter_by(phone=phone).first()
+            user =  DBSession.query(MbaUser).filter(MbaUser.phone==phone, MbaUser.status!=MbaUser.BANNED).first()
 
 
 
