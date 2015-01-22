@@ -118,18 +118,13 @@ function do_search() {
 
                     <div style="border:1px solid #E1E1E1;margin-top:20px;">
                       <table id="lastest_job" class="table table-hover" style="margin-bottom:0px;">
-                               <thead>  
-                                  <tr style="border:0px solid #CECECE; border-bottom:1px solid #CECECE;background-color:#F7F7F7">  
-                                    <th style="background-color:#DEDEDE">最新招聘</th>  
-                                  </tr>  
-                                </thead>
+                               <caption align="top"  style="text-align:left;border-bottom:0px;height:36px;line-height:36px;"><span style="margin:0px;font-weight:bolder;padding:9px 15px;margin-bottom:0px; z-index: 999;height:20px;line-height:20px;background: none repeat scroll 0 0 #DEDEDE;">最新招聘</span></caption>  
 				{% for pos in pos_huntings %}
                               <tr style="border-top:1px dashed #CFCFCF;vertical-align:middle;background-color:#FFF"> 
 				      <td class="job_link"><a href="job-detail/{{pos.id}}" style="color:#2c60c7;">【{{pos.hunting_type|kind_name}}】</a></td>  
                                 <td>
 					<p>{{pos.company.name}}</p>
-					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}</span>
-					<span>薪资:{{pos.salary}}</span></p>
+					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
 					<p class="job_link">{{pos.title}}（{{pos.city_name}}）</p>
@@ -154,11 +149,11 @@ function do_search() {
 				      <td class="job_link"><a href="job-detail/{{pos.id}}" style="color:#2c60c7;">【{{pos.hunting_type|kind_name}}】</a></td>  
                                 <td>
 					<p>{{pos.company_name}}</p>
-					<p><span class="inline-block company-scale">公司规模:{{pos.industry}}人</span><span>薪资:{{pos.salary}}</span></p>
+					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
-					<p class="job_link">{{pos.title}}</p>
-					<p><span>学历:{{pos.experience}}</span></p>
+					<p class="job_link">{{pos.title}}（{{pos.city_name}}）</p>
+					<p><span>学历:{{pos.degree}}</span></p>
                                 </td>
                                 <td>
                                   <p><button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button></p>

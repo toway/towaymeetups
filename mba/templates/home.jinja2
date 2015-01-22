@@ -389,9 +389,9 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 							</div>
 						</div>
 
-                        <div class="home-trends"  style="background-color:#EA">
+                        <div class="home-trends"  >
                             <div class="panel panel-default">
-                                <div class="panel-body">
+                                <div class="panel-body" style="background-color:#F7F7F7">
   <!--                                  <h4>联系人动态</h4>
 
                                     <div class="trends-sector">
@@ -406,8 +406,8 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 
                                     <div class="trends-sector">
                                      <!--   <span class="glyphicon glyphicon-info-sign" ></span>  -->
-                                         <span  style="height:40px;line-height:40px;font-size:16px;display:inline-block;background-color:#ddd">您可能感兴趣的人脉</span>
-										 <span  class="more" style="height:30px;margin-top:5px;color:#5680B2;line-height:30px;display:inline-block;background-color:#ddd"><a id="pmk-change-group" href="#">换一批</a></span>
+                                         <span  style="height:40px;line-height:40px;font-size:16px;display:inline-block;background-color:#fdfdfd">您可能感兴趣的人脉</span>
+										 <span  class="more" style="height:30px;margin-top:5px;color:#5680B2;line-height:30px;display:inline-block;background-color:#fdfdfd "><a id="pmk-change-group" href="#">换一批</a></span>
 
                                         {% for i in range( (persons_maybe_know | length - 1) // 4 + 1) %}
                                             <ul class="persons-maybe-know" data-group="{{ loop.index0 }}"
@@ -426,7 +426,7 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 														</a>
 														  <div class="friend_detail_cnt" style="">
 															  <p class="friend_detail_info"><b style="color:#5680B2">&nbsp;&nbsp;{{person.real_name}}</b>&nbsp;&nbsp;{% if person.auth_honesty %}<img src="/fanstatic/mba/img/cheng.png">{% endif %}</p>
-															  <p class="friend_detail_info">{{person.company}}\{{person.school }}</p>
+															  <p class="friend_detail_info" style="padding-left:50px;font-size:12px;">{% if person.company %}{{person.company}}\{% endif %}{{person.school }}</p>
 													  <!-- <a class="friend_detail_info renshi" href="/person/{{person.id}}">&nbsp;&nbsp;认识她</a> -->
 														  </div>
 													  </li>
