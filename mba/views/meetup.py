@@ -227,27 +227,38 @@ def mobile_view_meetup_signup(context, request):
                 sms = SMSSender(request)
                 meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
                 meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
-                smsret = sms.send_enrolled_meetup_and_reg_success_sms({
-                    'phonenum': new_user.phone,
-                    'user_realname': new_user.real_name,
-                    'meetup_title': meetuptitle,
-                    'meetup_time': meetuptime,
-                    'meetup_loc':  meetup.location,
-                    'username': new_user.name,
-                    'password': random_password
 
-                })
+                # TODO: 正式开放注册时要发的短信如下
+                # smsret = sms.send_enrolled_meetup_and_reg_success_sms({
+                #     'phonenum': new_user.phone,
+                #     'user_realname': new_user.real_name,
+                #     'meetup_title': meetuptitle,
+                #     'meetup_time': meetuptime,
+                #     'meetup_loc':  meetup.location,
+                #     'username': new_user.name,
+                #     'password': random_password
+                #
+                # })
+                #
+                #
+                # message = u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!(请进站修改密码,以后一键报名)登录本站（%s）"\
+                #     % (real_name, phone, name, random_password, request.application_url)
+                #
+                # if smsret['SUCCESS'] != smsret['errcode']:
+                #     message = smsret['errmsg']
+                #     request.session.flash(message, 'danger')
+                # else:
+                #     request.session.flash(message ,'success')
 
 
-                message = u"恭喜您，%s，活动报名成功! 您以后可以用手机号'%s'(或用户名'%s')和密码'%s'登陆本站!(请进站修改密码,以后一键报名)登录本站（%s）"\
-                    % (real_name, phone, name, random_password, request.application_url)
+                smsret = sms.send_enrolled_meetup_sms(new_user.phone, new_user.real_name, meetuptitle, meetuptime, meetup.location)
 
+                message = u"恭喜您，%s，活动报名成功! 详细信息已经发您短信" % new_user.real_name
                 if smsret['SUCCESS'] != smsret['errcode']:
                     message = smsret['errmsg']
                     request.session.flash(message, 'danger')
                 else:
                     request.session.flash(message ,'success')
-
 
 
                 return {}
