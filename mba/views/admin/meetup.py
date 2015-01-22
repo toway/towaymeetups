@@ -226,6 +226,14 @@ class ActSchema(colander.MappingSchema):
                           'enroll_finish_time':popped[1],
                         })
 
+        city_name = appstruct.pop('city_name')
+        city =  DBSession.query(City).filter_by(name=city_name).first()
+        if city is not None:
+            appstruct['city_id'] = city.id
+        else:
+            appstruct['city_name'] = city_name
+
+
         return appstruct
 
 
@@ -321,7 +329,6 @@ class ActEditForm(EditFormView):
         deform.Button('cancel', _(u'取消')))
         
     schema_factory = ActSchema
-
 
 
     def __init__(self, context, request, **kwargs):

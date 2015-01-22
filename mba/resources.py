@@ -345,10 +345,11 @@ class MbaUser(Base):
 
 
 
-    city_id = Column(Integer, ForeignKey('city.id'), nullable=True) # backref is defined in class City
+    city_id = Column(Integer, ForeignKey('city.id') ) # backref is defined in class City
     city_name = association_proxy('city'
             , 'name'
             , creator=City._find_or_create)
+
 
     def __init__(self, name, password=None,  confirm_token=None,
                  title=u"", email=None, groups=(), city_name='',
@@ -369,9 +370,9 @@ class MbaUser(Base):
 
         if city_name:
             self.city_name = city_name
-        # else:
-        #     # default city_name
-        #     self.city_name = None
+        else:
+            # default city_name
+            self.city_name = u'深圳'
 
         self.real_name = real_name
         self.birth_date = birth_date
