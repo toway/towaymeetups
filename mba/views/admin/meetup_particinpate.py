@@ -36,7 +36,7 @@ from js.jquery import jquery
 
 
 from mba.utils import RetDict
-from mba.resources import Act, Participate
+from mba.resources import Act, Participate, MbaUser
 
 __author__ = 'sunset'
 __date__ = '20150113'
@@ -54,12 +54,13 @@ def admin_meetup_particinpate_view(context, request):
         return Response(u"不存在的活动")
 
     if 'delete' in request.POST:
+        # 取消选中的人参加活动
         todel = request.POST.getall('participate_check')
 
         principals = get_principals()
         for mid in todel:
 
-            print 'mid:%s, len mid:%d'% ( mid, len(mid) )
+            # print 'mid:%s, len mid:%d'% ( mid, len(mid) )
 
             to_cancel_user = principals.get(int(mid))
             # if to_cancel_user in meetup.parts:
@@ -74,6 +75,24 @@ def admin_meetup_particinpate_view(context, request):
                 DBSession.delete(enrolled_user)
                 request.session.flash(u"已取消选中人报名活动!" , 'success')
                 DBSession.flush()
+    elif 'approve_meetup_auth'  in request.POST:
+        # 添加活动认识
+
+        toauth = request.POST.getall('participate_check')
+
+
+        for mid in toauth:
+
+            to_auth_user = DBSession.query(MbaUser).filter_by(id=mid).first()
+
+            print to_auth_user
+
+            if to_auth_user is not None:
+                to_auth_user.auth_meetup = True
+
+                request.session.flash(u"已成功给‘%s’添加活动认证" % to_auth_user.real_name , 'success')
+
+                DBSession.flush()
 
     jquery.need()
 
@@ -83,5 +102,5 @@ def admin_meetup_particinpate_view(context, request):
 def includeme(config):
 
 
-    config.add_route('admin_meetup_particinpate',  '/admin/meetup/particinpate/{id}')
+    config.add_route('admin_meetup_particinpate',  '/admin/meetup/{id}/particinpate')
 
