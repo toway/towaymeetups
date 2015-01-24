@@ -6,7 +6,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
+        <title>{{ meetup.title }} 活动报名情况</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -50,8 +50,8 @@
 
                     <div class="col-md-9">
                         {% include "messages.jinja2" %}
-                        <h2>活动报名情况</h2>
-                        <h5>{{ meetup.title }}</h5>
+                        <h2>{{ meetup.title }} 活动报名情况</h2>
+                        <a href="/admin/meetups">返回活动列表</a>
 
 {#                        {% include "/admin/pagination.jinja2" %}#}
                         <form name="meetups_parts"  method="POST" >
