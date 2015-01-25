@@ -1,8 +1,10 @@
                                 <div class="myinfo-header row">
 
                                     <div class="col-md-6">
-                                       <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
+                                       <a href="/i/messages">
+                                           <img alt="{{ user.name }}"class="navbar-avatar" src="{{ user.avatar_prefix }}{{ user.avatar }}"
                                                     width="80px" height="80px"/>
+                                       </a>
                                        <div class="zyno">志友会员号: {{ '%08d' % user.id}}</div>
                                     </div>
 

@@ -301,12 +301,12 @@ class RegisterDetailsSchema(colander.Schema):
 
 
 
-@view_config(route_name='register_details',renderer='common.jinja2')
+@view_config(route_name='register_details',renderer='register_details.jinja2')
 def view_register_details(context, request):
 
     user = get_user(request)
-    if not user:
-        return HTTPFound("/register")
+    # if not user:
+    #     return HTTPFound("/register")
 
     schema = RegisterDetailsSchema(
             title=u'加入友汇网-完善信息').bind(request=request)
@@ -379,6 +379,7 @@ def view_register_details(context, request):
             rendered_form = form.render(appstruct2)
         else:
             rendered_form = form.render(request.params)
+
         #rendered_form = form.custom_render(request.params), #raise TypeError: unhashable type: 'NestedMultiDict'
 
 

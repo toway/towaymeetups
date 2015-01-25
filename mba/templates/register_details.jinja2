@@ -115,91 +115,45 @@
 
 
 
-        <div class="container mba-margin-top">
-            <div class="row">
 
-                <div class="setup-wrapper col-md-offset-2 col-md-8">
-                    <div class="setup-header">
-                        <h1>加入MBA志友会</h1>
-                        <p class="lead">汇聚您的高端人脉.</p>
+         <div class="mba-margin-top">
+
+            <div class="container ">
+                <div class="row">
 
 
-                      <!-- Show steps if user is creating an organiation -->
-                        <ol class="steps">
-                              <li>
-                                <!--<span class="glyphicon glyphicon-user"></span>-->
-                                <strong class="step">Step 1:</strong>
-                                注册帐号
-                              </li>
-                              <li  class="current">
-                                <span class="mega-octicon octicon-versions"></span>
-                                <strong class="step">Step 2:</strong>
-                                完善信息(选填)
-                              </li>
-                              <li>
-                                <span class="mega-octicon octicon-dashboard"></span>
-                                <strong class="step">Step 3:</strong>
-                                完成注册
-                              </li>
-                        </ol>
+
+                    <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2" id="{{ formwrapper }}">
+
+
+                        {% include "messages.jinja2" %}
+                        {{ form | safe }}
+
+
 
                     </div>
-
-                    <div class="setup-main">
-                        <div class="setup-form-container">
-                            <noscript>
-                                <p class="error">请打开JavaScript支持 </p>
-                            </noscript>
-
-                            {{ form }}
-
-                        </div>
-
-                    </div>
-
-
-
-                </div>
-
-
-
-                <div class="col-md-4 col-md-offset-4">
-
-
-
                 </div>
             </div>
-
         </div>
 
 
         {% include "footer.jinja2" %}
+        {% include "inc/js.jinja2" %}
+        <script type="text/javascript">
+{#            $(function(){#}
+{#                if( isMobile() ){#}
+{##}
+{#                    // TODO: Fix the third-party keybroad does not send keyup event bug in ios#}
+{#                    var $textBox = $("input[name='school']");#}
+{#                    setInterval(function(){#}
+{#                        $textBox.trigger('keyup');#}
+{#                    }, 500);#}
+{##}
+{#                }#}
+{#            });#}
 
-
-
-
-
-
-
-
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
-
-        <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
-
-        <script src="static/js/plugins.js"></script>
-
-        <script src="static/js/main.js"></script>
-
-        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-        <script>
-            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
-            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-            ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
+
+
     </body>
 </html>
