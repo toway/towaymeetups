@@ -186,8 +186,8 @@ function do_search() {
             })
 
             $("#pageCnt").paginate({
-              count     : 50,
-              start     : 5,
+              count     : {{result_len}},
+              start     : 1,
               display     : 10,
               border          : false,
               text_color        : '#888',

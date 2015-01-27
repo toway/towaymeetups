@@ -108,35 +108,36 @@
                   <label>关键字：</label><span>计算机软件工程师  通信工程</span>
                </p>
               <div class="mba-main">
-		      <p id="name" style="">{{user.name}}</p>
+		      <p id="name" style="">{{user.real_name}}</p>
 
                    <p class="mba-base-info">
-                      <span  class="mba-base-info-val">五年以上工作经验</span>
-                      <span class="mba-base-info-val mba-base-info-border">男</span>
-                      <span class="mba-base-info-val mba-base-info-border">27岁(1987年3月22日)</span>
+		   <span  class="mba-base-info-val">{{user_dict.work_years}}</span>
+		   <span class="mba-base-info-val mba-base-info-border">{{user_dict.sex}}</span>
+		   <span class="mba-base-info-val mba-base-info-border">{{user_dict.birth_count}}岁({{user_dict.birth_date}})</span>
                   </p>
 
                    <p>
-                      <label class="fix-width">居住地：</label><span>深圳南山</span>
+		   <label class="fix-width">居住地：</label><span>{{user_dict.city_name}}</span>
                    </p>
                     <p>
-                      <label class="fix-width">电 话：</label><span>18069954495</span>
+		    <label class="fix-width">电 话：</label><span>{{user_dict.phone}}</span>
                    </p>
                     <p>
-                      <label class="fix-width">Email：</label><span>1018559224@qq.com</span>
+		    <label class="fix-width">Email：</label><span>{{user_dict.email}}</span>
                    </p>
 
 
               </div>
               <p></p>
               <div class="container mba-no-padding-left">
+	      {% if last_job %}
                     <div class="col-md-6 mba-no-padding-left">
                       <p  class="mba-line">
                         <span class="mba-type">最近工作</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="mba-detail">[一年十个月]</span>
                       </p>
                      
                        <p class="mba-line">
-                          <label class="fix-width">公    司：</label><span  class="mba-detail">深圳浩宁达</span>
+		       <label class="fix-width">公    司：</label><span  class="mba-detail">{{last_job.industy}}</span>
                        </p>
                        <p  class="mba-line">
                           <label class="fix-width">行    业：</label><span  class="mba-detail">计算机软件</span>
@@ -145,9 +146,10 @@
                           <label class="fix-width">职    位：</label><span  class="mba-detail">高级软件工程师</span>
                        </p>
                     </div>
+		    {% endif %}
                      <div class="col-md-6">
                         <p  class="mba-line">
-                          <span class="mba-type">最高学历</span
+			<span class="mba-type">最高学历</span>
                         </p>
                        
                          <p class="mba-line">

@@ -127,7 +127,7 @@ function do_search() {
 					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
-					<p class="job_link">{{pos.title}}（{{pos.city_name}}）</p>
+					<p class="job_link"><a href="/job-detail/{{pos.id}}">{{pos.title}}（{{pos.city_name}}）</a></p>
 				  <p><span>学历:{{pos.degree}}</span></p>
                                 </td>
                                 <td>
@@ -152,7 +152,7 @@ function do_search() {
 					<p><span class="inline-block company-scale">公司规模:{{pos.company.scope}}人</span><span>薪资:{{pos.salary}}</span></p>
                                 </td>
                                 <td>
-					<p class="job_link">{{pos.title}}（{{pos.city_name}}）</p>
+					<p class="job_link"><a href="/job-detail/{{pos.id}}">{{pos.title}}（{{pos.city_name}}）</a></p>
 					<p><span>学历:{{pos.degree}}</span></p>
                                 </td>
                                 <td>

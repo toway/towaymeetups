@@ -471,10 +471,26 @@ def resume_view(context, request):
 def resume_preview(context, request):
     user = get_user(request)
     resume = user.resume
+    person = user2person(user)
+    if user.sex > 0:
+        person['sex'] = u'男'
+    else:
+        person['sex'] = u'女'
+    d = datetime.datetime.now()
+    if user.birth_date:
+        dc = d.year - user.birth_date.year
+        if dc < 0:
+            dc = 0
+        person['birth_count'] = dc
+    lastest_job = DBSession.query(resources.Job).filter_by(resume_id=resume.id).order_by(resources.Job.finish_date.desc()).first()
+    jobs = DBSession.query(resources.Job).filter_by(resume_id=resume.id).order_by(resources.Job.finish_date.desc()).all()
 
     return wrap_user(request,{
             'user': user, 
+            'user_dict': person,
             'resume':user.resume,
+            'last_job': lastest_job,
+            'jobs': jobs,
             })
     
 
