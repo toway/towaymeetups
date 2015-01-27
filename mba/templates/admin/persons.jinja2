@@ -74,6 +74,10 @@
                                 <th>用户名</th>
                                 <th>邮箱</th>
                                 <th>姓名</th>
+                                <th>公司</th>
+                                <th>职务</th>
+                                <th>学校</th>
+                                <th>手机号</th>
                                 <th>激活状态</th>
                                 <th>资料认证</th>
                                 <th>专家认证</th>
@@ -88,6 +92,10 @@
                                     <td>{{ person.name }}</td>
                                     <td>{{ person.email }}</td>
                                     <td>{{ person.real_name }}</td>
+                                    <td>{{ person.company }}</td>
+                                    <td>{{ person.title}}</td>
+                                    <td>{{ person.school }}</td>
+                                    <td>{{ person.phone}}</td>
                                     <td>{% if person.status == person.INACTIVE %}
                                             等待激活
                                         {% elif person.status == person.ACTIVE %}

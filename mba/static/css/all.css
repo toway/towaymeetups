@@ -80,6 +80,11 @@ ul { list-style-type: none; }
 
 
 
+.deform li.deformSet-item {
+    display: inline;
+}
+
+
 
 /* global style end */
 

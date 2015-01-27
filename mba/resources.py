@@ -239,9 +239,9 @@ from mba.utils import assign_default_avatar
 class MbaUser(Base):
 
     __mapper_args__ = dict(
-        order_by='mba_users.name',
-        polymorphic_on='type',
-        polymorphic_identity='mba_users',
+        order_by='mba_users.id',
+        # polymorphic_on='type',
+        # polymorphic_identity='mba_users',
         #with_polymorphic='*',
         )
 
@@ -279,8 +279,13 @@ class MbaUser(Base):
     groups = Column(JsonType(), nullable=True)
     creation_date = Column(DateTime(), nullable=True)
     last_login_date = Column(DateTime())
+
+    [MALE, FEMALE] = range(2)
     sex = Column(Integer())
-    type = Column(String(50), nullable=True)
+
+    # type = Column(String(50), nullable=True) # change type string to integer by sunset 2015.1.27
+    [USER_TYPE_MBA, USER_TYPE_EMBA, USER_TYPE_MANAGER, USER_TYPE_EXPERT] = range(4)
+    type = Column(Integer, default=USER_TYPE_MBA)
 
     
     # _interests = relationship("UserInterest", backref='user')
@@ -978,7 +983,9 @@ class GlobalSiteSetting(Base):
     [TRUE, FALSE] = [1, 0]
 
     id = Column(Integer, primary_key=True)
-    need_invitationcode = Column(Integer, default=TRUE)
+    need_invitationcode = Column(Integer, default=True)
+
+
 
 class Univs(Base):
     id = Column(Integer, primary_key=True)

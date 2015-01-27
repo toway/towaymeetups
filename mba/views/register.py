@@ -253,9 +253,15 @@ class RegisterDetailsSchema(colander.Schema):
     this_year = datetime.today().year
     join_mba_years = [(this_year-i, "%s" % (this_year-i))
                                             for i in range(30) ]
-    # for i in range(30):
-    #     year = this_year - i
-    #     join_mba_years.append(("%s" % year,"%s" % year))
+
+    sexual = [ (MbaUser.MALE, u'男'),(MbaUser.FEMALE,u'女')  ]
+
+    sex = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u'性别'),
+        widget=deform.widget.SelectWidget(values=sexual,
+                                          css_class='form-control' )
+    )
 
     school = colander.SchemaNode(
         colander.String(),
@@ -283,6 +289,19 @@ class RegisterDetailsSchema(colander.Schema):
     title = colander.SchemaNode(
         colander.String(),
         title=_(u"职务")
+    )
+
+    user_types = (
+        (MbaUser.USER_TYPE_MBA, u"MBA"),
+        (MbaUser.USER_TYPE_EMBA, u"EMBA"),
+        (MbaUser.USER_TYPE_MANAGER, u"企业中高管"),
+        (MbaUser.USER_TYPE_EXPERT, u"行业资深"),
+    )
+
+    type = colander.SchemaNode(
+        colander.Integer(),
+        title=_(u"注册身份"),
+        widget=deform.widget.RadioChoiceWidget(values=user_types)
     )
     # real_name = colander.SchemaNode(
     #     colander.String(),
