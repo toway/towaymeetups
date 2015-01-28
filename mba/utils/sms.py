@@ -62,6 +62,7 @@ class FeiTuo(SMSServiceProvider):
     TEMPLATE_ID_REG_SUCCESS = "MB-2015012143" #@1@您好，欢迎来到友汇网，您以后可以直接用手机号(或用户名@2@)和密码@3@登陆。
     TEMPLATE_ID_ENROLL_MEETUP_AND_REG = "MB-2015012111" #@1@您好，您已经成功报名活动@2@，请您于@3@准时抵达@4@参加活动。您以后可以直接用手机号(或用户名@5@)和密码@6@登陆友汇网。
     TEMPLATE_ID_AUTH_PASS = "MB-2015012125" #您好，您的资料已经通过友汇网认证，来友汇网结识专家、高管、更多MBAer吧！
+    TEMPLATE_ID_AUTH_FAIL = "MB-2015012820" #@1@您好，您在友汇网的注册没有通过审核，原因是：@2@，请修改资料重新提交，不便之处，敬请谅解。mbaers.cn
     DEFAULT_OPTIONS = {
         'username':USERNAME,
         'scode':PASSWORD,
@@ -98,7 +99,7 @@ class FeiTuo(SMSServiceProvider):
         self.DEFAULT_OPTIONS.update( options  )
         options= self.DEFAULT_OPTIONS
         req = urllib2.Request(self.URL)
-        print options
+        # print options
 
         if options.get('mobile',None) is None or len(options['mobile'])!=11:
             return RetDict(errmsg=u"不合法的手机号码")
@@ -124,6 +125,14 @@ class FeiTuo(SMSServiceProvider):
             'mobile':phonenum,
             'tempid': self.TEMPLATE_ID_AUTH_PASS,
             'content': ''
+        }
+        return self.__sendsms( options)
+
+    def send_auth_fail_sms(self, phonenum, real_name, reason):
+        options = {
+            'mobile':phonenum,
+            'tempid': self.TEMPLATE_ID_AUTH_FAIL,
+            'content': '@1@=%s,@2@=%s' % (real_name, reason)
         }
         return self.__sendsms( options)
 
@@ -206,10 +215,21 @@ class SMSSender(object):
         self.is_test = is_test
         self.request = request
 
+    def send_auth_fail_sms(self, phonenum, real_name, reason=u'需提供详细真实资料'):
+        result = self.smsobj.send_auth_fail_sms(phonenum, real_name, reason)
+
+        if result['errcode'] == result['SUCCESS']:
+            # Send ok, write to the DB
+            rsms = ValidationSms(phonenum=phonenum, validate_code='auth_fail', ip=self.request.remote_addr)
+            DBSession.add(rsms)
+
+        return result
+
+
     def send_auth_pass_sms(self, phonenum):
-        error =  self.protect( phonenum)
-        if error:
-            return error
+        # error =  self.protect( phonenum)
+        # if error:
+        #     return error
 
         result = self.smsobj.send_auth_pass_sms(phonenum)
 

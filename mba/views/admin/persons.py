@@ -69,8 +69,8 @@ def view_persons(request, page_index=1, num_per_page=10):
             # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
             if method == 'pass-auth-info':
                 person.auth_info = person.AUTH_STATUS_AUTHED
-                # person.active = True
                 person.status = person.ACTIVE
+
                 sms = SMSSender(request)
                 sms.send_auth_pass_sms(person.phone)
                 request.session.flash(u"用户'%s'通过资料认证成功并激活" % (person.real_name or person.name) , 'success' )
@@ -81,6 +81,9 @@ def view_persons(request, page_index=1, num_per_page=10):
 
             elif method == 'fail-auth-info':
                 person.auth_info = person.AUTH_STATUS_FAIL
+                person.status = person.TO_FULLFIL_DATA
+                sms = SMSSender(request)
+                sms.send_auth_fail_sms(person.phone, person.real_name)
                 request.session.flash(u"用户'%s'不通过资料认证成功" % (person.real_name or person.name) , 'success' )
 
             elif method == 'pass-auth-expert':
