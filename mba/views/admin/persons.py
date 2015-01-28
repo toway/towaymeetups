@@ -180,9 +180,9 @@ def view_persons_by_expert_auth(request, page_index=1, num_per_page=10, authed=S
     }
 
 
-@view_config(route_name='admin_persons', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_page', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons', renderer='json',permission='view',xhr=True)
+@view_config(route_name='admin_persons', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_page', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons', renderer='json',permission='admin',xhr=True)
 def view_all_persons(request):
 
     page = int(request.matchdict.get('page',1) )
@@ -190,37 +190,37 @@ def view_all_persons(request):
     return view_persons(request, page, 10)
 
 
-@view_config(route_name='admin_persons_authed', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_authed_page', renderer='admin/persons.jinja2',permission='view')
+@view_config(route_name='admin_persons_authed', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_authed_page', renderer='admin/persons.jinja2',permission='admin')
 @wrap_user2
 def view_persons_authed(request):
     page = int(request.matchdict.get('page',1) )
     return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_AUTHED)
 
-@view_config(route_name='admin_persons_unauth', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_unauth_page', renderer='admin/persons.jinja2',permission='view')
+@view_config(route_name='admin_persons_unauth', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_unauth_page', renderer='admin/persons.jinja2',permission='admin')
 @wrap_user2
 def view_persons_unauth(request):
     page = int(request.matchdict.get('page',1) )
     return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_UNAUTH)
 
-@view_config(route_name='admin_persons_authfail', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_authfail_page', renderer='admin/persons.jinja2',permission='view')
+@view_config(route_name='admin_persons_authfail', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_authfail_page', renderer='admin/persons.jinja2',permission='admin')
 @wrap_user2
 def view_persons_authfail(request):
     page = int(request.matchdict.get('page',1) )
     return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_FAIL)
 
 
-@view_config(route_name='admin_persons_reqauth', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_reqauth_page', renderer='admin/persons.jinja2',permission='view')
+@view_config(route_name='admin_persons_reqauth', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_reqauth_page', renderer='admin/persons.jinja2',permission='admin')
 @wrap_user2
 def view_persons_reqauth(request):
     page = int(request.matchdict.get('page',1) )
     return view_persons_by_auth(request, page, 10, Student.AUTH_STATUS_REQ_FOR_AUTH)
 
-@view_config(route_name='admin_persons_reqexpertauth', renderer='admin/persons.jinja2',permission='view')
-@view_config(route_name='admin_persons_reqexpertauth_page', renderer='admin/persons.jinja2',permission='view')
+@view_config(route_name='admin_persons_reqexpertauth', renderer='admin/persons.jinja2',permission='admin')
+@view_config(route_name='admin_persons_reqexpertauth_page', renderer='admin/persons.jinja2',permission='admin')
 @wrap_user2
 def view_persons_reqexpertauth(request):
     page = int(request.matchdict.get('page',1) )
