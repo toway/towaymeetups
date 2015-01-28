@@ -8,6 +8,8 @@ import colander
 import jinja2
 from deform import ValidationFailure
 from deform.widget import CheckedPasswordWidget
+from js.jquery import jquery
+
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -29,19 +31,22 @@ from mba.utils import wrap_user
 from mba.utils.sms import SMSSender
 from mba.views.infomation import InfoAddForm, InfoEditForm
 from mba.resources import MbaUser, Student
-
+from mba.fanstatic import bootstrap
 
 __author__ = 'sunset'
 __date__ = '20140909'
 __description__ = u'用户管理'
 
 
-from js.jquery import jquery
+
+
 
 
 
 def view_persons(request, page_index=1, num_per_page=10):
     jquery.need()
+
+
 
     # print request.application_url
     # # print request.route_path()
@@ -64,8 +69,8 @@ def view_persons(request, page_index=1, num_per_page=10):
             # 0, unauthed, 1 authed, 2 authfail, ( 3 request for auth?)
             if method == 'pass-auth-info':
                 person.auth_info = person.AUTH_STATUS_AUTHED
-                # person.active = True
                 person.status = person.ACTIVE
+
                 sms = SMSSender(request)
                 sms.send_auth_pass_sms(person.phone)
                 request.session.flash(u"用户'%s'通过资料认证成功并激活" % (person.real_name or person.name) , 'success' )
@@ -76,6 +81,9 @@ def view_persons(request, page_index=1, num_per_page=10):
 
             elif method == 'fail-auth-info':
                 person.auth_info = person.AUTH_STATUS_FAIL
+                person.status = person.TO_FULLFIL_DATA
+                sms = SMSSender(request)
+                sms.send_auth_fail_sms(person.phone, person.real_name)
                 request.session.flash(u"用户'%s'不通过资料认证成功" % (person.real_name or person.name) , 'success' )
 
             elif method == 'pass-auth-expert':
@@ -127,6 +135,7 @@ def view_persons(request, page_index=1, num_per_page=10):
 def view_persons_by_auth(request, page_index=1, num_per_page=10, authed=Student.AUTH_STATUS_UNAUTH):
     jquery.need()
 
+
     start = (page_index-1) * num_per_page
 
     count = DBSession.query(Student).filter_by(auth_info=authed).count()
@@ -150,6 +159,7 @@ def view_persons_by_auth(request, page_index=1, num_per_page=10, authed=Student.
 
 def view_persons_by_expert_auth(request, page_index=1, num_per_page=10, authed=Student.AUTH_STATUS_UNAUTH):
     jquery.need()
+
 
     start = (page_index-1) * num_per_page
 

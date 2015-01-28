@@ -452,6 +452,10 @@ class MbaUser(Base):
     auth_friend =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
     auth_expert =  Column(Integer,default=AUTH_STATUS_UNAUTH) #
 
+    auth_expert_req = relationship('ExpertAuthReq', uselist=False)
+    auth_expert_reason = association_proxy('auth_expert_req', 'reason')
+
+
     @property
     def auth_honesty(self):
         return [self.auth_info, self.auth_meetup, self.auth_friend].count(self.AUTH_STATUS_AUTHED) >= 2
@@ -476,6 +480,9 @@ class MbaUser(Base):
     @property
     def birth_old(self):
         return abs(date.today().year - self.birth_date.year)+1
+
+
+
 
 
 Student = MbaUser
@@ -992,4 +999,14 @@ class Univs(Base):
     name = Column(String(250), nullable=False)
     pinyin = Column(String(250), nullable=False)
     pprev = Column(String(250), nullable=False)
+
+
+
+class ExpertAuthReq(Base):
+    '''专家申请'''
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('mba_users.id', ondelete='cascade') )
+    reason = Column(String(400))
+    [VALID, INVALID] = range(2) #申请状态在MbaUser里
+    status = Column(Integer, default=VALID)
 

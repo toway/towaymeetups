@@ -28,11 +28,13 @@ from mba import _
 from mba.utils.decorators import wrap_user
 from mba.utils import wrap_user as wrap_user2
 from mba.views.infomation import InfoAddForm, InfoEditForm
-from mba.resources import Banner, Participate
+from mba.resources import ExpertAuthReq
 from mba.views.widget import ImageUploadWidget2
 
 from js import fineuploader
 from js.jquery import jquery
+from js.jqueryui import jqueryui
+from mba.fanstatic import bootstrap
 
 
 from mba.utils import RetDict
@@ -51,11 +53,22 @@ def i_authentications(request):
     if not user :
         return HTTPFound('/login?came_from=%s' % request.url)
 
+    jquery.need()
+    bootstrap.need()
+
 
     if 'auth_type' in request.POST:
         auth_type = request.POST.get('auth_type')
         if auth_type == 'auth_expert':
             user.auth_expert = user.AUTH_STATUS_REQ_FOR_AUTH
+            reason = request.POST.get("apply-reason","")
+            oldreason = DBSession.query(ExpertAuthReq).filter_by(user_id=user.id).all()
+            for r in oldreason:
+                DBSession.delete(r)
+
+            req = ExpertAuthReq(user_id=user.id, reason=reason)
+            DBSession.add(req)
+
         elif auth_type == 'auth_info':
             user.auth_info = user.AUTH_STATUS_REQ_FOR_AUTH
 

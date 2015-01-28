@@ -73,22 +73,30 @@
                                         <div>费用：{{ context.pay_count }}元/人</div>
                                         <div>人数限制：{{ context.limit_num }}人 ({{ total_enrolled_count }}人已报名)</div>
                                         <div>报名时间：{{ pprint_time_enroll }}</div>
+
+
+                                        {% if total_enrolled_count >= context.limit_num %}
+                                            <button class="btn btn-primary disabled">报名人数已满</button> 
+                                        {% else %}
+
                                         
-                                        {% if time_now < context.enroll_start_time %}
-                                            <button class="btn btn-primary disabled">报名暂未开始</button>
-                                        {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
-                                            
-                                            {% if not self_enrolled %}
-                                            <form name="enroll" id="formEnroll" method="POST" >
-                                                <button type="submit" name="enroll" class="btn btn-primary">报名参加</button>
-                                            </form>
-                                            {% else %}
-                                                <button name="enroll" class="btn btn-primary disabled">已报名</button>
+                                            {% if time_now < context.enroll_start_time %}
+                                                <button class="btn btn-primary disabled">报名暂未开始</button>
+                                            {% elif time_now > context.enroll_start_time and time_now < context.enroll_finish_time %}
+
+                                                {% if not self_enrolled %}
+                                                <form name="enroll" id="formEnroll" method="POST" >
+                                                    <button type="submit" name="enroll" class="btn btn-primary">报名参加</button>
+                                                </form>
+                                                {% else %}
+                                                    <button name="enroll" class="btn btn-primary disabled">已报名</button>
+                                                {% endif %}
+
+                                            {% elif time_now > context.enroll_finish_time %}
+                                                <button class="btn btn-primary disabled">报名已经结束</button>
                                             {% endif %}
-                                            
-                                        {% elif time_now > context.enroll_finish_time %}
-                                            <button class="btn btn-primary disabled">报名已经结束</button>
-                                        {% endif %}                                        
+
+                                        {% endif %}
                                         
                                         
                                     </div>
