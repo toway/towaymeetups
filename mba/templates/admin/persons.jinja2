@@ -132,7 +132,9 @@
                                             认证不通过
                                         {% elif person.auth_expert == user.AUTH_STATUS_REQ_FOR_AUTH %}
                                             申请认证
+                                            <a role="button" tabindex="{{ person.id }}" data-container="body" data-toggle="popover" data-trigger="focus" data-placement="right" data-content="{{ person.auth_expert_reason or '无' }}">理由</a>
                                         {% endif %}
+
                                         <button name="pass-auth-expert" value="{{ person.id }}" class="person-info-auth btn btn-default btn-xs" >通过认证</button>
                                         <button name="fail-auth-expert" value="{{ person.id }}" class="person-info-auth btn btn-default btn-xs">不通过认证</button>
 
@@ -217,6 +219,9 @@
                     });
                     return false;
                 });
+
+
+                $('[data-toggle="popover"]').popover();
 
 
             });
