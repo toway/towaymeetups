@@ -21,6 +21,7 @@
                         {% set auth_i = person_info.auth_info %}
                         {% set auth_m = person_info.auth_meetup %}
                         {% set auth_f = person_info.auth_friend %}
+                        {% set auth_e = person_info.auth_expert %}
 
 
                         <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
@@ -29,6 +30,11 @@
                               title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
                         <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
                               title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+
+                        {% if auth_e %}
+                            <span class="expert_auth "
+                              title="专家认证: 已认证。提交认证理由管理审核通过即可"></span>
+                        {% endif %}
                   </p>
           <p class="basic">
               <label class="lbl_info">公司：</label>

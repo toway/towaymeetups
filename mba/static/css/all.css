@@ -796,13 +796,14 @@ table.mba-resume-tbl{
     margin-right: 30px;
   }
 
-  .basic_info .info_auth,.activity_auth,.friend_auth
+  .basic_info .info_auth,.activity_auth,.friend_auth, .expert_auth
   {
       width:28px;
       height: 28px;
       display:inline-block; 
       margin-right: 2px;
       background-repeat: no-repeat;
+      background-position: center;
   }
 
   .basic_info .info_auth{
@@ -815,6 +816,10 @@ table.mba-resume-tbl{
 
   .basic_info .friend_auth{
     background-image: url("/fanstatic/mba/img/friend_auth.png");
+  }
+
+  .basic_info .expert_auth{
+    background-image: url("/fanstatic/mba/img/expert_auth.png");
   }
 
     .basic_info .info_auth_disable{

@@ -15,6 +15,7 @@
                                         {% set auth_i = user.auth_info %}
                                         {% set auth_m = user.auth_meetup %}
                                         {% set auth_f = user.auth_friend %}
+                                        {% set auth_e = user.auth_expert %}
 
                                         <div class="basic_info">
 
@@ -30,8 +31,9 @@
                                                 {% else %}
                                                 不诚
                                             {% endif %}
-                                            {% if user.auth_expert %}
-                                                专家
+                                            {% if auth_e %}
+                                                <span class="expert_auth "
+                                                  title="专家认证: {% if auth_e %}已认证。{% else %}未认证。{% endif %}提交认证理由管理审核通过即可"></span>
                                             {% endif %}
 
                                         </div>
