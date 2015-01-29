@@ -4,7 +4,7 @@ import json
 import datetime
 from colander import null
 
-from deform.widget import Widget, TextInputWidget, MappingWidget, DateTimeInputWidget, DateInputWidget
+from deform.widget import Widget, TextInputWidget, MappingWidget, DateTimeInputWidget, DateInputWidget, HiddenWidget
 from colander import Invalid
 
 from colander import iso8601
@@ -99,6 +99,11 @@ class CityWidget(TextInputWidget):
 class SchoolWidget(TextInputWidget):
     requirements = ( ('jquery', None), )
     template = 'mbawidget_school'
+
+class AvatarUploaderWidget(HiddenWidget):
+    requirements = ( ('jquery',None), )
+    template = "mbawidget_avatar_uploader"
+
 
 
 from colander import DateTime

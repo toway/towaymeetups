@@ -44,8 +44,28 @@
 			if(obj.type == "avatarSuccess"){
                 alert("头像上传成功");
 
-                window.opener.document.getElementById("avatar").setAttribute('src', obj.data.msg);
-                window.close();
+				if( window.location.hash != ""){
+					var hash = window.location.hash.substring(1);
+					var attrlist = hash.split("&");
+					var openerdoc = window.opener.document;
+					for(var idx in attrlist){
+						keyval = attrlist[idx].split("=");
+						if( keyval.length == 2){
+							var key = keyval[0],val = keyval[1];
+							openerdoc.getElementById(key).setAttribute(val, obj.data.msg);
+
+						}
+
+
+					}
+
+				}else{
+					window.opener.document.getElementById("avatar").setAttribute('src', obj.data.msg);
+
+				}
+				window.close();
+
+
 
             }
 			if(obj.type == "avatarError") alert("头像上传失败");

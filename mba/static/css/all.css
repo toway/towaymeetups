@@ -84,7 +84,9 @@ ul { list-style-type: none; }
     display: inline;
 }
 
-
+.deform label{
+    font-weight: normal;
+}
 
 /* global style end */
 

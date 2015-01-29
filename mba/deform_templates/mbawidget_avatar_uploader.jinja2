@@ -1,0 +1,46 @@
+<div class="container-fluid"  id="{{field.oid}}">
+    <div class="row">
+        <div class="col-md-4">
+            <img class="avatar" id="avatarImg" src="{{ cstruct }}" width="100px" height="100px" />
+            <input type="hidden" id="avatarInput" name="{{ field.name }}" value="{{ cstruct }}"/>
+        </div>
+        <div class="col-md-8">
+            <h4>选择电脑中的图片或拍一张</h4>
+            <input type="checkbox" checked="checked" id="avataripromise"/>
+            <label for="avataripromise">
+                我可以保证我所上传的是我个人的真实照片，且拥有版权
+            </label>
+            <button id="{{ field.oid }}-btn" class="btn btn-sm btn-primary">上传头像</button>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    deform.addCallback(
+        '{{field.oid}}-btn',
+        function (oid) {
+        $("#"+oid).on("click",function(){
+            var openurl , openstr, left, top;
+            openurl = "/fanstatic/mba/avatarUploader/index.html";
+
+            var leftPos = (typeof window.screenLeft == "number") ? window.screenLeft : window.screenX;
+            var topPos = (typeof window.screenTop == "number") ? window.screenTop : window.screenY;
+
+            left = leftPos + $(window).width()/2 - 400;
+            top = topPos + $(window).height()/2 - 300;
+
+            openstr = "toolbar=no, left="+left+", top="+top+", location=0, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=yes, width=800, height=600";
+            openurl += "#avatarImg=src&avatarInput=value";
+            window.open(openurl, "_blank", openstr);
+            return false;
+
+         });
+
+
+
+
+
+     });
+</script>
+

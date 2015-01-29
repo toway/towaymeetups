@@ -35,7 +35,7 @@ from kotti.util import title_to_name
 from mba import _
 from mba.views.form import FormCustom
 from mba.security import get_student
-from mba.views.widget import PhoneValidateCodeInputWidget, CityWidget, SchoolWidget
+from mba.views.widget import PhoneValidateCodeInputWidget, CityWidget, SchoolWidget,AvatarUploaderWidget
 from mba.resources import MbaUser,Student,InvitationCode
 from mba.utils.validators import deferred_phonecode_validator,invitation_code_validator, realname_pattern_validator
 from mba.utils import generate_unique_name_from_realname
@@ -240,7 +240,7 @@ def view_register(context, request):
         rendered_form = form.render(request.params)
 
     #return {'form': form} #可以在 .jinja2模板中用{{ form['name'].title }}实现retail form rendering,对name控件进行控制
-    return {'form': rendered_form }
+    return {'form': rendered_form , 'title': u'注册 | 友汇网'}
 
 
 
@@ -254,13 +254,29 @@ class RegisterDetailsSchema(colander.Schema):
     join_mba_years = [(this_year-i, "%s" % (this_year-i))
                                             for i in range(30) ]
 
+
+
+
     sexual = [ (MbaUser.MALE, u'男'),(MbaUser.FEMALE,u'女')  ]
+
+    real_name = colander.SchemaNode(
+        colander.String(),
+        title=_(u'真实姓名'),
+        description=_(u'您的真实姓名'),
+        validator=realname_pattern_validator,
+        widget=TextInputWidget()
+    )
 
     sex = colander.SchemaNode(
         colander.Integer(),
         title=_(u'性别'),
-        widget=deform.widget.SelectWidget(values=sexual,
-                                          css_class='form-control' )
+        widget=deform.widget.RadioChoiceWidget(values=sexual )
+    )
+
+    avatar = colander.SchemaNode(
+        colander.String(),
+        title=_(u"头像"),
+        widget=AvatarUploaderWidget()
     )
 
     school = colander.SchemaNode(
@@ -388,7 +404,7 @@ def view_register_details(context, request):
     if rendered_form is None:
         if user.status == user.TO_FULLFIL_DATA:
 
-            tofullfildata = ['school', 'school_year', 'city_name', 'company', 'title']
+            tofullfildata = ['real_name','avatar', 'sex', 'school', 'school_year', 'city_name', 'company', 'title']
             appstruct2 = {}
             for fullfil in tofullfildata:
                 tmp = getattr(user, fullfil)
