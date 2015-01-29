@@ -251,13 +251,13 @@ class RegisterDetailsSchema(colander.Schema):
 
 
     this_year = datetime.today().year
-    join_mba_years = [(this_year-i, "%s" % (this_year-i))
+    join_mba_years = [("%d" % (this_year-i), "%s" % (this_year-i))
                                             for i in range(30) ]
 
 
 
 
-    sexual = [ (MbaUser.MALE, u'男'),(MbaUser.FEMALE,u'女')  ]
+    sexual = [ ("%d" % MbaUser.MALE, u'男'),("%d" % MbaUser.FEMALE, u'女')  ]
 
     real_name = colander.SchemaNode(
         colander.String(),
@@ -308,10 +308,10 @@ class RegisterDetailsSchema(colander.Schema):
     )
 
     user_types = (
-        (MbaUser.USER_TYPE_MBA, u"MBA"),
-        (MbaUser.USER_TYPE_EMBA, u"EMBA"),
-        (MbaUser.USER_TYPE_MANAGER, u"企业中高管"),
-        (MbaUser.USER_TYPE_EXPERT, u"行业资深"),
+        ("%d" % MbaUser.USER_TYPE_MBA, u"MBA"),
+        ("%d" % MbaUser.USER_TYPE_EMBA, u"EMBA"),
+        ("%d" % MbaUser.USER_TYPE_MANAGER, u"企业中高管"),
+        ("%d" % MbaUser.USER_TYPE_EXPERT, u"行业资深"),
     )
 
     type = colander.SchemaNode(
@@ -404,12 +404,13 @@ def view_register_details(context, request):
     if rendered_form is None:
         if user.status == user.TO_FULLFIL_DATA:
 
-            tofullfildata = ['real_name','avatar', 'sex', 'school', 'school_year', 'city_name', 'company', 'title']
+            tofullfildata = ['real_name', 'type', 'avatar', 'sex', 'school', 'school_year', 'city_name', 'company', 'title']
             appstruct2 = {}
             for fullfil in tofullfildata:
                 tmp = getattr(user, fullfil)
-                if tmp:
+                if tmp is not None:
                     appstruct2[fullfil] =  tmp
+
 
             rendered_form = form.render(appstruct2)
         else:
