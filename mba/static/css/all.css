@@ -798,7 +798,7 @@ table.mba-resume-tbl{
     margin-right: 30px;
   }
 
-  .basic_info .info_auth,.activity_auth,.friend_auth, .expert_auth
+  .basic_info .auth_icon
   {
       width:28px;
       height: 28px;
@@ -808,32 +808,41 @@ table.mba-resume-tbl{
       background-position: center;
   }
 
+  .basic_info .auth_icon{
+      background-image: url("/fanstatic/mba/img/authentic.png");
+  }
+
   .basic_info .info_auth{
-    background-image: url("/fanstatic/mba/img/info_auth.png");
+      background-position: -10px -58px;
   }
 
   .basic_info .activity_auth{
-    background-image: url("/fanstatic/mba/img/activity_auth.png");
+      background-position: -120px -58px;
   }
 
   .basic_info .friend_auth{
-    background-image: url("/fanstatic/mba/img/friend_auth.png");
+      background-position: -50px -58px;
   }
 
   .basic_info .expert_auth{
-    background-image: url("/fanstatic/mba/img/expert_auth.png");
+    /*background-image: url("/fanstatic/mba/img/expert_auth.png");*/
+      background-position: -35px -104px;
+  }
+  .basic_info .honesty_auth{
+
+      background-position: -10px -104px;
   }
 
     .basic_info .info_auth_disable{
-    background-image: url("/fanstatic/mba/img/info_auth_disable.png");
+        background-position: -10px -14px;
   }
 
   .basic_info .activity_auth_disable{
-    background-image: url("/fanstatic/mba/img/activity_auth_disable.png");
+      background-position: -120px -14px;
   }
 
   .basic_info .friend_auth_disable{
-    background-image: url("/fanstatic/mba/img/friend_auth_disable.png");
+    background-position: -50px -14px;
   }
 
    .basic_info p.first{

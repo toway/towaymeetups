@@ -18,21 +18,27 @@
                             <input type="text" value="{{person_info.real_name or person_info.name }}" class="info_edit hidden" name="real_name"/>
                         </div>
 
-                        {% set auth_i = person_info.auth_info %}
-                        {% set auth_m = person_info.auth_meetup %}
-                        {% set auth_f = person_info.auth_friend %}
-                        {% set auth_e = person_info.auth_expert %}
+                        {% set auth_i = (person_info.auth_info == person_info.AUTH_STATUS_AUTHED ) %}
+                        {% set auth_m = (person_info.auth_meetup == person_info.AUTH_STATUS_AUTHED) %}
+                        {% set auth_f = (person_info.auth_friend == person_info.AUTH_STATUS_AUTHED) %}
+                        {% set auth_e = (person_info.auth_expert == person_info.AUTH_STATUS_AUTHED) %}
 
 
-                        <span class="info_auth {% if not auth_i %}info_auth_disable{% endif %}"
-                              title="资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></span>
-                        <span class="activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
-                              title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></span>
-                        <span class="friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
-                              title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></span>
+
+                        <i class="auth_icon info_auth {% if not auth_i %}info_auth_disable{% endif %}"
+                              title="auth_icon 资料认证: {% if auth_i %}已认证。{% else %}未认证。{% endif %}管理员确认后即可完成认证"></i>
+                        <i class="auth_icon activity_auth {% if not auth_m %}activity_auth_disable{% endif %}"
+                              title="活动认证: {% if auth_m %}已认证。{% else %}未认证。{% endif %}成功参加一次志友汇活动即可完成认证"></i>
+                        <i class="auth_icon friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
+                              title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></i>
+
+                        {% if  person_info.auth_honesty  %}
+                            <i class="auth_icon honesty_auth"
+                                    title="诚信认证: {% if auth_e %}已认证。{% else %}未认证。{% endif %}完成任意两项基本认证可获得"></i>
+                        {% endif %}
 
                         {% if auth_e %}
-                            <span class="expert_auth "
+                            <span class="auth_icon expert_auth "
                               title="专家认证: 已认证。提交认证理由管理审核通过即可"></span>
                         {% endif %}
                   </p>
