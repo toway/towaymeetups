@@ -106,6 +106,8 @@ function updateInputs(class_name, obj) {
 				} else {
 					el.val(el.attr('data-val'));
 				}
+			} else if(data_type == 'school') {
+				UseSchoolWidget(el);
 			}
 		}
 	});

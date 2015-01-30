@@ -31,6 +31,7 @@ from kotti.views.util import template_api
 from kotti.views.users import UserAddFormView
 from kotti.views.login import RegisterSchema
 
+from mba.views.widget import PhoneValidateCodeInputWidget, CityWidget, SchoolWidget,AvatarUploaderWidget
 from mba.resources import Univs
 
 from form import FormCustom
@@ -367,8 +368,11 @@ def formtest2_view(context, request):
     class Schema1(colander.Schema):
         name1=colander.SchemaNode(
                 colander.String(), 
-                widget = deform.widget.TextInputWidget(category='structural')
+                #widget = deform.widget.TextInputWidget(category='structural')
+                widget=SchoolWidget()
                 )
+    jquery.need()
+    jquery_form.need()
     schema1 = Schema1()
     form = FormCustom(schema1, template='form2'
             , buttons=('submit',),formid="form1")

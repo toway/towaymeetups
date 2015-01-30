@@ -15,7 +15,7 @@
         {% include "inc/css.jinja2" %}
 
 
-        <script src="static/js/vendor/modernizr-2.6.2.min.js"></script>
+        <script src="/fanstatic/mba/js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <style type="text/css">
 /*.table-bordered > tbody > tr > th
@@ -42,7 +42,7 @@
 
 form > .table > tbody > tr > th.required
 {
-  background:#e5eff5 url(static/img/required.jpg) no-repeat left;
+  background:#e5eff5 url(/fanstatic/mba/img/required.jpg) no-repeat left;
 }
 
 .input-two-width{
@@ -148,12 +148,12 @@ table.mba-resume-edit-tbl > tbody > tr > td{
         {% include "header.jinja2" %}
 
         <div class="container-fluid mba-margin-top mba-banner" >
-            <center><img src="static/img/banner.jpg"></center>
+            <center><img src="/fanstatic/mba/img/banner.jpg"></center>
         </div>
         <div class="container">
             <div class="col-md-10 col-md-offset-1 mba-my-resume-cnt">
                 <div class="mba-resume-total-grid">
-                    <img src="static/img/my_resume_title.jpg">
+                    <img src="/fanstatic/mba/img/my_resume_title.jpg">
                     
 
                     <hr/>
@@ -976,11 +976,11 @@ table.mba-resume-edit-tbl > tbody > tr > td{
 
 
         <!-- Bootstrap -->
-        <script src="static/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/fanstatic/mba/bootstrap/js/bootstrap.min.js"></script>
 
-        <script src="static/js/plugins.js"></script>
+        <script src="/fanstatic/mba/js/plugins.js"></script>
 
-        <script src="static/js/main.js"></script>
+        <script src="/fanstatic/mba/js/main.js"></script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
@@ -991,7 +991,39 @@ table.mba-resume-edit-tbl > tbody > tr > td{
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
 
+     function UseSchoolWidget(el) {
+         $(el).keyup(function(){
+             var val = $(this).val();
+             var self = this;
+             if( val.length >= 2 ){
+                 $.get('/api/searchschool/'+val, function(ret){
 
+                     var ul = $(self).parent().find('.mbawidget-ajax-options');
+                     ul.find('li').off('click');
+                     ul.html('');
+
+                     $.each(ret, function(index, item){
+                         var li = $("<li>" + item + "</li>");
+
+                         ul.append(li);
+                     });
+
+                     ul.on('click', 'li', function(){
+                         $(self).val( $(this).text() );
+                         ul.hide();
+                     });
+
+                     var pos = $(self).offset() ;
+                     pos.top += $(self).innerHeight();
+                     var width = $(self).innerWidth()
+                     ul.show().width(width)
+                             .offset( pos );
+                 });
+
+             }
+
+         });
+     }
 
            $(document).ready(function(){
 
