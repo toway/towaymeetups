@@ -243,12 +243,13 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                                         <li >
                                                             <div class="row">
                                                                 <div class="col-md-2 job-type larger">
-                                                                    【{{pos.hunting_type|kind_name}}】
+                                                                
+																	<a href="job-detail/{{pos.id}}" style="color:#2c60c7;">【{{pos.hunting_type|kind_name}}】</a>
                                                                 </div>
                                                                 <div class="col-md-8 job-detail">
                                                                     <div class="row">
-                                                                        <span class="col-md-5 job-company gray ">{{pos.company_name}}</span>
-                                                                        <a class="col-md-7" href="/job-detail/{{pos.id}}"><span class="job-title  ">{{pos.title}}</span></a>
+                                                                        <span class="col-md-7  job-company gray ">{{pos.company_name}}</span>
+                                                                        <a class="col-md-5" href="/job-detail/{{pos.id}}"><span class="job-title job_link" style="margin-left:7px;">{{pos.title}}</span></a>
                                                                     </div>
 
                                                                     <span class="gray sm">公司规模：{{pos.company.scope}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -256,10 +257,9 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
                                                                     <span class="gray sm">学历：{{pos.degree}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 </div>
                                                                 <div class="col-md-2 job-apply">
-                                                                    <button onclick="applyit('{{pos.id}}')" name="btn-apply-job" class="btn btn-warning btn-sm">&nbsp;&nbsp;申 请&nbsp;&nbsp;</button>
-                                                                    <i class="glyphicon glyphicon-star collect-job sm">
-<a href="javascript:collectit('{{pos.id}}')">收藏职位</a>
-</i>
+																    <button  class="btn btn-warning view_job" onclick="applyit('{{pos.id}}')">申请</button>
+                                                                   <p><a class="shoucang_job job_link" href="javascript:collectit('{{pos.id}}')">收藏职位</a></p>
+                                                                    
                                                                 </div>
                                                             </div>
                                                             <hr class="gray" style="border-top: dotted 1px;"/>
@@ -334,7 +334,7 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 
                                 <div>
                                     <a href="/i/messages">
-                                        <button class="btn btn-info ">站 内 信
+                                        <button class="btn btn-info ">我的人脉
                                             {% if user.newmessages | count >0 %}
                                             <sup>{{ user.newmessages | count }}</sup>
                                             {% endif %}
@@ -377,7 +377,7 @@ filter:Alpha(opacity=50); background:#000;/*实现IE背景透明*/display:inline
 						
 						<div  class="home-trends" style="border:1px solid #DEDEDE;padding:15px 5px; margin-bottom:10px; ">
 							<div>
-								<span style="font-size:18px;border-bottom:0px solid #DEDEDE;margin-left:10px;font-weight:bolder">收到的邀请22  </span>
+								<span style="font-size:18px;border-bottom:0px solid #DEDEDE;margin-left:10px;font-weight:bolder">收到的邀请</span>
 							</div>
 							
 							<!-- <hr style="margin:5px 0"/>  -->

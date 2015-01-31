@@ -1189,16 +1189,24 @@ div.jianli_manage span{
 }
 
 .search_cnt_normal{
-  background-color: #2283D7;
+  /*background-color: #2283D7;*/
   padding-left: 20px;
   height: 80px;
   padding-top: 20px;
 }
 
 .btn-search-normal{
-  background: url('/fanstatic/mba/img/botton_sprites.png') no-repeat -300px 0px;
+  /*background: url('/fanstatic/mba/img/botton_sprites.png') no-repeat -300px 0px;
   width: 130px;
-  height: 40px;
+  height: 40px;*/
+ background: url('/fanstatic/mba/img/job_search.png') no-repeat 0px 0px;
+  width: 55px;
+  height: 34px;
+}
+
+
+.btn-search-normal:hover{
+background: url('/fanstatic/mba/img/job_search2.png') no-repeat 0px 0px;
 }
 
 /* below should be commented because it defined before
