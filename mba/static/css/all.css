@@ -817,11 +817,11 @@ table.mba-resume-tbl{
   }
 
   .basic_info .activity_auth{
-      background-position: -120px -58px;
+      background-position: -50px -58px;
   }
 
   .basic_info .friend_auth{
-      background-position: -50px -58px;
+      background-position: -120px -58px;
   }
 
   .basic_info .expert_auth{
@@ -838,11 +838,11 @@ table.mba-resume-tbl{
   }
 
   .basic_info .activity_auth_disable{
-      background-position: -120px -14px;
+      background-position: -50px -14px;
   }
 
   .basic_info .friend_auth_disable{
-    background-position: -50px -14px;
+    background-position: -120px -14px;
   }
 
    .basic_info p.first{
