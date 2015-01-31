@@ -400,7 +400,9 @@ def persons_maybe_know(cur_user):
 
 
 
-
+@view_config(route_name='renmai', renderer='renmai.jinja2', permission='view')
+def view_renmai(request):
+    return {}
 
 
 
@@ -414,4 +416,5 @@ def includeme(config):
 
 
     config.add_route('friend_set','/friend_set/{id1:\d+}/{id2:\d+}/{id3:\d+}')
+    config.add_route('renmai','/renmai')
     config.scan(__name__)
