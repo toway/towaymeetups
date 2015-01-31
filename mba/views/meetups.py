@@ -131,6 +131,7 @@ def view_meetups(request):
 @wrap_user
 def view_my_meetups(context, request):
     user = get_user(request)
+    jquery.need()
     my_participate = None
     if user is not None:
         my_participate = DBSession.query(Participate).filter_by(user_id=user.id).limit(5)

@@ -41,6 +41,8 @@ __date__ = '20141218'
 def view_my_meetups(context, request):
     user = get_user(request)
 
+    jquery.need()
+
     generated = DBSession.query(InvitationCode).filter_by(sender_id=user.id).all()
     if not generated:
 

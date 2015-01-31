@@ -54,7 +54,7 @@ def i_authentications(request):
         return HTTPFound('/login?came_from=%s' % request.url)
 
     jquery.need()
-    bootstrap.need()
+    # bootstrap.need()
 
 
     if 'auth_type' in request.POST:
