@@ -35,6 +35,9 @@ $(function(){
 	$('#cssmenu>ul>li.has-sub>a').append('<span class="holder"></span>');
 
 	(function getColor() {
+		if( $("#cssmenu").length != 0){
+
+
 		var r, g, b;
 		var textColor = $('#cssmenu').css('color');
 		textColor = textColor.slice(4);
@@ -52,6 +55,8 @@ $(function(){
 		{
 			$('#cssmenu>ul>li>a').css('text-shadow', '0 1px 0 rgba(255, 255, 255, .35)');
 			$('#cssmenu>ul>li>a>span').css('border-color', 'rgba(255, 255, 255, .35)');
+		}
+
 		}
 	})();
 
