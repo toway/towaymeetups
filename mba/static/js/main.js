@@ -7,6 +7,7 @@ $(function(){
 
         $("#find-sth").attr("action", action );
         $("#find-sth input").attr("placeHolder", "找找看("+wclicked.text()+")");
+        $("#current-search-type").text(wclicked.text() );
 
     })
 });

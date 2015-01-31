@@ -47,17 +47,25 @@
                                         <div class="form-group">
 
                                         <div class="input-group ">
+                                            <span class="input-group-btn">
+                                                <button id="change-search-type" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                                    <span id="current-search-type">信息</span><span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                                                    <li><a href="#" data-search-type="/search-info">信息</a></li>
+                                                    <li><a href="#" data-search-type="/search-huoban">伙伴</a></li>
+
+                                                </ul>
+                                            </span>
+
                                             <input type="text" name="q" class="form-control" placeholder="找找看"/>
                                             <span class="input-group-btn">
-                                                <button type="button" id="search-type" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <span class="caret"></span>
-                                                    <span class="sr-only">Toggle Dropdown</span>
-                                                </button>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                    <li><a href="#" data-search-type="/search-info">找信息</a></li>
-                                                    <li><a href="#" data-search-type="/search-huoban">找伙伴</a></li>
-                                                  </ul>
+                                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
                                             </span>
+
+
+
+
 
 
 {#                                                <button type="button" class="btn btn-default">找信息</button>#}
