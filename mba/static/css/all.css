@@ -1013,6 +1013,9 @@ table.mba-resume-tbl{
   .basic_info .friend_auth_disable{
     background-position: -120px -14px;
   }
+  .basic_info .honesty_auth_disable, .basic_info .expert_auth_disable{
+      background-position: -60px -104px;
+  }
 
    .basic_info p.first{
     padding-bottom: 10px;

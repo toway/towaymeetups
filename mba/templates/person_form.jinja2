@@ -22,6 +22,7 @@
                         {% set auth_m = (person_info.auth_meetup == person_info.AUTH_STATUS_AUTHED) %}
                         {% set auth_f = (person_info.auth_friend == person_info.AUTH_STATUS_AUTHED) %}
                         {% set auth_e = (person_info.auth_expert == person_info.AUTH_STATUS_AUTHED) %}
+                        {% set auth_h = (person_info.auth_honesty) %}
 
 
 
@@ -32,15 +33,12 @@
                         <i class="auth_icon friend_auth {% if not auth_f%}friend_auth_disable{% endif %}"
                               title="校友认证: {% if auth_f %}已认证。{% else %}未认证。{% endif %}与10名校友成功交换名片即可完成认证"></i>
 
-                        {% if  person_info.auth_honesty  %}
-                            <i class="auth_icon honesty_auth"
-                                    title="诚信认证: {% if auth_e %}已认证。{% else %}未认证。{% endif %}完成任意两项基本认证可获得"></i>
-                        {% endif %}
+                        <i class="auth_icon honesty_auth {% if not auth_h %}honesty_auth_disable{% endif %}"
+                                title="诚信认证: {% if auth_h %}已认证。{% else %}未认证。{% endif %}完成任意两项基本认证可获得"></i>
 
-                        {% if auth_e %}
-                            <span class="auth_icon expert_auth "
-                              title="专家认证: 已认证。提交认证理由管理审核通过即可"></span>
-                        {% endif %}
+                        <i class="auth_icon expert_auth {% if not auth_e %}expert_auth_disable{% endif %}"
+                          title="专家认证: {% if auth_e %}已认证。{% else %}未认证。{% endif %}经过友汇网审核的专家将点亮"></i>
+
                   </p>
           <p class="basic">
               <label class="lbl_info">公司：</label>
