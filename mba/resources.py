@@ -939,7 +939,7 @@ class Banner(Base):
 
     img_url = Column(String(100))
 
-    link_url = Column(String(100))
+    link_url = Column(String(200))
 
     htmlcontent = Column(String(500), default=0)
 
