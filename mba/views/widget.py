@@ -227,3 +227,8 @@ class DateTimeRangeInputWidget(DateTimeInputWidget):
         # print 'values:', values
         template = readonly and self.readonly_template or self.template
         return field.renderer(template, **values)
+
+
+
+class MobileDateInputWidget(TextInputWidget):
+    template = "date_mobile"

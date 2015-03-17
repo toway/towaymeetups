@@ -356,6 +356,10 @@ class MbaUser(Base):
             , creator=City._find_or_create)
 
 
+    is_lunar_canlender = Column(Boolean)
+    lunar_birthday = Column(String(255), default="")
+    wechat = Column(String(255),default="")
+
     def __init__(self, name, password=None,  confirm_token=None,
                  title=u"", email=None, groups=(), city_name='',
                  real_name='', birth_date=None, school=u"", school_year=0,
@@ -388,6 +392,8 @@ class MbaUser(Base):
         self.special_skill = special_skill
         self.between = between
         self.introduction = introduction
+
+
 
         super(MbaUser, self).__init__(**kwargs)
 

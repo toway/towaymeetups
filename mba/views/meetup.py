@@ -8,7 +8,7 @@ import deform
 import colander
 import jinja2
 from deform import ValidationFailure
-from deform.widget import CheckedPasswordWidget
+from deform.widget import CheckedPasswordWidget, CheckboxWidget
 from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPForbidden
 from pyramid.httpexceptions import HTTPFound
@@ -34,7 +34,7 @@ from mba.utils import wrap_user as wrap_user2
 from mba.resources import Act
 from mba.fanstatic import bootstrap
 from mba.utils.sms import SMSSender
-from mba.views.widget import PhoneValidateCodeInputWidget
+from mba.views.widget import MobileDateInputWidget
 from mba.utils.validators import deferred_phonecode_validator
 from mba.utils import generate_unique_name_from_realname
 
@@ -55,6 +55,26 @@ from deform.widget import Widget
 class MeetupSignupSchema(colander.MappingSchema):
 
 
+    # phone = colander.SchemaNode(
+    #     colander.String(),
+    #     title=_(u'手机'),
+    #     validator= phone_pattern_validator,
+    #     widget=deform.widget.TextInputWidget(number=True)
+    #     # widget=PhoneValidateCodeInputWidget()
+    # )
+    #
+    # sms_validate_code = colander.SchemaNode(
+    #     colander.String(),
+    #     title=_(u"验证码"),
+    #     validator=deferred_phonecode_validator,
+    #     widget=PhoneValidateCodeInputWidget(inputname='phone')
+    # )
+
+    real_name = colander.SchemaNode(
+        colander.String(),
+        title=_(u'姓名'),
+    )
+
     phone = colander.SchemaNode(
         colander.String(),
         title=_(u'手机'),
@@ -63,27 +83,35 @@ class MeetupSignupSchema(colander.MappingSchema):
         # widget=PhoneValidateCodeInputWidget()
     )
 
-    sms_validate_code = colander.SchemaNode(
-        colander.String(),
-        title=_(u"验证码"),
-        validator=deferred_phonecode_validator,
-        widget=PhoneValidateCodeInputWidget(inputname='phone')
+    birth_date = colander.SchemaNode(
+         colander.String(),
+            #'%Y-%m-%d %H:%M:%S'
+        title=_(u"生日"),
+        widget=MobileDateInputWidget(),
+        default=datetime.strptime('1990-1-1','%Y-%m-%d').date(),
     )
 
-    real_name = colander.SchemaNode(
-        colander.String(),
-        title=_(u'姓名'),
+
+    is_lunar_canlender = colander.SchemaNode(
+        colander.Boolean(),
+        title=_(u"是否是农历生日"),
+
     )
 
-    company = colander.SchemaNode(
+    wechat = colander.SchemaNode(
         colander.String(),
-        title=_(u'公司'),
+        title=_(u"微信号")
     )
 
-    title = colander.SchemaNode(
-        colander.String(),
-        title=_(u'职务')
-    )
+    # company = colander.SchemaNode(
+    #     colander.String(),
+    #     title=_(u'公司'),
+    # )
+    #
+    # title = colander.SchemaNode(
+    #     colander.String(),
+    #     title=_(u'职务')
+    # )
 
 
 def signup_validator(form, value):
@@ -110,7 +138,7 @@ def mobile_view_meetup_signup(context, request):
 
     formtitle = u"活动报名:%s.." % (meetup.title[:10],)
     schema = MeetupSignupSchema(title=formtitle,
-                                description=u"<a href='/login?came_from=/meetup/%s'>已有友汇网帐号？直接登陆报名</a>" % meetupname,
+                                # description=u"<a href='/login?came_from=/meetup/%s'>已有帐号？直接登陆报名</a>" % meetupname,
                                 validator=signup_validator).bind(request=request)
 
     form = deform.Form(schema,
@@ -205,9 +233,19 @@ def mobile_view_meetup_signup(context, request):
 
                 name = generate_unique_name_from_realname(real_name)
 
-                company = appstruct['company']
-                title = appstruct['title']
-                new_user = MbaUser(name=name, phone=phone, real_name=real_name,company=company, title=title, groups=[u'role:viewer'])
+                # company = appstruct['company']
+                # title = appstruct['title']
+                new_user = MbaUser(name=name, phone=phone, real_name=real_name,  groups=[u'role:viewer'])
+                new_user.wechat = appstruct["wechat"]
+                new_user.is_lunar_canlender = is_lunar_canlender=  appstruct["is_lunar_canlender"]
+
+                if is_lunar_canlender:
+                    new_user.lunar_birthday = appstruct["birth_date"]
+                else:
+                    new_user.birth_date = appstruct["birth_date"]
+
+
+
 
                 new_user.status = MbaUser.TO_FULLFIL_DATA
                 # new_user.roles = get_settings()['kotti.register.role']
@@ -224,9 +262,24 @@ def mobile_view_meetup_signup(context, request):
                 participate_meetup(meetup, new_user)
 
 
-                sms = SMSSender(request)
-                meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
-                meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
+                # sms = SMSSender(request)
+                # meetuptitle = u"%s.." % meetup.title[:10] if len(meetup.title)>10 else meetup.title
+                # meetuptime = meetup.meetup_start_time.strftime("%Y-%m-%d %H:%M")
+                # smsret = sms.send_enrolled_meetup_sms(new_user.phone, new_user.real_name, meetuptitle, meetuptime, meetup.location)
+
+
+
+                # message = u"恭喜您，%s，活动报名成功! 详细信息已经发您短信" % new_user.real_name
+
+                # if smsret['SUCCESS'] != smsret['errcode']:
+                #     message = smsret['errmsg']
+                #     request.session.flash(message, 'danger')
+                # else:
+                #     request.session.flash(message ,'success')
+
+
+                message = u"恭喜您，%s，活动报名成功! " % new_user.real_name
+                request.session.flash(message ,'success')
 
                 # TODO: 正式开放注册时要发的短信如下
                 # smsret = sms.send_enrolled_meetup_and_reg_success_sms({
@@ -251,14 +304,6 @@ def mobile_view_meetup_signup(context, request):
                 #     request.session.flash(message ,'success')
 
 
-                smsret = sms.send_enrolled_meetup_sms(new_user.phone, new_user.real_name, meetuptitle, meetuptime, meetup.location)
-
-                message = u"恭喜您，%s，活动报名成功! 详细信息已经发您短信" % new_user.real_name
-                if smsret['SUCCESS'] != smsret['errcode']:
-                    message = smsret['errmsg']
-                    request.session.flash(message, 'danger')
-                else:
-                    request.session.flash(message ,'success')
 
 
                 return {}
