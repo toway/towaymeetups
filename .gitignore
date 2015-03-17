@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 *.pyc
 mba.egg-info/*
 mba.egg-info*
@@ -11,7 +10,8 @@ local.ini
 z.log
 SQLiteSpy.*
 Session.vim
-=======
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
